@@ -20,52 +20,26 @@
     <!-- iOS meta tags & icons -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="example" />
+    <meta name="apple-mobile-web-app-title" content="example />
     <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>example</title>
+    <title>Io Photobooth</title>
     <link rel="manifest" href="manifest.json" />
   </head>
   <body>
     <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
-
-    <!-- <video id="cameraPlayer"></video> -->
-    <!-- <script>
-      let cameraDeviceIds = [];
-      let currentCameraIndex = 0;
-      // find the video devices (font/back cameras etc)
-      navigator.mediaDevices.enumerateDevices().then(function (devices) {
-        // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices
-        devices.forEach(function (device) {
-          if (device.kind === "videoinput") {
-            cameraDeviceIds.push(device.deviceId);
-          }
-        });
-      });
-
-      // attach camera output to video tag
-      navigator.mediaDevices
-        .getUserMedia({
-          video: { deviceId: { exact: cameraDeviceIds[currentCameraIndex] } },
-        })
-        .then(function (stream) {
-          let player = document.getElementById("cameraPlayer");
-          player.srcObject = stream;
-          player.play();
-        });
-    </script> -->
-    <!-- <script>
+    <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("flutter-first-frame", function () {
           navigator.serviceWorker.register("flutter_service_worker.js");
         });
       }
-    </script> -->
+    </script>
     <script src="main.dart.js" type="application/javascript"></script>
   </body>
 </html>
