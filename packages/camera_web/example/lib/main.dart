@@ -8,13 +8,25 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+enum CameraStatus { uninitialized, ready, unavailable }
+
 class _MyAppState extends State<MyApp> {
   late CameraController _controller;
+  var _status = CameraStatus.uninitialized;
 
   @override
   void initState() {
     super.initState();
-    _controller = CameraController();
+    _initializeCameraController();
+  }
+
+  void _initializeCameraController() {
+    _controller = CameraController()
+      ..initialize().then((_) {
+        setState(() => _status = CameraStatus.ready);
+      }).catchError((_) {
+        setState(() => _status = CameraStatus.unavailable);
+      });
   }
 
   @override
@@ -27,7 +39,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: _controller.buildPreview(),
+        body: Builder(
+          builder: (context) {
+            switch (_status) {
+              case CameraStatus.uninitialized:
+                return const Center(child: CircularProgressIndicator());
+              case CameraStatus.ready:
+                return _controller.buildPreview();
+              case CameraStatus.unavailable:
+                return const Center(child: Text('Camera Unavailable'));
+            }
+          },
+        ),
       ),
     );
   }
