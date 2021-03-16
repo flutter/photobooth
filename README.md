@@ -4,6 +4,7 @@
 
 Developed with 💙 by [Very Good Ventures][very_good_ventures_link] 🦄
 
+![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
 
@@ -30,8 +31,16 @@ _\*Io Photobooth works on Web._
 To run all unit and widget tests use the following command:
 
 ```sh
-$ flutter test --platform chrome --test-randomize-ordering-seed random
+$ flutter test --coverage --test-randomize-ordering-seed random
 ```
+
+To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
+
+````sh
+# Generate Coverage Report
+$ genhtml coverage/lcov.info -o coverage/
+# Open Coverage Report
+$ open coverage/index.html
 
 ---
 
@@ -51,7 +60,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
         "description": "Text shown in the AppBar of the Counter Page"
     }
 }
-```
+````
 
 2. Then add a new key/value and description
 
@@ -118,6 +127,7 @@ Widget build(BuildContext context) {
 }
 ```
 
+[coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
