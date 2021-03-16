@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  camera_web:
+    path: packages/camera_web
   bloc: ^7.0.0-nullsafety.3
   flutter_bloc: ^7.0.0-nullsafety.5
   intl: ^0.17.0
