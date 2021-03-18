@@ -6,9 +6,9 @@ import 'src/method_channel_tensorflow.dart';
 
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-/// The interface that implementations of connectivity must implement.
+/// The interface that implementations of tensorflow must implement.
 ///
-/// Platform implementations should extend this class rather than implement it as `Connectivity`
+/// Platform implementations should extend this class rather than implement it as `Tensorflow`
 /// does not consider newly added methods to be breaking changes. Extending this class
 /// (using `extends`) ensures that the subclass will get the default implementation, while
 /// platform implementations that `implements` this interface will be broken by newly added
@@ -23,7 +23,7 @@ abstract class TensorflowPlatform extends PlatformInterface {
 
   /// The default instance of [TensorflowPlatform] to use.
   ///
-  /// Defaults to [MethodChannelConnectivity].
+  /// Defaults to [MethodChannelTensorflow].
   static TensorflowPlatform get instance => _instance;
 
   /// Platform-specific plugins should set this with their own platform-specific
