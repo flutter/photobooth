@@ -1,7 +1,5 @@
-/// {@template tensorflow_web}
-/// A tensorflow package for flutter web
-/// {@endtemplate}
-class TensorflowWeb {
-  /// {@macro tensorflow_web}
-  const TensorflowWeb();
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+
+class TensorflowPlugin {
+  static void registerWith(Registrar registrar) {}
 }
