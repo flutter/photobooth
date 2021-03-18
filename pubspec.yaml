@@ -15,8 +15,6 @@ dependencies:
     path: packages/camera_web
   tensorflow_web:
     path: packages/tensorflow/tensorflow_web
-  tensorflow_platform_interface:
-    path: packages/tensorflow/tensorflow_platform_interface
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   intl: ^0.17.0
