@@ -1,6 +1,6 @@
 name: tensorflow_web
 description: A tensorflow package for flutter web
-version: 0.1.0
+publish_to: none
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -13,6 +13,8 @@ flutter:
         pluginClass: TensorflowPlugin
         fileName: tensorflow_web.dart
 dependencies:
+  tensorflow_platform_interface:
+    path: ../tensorflow_platform_interface
   flutter:
     sdk: flutter
   flutter_web_plugins:
