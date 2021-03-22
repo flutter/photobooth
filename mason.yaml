@@ -7,7 +7,3 @@ bricks:
     git:
       url: git@github.com:VGVentures/very-good-code.git
       path: very_good_templates/flutter_package
-  very_good_start:
-    git:
-      url: git@github.com:VGVentures/very-good-code.git
-      path: very_good_templates/very_good_start
