@@ -8,7 +8,7 @@ class MockTensorflowPlatform extends Mock
     implements TensorflowPlatform {}
 
 void main() {
-  group('tensorflow_platform_interface', () {
+  group('TensorflowPlatform', () {
     test('instance returns valid TensorflowPlatform', () {
       final instance = TensorflowPlatform.instance;
       expect(instance, isNotNull);
