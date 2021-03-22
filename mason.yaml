@@ -1,0 +1,9 @@
+bricks:
+  dart_package:
+    git:
+      url: git@github.com:VGVentures/very-good-code.git
+      path: very_good_templates/dart_package
+  flutter_package:
+    git:
+      url: git@github.com:VGVentures/very-good-code.git
+      path: very_good_templates/flutter_package
