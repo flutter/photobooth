@@ -1,3 +1,3 @@
-import '../tensorflow_platform_interface.dart';
+import 'tensorflow_platform_interface.dart';
 
 class MethodChannelTensorflow extends TensorflowPlatform {}

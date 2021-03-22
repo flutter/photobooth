@@ -5,4 +5,9 @@ class TensorflowPlugin extends TensorflowPlatform {
   static void registerWith(Registrar registrar) {
     TensorflowPlatform.instance = TensorflowPlugin();
   }
+
+  @override
+  Future<Pose> estimateSinglePose(dynamic image) {
+    throw UnimplementedError('estimateSinglePose() is not implemented.');
+  }
 }
