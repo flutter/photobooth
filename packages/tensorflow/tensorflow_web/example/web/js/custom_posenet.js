@@ -22,17 +22,14 @@ async function getLeftShoulder(img) {
     if (img == null) return;
     
     // LOAD MOBILENET MODEL
-    console.log("Load model");
     const model = await posenet.load();
 
     // ESTIMATE POSE IN THE IMAGE
-    console.log("Estimate pose");
-
     let predictions = await model.estimateSinglePose(img, {
         flipHorizontal: false,
     });
     //Returns left should prediction
     var leftShoulder = predictions.keypoints[5];
-    console.log('leftShoulder ', leftShoulder);
+    console.log(leftShoulder);
     return leftShoulder;
 }

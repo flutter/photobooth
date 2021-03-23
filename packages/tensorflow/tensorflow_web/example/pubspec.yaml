@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cross_file: ^0.3.1
+  js: ^0.6.3
 
 dev_dependencies:
   very_good_analysis: ^2.0.0
