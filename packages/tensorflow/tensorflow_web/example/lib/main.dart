@@ -2,8 +2,6 @@ import 'dart:html';
 
 import 'package:example/ml.dart';
 import 'package:flutter/material.dart';
-import 'package:js/js_util.dart' as jsutil;
-import 'dart:js' as js;
 
 void main() => runApp(const MyApp());
 
@@ -16,19 +14,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
             child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () async {
-                testJsMethod();
-              },
-              child: const Text('Hello world'),
-            ),
-            TextButton(
-              onPressed: () async {
-                loadModel();
-              },
-              child: const Text('Load model'),
-            ),
             TextButton(
               onPressed: () async {
                 final image =
@@ -38,12 +25,10 @@ class MyApp extends StatelessWidget {
                 canvas.context2D.drawImage(image, 0, 0);
                 var imageData = canvas.context2D
                     .getImageData(0, 0, image.width ?? 0, image.height ?? 0);
-                final result = await jsutil.promiseToFuture<List<Object>>(
-                    estimatePose(CustomImageData(imageData: imageData)));
-                //final result = estimatePose(imageData);
-                //js.context.callMethod('estimatePose', [imageData]);
+                final result = getLeftShoulder(imageData);
+                print(result);
               },
-              child: const Text('Estimate pose'),
+              child: const Text('Left shoulder'),
             ),
           ],
         )),

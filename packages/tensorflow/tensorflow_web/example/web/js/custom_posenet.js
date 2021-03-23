@@ -1,5 +1,6 @@
 async function estimatePose(img) {
     console.log('img: ', img);
+    if (img == null) return;
     // RESULT TO PASS
     let result = [];
 
@@ -10,26 +11,28 @@ async function estimatePose(img) {
     // ESTIMATE POSE IN THE IMAGE
     console.log("Estimate pose");
 
-    let predictions = await model.estimateSinglePose(img.imageData, {
-        flipHorizontal: false
+    let predictions = await model.estimateSinglePose(img, {
+        flipHorizontal: false,
       });
-    console.log('Pred >>>', predictions);
-
-    // EXTRACTION OF DATA...
-    predictions.forEach(function(item, index) {
-        result.push(item);
-    });
-
+    console.log('Prediction ', predictions);
     return result;
 }
 
-function testJsMethod(something) {
-    console.log("hello world");
-    console.log(something);
-}
-
-async function loadModel() {
-    console.log("loading model");
+async function getLeftShoulder(img) {
+    if (img == null) return;
+    
+    // LOAD MOBILENET MODEL
+    console.log("Load model");
     const model = await posenet.load();
-    console.log("loaded model");
+
+    // ESTIMATE POSE IN THE IMAGE
+    console.log("Estimate pose");
+
+    let predictions = await model.estimateSinglePose(img, {
+        flipHorizontal: false,
+    });
+    //Returns left should prediction
+    var leftShoulder = predictions.keypoints[5];
+    console.log('leftShoulder ', leftShoulder);
+    return leftShoulder;
 }
