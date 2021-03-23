@@ -10,6 +10,7 @@ dependencies:
     path: ../
   flutter:
     sdk: flutter
+  cross_file: ^0.3.1
 
 dev_dependencies:
   very_good_analysis: ^2.0.0

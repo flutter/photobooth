@@ -30,6 +30,8 @@
     <link rel="manifest" href="manifest.json" />
   </head>
   <body>
+    <img id="sampleImage" src="sample.png" hidden></img>
+
     <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -40,6 +42,9 @@
         });
       }
     </script>
+        <script src="js/custom_posenet.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
     <script src="main.dart.js" type="application/javascript"></script>
   </body>
 </html>
