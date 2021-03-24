@@ -1,4 +1,3 @@
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 import 'package:js/js_util.dart' as js_util;
