@@ -5,7 +5,7 @@ import 'dart:html';
 import 'package:js/js.dart';
 
 @JS('loadModel')
-external dynamic loadModel();
+external loadModel();
 
 @JS('estimatePose')
 external Object estimatePose(ImageData image);
