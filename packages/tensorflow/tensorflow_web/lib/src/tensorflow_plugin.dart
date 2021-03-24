@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
@@ -23,7 +21,7 @@ class TensorflowPlugin extends TensorflowPlatform {
   }
 
   @override
-  Future<Keypoint> getShoulder(ImageData image) async {
+  Future<Keypoint> getShoulder(dynamic image) async {
     final result =
         await js_util.promiseToFuture<Object>(interop.getLeftShoulder(image));
     final resultParsed = interop.convertPrediction(result);

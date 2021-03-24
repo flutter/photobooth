@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -43,7 +43,8 @@ abstract class TensorflowPlatform extends PlatformInterface {
     throw UnimplementedError('loadModel() is not implemented.');
   }
 
-  Future<Keypoint> getShoulder(ImageData image) {
+  //TODO: CHECK WHICH GENERIC TYPE TO SEND, IF IMAGEDATA TEST WILL FAIL
+  Future<Keypoint> getShoulder(dynamic image) {
     throw UnimplementedError('loadModel() is not implemented.');
   }
 }
