@@ -87,5 +87,25 @@ void main() {
         verify(camera.takePicture).called(1);
       });
     });
+
+    group('availableCameras', () {
+      test('invokes availableCameras on camera instance', () async {
+        final camera = MockWebCamera();
+        final cameras = [
+          CameraDescription(
+            name: 'test',
+            lensDirection: CameraLensDirection.front,
+            sensorOrientation: 0,
+          )
+        ];
+        when(camera.availableCameras).thenAnswer((_) async => cameras);
+        CameraPlugin.registerWith(MockRegistrar());
+        (CameraPlatform.instance as CameraPlugin).camera = camera;
+        final availableCameras =
+            await CameraPlatform.instance.availableCameras();
+        expect(availableCameras, equals(cameras));
+        verify(camera.availableCameras).called(1);
+      });
+    });
   });
 }

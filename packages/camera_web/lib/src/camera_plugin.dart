@@ -28,6 +28,11 @@ class CameraPlugin extends CameraPlatform {
   }
 
   @override
+  Future<List<CameraDescription>> availableCameras() {
+    return camera.availableCameras();
+  }
+
+  @override
   Widget buildPreview(int cameraId) => camera.buildPreview();
 
   @override
