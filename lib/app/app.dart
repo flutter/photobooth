@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:io_photobooth/counter/counter.dart';
+import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -19,13 +19,21 @@ class App extends StatelessWidget {
       theme: ThemeData(
         accentColor: const Color(0xFF13B9FF),
         appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            padding: const EdgeInsets.all(24),
+          ),
+        ),
       ),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const LandingPage(),
     );
   }
 }
