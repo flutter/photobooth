@@ -15,6 +15,8 @@ flutter:
 dependencies:
   tensorflow_platform_interface:
     path: ../tensorflow_platform_interface
+  tfdart:
+    path: ../../tfdart
   flutter:
     sdk: flutter
   flutter_web_plugins:
