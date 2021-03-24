@@ -1,7 +1,15 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+    "landingPageHeading": "Welcome to the IO Photobooth",
+    "@landingPageHeading": {
+        "description": "Heading shown on the landing page."
+    },
+    "landingPageSubheading": "Take a selfie and share your photo with the community.",
+    "@landingPageSubheading": {
+        "description": "Subheading shown on the landing page."
+    },
+    "landingPageTakePhotoButtonText": "Take Photo",
+    "@landingPageTakePhotoButtonText": {
+        "description": "Button text shown on the landing page which navigates to the photo booth."
     }
 }
