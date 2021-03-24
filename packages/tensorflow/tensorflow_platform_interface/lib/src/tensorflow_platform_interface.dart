@@ -35,7 +35,7 @@ abstract class TensorflowPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<Pose> estimateSinglePose(XFile image) {
+  Future<Pose> estimateSinglePose(dynamic image) {
     throw UnimplementedError('estimateSinglePose() is not implemented.');
   }
 
@@ -45,6 +45,6 @@ abstract class TensorflowPlatform extends PlatformInterface {
 
   //TODO: CHECK WHICH GENERIC TYPE TO SEND, IF IMAGEDATA TEST WILL FAIL
   Future<Keypoint> getShoulder(dynamic image) {
-    throw UnimplementedError('loadModel() is not implemented.');
+    throw UnimplementedError('getShoulder() is not implemented.');
   }
 }

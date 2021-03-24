@@ -1,7 +1,7 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:tensorflow_web/tensorflow_web.dart';
+import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 
 void main() => runApp(const MyApp());
 
@@ -27,13 +27,14 @@ class MyApp extends StatelessWidget {
           children: [
             TextButton(
                 onPressed: () {
-                  TensorflowPlugin().loadModel();
+                  TensorflowPlatform.instance.loadModel();
                 },
                 child: const Text('Load model')),
             TextButton(
               onPressed: () async {
-                var imageData = _getImage();
-                final result = await TensorflowPlugin().getShoulder(imageData);
+                final imageData = _getImage();
+                final result =
+                    await TensorflowPlatform.instance.getShoulder(imageData);
                 print('Part: ${result.part}');
                 print('Score: ${result.score}');
                 print(
@@ -43,9 +44,9 @@ class MyApp extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                var imageData = _getImage();
-                final result =
-                    await TensorflowPlugin().estimateSinglePose(imageData);
+                final imageData = _getImage();
+                final result = await TensorflowPlatform.instance
+                    .estimateSinglePose(imageData);
                 print('Score: ${result.score}');
                 print('Keypoints: ${result.keypoints}');
               },
