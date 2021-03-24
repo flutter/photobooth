@@ -5,10 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Dart",
-      "program": "lib/main.dart",
+      "name": "Launch",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "-d",
+        "chrome"
+      ]
     }
   ]
 }
