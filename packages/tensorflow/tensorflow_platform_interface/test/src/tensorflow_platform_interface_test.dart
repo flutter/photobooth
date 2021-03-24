@@ -16,9 +16,6 @@ void main() {
       final instance = TensorflowPlatform.instance;
       expect(instance, isNotNull);
     });
-    test('$MethodChannelTensorflow is the default instance', () {
-      expect(TensorflowPlatform.instance, isA<MethodChannelTensorflow>());
-    });
 
     test('instance can be overriden', () {
       final mockPlatform = MockTensorflowPlatform();
