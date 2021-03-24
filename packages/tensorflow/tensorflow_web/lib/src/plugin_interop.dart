@@ -4,6 +4,9 @@ library main;
 import 'dart:html';
 import 'package:js/js.dart';
 
+@JS('loadModel')
+external dynamic loadModel();
+
 @JS('estimatePose')
 external dynamic estimatePose(ImageData image);
 

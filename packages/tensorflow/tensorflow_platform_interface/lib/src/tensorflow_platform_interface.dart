@@ -1,8 +1,11 @@
+import 'dart:html';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tensorflow_platform_interface/src/models/pose.dart';
 
 import 'method_channel_tensorflow.dart';
+import 'models/models.dart';
 
 /// The interface that implementations of tensorflow must implement.
 ///
@@ -34,5 +37,13 @@ abstract class TensorflowPlatform extends PlatformInterface {
 
   Future<Pose> estimateSinglePose(XFile image) {
     throw UnimplementedError('estimateSinglePose() is not implemented.');
+  }
+
+  Future<void> loadModel() {
+    throw UnimplementedError('loadModel() is not implemented.');
+  }
+
+  Future<Keypoint> getShoulder(ImageData image) {
+    throw UnimplementedError('loadModel() is not implemented.');
   }
 }
