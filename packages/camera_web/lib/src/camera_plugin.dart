@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:camera_web/src/camera_preview.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+
+import 'web_camera.dart';
 
 /// The web implementation of [CameraPlatform].
 ///
@@ -13,6 +16,28 @@ class CameraPlugin extends CameraPlatform {
     CameraPlatform.instance = CameraPlugin();
   }
 
+  @visibleForTesting
+  late WebCamera camera;
+
   @override
-  Widget buildPreview(int cameraId) => CameraPreview(cameraId: cameraId);
+  Future<void> initializeCamera(
+    int cameraId, {
+    ImageFormatGroup imageFormatGroup = ImageFormatGroup.unknown,
+  }) async {
+    camera = WebCamera(cameraId);
+  }
+
+  @override
+  Widget buildPreview(int cameraId) => camera.buildPreview();
+
+  @override
+  Future<XFile> takePicture(int cameraId) async {
+    final image = await camera.takePicture();
+    return XFile.fromData(base64.decode(image.split(',')[1]));
+  }
+
+  @override
+  Future<void> dispose(int cameraId) async {
+    camera.stopPreview();
+  }
 }
