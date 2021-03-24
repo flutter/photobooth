@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:tensorflow_platform_interface/src/method_channel_tensorflow.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 
 class MockTensorflowPlatform extends Mock
