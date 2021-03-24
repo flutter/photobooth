@@ -6,7 +6,7 @@ class CameraController {
   /// The id of a camera that hasn't been initialized.
   @visibleForTesting
   static const int kUninitializedCameraId = -1;
-  final int _cameraId = kUninitializedCameraId;
+  int _cameraId = kUninitializedCameraId;
 
   bool _isDisposed = false;
   bool _isInitialized = false;
@@ -24,6 +24,8 @@ class CameraController {
         'initialize was called on a disposed CameraController',
       );
     }
+    _cameraId = 0;
+    await CameraPlatform.instance.initializeCamera(cameraId);
     _isInitialized = true;
   }
 
@@ -37,9 +39,20 @@ class CameraController {
     }
   }
 
+  /// Captures an image and returns the file where it was saved.
+  Future<XFile> takePicture() {
+    _throwIfNotInitialized('takePicture');
+    try {
+      return CameraPlatform.instance.takePicture(_cameraId);
+    } on PlatformException catch (e) {
+      throw CameraException(e.code, e.message);
+    }
+  }
+
   /// Releases the resources of this camera.
   Future<void> dispose() async {
     if (_isDisposed) return;
+    await CameraPlatform.instance.dispose(cameraId);
     _isDisposed = true;
   }
 
