@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 import 'dart:ui' as ui;
 
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/widgets.dart';
 
 class WebCamera {
@@ -18,6 +19,21 @@ class WebCamera {
   final html.Window window;
 
   bool get isSupported => window.navigator.mediaDevices != null;
+
+  Future<List<CameraDescription>> availableCameras() async {
+    if (!isSupported) return <CameraDescription>[];
+    final devices = await window.navigator.mediaDevices!.enumerateDevices();
+    return devices
+        .where((device) => device['kind'] == 'videoinput')
+        .map(
+          (device) => CameraDescription(
+            name: device['label'],
+            lensDirection: CameraLensDirection.front,
+            sensorOrientation: 0,
+          ),
+        )
+        .toList();
+  }
 
   Future<html.MediaStream> getPreview({bool video = true}) {
     if (!isSupported) throw UnsupportedError('camera unavailable');

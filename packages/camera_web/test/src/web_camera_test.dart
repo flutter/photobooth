@@ -1,6 +1,7 @@
 @TestOn('chrome')
 import 'dart:html';
 
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_web/src/web_camera.dart';
 import 'package:flutter/widgets.dart' show HtmlElementView, SizedBox;
 import 'package:flutter_test/flutter_test.dart';
@@ -118,6 +119,52 @@ void main() {
         camera.buildPreview();
         final imageData = await camera.takePicture();
         expect(imageData, isNotNull);
+      });
+    });
+
+    group('availableCameras', () {
+      test('returns empty list if camera is not supported', () async {
+        final navigator = MockNavigator();
+        when(() => window.navigator).thenReturn(navigator);
+        when(() => navigator.mediaDevices).thenReturn(null);
+        expect(await camera.availableCameras(), isEmpty);
+      });
+
+      test('returns only supported devices when camera is supported', () async {
+        final navigator = MockNavigator();
+        final mediaDevices = MockMediaDevices();
+        final devices = [
+          {
+            'kind': 'audioinput',
+            'label': 'audio0',
+          },
+          {
+            'kind': 'videoinput',
+            'label': 'video0',
+          },
+          {
+            'kind': 'videoinput',
+            'label': 'video1',
+          }
+        ];
+        when(() => window.navigator).thenReturn(navigator);
+        when(() => navigator.mediaDevices).thenReturn(mediaDevices);
+        when(mediaDevices.enumerateDevices).thenAnswer((_) async => devices);
+        expect(
+          await camera.availableCameras(),
+          equals([
+            CameraDescription(
+              name: 'video0',
+              lensDirection: CameraLensDirection.front,
+              sensorOrientation: 0,
+            ),
+            CameraDescription(
+              name: 'video1',
+              lensDirection: CameraLensDirection.front,
+              sensorOrientation: 0,
+            )
+          ]),
+        );
       });
     });
   });
