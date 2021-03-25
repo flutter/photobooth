@@ -10,4 +10,9 @@ class Keypoint {
   Vector2D position; // position of the part respect of the image
   String part; //part of the body
 
+  @override
+  String toString() {
+    return 'Part: $part x=${position.x} y=${position.y}'
+        ' ${score.toStringAsFixed(2)}';
+  }
 }
