@@ -1,5 +1,6 @@
 async function loadModel() {
     await posenet.load();
+    console.log('Model loaded');
 }
 
 async function estimatePose(img) {

@@ -5,7 +5,7 @@ import 'dart:html';
 import 'package:js/js.dart';
 
 @JS('loadModel')
-external loadModel();
+external Future<void> loadModel();
 
 @JS('estimatePose')
 external Object estimatePose(ImageData image);

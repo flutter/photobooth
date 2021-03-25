@@ -1,6 +1,3 @@
-//import 'dart:html';
-
-import 'package:cross_file/cross_file.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tensorflow_platform_interface/src/models/pose.dart';
 
