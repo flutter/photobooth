@@ -22,10 +22,6 @@ jobs:
 
       - name: Install Dependencies
         run: flutter packages get
-                
-      - name: Install Dependencies for example
-        working-directory: packages/tensorflow/tensorflow_web/example
-        run: flutter packages get
       
       - name: Format
         run: flutter format --set-exit-if-changed lib test
