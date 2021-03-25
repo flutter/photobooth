@@ -30,3 +30,9 @@ Future<ImageData> getImageDataFromXFile(XFile xFile) async {
   final image = ImageData(bytesClamped, 1000);
   return image;
 }
+
+ImageData getImageDataFromBytes(Uint8List bytes) {
+  final bytesClamped = Uint8ClampedList.fromList(bytes);
+  final image = ImageData(bytesClamped, 10000);
+  return image;
+}

@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
@@ -27,5 +30,14 @@ class TensorflowPlugin extends TensorflowPlatform {
   Future<Keypoint> getShoulder(XFile image) async {
     final pose = await estimateSinglePose(image);
     return pose.keypoints[5];
+  }
+
+  @override
+  Future<Pose> estimateSinglePoseFromBytes(Uint8List bytes) async {
+    final imageData = getImageDataFromBytes(bytes);
+
+    final result =
+        await js_util.promiseToFuture<Object>(tfdart.estimatePose(imageData));
+    return pluginPoseFromObject(result);
   }
 }

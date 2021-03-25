@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tensorflow_platform_interface/src/models/pose.dart';
@@ -41,8 +43,12 @@ abstract class TensorflowPlatform extends PlatformInterface {
     throw UnimplementedError('loadModel() is not implemented.');
   }
 
-  //TODO: CHECK WHICH GENERIC TYPE TO SEND, IF IMAGEDATA TEST WILL FAIL
   Future<Keypoint> getShoulder(XFile image) {
     throw UnimplementedError('getShoulder() is not implemented.');
+  }
+
+  Future<Pose> estimateSinglePoseFromBytes(Uint8List bytes) {
+    throw UnimplementedError(
+        'estimateSinglePoseFromBytes() is not implemented.');
   }
 }

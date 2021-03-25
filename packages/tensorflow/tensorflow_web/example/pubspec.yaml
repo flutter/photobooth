@@ -6,6 +6,8 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
+  camera_web:
+    path: ../../../camera_web
   tensorflow_web:
     path: ../
   flutter:

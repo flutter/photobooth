@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:example/single_capture_example.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 
@@ -9,6 +10,17 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   XFile _getXFile() {
     final image = document.getElementById('sampleImage') as ImageElement;
@@ -20,45 +32,47 @@ class MyApp extends StatelessWidget {
     return XFile.fromData(Uint8List.fromList(imageData.data));
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-                onPressed: () {
-                  TensorflowPlatform.instance.loadModel();
-                },
-                child: const Text('Load model')),
-            TextButton(
-              onPressed: () async {
-                final imageData = _getXFile();
-                final result =
-                    await TensorflowPlatform.instance.getShoulder(imageData);
-                print('Part: ${result.part}');
-                print('Score: ${result.score}');
-                print(
-                    'Position: x=${result.position.x} y=${result.position.y}');
+    return Scaffold(
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {
+                TensorflowPlatform.instance.loadModel();
               },
-              child: const Text('Left shoulder'),
+              child: const Text('Load model')),
+          TextButton(
+            onPressed: () async {
+              final imageData = _getXFile();
+              final result =
+                  await TensorflowPlatform.instance.getShoulder(imageData);
+              print('Part: ${result.part}');
+              print('Score: ${result.score}');
+              print('Position: x=${result.position.x} y=${result.position.y}');
+            },
+            child: const Text('Left shoulder'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final imageData = _getXFile();
+              final result = await TensorflowPlatform.instance
+                  .estimateSinglePose(imageData);
+              print('Score: ${result.score}');
+              print('Keypoints: ${result.keypoints}');
+            },
+            child: const Text('Estimate single pose'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).push(
+              SingleCapturePage.route(),
             ),
-            TextButton(
-              onPressed: () async {
-                final imageData = _getXFile();
-                final result = await TensorflowPlatform.instance
-                    .estimateSinglePose(imageData);
-                print('Score: ${result.score}');
-                print('Keypoints: ${result.keypoints}');
-              },
-              child: const Text('Estimate single pose'),
-            ),
-          ],
-        )),
-      ),
+            child: const Text('Go to single capture example'),
+          )
+        ],
+      )),
     );
   }
 }
