@@ -1,9 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:camera_web/camera_web.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
-import 'package:image/image.dart' as image_api;
 
 class SingleCapturePage extends StatefulWidget {
   static Route route() {
@@ -118,7 +116,6 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   Keypoint? keypoint;
-  image_api.Image? processImage;
 
   Future<void> _analyzeImage() async {
     final pose = await TensorflowPlatform.instance
@@ -135,7 +132,6 @@ class _PreviewPageState extends State<PreviewPage> {
   void initState() {
     super.initState();
     _analyzeImage();
-    //_processImage();
   }
 
   @override
