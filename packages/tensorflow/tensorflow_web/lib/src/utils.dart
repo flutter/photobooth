@@ -1,3 +1,7 @@
+import 'dart:html';
+import 'dart:typed_data';
+
+import 'package:cross_file/cross_file.dart';
 import 'package:tfdart/tfdart.dart' as tfdart;
 
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
@@ -18,4 +22,11 @@ Pose pluginPoseFromObject(Object object) {
     );
   }
   return Pose(keypoints: keypoints, score: tfPose.score.toDouble());
+}
+
+Future<ImageData> getImageDataFromXFile(XFile xFile) async {
+  final data = await xFile.readAsBytes();
+  final bytesClamped = Uint8ClampedList.fromList(data);
+  final image = ImageData(bytesClamped, 1000);
+  return image;
 }

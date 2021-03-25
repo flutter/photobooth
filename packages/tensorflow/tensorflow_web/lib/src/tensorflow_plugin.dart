@@ -1,3 +1,4 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 import 'package:js/js_util.dart' as js_util;
@@ -10,9 +11,10 @@ class TensorflowPlugin extends TensorflowPlatform {
   }
 
   @override
-  Future<Pose> estimateSinglePose(dynamic image) async {
+  Future<Pose> estimateSinglePose(XFile image) async {
+    final imageData = await getImageDataFromXFile(image);
     final result =
-        await js_util.promiseToFuture<Object>(tfdart.estimatePose(image));
+        await js_util.promiseToFuture<Object>(tfdart.estimatePose(imageData));
     return pluginPoseFromObject(result);
   }
 
@@ -22,7 +24,7 @@ class TensorflowPlugin extends TensorflowPlatform {
   }
 
   @override
-  Future<Keypoint> getShoulder(dynamic image) async {
+  Future<Keypoint> getShoulder(XFile image) async {
     final pose = await estimateSinglePose(image);
     return pose.keypoints[5];
   }
