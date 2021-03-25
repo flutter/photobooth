@@ -26,8 +26,8 @@ jobs:
       - name: Format
         run: flutter format --set-exit-if-changed lib test
 
-      - name: Analyze
-        run: flutter analyze lib test
+      #- name: Analyze
+       # run: flutter analyze lib test
 
-      - name: Run tests
-        run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
+      #- name: Run tests
+       # run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
