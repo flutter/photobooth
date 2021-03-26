@@ -39,14 +39,6 @@ abstract class TensorflowPlatform extends PlatformInterface {
     throw UnimplementedError('estimateSinglePose() is not implemented.');
   }
 
-  Future<void> loadModel() {
-    throw UnimplementedError('loadModel() is not implemented.');
-  }
-
-  Future<Keypoint> getShoulder(XFile image) {
-    throw UnimplementedError('getShoulder() is not implemented.');
-  }
-
   Future<Pose> estimateSinglePoseFromBytes(Uint8List bytes) {
     throw UnimplementedError(
         'estimateSinglePoseFromBytes() is not implemented.');

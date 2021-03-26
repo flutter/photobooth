@@ -13,6 +13,6 @@ class Keypoint {
   @override
   String toString() {
     return 'Part: $part x=${position.x} y=${position.y}'
-        ' ${score.toStringAsFixed(2)}';
+        ' score: ${score.toStringAsFixed(2)}';
   }
 }

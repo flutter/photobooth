@@ -411,6 +411,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  tensorflow_models:
+    dependency: transitive
+    description:
+      path: "."
+      ref: "feat/estimate-single-pose"
+      resolved-ref: e3fc5150cff7b69ee22f48592b3384a4bae092a6
+      url: "https://github.com/felangel/tfjs_models.dart.git"
+    source: git
+    version: "0.1.0"
   tensorflow_platform_interface:
     dependency: transitive
     description:
@@ -453,13 +462,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.15"
-  tfdart:
-    dependency: transitive
-    description:
-      path: "packages/tfdart"
-      relative: true
-    source: path
-    version: "0.1.0"
   typed_data:
     dependency: transitive
     description:

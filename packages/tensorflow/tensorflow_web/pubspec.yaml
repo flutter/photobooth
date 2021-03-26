@@ -15,8 +15,10 @@ flutter:
 dependencies:
   tensorflow_platform_interface:
     path: ../tensorflow_platform_interface
-  tfdart:
-    path: ../../tfdart
+  tensorflow_models:
+    git:
+      url: https://github.com/felangel/tfjs_models.dart.git
+      ref: feat/estimate-single-pose
   flutter:
     sdk: flutter
   flutter_web_plugins:

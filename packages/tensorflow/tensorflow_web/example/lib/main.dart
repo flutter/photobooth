@@ -40,22 +40,6 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-              onPressed: () {
-                TensorflowPlatform.instance.loadModel();
-              },
-              child: const Text('Load model')),
-          TextButton(
-            onPressed: () async {
-              final imageData = _getXFile();
-              final result =
-                  await TensorflowPlatform.instance.getShoulder(imageData);
-              print('Part: ${result.part}');
-              print('Score: ${result.score}');
-              print('Position: x=${result.position.x} y=${result.position.y}');
-            },
-            child: const Text('Left shoulder'),
-          ),
-          TextButton(
             onPressed: () async {
               final imageData = _getXFile();
               final result = await TensorflowPlatform.instance
@@ -63,7 +47,7 @@ class HomePage extends StatelessWidget {
               print('Score: ${result.score}');
               print('Keypoints: ${result.keypoints}');
             },
-            child: const Text('Estimate single pose'),
+            child: const Text('Estimate pose from static image'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).push(

@@ -2,27 +2,41 @@ import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
-import 'package:tfdart/tfdart.dart' as tfdart;
 import 'package:image/image.dart' as image_api;
+import 'package:tensorflow_models/posenet/posenet_interop.dart'
+    as posenet_interop;
 
 import 'package:tensorflow_platform_interface/tensorflow_platform_interface.dart';
 
-Pose pluginPoseFromObject(Object object) {
-  final tfPose = tfdart.convertPose(object);
-  var keypoints = <Keypoint>[];
-  for (var item in tfPose.keypoints) {
-    keypoints.add(
-      Keypoint(
-        score: item.score.toDouble(),
-        position: Vector2D(
-          x: item.position.x.toDouble(),
-          y: item.position.y.toDouble(),
-        ),
-        part: item.part,
-      ),
+extension ParsingPose on posenet_interop.Pose {
+  Pose parsePose() {
+    return Pose(
+        keypoints: keypoints
+            .map(
+              (e) => e.parseKeypoint(),
+            )
+            .toList(),
+        score: score.toDouble());
+  }
+}
+
+extension ParsingKeypoint on posenet_interop.Keypoint {
+  Keypoint parseKeypoint() {
+    return Keypoint(
+      score: score.toDouble(),
+      position: position.parsePosition(),
+      part: part,
     );
   }
-  return Pose(keypoints: keypoints, score: tfPose.score.toDouble());
+}
+
+extension ParsingPosition on posenet_interop.Vector2D {
+  Vector2D parsePosition() {
+    return Vector2D(
+      x: x.toDouble(),
+      y: y.toDouble(),
+    );
+  }
 }
 
 Future<ImageData> getImageDataFromXFile(XFile xFile) async {
