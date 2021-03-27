@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photobooth/view/photobooth_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -36,7 +37,9 @@ class LandingView extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton(
               child: Text(l10n.landingPageTakePhotoButtonText),
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(
+                PhotoboothPage.route(),
+              ),
             )
           ],
         ),

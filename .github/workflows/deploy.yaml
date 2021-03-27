@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/camera-basics
 
 jobs:
   deploy-dev:
