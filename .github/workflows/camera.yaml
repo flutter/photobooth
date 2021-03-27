@@ -1,16 +1,16 @@
-name: camera_web
+name: camera
 
 on:
   pull_request:
     paths:
-      - "packages/camera_web/**"
-      - ".github/workflows/camera_web.yaml"
+      - "packages/camera/**"
+      - ".github/workflows/camera.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/camera_web
+        working-directory: packages/camera
     runs-on: ubuntu-latest
 
     steps:

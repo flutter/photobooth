@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/preview/preview.dart';
 
 class PhotoboothPage extends StatefulWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController();
+    _cameraController = CameraController()..start();
   }
 
   @override
@@ -27,12 +28,24 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
     super.dispose();
   }
 
+  void _onSnapPressed() async {
+    final image = await _cameraController.takePicture();
+    final previewPageRoute = PreviewPage.route(image: image);
+    _cameraController.stop();
+    await Navigator.of(context).push(previewPageRoute);
+    _cameraController.start();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Camera(
         controller: _cameraController,
         placeholder: (_) => Center(child: PhotoboothPlaceholder()),
+        preview: (context, preview) => PhotoboothPreview(
+          preview: preview,
+          onSnapPressed: _onSnapPressed,
+        ),
         error: (context, error) => Center(child: PhotoboothError(error: error)),
       ),
     );
@@ -42,6 +55,34 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
 class PhotoboothPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const CircularProgressIndicator();
+}
+
+class PhotoboothPreview extends StatelessWidget {
+  const PhotoboothPreview({
+    Key? key,
+    required this.preview,
+    required this.onSnapPressed,
+  }) : super(key: key);
+
+  final Widget preview;
+  final VoidCallback onSnapPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        preview,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton(
+            child: const Icon(Icons.photo_camera),
+            onPressed: onSnapPressed,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class PhotoboothError extends StatelessWidget {
