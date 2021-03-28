@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -48,7 +49,11 @@ class CameraPlugin extends CameraPlatform {
 
   @override
   Widget buildView(int textureId) {
-    return HtmlElementView(viewType: _getViewType(textureId));
+    return Transform(
+      transform: Matrix4.rotationY(math.pi),
+      alignment: Alignment.center,
+      child: HtmlElementView(viewType: _getViewType(textureId)),
+    );
   }
 
   @override
@@ -95,20 +100,11 @@ class Camera {
     );
 
     final stream = await _getMediaStream();
+
     videoElement
       ..autoplay = false
       ..srcObject = stream
       ..setAttribute('playsinline', '');
-
-    final width = options.video.width;
-    if (width != null) {
-      videoElement.width = width;
-    }
-
-    final height = options.video.height;
-    if (height != null) {
-      videoElement.height = height;
-    }
   }
 
   Future<html.MediaStream> _getMediaStream() async {
@@ -147,7 +143,6 @@ class Camera {
       videoElement.srcObject = stream;
     }
     await videoElement.play();
-    videoElement.mirror();
   }
 
   void stop() {
@@ -171,18 +166,11 @@ class Camera {
     final width = videoElement.videoWidth;
     final height = videoElement.videoHeight;
     final canvas = html.CanvasElement(width: width, height: height);
-    canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
+    canvas.context2D
+      ..translate(width, 0)
+      ..scale(-1, 1)
+      ..drawImageScaled(videoElement, 0, 0, width, height);
     final dataUrl = canvas.toDataUrl();
     return base64.decode(dataUrl.split(',')[1]);
-  }
-}
-
-extension on html.VideoElement {
-  void mirror() {
-    style
-      ..removeProperty('transform-origin')
-      ..setProperty('transform', 'scaleX(-1)')
-      ..setProperty('-webkit-transform', 'scaleX(-1)')
-      ..setProperty('-moz-transform', 'scaleX(-1)');
   }
 }
