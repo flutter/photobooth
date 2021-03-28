@@ -99,7 +99,6 @@ class Camera {
     videoElement
       ..autoplay = false
       ..srcObject = stream
-      ..style.transform = 'rotateY(180deg)'
       ..setAttribute('playsinline', '');
 
     final width = options.video.width;
@@ -149,6 +148,7 @@ class Camera {
       videoElement.srcObject = stream;
     }
     await videoElement.play();
+    videoElement.mirror();
   }
 
   void stop() {
@@ -175,5 +175,15 @@ class Camera {
     canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
     final dataUrl = canvas.toDataUrl();
     return base64.decode(dataUrl.split(',')[1]);
+  }
+}
+
+extension on html.VideoElement {
+  void mirror() {
+    style
+      ..removeProperty('transform-origin')
+      ..setProperty('transform', 'rotateY(180deg)')
+      ..setProperty('-webkit-transform', 'rotateY(180deg)')
+      ..setProperty('-moz-transform', 'rotateY(180deg)');
   }
 }
