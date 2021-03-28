@@ -182,8 +182,8 @@ extension on html.VideoElement {
   void mirror() {
     style
       ..removeProperty('transform-origin')
-      ..setProperty('transform', 'rotateY(180deg)')
-      ..setProperty('-webkit-transform', 'rotateY(180deg)')
-      ..setProperty('-moz-transform', 'rotateY(180deg)');
+      ..setProperty('transform', 'scaleX(-1)')
+      ..setProperty('-webkit-transform', 'scaleX(-1)')
+      ..setProperty('-moz-transform', 'scaleX(-1)');
   }
 }
