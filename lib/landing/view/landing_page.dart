@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/view/photobooth_page.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
