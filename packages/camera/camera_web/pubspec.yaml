@@ -1,15 +1,26 @@
-name: camera
+name: camera_web
 description: Web platform implementation of camera
 version: 0.1.0
+publish_to: none
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
   flutter: ">=2.0.0"
 
+flutter:
+  plugin:
+    platforms:
+      web:
+        pluginClass: CameraPlugin
+        fileName: camera_web.dart
+
 dependencies:
   flutter:
     sdk: flutter
-  uuid: ^3.0.0
+  flutter_web_plugins:
+    sdk: flutter
+  camera_platform_interface:
+    path: ../camera_platform_interface
 
 dev_dependencies:
   flutter_test:

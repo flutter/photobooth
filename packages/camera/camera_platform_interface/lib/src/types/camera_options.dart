@@ -1,4 +1,4 @@
-part of 'camera_controller.dart';
+import 'package:flutter/foundation.dart';
 
 class CameraOptions {
   const CameraOptions({

@@ -25,7 +25,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _initializeCameraController();
+  }
+
+  void _initializeCameraController() async {
     _controller = CameraController(options: _cameraOptions);
+    await _controller.initialize();
+    await _controller.play();
   }
 
   @override
@@ -37,7 +43,9 @@ class _HomePageState extends State<HomePage> {
   void _onSnapPressed() async {
     final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image);
+    await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
+    await _controller.play();
   }
 
   @override
@@ -75,10 +83,8 @@ class CameraFrame extends StatelessWidget {
     return Stack(
       children: [
         child,
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
+        Align(
+          alignment: Alignment.bottomCenter,
           child: ElevatedButton(
             child: const Text('Take Photo'),
             onPressed: onSnapPressed,

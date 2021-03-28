@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   camera:
-    path: packages/camera
+    path: packages/camera/camera
   tensorflow_web:
     path: packages/tensorflow/tensorflow_web
   bloc: ^7.0.0

@@ -14,33 +14,39 @@ class PhotoboothPage extends StatefulWidget {
 }
 
 class _PhotoboothPageState extends State<PhotoboothPage> {
-  late CameraController _cameraController;
+  late CameraController _controller;
 
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController()..start();
+    _initializeCameraController();
+  }
+
+  void _initializeCameraController() async {
+    _controller = CameraController();
+    await _controller.initialize();
+    await _controller.play();
   }
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   void _onSnapPressed() async {
-    final image = await _cameraController.takePicture();
+    final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image);
-    _cameraController.stop();
+    await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
-    _cameraController.start();
+    await _controller.play();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Camera(
-        controller: _cameraController,
+        controller: _controller,
         placeholder: (_) => Center(child: PhotoboothPlaceholder()),
         preview: (context, preview) => PhotoboothPreview(
           preview: preview,

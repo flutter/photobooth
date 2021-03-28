@@ -6,10 +6,10 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  camera:
-    path: ../
   flutter:
     sdk: flutter
+  camera:
+    path: ../
 
 dev_dependencies:
   very_good_analysis: ^2.0.0

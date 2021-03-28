@@ -1,0 +1,28 @@
+name: camera
+description: A Flutter plugin for integrating Camera Access.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"
+  flutter: ">=2.0.0"
+
+flutter:
+  plugin:
+    platforms:
+      web:
+        default_package: camera_web
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera_platform_interface:
+    path: ../camera_platform_interface
+  camera_web:
+    path: ../camera_web
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  plugin_platform_interface: ^2.0.0

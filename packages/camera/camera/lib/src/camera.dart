@@ -1,4 +1,4 @@
-part of 'camera_controller.dart';
+part of camera;
 
 typedef PlaceholderBuilder = Widget Function(BuildContext);
 typedef PreviewBuilder = Widget Function(BuildContext, Widget);
@@ -26,25 +26,21 @@ class Camera extends StatefulWidget {
 }
 
 class _CameraState extends State<Camera> {
-  Widget? __widget;
-  CameraController get _controller => widget.controller;
-
-  Widget get _widget {
-    return __widget ??= HtmlElementView(
-      viewType: _getViewType(_controller.cameraId),
-    );
+  Widget? _preview;
+  Widget get preview {
+    return _preview ??= _cameraPlatform.buildView(widget.controller.textureId);
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: _controller,
+      valueListenable: widget.controller,
       builder: (BuildContext context, CameraState state, _) {
         switch (state.status) {
           case CameraStatus.uninitialized:
             return widget.placeholder(context);
           case CameraStatus.available:
-            return widget.preview(context, _widget);
+            return widget.preview(context, preview);
           case CameraStatus.unavailable:
             return widget.error(context, state.error!);
         }

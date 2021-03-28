@@ -1,7 +1,4 @@
-abstract class CameraException implements Exception {
-  const CameraException(this.description);
-  final String description;
-}
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 
 class CameraNotSupportedException implements CameraException {
   const CameraNotSupportedException();

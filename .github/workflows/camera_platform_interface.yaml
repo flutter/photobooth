@@ -1,16 +1,16 @@
-name: camera
+name: camera_platform_interface
 
 on:
   pull_request:
     paths:
-      - "packages/camera/camera/**"
-      - ".github/workflows/camera.yaml"
+      - "packages/camera/camera_platform_interface/**"
+      - ".github/workflows/camera_platform_interface.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/camera/camera
+        working-directory: packages/camera/camera_platform_interface
     runs-on: ubuntu-latest
 
     steps:
