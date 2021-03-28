@@ -80,7 +80,6 @@ class Camera {
   final CameraOptions options;
   final int textureId;
   late html.VideoElement videoElement;
-  late html.MediaStream stream;
   final html.Window window;
 
   Future<void> initialize() async {
