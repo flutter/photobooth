@@ -45,7 +45,7 @@ class CameraController extends ValueNotifier<CameraState> {
     } on CameraException catch (e) {
       value = CameraState.unavailable(e);
     } catch (e) {
-      value = CameraState.unavailable(const CameraUnknownException());
+      value = const CameraState.unavailable(CameraUnknownException());
     }
   }
 

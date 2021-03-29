@@ -23,13 +23,17 @@ void main() {
     });
 
     testWidgets('renders placeholder (default)', (tester) async {
-      when(() => controller.value).thenReturn(CameraState.uninitialized());
+      when(() => controller.value).thenReturn(
+        const CameraState.uninitialized(),
+      );
       await tester.pumpWidget(Camera(controller: controller));
       expect(find.byType(SizedBox), findsOneWidget);
     });
 
     testWidgets('renders placeholder (custom)', (tester) async {
-      when(() => controller.value).thenReturn(CameraState.uninitialized());
+      when(() => controller.value).thenReturn(
+        const CameraState.uninitialized(),
+      );
       const key = Key('__target__');
       const widget = SizedBox(key: key);
       await tester.pumpWidget(
@@ -40,7 +44,7 @@ void main() {
 
     testWidgets('renders error (default)', (tester) async {
       when(() => controller.value).thenReturn(
-        CameraState.unavailable(CameraUnknownException()),
+        const CameraState.unavailable(CameraUnknownException()),
       );
       await tester.pumpWidget(Camera(controller: controller));
       expect(find.byType(SizedBox), findsOneWidget);
@@ -48,7 +52,7 @@ void main() {
 
     testWidgets('renders error (custom)', (tester) async {
       when(() => controller.value).thenReturn(
-        CameraState.unavailable(CameraUnknownException()),
+        const CameraState.unavailable(CameraUnknownException()),
       );
       const key = Key('__target__');
       const widget = SizedBox(key: key);
@@ -63,7 +67,7 @@ void main() {
       const widget = SizedBox(key: key);
       const textureId = 0;
       when(() => controller.textureId).thenReturn(textureId);
-      when(() => controller.value).thenReturn(CameraState.available());
+      when(() => controller.value).thenReturn(const CameraState.available());
       when(() => platform.buildView(textureId)).thenReturn(widget);
       await tester.pumpWidget(Camera(controller: controller));
       expect(find.byKey(key), findsOneWidget);
@@ -75,7 +79,7 @@ void main() {
       const preview = SizedBox(key: previewKey);
       const textureId = 0;
       when(() => controller.textureId).thenReturn(textureId);
-      when(() => controller.value).thenReturn(CameraState.available());
+      when(() => controller.value).thenReturn(const CameraState.available());
       when(() => platform.buildView(textureId)).thenReturn(preview);
       await tester.pumpWidget(
         Camera(

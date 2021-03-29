@@ -47,7 +47,7 @@ void main() {
       });
 
       test('updates state to unavailable on CameraException', () async {
-        final exception = CameraUnknownException();
+        const exception = CameraUnknownException();
         when(() => platform.create(any())).thenThrow(exception);
         final controller = CameraController();
         await controller.initialize();
