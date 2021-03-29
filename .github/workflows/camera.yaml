@@ -29,5 +29,10 @@ jobs:
       - name: Analyze
         run: flutter analyze lib test
 
-      # - name: Run tests
-      #   run: flutter test --no-pub --test-randomize-ordering-seed random
+      - name: Run tests
+        run: flutter test --no-pub --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: packages/camera/camera/coverage/lcov.info

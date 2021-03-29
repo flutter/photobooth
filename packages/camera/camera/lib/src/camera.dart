@@ -28,7 +28,8 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   Widget? _preview;
   Widget get preview {
-    return _preview ??= _cameraPlatform.buildView(widget.controller.textureId);
+    return _preview ??=
+        CameraPlatform.instance.buildView(widget.controller.textureId);
   }
 
   @override

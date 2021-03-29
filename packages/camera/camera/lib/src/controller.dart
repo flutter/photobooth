@@ -1,10 +1,5 @@
 part of camera;
 
-final CameraPlatform _cameraPlatform = CameraPlatform.instance
-  // This will clear all open cameras on the platform when a full restart is
-  // performed.
-  ..init();
-
 enum CameraStatus { uninitialized, available, unavailable }
 
 class CameraState {
@@ -24,9 +19,11 @@ class CameraState {
 
 class CameraController extends ValueNotifier<CameraState> {
   CameraController({this.options = const CameraOptions()})
-      : super(const CameraState.uninitialized());
+      : _cameraPlatform = CameraPlatform.instance..init(),
+        super(const CameraState.uninitialized());
 
   final CameraOptions options;
+  final CameraPlatform _cameraPlatform;
 
   // The id of a texture that hasn't been initialized.
   @visibleForTesting
@@ -63,7 +60,9 @@ class CameraController extends ValueNotifier<CameraState> {
   Future<void> dispose() async {
     if (_isInitialized) {
       await _cameraPlatform.dispose(_textureId);
+      print('disposed!');
     }
+    print('reset!');
     value = const CameraState.uninitialized();
     super.dispose();
   }
