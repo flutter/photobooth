@@ -3,14 +3,14 @@ name: tensorflow_models_platform_interface
 on:
   pull_request:
     paths:
-      - "packages/tensorflow/tensorflow_models_platform_interface/**"
+      - "packages/tensorflow_models/tensorflow_models_platform_interface/**"
       - ".github/workflows/tensorflow_models_platform_interface.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/tensorflow/tensorflow_models_platform_interface
+        working-directory: packages/tensorflow_models/tensorflow_models_platform_interface
     runs-on: ubuntu-latest
 
     steps:

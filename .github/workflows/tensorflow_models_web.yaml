@@ -3,14 +3,14 @@ name: tensorflow_models_web
 on:
   pull_request:
     paths:
-      - "packages/tensorflow/tensorflow_models_web/**"
+      - "packages/tensorflow_models/tensorflow_models_web/**"
       - ".github/workflows/tensorflow_models_web.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/tensorflow/tensorflow_models_web
+        working-directory: packages/tensorflow_models/tensorflow_models_web
     runs-on: ubuntu-latest
 
     steps:

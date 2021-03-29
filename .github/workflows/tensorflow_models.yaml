@@ -3,14 +3,14 @@ name: tensorflow_models
 on:
   pull_request:
     paths:
-      - "packages/tensorflow/tensorflow_models/**"
+      - "packages/tensorflow_models/tensorflow_models/**"
       - ".github/workflows/tensorflow_models.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/tensorflow/tensorflow_models
+        working-directory: packages/tensorflow_models/tensorflow_models
     runs-on: ubuntu-latest
 
     steps:
@@ -35,4 +35,4 @@ jobs:
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
         with:
-          path: packages/tensorflow/tensorflow_models/coverage/lcov.info
+          path: packages/tensorflow_models/tensorflow_models/coverage/lcov.info
