@@ -23,6 +23,9 @@ class CameraPlugin extends CameraPlatform {
   final _cameras = <int, Camera>{};
   var _textureCounter = 1;
 
+  @visibleForTesting
+  html.Window? window;
+
   @override
   Future<void> init() async {
     _disposeAllCameras();
@@ -39,7 +42,11 @@ class CameraPlugin extends CameraPlatform {
     final textureId = _textureCounter;
     _textureCounter++;
 
-    final camera = Camera(options: options, textureId: textureId);
+    final camera = Camera(
+      options: options,
+      textureId: textureId,
+      window: window,
+    );
     await camera.initialize();
 
     _cameras[textureId] = camera;
@@ -98,6 +105,7 @@ class Camera {
 
     videoElement
       ..autoplay = false
+      ..muted = !options.audio.enabled
       ..srcObject = stream
       ..setAttribute('playsinline', '');
   }
