@@ -47,9 +47,3 @@ class CameraTypeException implements CameraException {
   @override
   String get description => 'Type Error';
 }
-
-class CameraUnknownException implements CameraException {
-  const CameraUnknownException();
-  @override
-  String get description => 'Unknown Error';
-}
