@@ -50,17 +50,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  camera:
+    dependency: "direct main"
+    description:
+      path: "packages/camera/camera"
+      relative: true
+    source: path
+    version: "0.1.0"
   camera_platform_interface:
     dependency: transitive
     description:
-      name: camera_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
+      path: "packages/camera/camera_platform_interface"
+      relative: true
+    source: path
+    version: "0.0.1"
   camera_web:
-    dependency: "direct main"
+    dependency: transitive
     description:
-      path: "packages/camera_web"
+      path: "packages/camera/camera_web"
       relative: true
     source: path
     version: "0.1.0"
@@ -113,13 +120,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  cross_file:
-    dependency: transitive
-    description:
-      name: cross_file
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.1+1"
   crypto:
     dependency: transitive
     description:
@@ -376,13 +376,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  stream_transform:
-    dependency: transitive
-    description:
-      name: stream_transform
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   string_scanner:
     dependency: transitive
     description:
@@ -489,5 +482,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.12.0-259.9.beta <3.0.0"
   flutter: ">=2.0.0"

@@ -1,16 +1,16 @@
-name: camera_web
+name: camera
 
 on:
   pull_request:
     paths:
-      - "packages/camera/camera_web/**"
-      - ".github/workflows/camera_web.yaml"
+      - "packages/camera/camera/**"
+      - ".github/workflows/camera.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/camera/camera_web
+        working-directory: packages/camera/camera
     runs-on: ubuntu-latest
 
     steps:
@@ -30,4 +30,9 @@ jobs:
         run: flutter analyze lib test
 
       - name: Run tests
-        run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: packages/camera/camera/coverage/lcov.info
