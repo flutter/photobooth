@@ -1,0 +1,3 @@
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+
+class MethodChannelTensorflowModels extends TensorflowModelsPlatform {}

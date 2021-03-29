@@ -1,0 +1,3 @@
+library tensorflow_models;
+
+export 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
