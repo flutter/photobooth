@@ -60,9 +60,7 @@ class CameraController extends ValueNotifier<CameraState> {
   Future<void> dispose() async {
     if (_isInitialized) {
       await _cameraPlatform.dispose(_textureId);
-      print('disposed!');
     }
-    print('reset!');
     value = const CameraState.uninitialized();
     super.dispose();
   }

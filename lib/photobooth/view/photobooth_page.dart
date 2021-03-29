@@ -34,26 +34,37 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
     super.dispose();
   }
 
-  void _onSnapPressed() async {
-    final image = await _controller.takePicture();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PhotoboothView(controller: _controller),
+    );
+  }
+}
+
+class PhotoboothView extends StatelessWidget {
+  const PhotoboothView({Key? key, required this.controller}) : super(key: key);
+
+  final CameraController controller;
+
+  void _onSnapPressed(BuildContext context) async {
+    final image = await controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image);
-    await _controller.stop();
+    await controller.stop();
     await Navigator.of(context).push(previewPageRoute);
-    await _controller.play();
+    await controller.play();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Camera(
-        controller: _controller,
-        placeholder: (_) => Center(child: PhotoboothPlaceholder()),
-        preview: (context, preview) => PhotoboothPreview(
-          preview: preview,
-          onSnapPressed: _onSnapPressed,
-        ),
-        error: (context, error) => Center(child: PhotoboothError(error: error)),
+    return Camera(
+      controller: controller,
+      placeholder: (_) => Center(child: PhotoboothPlaceholder()),
+      preview: (context, preview) => PhotoboothPreview(
+        preview: preview,
+        onSnapPressed: () => _onSnapPressed(context),
       ),
+      error: (context, error) => Center(child: PhotoboothError(error: error)),
     );
   }
 }
@@ -82,6 +93,7 @@ class PhotoboothPreview extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: FloatingActionButton(
+            key: const Key('photoboothPreview_photo_floatingActionButton'),
             child: const Icon(Icons.photo_camera),
             onPressed: onSnapPressed,
           ),
