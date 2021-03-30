@@ -5,6 +5,7 @@ import 'dart:js_util';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 import 'posenet_interop.dart' as posenet;
+export 'posenet_interop.dart';
 
 /// Loads a pre-trained PoseNet Model.
 ///
@@ -23,10 +24,10 @@ Future<PoseNetWeb> load([posenet.ModelConfig? config]) async {
 
 class PoseNetWeb implements PoseNet {
   factory PoseNetWeb.fromJs(posenet.PoseNet net) {
-    return PoseNetWeb(net);
+    return PoseNetWeb._(net);
   }
 
-  PoseNetWeb(this._net)
+  PoseNetWeb._(this._net)
       : baseModel = _net.baseModel,
         inputResolution = _net.inputResolution;
 

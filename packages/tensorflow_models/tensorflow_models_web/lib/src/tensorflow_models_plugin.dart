@@ -8,5 +8,15 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
   }
 
   @override
-  Future<PoseNet> loadPosenet() => posenet.load();
+  Future<PoseNet> loadPosenet([ModelConfig? config]) {
+    return posenet.load(
+      posenet.ModelConfig(
+        architecture: config?.architecture,
+        outputStride: config?.outputStride,
+        inputResolution: config?.inputResolution,
+        multiplier: config?.multiplier,
+        quantBytes: config?.quantBytes,
+      ),
+    );
+  }
 }

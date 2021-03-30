@@ -29,7 +29,7 @@ abstract class TensorflowModelsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<PoseNet> loadPosenet() {
+  Future<PoseNet> loadPosenet([ModelConfig? config]) {
     throw UnimplementedError('loadPosenet() has not been implemented.');
   }
 }
