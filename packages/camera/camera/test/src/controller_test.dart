@@ -111,6 +111,29 @@ void main() {
       });
     });
 
+    group('imageStream', () {
+      late CameraController controller;
+
+      setUp(() async {
+        controller = CameraController();
+        await controller.initialize();
+      });
+
+      test('invokes CameraPlatform.imageStream', () async {
+        final cameraImage = CameraImage(
+          data: Uint8List.fromList([]),
+          width: 1,
+          height: 1,
+        );
+
+        when(() => platform.imageStream(any())).thenAnswer(
+          (_) => Stream.value(cameraImage),
+        );
+        expect(controller.imageStream, emitsInOrder([]));
+        verify(() => platform.imageStream(textureId)).called(1);
+      });
+    });
+
     group('dispose', () {
       test('invokes CameraPlatform.dispose', () async {
         final controller = CameraController();

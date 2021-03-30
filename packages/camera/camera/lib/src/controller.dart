@@ -56,6 +56,10 @@ class CameraController extends ValueNotifier<CameraState> {
     return _cameraPlatform.takePicture(_textureId);
   }
 
+  Stream<CameraImage> get imageStream {
+    return _cameraPlatform.imageStream(_textureId);
+  }
+
   @override
   Future<void> dispose() async {
     if (_isInitialized) {
