@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_platform_interface/src/method_channel/method_channel_camera.dart';
 import 'package:flutter/widgets.dart';
@@ -57,7 +55,7 @@ abstract class CameraPlatform extends PlatformInterface {
     throw UnimplementedError('buildView() has not been implemented.');
   }
 
-  Future<Uint8List> takePicture(int textureId) {
+  Future<CameraImage> takePicture(int textureId) {
     throw UnimplementedError('takePicture() has not been implemented.');
   }
 

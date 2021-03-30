@@ -26,7 +26,10 @@ void main() {
       navigator = MockNavigator();
       mediaDevices = MockMediaDevices();
       videoElement = VideoElement()
-        ..src = 'https://www.w3schools.com/tags/mov_bbb.mp4';
+        ..src = 'https://www.w3schools.com/tags/mov_bbb.mp4'
+        ..preload = 'true'
+        ..width = 10
+        ..height = 10;
       when(() => window.navigator).thenReturn(navigator);
       when(() => navigator.mediaDevices).thenReturn(mediaDevices);
       when(
@@ -65,6 +68,7 @@ void main() {
     });
 
     test('can takePicture', () async {
+      await CameraPlatform.instance.play(textureId);
       expect(CameraPlatform.instance.takePicture(textureId), completes);
     });
 
