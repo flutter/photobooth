@@ -20,6 +20,7 @@ class PoseNet {
     Object input, [
     SinglePersonInterfaceConfig? config,
   ]);
+  external void dispose();
 }
 
 @JS()

@@ -35,6 +35,9 @@ class PoseNetWeb implements PoseNet {
     );
     return pose.fromJs();
   }
+
+  @override
+  void dispose() => _net.dispose();
 }
 
 extension on SinglePersonInterfaceConfig {

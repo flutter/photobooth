@@ -64,6 +64,8 @@ abstract class PoseNet {
     ImageData imageData, {
     SinglePersonInterfaceConfig? config,
   });
+
+  void dispose();
 }
 
 class SinglePersonInterfaceConfig extends InferenceConfig {
