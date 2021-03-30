@@ -52,7 +52,7 @@ class CameraController extends ValueNotifier<CameraState> {
   Future<void> play() => _cameraPlatform.play(_textureId);
   Future<void> stop() => _cameraPlatform.stop(_textureId);
 
-  Future<Uint8List> takePicture() {
+  Future<CameraImage> takePicture() {
     return _cameraPlatform.takePicture(_textureId);
   }
 

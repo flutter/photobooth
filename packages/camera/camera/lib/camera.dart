@@ -1,7 +1,5 @@
 library camera;
 
-import 'dart:typed_data';
-
 import 'package:flutter/widgets.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 

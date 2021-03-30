@@ -88,7 +88,11 @@ void main() {
     testWidgets('navigates to PreviewPage photo is taken', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
-      final image = Uint8List.fromList([]);
+      final image = CameraImage(
+        data: Uint8List.fromList([]),
+        width: 1,
+        height: 1,
+      );
       when(() => platform.buildView(cameraId)).thenReturn(preview);
       when(() => controller.value).thenReturn(const CameraState.available());
       when(() => controller.textureId).thenReturn(cameraId);
@@ -107,7 +111,7 @@ void main() {
 
       await tester.pumpAndSettle();
       final previewPage = tester.widget<PreviewPage>(find.byType(PreviewPage));
-      expect(previewPage.image, equals(image));
+      expect(previewPage.image, equals(image.data));
 
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();

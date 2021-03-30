@@ -49,7 +49,7 @@ class PhotoboothView extends StatelessWidget {
 
   void _onSnapPressed(BuildContext context) async {
     final image = await controller.takePicture();
-    final previewPageRoute = PreviewPage.route(image: image);
+    final previewPageRoute = PreviewPage.route(image: image.data);
     await controller.stop();
     await Navigator.of(context).push(previewPageRoute);
     await controller.play();

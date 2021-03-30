@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -65,7 +64,7 @@ class CameraPlugin extends CameraPlatform {
   Future<void> stop(int textureId) async => _cameras[textureId]!.stop();
 
   @override
-  Future<Uint8List> takePicture(int textureId) {
+  Future<CameraImage> takePicture(int textureId) {
     return _cameras[textureId]!.takePicture();
   }
 
@@ -149,12 +148,12 @@ class Camera {
   bool get _isPlaying => !videoElement.paused;
 
   void _onAnimationFrame([num? _]) async {
-    final data = await takePicture();
+    final image = await takePicture();
     final width = videoElement.videoWidth;
     final height = videoElement.videoHeight;
 
     _imageStreamController.add(CameraImage(
-      data: data,
+      data: image.data,
       width: width,
       height: height,
     ));
@@ -189,12 +188,16 @@ class Camera {
     _imageStreamController.close();
   }
 
-  Future<Uint8List> takePicture() async {
+  Future<CameraImage> takePicture() async {
     final width = videoElement.videoWidth;
     final height = videoElement.videoHeight;
     final canvas = html.CanvasElement(width: width, height: height);
     canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
-    final dataUrl = canvas.toDataUrl();
-    return base64.decode(dataUrl.split(',')[1]);
+    final imageData = canvas.context2D.getImageData(0, 0, width, height);
+    return CameraImage(
+      data: Uint8List.fromList(imageData.data),
+      width: imageData.width,
+      height: imageData.height,
+    );
   }
 }

@@ -104,7 +104,11 @@ void main() {
       });
 
       test('invokes CameraPlatform.takePicture', () async {
-        final image = Uint8List.fromList([]);
+        final image = CameraImage(
+          data: Uint8List.fromList([]),
+          width: 1,
+          height: 1,
+        );
         when(() => platform.takePicture(any())).thenAnswer((_) async => image);
         expect(await controller.takePicture(), equals(image));
         verify(() => platform.takePicture(textureId)).called(1);

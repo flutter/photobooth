@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onSnapPressed() async {
     final image = await _controller.takePicture();
-    final previewPageRoute = PreviewPage.route(image: image);
+    final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
     await _controller.play();
