@@ -81,6 +81,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  posenet.PoseNet? _net;
+
   @override
   void initState() {
     super.initState();
@@ -88,8 +90,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _initializePosenet() async {
-    final net = await posenet.load();
-    final pose = await net.estimateSinglePose(ImageData(
+    _net?.dispose();
+    _net = await posenet.load();
+    final pose = await _net!.estimateSinglePose(ImageData(
       data: Uint8ClampedList.fromList(kTransparentImage),
       width: 4,
       height: 4,
