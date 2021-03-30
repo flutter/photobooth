@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:html';
+import 'dart:html' as html;
 import 'dart:js_util';
 
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
@@ -7,17 +7,6 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 import 'posenet_interop.dart' as posenet;
 export 'posenet_interop.dart';
 
-/// Loads a pre-trained PoseNet Model.
-///
-/// PoseNet comes with a few different versions of the model,
-/// corresponding to variances of MobileNet v1 architecture
-/// and ResNet50 architecture.
-///
-/// To get started, a model must be loaded from a checkpoint:
-///
-/// ```dart
-/// final net = await posenet.load();
-/// ```
 Future<PoseNetWeb> load([posenet.ModelConfig? config]) async {
   return PoseNetWeb.fromJs(await promiseToFuture(posenet.load(config)));
 }
@@ -39,11 +28,40 @@ class PoseNetWeb implements PoseNet {
   @override
   Future<Pose> estimateSinglePose(
     ImageData imageData, {
-    posenet.SinglePersonInterfaceConfig? config,
+    SinglePersonInterfaceConfig? config,
   }) async {
     final pose = await promiseToFuture<posenet.Pose>(
-      _net.estimateSinglePose(imageData, config),
+      _net.estimateSinglePose(imageData.toJs(), config?.toJs()),
     );
-    return Pose(keypoints: List.from(pose.keypoints), score: pose.score);
+    return pose.fromJs();
   }
+}
+
+extension on SinglePersonInterfaceConfig {
+  posenet.SinglePersonInterfaceConfig toJs() {
+    return posenet.SinglePersonInterfaceConfig(flipHorizontal: flipHorizontal);
+  }
+}
+
+extension on ImageData {
+  html.ImageData toJs() => html.ImageData(data, width, height);
+}
+
+extension on posenet.Pose {
+  Pose fromJs() {
+    return Pose(
+      keypoints: keypoints.map((k) => k.fromJs()).toList(),
+      score: score,
+    );
+  }
+}
+
+extension on posenet.Keypoint {
+  Keypoint fromJs() {
+    return Keypoint(score: score, position: position.fromJs(), part: part);
+  }
+}
+
+extension on posenet.Vector2D {
+  Vector2D fromJs() => Vector2D(x: x, y: y);
 }

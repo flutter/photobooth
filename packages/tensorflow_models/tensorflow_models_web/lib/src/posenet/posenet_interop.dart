@@ -44,13 +44,13 @@ class ModelConfig {
 @JS()
 @anonymous
 abstract class SinglePersonInterfaceConfig extends InferenceConfig {
-  external factory SinglePersonInterfaceConfig({bool flipHorizontal});
+  external factory SinglePersonInterfaceConfig({bool? flipHorizontal});
 }
 
 @JS()
 @anonymous
 class InferenceConfig {
-  external factory InferenceConfig({bool flipHorizontal});
+  external factory InferenceConfig({bool? flipHorizontal});
 }
 
 @JS()

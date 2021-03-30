@@ -61,8 +61,19 @@ class ModelConfig {
 
 abstract class PoseNet {
   Future<Pose> estimateSinglePose(
-    ImageData imageData,
-  );
+    ImageData imageData, {
+    SinglePersonInterfaceConfig? config,
+  });
+}
+
+class SinglePersonInterfaceConfig extends InferenceConfig {
+  const SinglePersonInterfaceConfig();
+}
+
+class InferenceConfig {
+  const InferenceConfig({this.flipHorizontal});
+
+  final bool? flipHorizontal;
 }
 
 class ImageData {

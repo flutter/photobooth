@@ -1,13 +1,18 @@
 import 'package:tensorflow_models/tensorflow_models.dart';
 
-/// Loads the PoseNet model instance from a checkpoint, with the ResNet
-/// or MobileNet architecture. The model to be loaded is configurable using the
-/// config dictionary ModelConfig. Please find more details in the
-/// documentation of the ModelConfig.
+/// Loads a pre-trained PoseNet Model.
 ///
-/// [config] [ModelConfig] object contains parameters for
-/// the PoseNet loading process. Please find more details of each parameters
-/// in the documentation of the [ModelConfig] interface.
+/// PoseNet comes with a few different versions of the model,
+/// corresponding to variances of MobileNet v1 architecture
+/// and ResNet50 architecture.
+///
+/// To get started, a model must be loaded from a checkpoint:
+///
+/// ```dart
+/// import 'package:tensorflow_models/posenet.dart' as posenet;
+///
+/// final net = await posenet.load();
+/// ```
 Future<PoseNet> load([ModelConfig? config]) async {
   return TensorflowModelsPlatform.instance.loadPosenet(config);
 }
