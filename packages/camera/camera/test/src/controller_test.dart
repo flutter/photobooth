@@ -129,7 +129,7 @@ void main() {
         when(() => platform.imageStream(any())).thenAnswer(
           (_) => Stream.value(cameraImage),
         );
-        expect(controller.imageStream, emitsInOrder([]));
+        expect(controller.imageStream, emitsInOrder([cameraImage]));
         verify(() => platform.imageStream(textureId)).called(1);
       });
     });
