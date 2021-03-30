@@ -111,7 +111,7 @@ void main() {
 
       await tester.pumpAndSettle();
       final previewPage = tester.widget<PreviewPage>(find.byType(PreviewPage));
-      expect(previewPage.image, equals(image));
+      expect(previewPage.image, equals(image.data));
 
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
