@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
   camera:
     path: packages/camera/camera
-  tensorflow_web:
-    path: packages/tensorflow/tensorflow_web
+  tensorflow_models:
+    path: packages/tensorflow_models/tensorflow_models
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   intl: ^0.17.0

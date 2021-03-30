@@ -383,17 +383,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  tensorflow_platform_interface:
+  tensorflow_models:
+    dependency: "direct main"
+    description:
+      path: "packages/tensorflow_models/tensorflow_models"
+      relative: true
+    source: path
+    version: "0.1.0"
+  tensorflow_models_platform_interface:
     dependency: transitive
     description:
-      path: "packages/tensorflow/tensorflow_platform_interface"
+      path: "packages/tensorflow_models/tensorflow_models_platform_interface"
       relative: true
     source: path
     version: "0.0.1"
-  tensorflow_web:
-    dependency: "direct main"
+  tensorflow_models_web:
+    dependency: transitive
     description:
-      path: "packages/tensorflow/tensorflow_web"
+      path: "packages/tensorflow_models/tensorflow_models_web"
       relative: true
     source: path
     version: "0.0.0"
@@ -482,5 +489,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
+  dart: ">=2.12.0-0.0 <3.0.0"
   flutter: ">=2.0.0"
