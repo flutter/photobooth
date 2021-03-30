@@ -12,7 +12,4 @@ dependencies:
   plugin_platform_interface: ^2.0.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  mocktail: ^0.1.0
   very_good_analysis: ^2.0.0

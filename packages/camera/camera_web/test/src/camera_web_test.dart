@@ -52,6 +52,14 @@ void main() {
       expect(CameraPlatform.instance.play(textureId), completes);
     });
 
+    test('can subscribe to imageStream', () {
+      CameraPlatform.instance.play(textureId);
+      expect(
+        CameraPlatform.instance.imageStream(textureId),
+        emits(isA<CameraImage>()),
+      );
+    });
+
     test('can stop', () async {
       expect(CameraPlatform.instance.stop(textureId), completes);
     });

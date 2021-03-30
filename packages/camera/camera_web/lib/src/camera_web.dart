@@ -69,6 +69,11 @@ class CameraPlugin extends CameraPlatform {
     return _cameras[textureId]!.takePicture();
   }
 
+  @override
+  Stream<CameraImage> imageStream(int textureId) {
+    return _cameras[textureId]!._imageStreamController.stream;
+  }
+
   void _disposeAllCameras() {
     for (final camera in _cameras.values) {
       camera.dispose();
@@ -84,10 +89,11 @@ class Camera {
     html.Window? window,
   }) : window = window ?? html.window;
 
+  late html.VideoElement videoElement;
   final CameraOptions options;
   final int textureId;
-  late html.VideoElement videoElement;
   final html.Window window;
+  final _imageStreamController = StreamController<CameraImage>.broadcast();
 
   Future<void> initialize() async {
     final isSupported = window.navigator.mediaDevices?.getUserMedia != null;
@@ -140,12 +146,29 @@ class Camera {
     }
   }
 
+  bool get _isPlaying => !videoElement.paused;
+
+  void _onAnimationFrame([num? _]) async {
+    final data = await takePicture();
+    final width = videoElement.videoWidth;
+    final height = videoElement.videoHeight;
+
+    _imageStreamController.add(CameraImage(
+      data: data,
+      width: width,
+      height: height,
+    ));
+
+    if (_isPlaying) window.requestAnimationFrame(_onAnimationFrame);
+  }
+
   Future<void> play() async {
     if (videoElement.srcObject == null) {
       final stream = await _getMediaStream();
       videoElement.srcObject = stream;
     }
     await videoElement.play();
+    _onAnimationFrame();
   }
 
   void stop() {
@@ -163,6 +186,7 @@ class Camera {
     videoElement
       ..srcObject = null
       ..load();
+    _imageStreamController.close();
   }
 
   Future<Uint8List> takePicture() async {
