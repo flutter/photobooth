@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -45,6 +47,11 @@ void main() {
       ));
       expect(find.byType(RetakeButton), findsOneWidget);
     });
+    testWidgets('tapping on retake photo button does nothing', (tester) async {
+      await tester.pumpApp(RetakeButton());
+      await tester.tap(find.byType(RetakeButton));
+      expect(tester.takeException(), isNull);
+    });
     testWidgets('displays a ShareButton', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
@@ -81,14 +88,6 @@ void main() {
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('tapping on retake photo button does nothing', (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      await tester.tap(find.byType(RetakeButton));
-      expect(find.byType(PreviewPage), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    });
     testWidgets('tapping on share photo button opens ShareDialog',
         (tester) async {
       await tester.pumpApp(PreviewPage(
