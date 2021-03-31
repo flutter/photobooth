@@ -11,13 +11,15 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  bloc: ^7.0.0
   camera:
     path: packages/camera/camera
-  tensorflow_models:
-    path: packages/tensorflow_models/tensorflow_models
-  bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   intl: ^0.17.0
+  photobooth_ui:
+    path: packages/photobooth_ui
+  tensorflow_models:
+    path: packages/tensorflow_models/tensorflow_models
 
 dev_dependencies:
   flutter_test:
