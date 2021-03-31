@@ -22,8 +22,6 @@ class MockTensorflowModelsPlatform extends Mock
 
 class FakeCameraOptions extends Fake implements CameraOptions {}
 
-class MockCameraController extends Mock implements CameraController {}
-
 class MockImage extends Mock implements ui.Image {}
 
 class MockPoseNet extends Mock implements tf_models.PoseNet {}
@@ -53,7 +51,6 @@ void main() {
 
   group('PhotoboothPage', () {
     late CameraPlatform cameraPlatform;
-    late CameraController controller;
     late tf_models.TensorflowModelsPlatform tensorflowModelsPlatform;
     late tf_models.PoseNet posenet;
 
@@ -65,17 +62,11 @@ void main() {
         () => cameraPlatform.create(any()),
       ).thenAnswer((_) async => cameraId);
       when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
+      when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
       when(
         () => cameraPlatform.imageStream(any()),
       ).thenAnswer((_) => const Stream<CameraImage>.empty());
       when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
-
-      controller = MockCameraController();
-      when(controller.initialize).thenAnswer((_) async {});
-      when(controller.play).thenAnswer((_) async {});
-      when(() => controller.imageStream).thenAnswer(
-        (_) => const Stream<CameraImage>.empty(),
-      );
 
       posenet = MockPoseNet();
       tensorflowModelsPlatform = MockTensorflowModelsPlatform();
@@ -90,29 +81,20 @@ void main() {
     });
 
     testWidgets('renders Camera', (tester) async {
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(const PhotoboothPage());
       expect(find.byType(Camera), findsOneWidget);
     });
 
     testWidgets('renders placholder when initializing', (tester) async {
-      when(() => controller.value).thenReturn(
-        const CameraState.uninitialized(),
-      );
-      await tester.pumpApp(PhotoboothPage(
-        controller: controller,
-        loadPoseNet: () async => posenet,
-      ));
+      await tester.pumpApp(const PhotoboothPage());
       expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
     });
 
     testWidgets('renders error when unavailable', (tester) async {
-      when(() => controller.value).thenReturn(
-        const CameraState.unavailable(CameraUnknownException()),
-      );
-      await tester.pumpApp(PhotoboothPage(
-        controller: controller,
-        loadPoseNet: () async => posenet,
-      ));
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraUnknownException());
+      await tester.pumpApp(const PhotoboothPage());
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
 
@@ -120,13 +102,9 @@ void main() {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
-      when(() => controller.value).thenReturn(const CameraState.available());
-      when(() => controller.textureId).thenReturn(cameraId);
 
-      await tester.pumpApp(PhotoboothPage(
-        controller: controller,
-        loadPoseNet: () async => posenet,
-      ));
+      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpAndSettle();
 
       expect(find.byType(PhotoboothPreview), findsOneWidget);
       expect(find.byKey(key), findsOneWidget);
@@ -156,9 +134,8 @@ void main() {
         ),
       );
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
-      when(() => controller.imageStream).thenAnswer((_) => Stream.value(image));
-      when(() => controller.value).thenReturn(const CameraState.available());
-      when(() => controller.textureId).thenReturn(cameraId);
+      when(() => cameraPlatform.imageStream(cameraId))
+          .thenAnswer((_) => Stream.value(image));
       when(
         () => posenet.estimateSinglePose(any(), config: any(named: 'config')),
       ).thenAnswer((_) async => pose);
@@ -166,11 +143,8 @@ void main() {
       when(() => pose.keypoints).thenReturn([keypoint]);
 
       await tester.runAsync(() async {
-        await tester.pumpApp(PhotoboothPage(
-          controller: controller,
-          loadPoseNet: () async => posenet,
-        ));
-        await untilCalled(() => controller.imageStream);
+        await tester.pumpApp(const PhotoboothPage());
+        await untilCalled(() => cameraPlatform.imageStream(cameraId));
         await tester.pumpAndSettle();
         await tester.pump();
         expect(
@@ -194,16 +168,12 @@ void main() {
         height: 1,
       );
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
-      when(() => controller.value).thenReturn(const CameraState.available());
-      when(() => controller.textureId).thenReturn(cameraId);
-      when(() => controller.takePicture()).thenAnswer((_) async => image);
-      when(() => controller.play()).thenAnswer((_) async => {});
-      when(() => controller.stop()).thenAnswer((_) async => {});
+      when(
+        () => cameraPlatform.takePicture(cameraId),
+      ).thenAnswer((_) async => image);
 
-      await tester.pumpApp(PhotoboothPage(
-        controller: controller,
-        loadPoseNet: () async => posenet,
-      ));
+      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpAndSettle();
 
       expect(find.byType(PhotoboothPreview), findsOneWidget);
       expect(find.byKey(key), findsOneWidget);
