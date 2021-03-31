@@ -31,5 +31,21 @@
     "previewPageDownloadButtonText": "Download Photo",
     "@previewPageDownloadButtonText": {
         "description": "Button text shown on the retake page which downloads the taken photo."
+    },
+    "shareDialogHeading": "Share",
+    "@shareDialogHeading": {
+        "description": "Heading shown on the share dialog."
+    },
+    "shareDialogSubheading": "Your photo will be deleted after 30 days",
+    "@shareDialogSubheading": {
+        "description": "Subheading shown on the share dialog."
+    },
+    "shareDialogTwitterButtonText": "Twitter",
+    "@shareDialogTwitterButtonText": {
+        "description": "Button text shown on the share dialog which shares on Twitter the photo."
+    },
+    "shareDialogFacebookButtonText": "Facebook",
+    "@shareDialogFacebookButtonText": {
+        "description": "Button text shown on the share dialog which shares on Facebook the photo."
     }
 }
