@@ -36,7 +36,7 @@ class ModelConfig {
   external factory ModelConfig({
     String? architecture,
     int? outputStride,
-    Map<String, int>? inputResolution,
+    dynamic inputResolution,
     double? multiplier,
     int? quantBytes,
   });

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -149,15 +150,7 @@ class Camera {
 
   void _onAnimationFrame([num? _]) async {
     final image = await takePicture();
-    final width = videoElement.videoWidth;
-    final height = videoElement.videoHeight;
-
-    _imageStreamController.add(CameraImage(
-      data: image.data,
-      width: width,
-      height: height,
-    ));
-
+    _imageStreamController.add(image);
     if (_isPlaying) window.requestAnimationFrame(_onAnimationFrame);
   }
 
@@ -189,15 +182,33 @@ class Camera {
   }
 
   Future<CameraImage> takePicture() async {
-    final width = videoElement.videoWidth;
-    final height = videoElement.videoHeight;
+    final videoWidth = videoElement.videoWidth;
+    final videoHeight = videoElement.videoHeight;
+    final widthPx = videoElement.style.width.split('px');
+    final heightPx = videoElement.style.height.split('px');
+    final widthString = widthPx.isNotEmpty ? widthPx.first : '$videoWidth';
+    final heightString = heightPx.isNotEmpty ? heightPx.first : '$videoHeight';
+    final width = int.tryParse(widthString) ?? videoWidth;
+    final height = int.tryParse(heightString) ?? videoHeight;
     final canvas = html.CanvasElement(width: width, height: height);
+    final previewCanvas = html.CanvasElement(
+      width: videoElement.videoWidth,
+      height: videoElement.videoHeight,
+    );
     canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
+    previewCanvas.context2D.drawImageScaled(
+        videoElement, 0, 0, videoElement.videoWidth, videoElement.videoHeight);
+    final decoded = base64.decode(previewCanvas.toDataUrl().split(',')[1]);
     return CameraImage(
-      data: Uint8List.fromList(imageData.data),
-      width: imageData.width,
-      height: imageData.height,
+      imageData: ImageData(
+        data: Uint8List.fromList(imageData.data),
+        decoded: decoded,
+        width: imageData.width,
+        height: imageData.height,
+      ),
+      width: width,
+      height: height,
     );
   }
 }

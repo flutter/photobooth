@@ -105,7 +105,12 @@ void main() {
 
       test('invokes CameraPlatform.takePicture', () async {
         final image = CameraImage(
-          data: Uint8List.fromList([]),
+          imageData: ImageData(
+            data: Uint8List.fromList([]),
+            decoded: Uint8List.fromList([]),
+            width: 1,
+            height: 1,
+          ),
           width: 1,
           height: 1,
         );
@@ -124,16 +129,21 @@ void main() {
       });
 
       test('invokes CameraPlatform.imageStream', () async {
-        final cameraImage = CameraImage(
-          data: Uint8List.fromList([]),
+        final image = CameraImage(
+          imageData: ImageData(
+            data: Uint8List.fromList([]),
+            decoded: Uint8List.fromList([]),
+            width: 0,
+            height: 0,
+          ),
           width: 1,
           height: 1,
         );
 
         when(() => platform.imageStream(any())).thenAnswer(
-          (_) => Stream.value(cameraImage),
+          (_) => Stream.value(image),
         );
-        expect(controller.imageStream, emitsInOrder([cameraImage]));
+        expect(controller.imageStream, emitsInOrder([image]));
         verify(() => platform.imageStream(textureId)).called(1);
       });
     });
