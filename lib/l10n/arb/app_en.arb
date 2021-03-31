@@ -11,5 +11,25 @@
     "landingPageTakePhotoButtonText": "Take Photo",
     "@landingPageTakePhotoButtonText": {
         "description": "Button text shown on the landing page which navigates to the photo booth."
+    },
+    "previewPageHeading": "Nice shot!",
+    "@previewPageHeading": {
+        "description": "Heading shown on the preview page."
+    },
+    "previewPageSubheading": "Share your photo with the community and download the image",
+    "@previewPageSubheading": {
+        "description": "Subheading shown on the preview page."
+    },
+    "previewPageRetakeButtonText": "Retake Photo",
+    "@previewPageRetakeButtonText": {
+        "description": "Button text shown on the retake page which navigates back to the photo booth."
+    },
+    "previewPageShareButtonText": "Share Photo",
+    "@previewPageShareButtonText": {
+        "description": "Button text shown on the retake page which opens a dialog to share the taken photo."
+    },
+    "previewPageDownloadButtonText": "Download Photo",
+    "@previewPageDownloadButtonText": {
+        "description": "Button text shown on the retake page which downloads the taken photo."
     }
 }
