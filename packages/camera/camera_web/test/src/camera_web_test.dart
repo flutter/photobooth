@@ -29,9 +29,7 @@ void main() {
         ..src = 'https://www.w3schools.com/tags/mov_bbb.mp4'
         ..preload = 'true'
         ..width = 10
-        ..height = 10
-        ..style.width = '10px'
-        ..style.height = '10px';
+        ..height = 10;
       when(() => window.navigator).thenReturn(navigator);
       when(() => navigator.mediaDevices).thenReturn(mediaDevices);
       when(
