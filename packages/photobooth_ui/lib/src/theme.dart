@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-/// {@template photo_booth_theme}
 /// Namespace for the Photobooth [ThemeData].
-/// {@endtemplate}
 class PhotoboothTheme {
   /// Default `ThemeData` for Photobooth UI.
   static ThemeData get themeData {
