@@ -9,7 +9,6 @@ import '../../helpers/helpers.dart';
 void main() {
   group('PreviewPage', () {
     late CameraImage cameraImage;
-    const mobileBreakpoint = 600;
 
     setUp(() {
       const width = 1;
@@ -32,43 +31,33 @@ void main() {
       expect(PreviewPage.route(image: cameraImage), isA<MaterialPageRoute>());
     });
 
-    testWidgets('displays a PreviewImage', (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      expect(find.byType(PreviewImage), findsOneWidget);
-    });
-
-    testWidgets('displays a RetakeButton', (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      expect(find.byType(RetakeButton), findsOneWidget);
-    });
-    testWidgets('tapping on retake photo button does nothing', (tester) async {
-      await tester.pumpApp(RetakeButton());
-      await tester.tap(find.byType(RetakeButton));
-      expect(tester.takeException(), isNull);
-    });
-    testWidgets('displays a ShareButton', (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      expect(find.byType(ShareButton), findsOneWidget);
-    });
-
-    testWidgets('displays a DownloadButton', (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      expect(find.byType(DownloadButton), findsOneWidget);
-    });
-
     testWidgets('displays a ButtonsLayout', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
       ));
       expect(find.byType(ButtonsLayout), findsOneWidget);
+    });
+  });
+
+  group('ButtonsLayout', () {
+    late CameraImage cameraImage;
+    const mobileBreakpoint = 600;
+
+    setUp(() {
+      const width = 1;
+      const height = 1;
+      final data = Uint8List.fromList([]);
+
+      cameraImage = CameraImage(
+        height: height,
+        width: width,
+        imageData: ImageData(
+          width: width,
+          height: height,
+          decoded: data,
+          data: data,
+        ),
+      );
     });
 
     testWidgets('displays a DesktopButtonsLayout when width>$mobileBreakpoint',
@@ -88,26 +77,101 @@ void main() {
       expect(find.byType(MobileButtonsLayout), findsOneWidget);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
+  });
+  group('MobileButtonsLayout', () {
+    late CameraImage cameraImage;
 
-    testWidgets('tapping on share photo button opens ShareDialog',
-        (tester) async {
-      await tester.pumpApp(PreviewPage(
-        image: cameraImage,
-      ));
-      await tester.tap(find.byType(ShareButton));
-      await tester.pump();
-      await tester.pump(kThemeAnimationDuration);
-      expect(find.byType(ShareDialog), findsOneWidget);
+    setUp(() {
+      const width = 1;
+      const height = 1;
+      final data = Uint8List.fromList([]);
+
+      cameraImage = CameraImage(
+        height: height,
+        width: width,
+        imageData: ImageData(
+          width: width,
+          height: height,
+          decoded: data,
+          data: data,
+        ),
+      );
     });
 
-    testWidgets('tapping on download photo button does nothing',
-        (tester) async {
+    testWidgets('displays a PreviewImage', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
       ));
-      await tester.tap(find.byType(DownloadButton));
-      expect(find.byType(PreviewPage), findsOneWidget);
-      expect(tester.takeException(), isNull);
+      expect(find.byType(PreviewImage), findsOneWidget);
+    });
+
+    testWidgets('displays a RetakeButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(RetakeButton), findsOneWidget);
+    });
+
+    testWidgets('displays a ShareButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(ShareButton), findsOneWidget);
+    });
+
+    testWidgets('displays a DownloadButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(DownloadButton), findsOneWidget);
+    });
+  });
+  group('DesktopButtonsLayout', () {
+    late CameraImage cameraImage;
+
+    setUp(() {
+      const width = 1;
+      const height = 1;
+      final data = Uint8List.fromList([]);
+
+      cameraImage = CameraImage(
+        height: height,
+        width: width,
+        imageData: ImageData(
+          width: width,
+          height: height,
+          decoded: data,
+          data: data,
+        ),
+      );
+    });
+
+    testWidgets('displays a PreviewImage', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(PreviewImage), findsOneWidget);
+    });
+
+    testWidgets('displays a RetakeButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(RetakeButton), findsOneWidget);
+    });
+
+    testWidgets('displays a ShareButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(ShareButton), findsOneWidget);
+    });
+
+    testWidgets('displays a DownloadButton', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      expect(find.byType(DownloadButton), findsOneWidget);
     });
   });
 }

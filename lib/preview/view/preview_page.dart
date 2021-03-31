@@ -2,7 +2,6 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/preview/preview.dart';
-import 'package:io_photobooth/preview/view/share_dialog.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
@@ -134,61 +133,6 @@ class MobileButtonsLayout extends StatelessWidget {
         ),
         const DownloadButton(),
       ],
-    );
-  }
-}
-
-@visibleForTesting
-class RetakeButton extends StatelessWidget {
-  const RetakeButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return ElevatedButton(
-      child: Text(l10n.previewPageRetakeButtonText),
-      onPressed: () => print(''),
-    );
-  }
-}
-
-@visibleForTesting
-class ShareButton extends StatelessWidget {
-  const ShareButton({
-    Key? key,
-    required this.cameraImage,
-  }) : super(key: key);
-
-  final CameraImage cameraImage;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return ElevatedButton(
-      child: Text(l10n.previewPageShareButtonText),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) => ShareDialog(
-            cameraImage: cameraImage,
-          ),
-        );
-      },
-    );
-  }
-}
-
-class DownloadButton extends StatelessWidget {
-  const DownloadButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return ElevatedButton(
-      child: Text(l10n.previewPageDownloadButtonText),
-      onPressed: () {},
     );
   }
 }
