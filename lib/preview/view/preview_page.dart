@@ -16,7 +16,6 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    print(image.height);
     return Scaffold(
         appBar: AppBar(),
         body: SingleChildScrollView(
