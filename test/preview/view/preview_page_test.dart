@@ -80,5 +80,31 @@ void main() {
       expect(find.byType(MobileButtonsLayout), findsOneWidget);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
+
+    testWidgets('tapping on retake photo button does nothing', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      await tester.tap(find.byType(RetakeButton));
+      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+    testWidgets('tapping on share photo button does nothing', (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      await tester.tap(find.byType(ShareButton));
+      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+    testWidgets('tapping on download photo button does nothing',
+        (tester) async {
+      await tester.pumpApp(PreviewPage(
+        image: cameraImage,
+      ));
+      await tester.tap(find.byType(DownloadButton));
+      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
   });
 }
