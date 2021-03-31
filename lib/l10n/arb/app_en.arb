@@ -20,15 +20,15 @@
     "@previewPageSubheading": {
         "description": "Subheading shown on the preview page."
     },
-    "previewPageRetakeButtonText": "Retake Photo",
+    "previewPageRetakeButtonText": "Retake",
     "@previewPageRetakeButtonText": {
         "description": "Button text shown on the retake page which navigates back to the photo booth."
     },
-    "previewPageShareButtonText": "Share Photo",
+    "previewPageShareButtonText": "Share",
     "@previewPageShareButtonText": {
         "description": "Button text shown on the retake page which opens a dialog to share the taken photo."
     },
-    "previewPageDownloadButtonText": "Download Photo",
+    "previewPageDownloadButtonText": "Download",
     "@previewPageDownloadButtonText": {
         "description": "Button text shown on the retake page which downloads the taken photo."
     },
