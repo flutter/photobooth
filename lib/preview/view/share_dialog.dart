@@ -18,7 +18,7 @@ class ShareDialog extends StatelessWidget {
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 168,
+          horizontal: 30,
           vertical: 30,
         ),
         child: SingleChildScrollView(
@@ -42,9 +42,21 @@ class ShareDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
-              const TwitterButton(),
-              const SizedBox(height: 15),
-              const FacebookButton(),
+              Wrap(
+                runSpacing: 15,
+                spacing: 15,
+                alignment: WrapAlignment.center,
+                children: [
+                  const TwitterButton(),
+                  const FacebookButton(),
+                ],
+              ),
+              const SizedBox(height: 68),
+              Text(
+                l10n.shareDialogDeleteText,
+                style: theme.textTheme.subtitle2,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
