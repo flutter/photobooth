@@ -149,6 +149,7 @@ class Camera {
   bool get _isPlaying => !videoElement.paused;
 
   void _onAnimationFrame([num? _]) async {
+    if (_imageStreamController.isClosed) return;
     final image = await takePicture();
     _imageStreamController.add(image);
     if (_isPlaying) window.requestAnimationFrame(_onAnimationFrame);
@@ -192,13 +193,13 @@ class Camera {
     final height = int.tryParse(heightString) ?? videoHeight;
     final canvas = html.CanvasElement(width: width, height: height);
     final previewCanvas = html.CanvasElement(
-      width: videoElement.videoWidth,
-      height: videoElement.videoHeight,
+      width: videoWidth,
+      height: videoHeight,
     );
     canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
-    previewCanvas.context2D.drawImageScaled(
-        videoElement, 0, 0, videoElement.videoWidth, videoElement.videoHeight);
+    previewCanvas.context2D
+        .drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
     final decoded = base64.decode(previewCanvas.toDataUrl().split(',')[1]);
     return CameraImage(
       imageData: ImageData(
