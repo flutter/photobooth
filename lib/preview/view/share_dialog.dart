@@ -16,50 +16,62 @@ class ShareDialog extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30,
-          vertical: 30,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PreviewImage(
-                image: cameraImage,
-                height: 200,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.shareDialogHeading,
-                style: theme.textTheme.headline4,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.shareDialogSubheading,
-                style: theme.textTheme.headline6,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Wrap(
-                runSpacing: 15,
-                spacing: 15,
-                alignment: WrapAlignment.center,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30,
+              vertical: 30,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const TwitterButton(),
-                  const FacebookButton(),
+                  PreviewImage(
+                    image: cameraImage,
+                    height: 200,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.shareDialogHeading,
+                    style: theme.textTheme.headline4,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.shareDialogSubheading,
+                    style: theme.textTheme.headline6,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Wrap(
+                    runSpacing: 15,
+                    spacing: 15,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      const TwitterButton(),
+                      const FacebookButton(),
+                    ],
+                  ),
+                  const SizedBox(height: 68),
+                  Text(
+                    l10n.shareDialogDeleteText,
+                    style: theme.textTheme.subtitle2,
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
-              const SizedBox(height: 68),
-              Text(
-                l10n.shareDialogDeleteText,
-                style: theme.textTheme.subtitle2,
-                textAlign: TextAlign.center,
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            left: 15,
+            top: 15,
+            child: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
       ),
     );
   }

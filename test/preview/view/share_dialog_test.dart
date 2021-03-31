@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import '../../helpers/helpers.dart';
@@ -41,6 +42,7 @@ void main() {
       expect(find.byType(ShareDialog), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(ShareDialog(
         cameraImage: cameraImage,
@@ -55,6 +57,15 @@ void main() {
       await tester.tap(find.byType(FacebookButton));
       expect(find.byType(ShareDialog), findsOneWidget);
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('taps on close will dismiss the popup', (tester) async {
+      await tester.pumpApp(ShareDialog(
+        cameraImage: cameraImage,
+      ));
+      await tester.tap(find.byIcon(Icons.clear));
+      await tester.pumpAndSettle();
+      expect(find.byType(ShareDialog), findsNothing);
     });
   });
 }
