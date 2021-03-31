@@ -45,12 +45,14 @@ void main() {
       ));
       expect(find.byType(RetakeButton), findsOneWidget);
     });
+
     testWidgets('displays a ShareButton', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
       ));
       expect(find.byType(ShareButton), findsOneWidget);
     });
+
     testWidgets('displays a DownloadButton', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
@@ -64,6 +66,7 @@ void main() {
       ));
       expect(find.byType(ButtonsLayout), findsOneWidget);
     });
+
     testWidgets('displays a DesktopButtonsLayout when width>$mobileBreakpoint',
         (tester) async {
       await tester.pumpApp(PreviewPage(
@@ -71,6 +74,7 @@ void main() {
       ));
       expect(find.byType(DesktopButtonsLayout), findsOneWidget);
     });
+
     testWidgets('displays a MobileButtonsLayout when width<=$mobileBreakpoint',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(600, 1000);
@@ -89,6 +93,7 @@ void main() {
       expect(find.byType(PreviewPage), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
     testWidgets('tapping on share photo button does nothing', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
@@ -97,6 +102,7 @@ void main() {
       expect(find.byType(PreviewPage), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
     testWidgets('tapping on download photo button does nothing',
         (tester) async {
       await tester.pumpApp(PreviewPage(

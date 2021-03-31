@@ -142,7 +142,7 @@ class RetakeButton extends StatelessWidget {
 
     return ElevatedButton(
       child: Text(l10n.previewPageRetakeButtonText),
-      onPressed: () => print(''),
+      onPressed: () {},
     );
   }
 }
@@ -156,7 +156,7 @@ class ShareButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       child: Text(l10n.previewPageShareButtonText),
-      onPressed: () => print(''),
+      onPressed: () {},
     );
   }
 }
@@ -169,7 +169,7 @@ class DownloadButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       child: Text(l10n.previewPageDownloadButtonText),
-      onPressed: () => print(''),
+      onPressed: () {},
     );
   }
 }
