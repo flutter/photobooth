@@ -180,7 +180,6 @@ class ShareButton extends StatelessWidget {
   }
 }
 
-@visibleForTesting
 class DownloadButton extends StatelessWidget {
   const DownloadButton({Key? key}) : super(key: key);
 
@@ -189,7 +188,7 @@ class DownloadButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       child: Text(l10n.previewPageDownloadButtonText),
-      onPressed: () => print(''),
+      onPressed: () {},
     );
   }
 }

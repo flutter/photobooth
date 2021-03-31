@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,6 +56,7 @@ void main() {
       ));
       expect(find.byType(ShareButton), findsOneWidget);
     });
+
     testWidgets('displays a DownloadButton', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
@@ -71,6 +70,7 @@ void main() {
       ));
       expect(find.byType(ButtonsLayout), findsOneWidget);
     });
+
     testWidgets('displays a DesktopButtonsLayout when width>$mobileBreakpoint',
         (tester) async {
       await tester.pumpApp(PreviewPage(
@@ -78,6 +78,7 @@ void main() {
       ));
       expect(find.byType(DesktopButtonsLayout), findsOneWidget);
     });
+
     testWidgets('displays a MobileButtonsLayout when width<=$mobileBreakpoint',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(600, 1000);
@@ -98,6 +99,7 @@ void main() {
       await tester.pump(kThemeAnimationDuration);
       expect(find.byType(ShareDialog), findsOneWidget);
     });
+
     testWidgets('tapping on download photo button does nothing',
         (tester) async {
       await tester.pumpApp(PreviewPage(
