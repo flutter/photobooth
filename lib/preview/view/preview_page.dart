@@ -18,17 +18,14 @@ class PreviewPage extends StatelessWidget {
     final l10n = context.l10n;
     return Scaffold(
         appBar: AppBar(),
-        body: SingleChildScrollView(
-          child: Center(
+        body: Center(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 50),
-                  PreviewImage(
-                    image: image,
-                  ),
+                  PreviewImage(image: image),
                   const SizedBox(height: 24),
                   Text(
                     l10n.previewPageHeading,
