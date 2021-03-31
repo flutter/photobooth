@@ -149,6 +149,7 @@ class Camera {
   bool get _isPlaying => !videoElement.paused;
 
   void _onAnimationFrame([num? _]) async {
+    if (_imageStreamController.isClosed) return;
     final image = await takePicture();
     _imageStreamController.add(image);
     if (_isPlaying) window.requestAnimationFrame(_onAnimationFrame);

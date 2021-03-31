@@ -24,25 +24,18 @@ const _minPartConfidence = 0.5;
 const _supportedParts = ['leftShoulder', 'rightShoulder'];
 
 class PhotoboothPage extends StatefulWidget {
-  PhotoboothPage({
-    Key? key,
-    CameraController? controller,
-    ValueGetter<Future<posenet.PoseNet>>? loadPoseNet,
-  })  : controller = controller ?? CameraController(),
-        loadPoseNet = (loadPoseNet ?? () => posenet.load(_posenetConfig)),
-        super(key: key);
+  const PhotoboothPage({Key? key}) : super(key: key);
 
-  final CameraController controller;
-  final ValueGetter<Future<posenet.PoseNet>> loadPoseNet;
-
-  static Route route() => MaterialPageRoute(builder: (_) => PhotoboothPage());
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => const PhotoboothPage());
+  }
 
   @override
   _PhotoboothPageState createState() => _PhotoboothPageState();
 }
 
 class _PhotoboothPageState extends State<PhotoboothPage> {
-  CameraController get _controller => widget.controller;
+  final _controller = CameraController();
   StreamSubscription<CameraImage>? _subscription;
   posenet.PoseNet? _net;
   CameraImage? _image;
@@ -64,6 +57,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   @override
   void dispose() {
     _subscription?.cancel();
+    _controller.dispose();
     _net?.dispose();
     super.dispose();
   }
@@ -74,7 +68,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   }
 
   Future<void> _initializePoseNet() async {
-    _net = await widget.loadPoseNet();
+    _net = await posenet.load(_posenetConfig);
   }
 
   Future<void> _initializeAssets() async {
@@ -97,13 +91,13 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   }
 
   void _onSnapPressed() async {
-    final image = await widget.controller.takePicture();
+    final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image);
     _subscription?.pause();
-    await widget.controller.stop();
+    await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
     _subscription?.resume();
-    await widget.controller.play();
+    await _controller.play();
   }
 
   @override
@@ -113,7 +107,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
     final dash = _dash;
     return Scaffold(
       body: Camera(
-        controller: widget.controller,
+        controller: _controller,
         placeholder: (_) => Center(child: PhotoboothPlaceholder()),
         preview: (context, preview) {
           return PhotoboothPreview(
