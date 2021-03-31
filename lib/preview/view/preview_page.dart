@@ -27,15 +27,8 @@ class PreviewPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 50),
-                  Transform.rotate(
-                    angle: -15 / 360,
-                    child: Image.memory(
-                      Uint8List.fromList(image.imageData.decoded),
-                      isAntiAlias: true,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Text('Error, $error, $stackTrace');
-                      },
-                    ),
+                  PreviewImage(
+                    image: image,
                   ),
                   const SizedBox(height: 24),
                   Text(
@@ -50,7 +43,7 @@ class PreviewPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  const _ButtonsLayout(),
+                  const ButtonsLayout(),
                 ],
               ),
             ),
@@ -59,8 +52,28 @@ class PreviewPage extends StatelessWidget {
   }
 }
 
-class _ButtonsLayout extends StatelessWidget {
-  const _ButtonsLayout({Key? key}) : super(key: key);
+class PreviewImage extends StatelessWidget {
+  const PreviewImage({Key? key, required this.image}) : super(key: key);
+
+  final CameraImage image;
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: -15 / 360,
+      child: Image.memory(
+        Uint8List.fromList(image.imageData.decoded),
+        isAntiAlias: true,
+        errorBuilder: (context, error, stackTrace) {
+          return Text('Error, $error, $stackTrace');
+        },
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+class ButtonsLayout extends StatelessWidget {
+  const ButtonsLayout({Key? key}) : super(key: key);
   static const int mobileBreakpoint = 600;
   @override
   Widget build(BuildContext context) {
@@ -74,6 +87,7 @@ class _ButtonsLayout extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({Key? key}) : super(key: key);
 
@@ -96,6 +110,7 @@ class DesktopButtonsLayout extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({Key? key}) : super(key: key);
 
