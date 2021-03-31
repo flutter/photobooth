@@ -55,8 +55,8 @@ void main() {
       expect(CameraPlatform.instance.play(textureId), completes);
     });
 
-    test('can subscribe to imageStream', () {
-      CameraPlatform.instance.play(textureId);
+    test('can subscribe to imageStream', () async {
+      await CameraPlatform.instance.play(textureId);
       expect(
         CameraPlatform.instance.imageStream(textureId),
         emits(isA<CameraImage>()),

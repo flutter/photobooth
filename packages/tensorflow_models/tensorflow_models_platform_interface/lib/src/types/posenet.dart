@@ -34,7 +34,7 @@ class ModelConfig {
   /// to be a square with the same width and height.
   /// If width and height are provided, the image will be resized and padded
   /// to the specified width and height.
-  final Map<String, int>? inputResolution;
+  final dynamic inputResolution;
 
   /// Can be one of 1.0, 0.75, or 0.50.
   /// The value is used only by the MobileNetV1 architecture.
@@ -69,7 +69,8 @@ abstract class PoseNet {
 }
 
 class SinglePersonInterfaceConfig extends InferenceConfig {
-  const SinglePersonInterfaceConfig();
+  const SinglePersonInterfaceConfig({bool? flipHorizontal})
+      : super(flipHorizontal: flipHorizontal);
 }
 
 class InferenceConfig {
