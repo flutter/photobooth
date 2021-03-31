@@ -147,7 +147,6 @@ class RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
     return ElevatedButton(
       child: Text(l10n.previewPageRetakeButtonText),
       onPressed: () => print(''),
@@ -181,6 +180,7 @@ class ShareButton extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class DownloadButton extends StatelessWidget {
   const DownloadButton({Key? key}) : super(key: key);
 

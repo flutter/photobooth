@@ -89,13 +89,15 @@ void main() {
       expect(find.byType(PreviewPage), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
-    testWidgets('tapping on share photo button does nothing', (tester) async {
+    testWidgets('tapping on share photo button opens ShareDialog',
+        (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
       ));
       await tester.tap(find.byType(ShareButton));
-      expect(find.byType(PreviewPage), findsOneWidget);
-      expect(tester.takeException(), isNull);
+      await tester.pump();
+      await tester.pump(kThemeAnimationDuration);
+      expect(find.byType(ShareDialog), findsOneWidget);
     });
     testWidgets('tapping on download photo button does nothing',
         (tester) async {

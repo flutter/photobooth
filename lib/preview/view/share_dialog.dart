@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -23,30 +21,32 @@ class ShareDialog extends StatelessWidget {
           horizontal: 168,
           vertical: 30,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PreviewImage(
-              image: cameraImage,
-              height: 200,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.shareDialogHeading,
-              style: theme.textTheme.headline4,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.shareDialogSubheading,
-              style: theme.textTheme.headline6,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            const TwitterButton(),
-            const SizedBox(height: 15),
-            const FacebookButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PreviewImage(
+                image: cameraImage,
+                height: 200,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.shareDialogHeading,
+                style: theme.textTheme.headline4,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.shareDialogSubheading,
+                style: theme.textTheme.headline6,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              const TwitterButton(),
+              const SizedBox(height: 15),
+              const FacebookButton(),
+            ],
+          ),
         ),
       ),
     );
