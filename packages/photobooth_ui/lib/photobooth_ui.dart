@@ -1,3 +1,4 @@
 library photobooth_ui;
 
-export 'src/photobooth_ui.dart';
+export 'src/colors.dart';
+export 'src/theme.dart';
