@@ -280,6 +280,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  photobooth_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/photobooth_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   plugin_platform_interface:
     dependency: transitive
     description:
