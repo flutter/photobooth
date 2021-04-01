@@ -17,7 +17,6 @@ class ShareDialog extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     return Dialog(
-      backgroundColor: PhotoboothColors.whiteBackground,
       child: Stack(
         children: [
           Padding(

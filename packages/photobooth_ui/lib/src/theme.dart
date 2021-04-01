@@ -11,23 +11,24 @@ class PhotoboothTheme {
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       textTheme: _textTheme,
+      dialogBackgroundColor: PhotoboothColors.whiteBackground,
     );
   }
 
   static TextTheme get _textTheme => TextTheme(
-        headline1: VeryGoodTextStyle.headline1,
-        headline2: VeryGoodTextStyle.headline2,
-        headline3: VeryGoodTextStyle.headline3,
-        headline4: VeryGoodTextStyle.headline4,
-        headline5: VeryGoodTextStyle.headline5,
-        headline6: VeryGoodTextStyle.headline6,
-        subtitle1: VeryGoodTextStyle.subtitle1,
-        subtitle2: VeryGoodTextStyle.subtitle2,
-        bodyText1: VeryGoodTextStyle.bodyText1,
-        bodyText2: VeryGoodTextStyle.bodyText2,
-        caption: VeryGoodTextStyle.caption,
-        overline: VeryGoodTextStyle.overline,
-        button: VeryGoodTextStyle.button,
+        headline1: PhotoboothTextStyle.headline1,
+        headline2: PhotoboothTextStyle.headline2,
+        headline3: PhotoboothTextStyle.headline3,
+        headline4: PhotoboothTextStyle.headline4,
+        headline5: PhotoboothTextStyle.headline5,
+        headline6: PhotoboothTextStyle.headline6,
+        subtitle1: PhotoboothTextStyle.subtitle1,
+        subtitle2: PhotoboothTextStyle.subtitle2,
+        bodyText1: PhotoboothTextStyle.bodyText1,
+        bodyText2: PhotoboothTextStyle.bodyText2,
+        caption: PhotoboothTextStyle.caption,
+        overline: PhotoboothTextStyle.overline,
+        button: PhotoboothTextStyle.button,
       );
 
   static AppBarTheme get _appBarTheme {
