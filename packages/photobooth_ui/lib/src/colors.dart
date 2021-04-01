@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 /// Defines the color palette for the Photobooth UI.
 abstract class PhotoboothColors {
   /// Black
-  static const Color black = Color(0xFF000000);
+  static const Color black = Color(0xFF202124);
 
   /// Gray
   static const Color gray = Color(0xFF202124);
@@ -18,5 +18,8 @@ abstract class PhotoboothColors {
   static const Color transparent = Color(0x00000000);
 
   /// Light Blue
-  static const Color lightBlue = Color(0xFF13B9FF);
+  static const Color lightBlue = Color(0xFF428EFF);
+
+  /// Light Blue
+  static const Color blueButton = Color(0xFF428EFF);
 }

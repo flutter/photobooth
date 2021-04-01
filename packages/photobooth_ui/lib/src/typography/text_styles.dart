@@ -82,12 +82,11 @@ class VeryGoodTextStyle {
 
   /// Button Text Style
   static TextStyle get button => _baseTextStyle.copyWith(
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: VeryGoodFontWeight.medium,
       );
 
   static const _baseTextStyle = TextStyle(
-    fontFamily: 'RedHatDisplay',
     package: 'photobooth_ui',
     color: PhotoboothColors.black,
     fontWeight: VeryGoodFontWeight.regular,
