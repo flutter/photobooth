@@ -19,10 +19,7 @@ class ShareDialog extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
-              vertical: 30,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

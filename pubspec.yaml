@@ -14,6 +14,7 @@ dependencies:
   bloc: ^7.0.0
   camera:
     path: packages/camera/camera
+  file_selector: ^0.8.2
   flutter_bloc: ^7.0.0
   image: ^3.0.2
   intl: ^0.17.0
@@ -21,7 +22,6 @@ dependencies:
     path: packages/photobooth_ui
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
-  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:

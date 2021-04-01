@@ -255,7 +255,6 @@ Future<ImageData> _composite(CameraImage picture, posenet.Pose? pose) async {
     );
   }
 
-  print('image size ${picture.thumbnail.width} x ${picture.thumbnail.height}');
   final data = Uint8List.fromList(img.encodePng(modifiedImage));
   return ImageData(
     data: data,

@@ -156,30 +156,48 @@ void main() async {
     testWidgets('navigates to PreviewPage photo is taken', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
+      const keypoint = tf_models.Keypoint(
+        part: 'leftShoulder',
+        score: 0.9,
+        position: tf_models.Vector2D(x: 0, y: 0),
+      );
+      final pose = MockPose();
       final image = CameraImage(
         raw: ImageData(
-          data: Uint8List.fromList([]),
-          width: 0,
-          height: 0,
+          data: Uint8List.fromList(transparentImage),
+          width: 4,
+          height: 4,
         ),
         thumbnail: ImageData(
-          data: Uint8List.fromList([]),
-          width: 0,
-          height: 0,
+          data: Uint8List.fromList(transparentImage),
+          width: 4,
+          height: 4,
         ),
-        width: 1,
-        height: 1,
+        width: 4,
+        height: 4,
       );
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+      when(() => cameraPlatform.imageStream(cameraId))
+          .thenAnswer((_) => Stream.value(image));
       when(
         () => cameraPlatform.takePicture(cameraId),
       ).thenAnswer((_) async => image);
+      when(
+        () => posenet.estimateSinglePose(any(), config: any(named: 'config')),
+      ).thenAnswer((_) async => pose);
+      when(() => pose.score).thenReturn(0.9);
+      when(() => pose.keypoints).thenReturn([keypoint]);
 
-      await tester.pumpApp(const PhotoboothPage());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(PhotoboothPreview), findsOneWidget);
-      expect(find.byKey(key), findsOneWidget);
+      await tester.runAsync(() async {
+        await tester.pumpApp(const PhotoboothPage());
+        await untilCalled(() => cameraPlatform.imageStream(cameraId));
+        await tester.pumpAndSettle();
+        await tester.pump();
+        expect(
+          find.byKey(const Key('photoboothView_posePainter_customPainter')),
+          findsOneWidget,
+        );
+      });
 
       await tester.tap(
         find.byKey(const Key('photoboothPreview_photo_floatingActionButton')),
@@ -187,7 +205,7 @@ void main() async {
 
       await tester.pumpAndSettle();
       final previewPage = tester.widget<PreviewPage>(find.byType(PreviewPage));
-      expect(previewPage.image, equals(image));
+      expect(previewPage.image, isNotNull);
 
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();

@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
@@ -88,7 +89,7 @@ class DesktopButtonsLayout extends StatelessWidget {
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
-        Flexible(child: DownloadButton(url: Uri.dataFromBytes(image.data))),
+        Flexible(child: DownloadButton(file: image.toFile())),
       ],
     );
   }
@@ -112,8 +113,14 @@ class MobileButtonsLayout extends StatelessWidget {
         const SizedBox(height: 15),
         ShareButton(image: image),
         const SizedBox(height: 20),
-        DownloadButton(url: Uri.dataFromBytes(image.data)),
+        DownloadButton(file: image.toFile()),
       ],
     );
+  }
+}
+
+extension on ImageData {
+  XFile toFile() {
+    return XFile.fromData(data, mimeType: 'image/png', name: 'photobooth.png');
   }
 }
