@@ -8,24 +8,15 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('ShareDialog', () {
-    late CameraImage cameraImage;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
+    const width = 1;
+    const height = 1;
+    final data = Uint8List.fromList([]);
+    final cameraImage = CameraImage(
+      width: width,
+      height: height,
+      raw: ImageData(width: width, height: height, data: data),
+      thumbnail: ImageData(width: width, height: height, data: data),
+    );
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(ShareDialog(

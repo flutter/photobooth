@@ -105,9 +105,13 @@ void main() {
 
       test('invokes CameraPlatform.takePicture', () async {
         final image = CameraImage(
-          imageData: ImageData(
+          raw: ImageData(
             data: Uint8List.fromList([]),
-            decoded: Uint8List.fromList([]),
+            width: 1,
+            height: 1,
+          ),
+          thumbnail: ImageData(
+            data: Uint8List.fromList([]),
             width: 1,
             height: 1,
           ),
@@ -130,9 +134,13 @@ void main() {
 
       test('invokes CameraPlatform.imageStream', () async {
         final image = CameraImage(
-          imageData: ImageData(
+          raw: ImageData(
             data: Uint8List.fromList([]),
-            decoded: Uint8List.fromList([]),
+            width: 0,
+            height: 0,
+          ),
+          thumbnail: ImageData(
+            data: Uint8List.fromList([]),
             width: 0,
             height: 0,
           ),

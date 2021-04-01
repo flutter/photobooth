@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -35,10 +36,11 @@ class FakeImageData extends Fake implements tf_models.ImageData {}
 class FakeSinglePersonInterfaceConfig extends Fake
     implements tf_models.SinglePersonInterfaceConfig {}
 
-void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
+void main() async {
   const cameraId = 1;
+
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await Assets.load();
 
   setUpAll(() {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
@@ -126,12 +128,8 @@ void main() {
       final image = CameraImage(
         height: height,
         width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
+        raw: ImageData(width: width, height: height, data: data),
+        thumbnail: ImageData(width: width, height: height, data: data),
       );
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
       when(() => cameraPlatform.imageStream(cameraId))
@@ -158,9 +156,13 @@ void main() {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       final image = CameraImage(
-        imageData: ImageData(
+        raw: ImageData(
           data: Uint8List.fromList([]),
-          decoded: Uint8List.fromList([]),
+          width: 0,
+          height: 0,
+        ),
+        thumbnail: ImageData(
+          data: Uint8List.fromList([]),
           width: 0,
           height: 0,
         ),
