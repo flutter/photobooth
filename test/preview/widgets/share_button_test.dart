@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import '../../helpers/helpers.dart';
@@ -19,6 +20,8 @@ void main() {
   group('ShareButton', () {
     testWidgets('tapping on share photo button opens ShareDialog',
         (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(800, 800);
+      tester.binding.window.devicePixelRatioTestValue = 1;
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
       ));

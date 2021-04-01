@@ -19,7 +19,7 @@ class CameraState {
 
 class CameraController extends ValueNotifier<CameraState> {
   CameraController({this.options = const CameraOptions()})
-      : _cameraPlatform = CameraPlatform.instance..init(),
+      : _cameraPlatform = CameraPlatform.instance,
         super(const CameraState.uninitialized());
 
   final CameraOptions options;
@@ -40,6 +40,7 @@ class CameraController extends ValueNotifier<CameraState> {
   /// Attempts to use the given [options] to initialize a camera.
   Future<void> initialize() async {
     try {
+      await _cameraPlatform.init();
       _textureId = await _cameraPlatform.create(options);
       value = const CameraState.available();
     } on CameraException catch (e) {

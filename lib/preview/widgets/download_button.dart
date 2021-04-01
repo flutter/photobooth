@@ -7,15 +7,9 @@ class DownloadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-        height: 54,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.previewPageDownloadButtonText),
-        onPressed: () {},
-      ),
+    return ElevatedButton(
+      child: Text(l10n.previewPageDownloadButtonText),
+      onPressed: () {},
     );
   }
 }

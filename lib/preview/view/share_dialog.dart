@@ -34,13 +34,13 @@ class ShareDialog extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     l10n.shareDialogHeading,
-                    style: theme.textTheme.headline4,
+                    style: theme.textTheme.headline1,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
                   Text(
                     l10n.shareDialogSubheading,
-                    style: theme.textTheme.headline6,
+                    style: theme.textTheme.headline2,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
@@ -56,7 +56,7 @@ class ShareDialog extends StatelessWidget {
                   const SizedBox(height: 68),
                   Text(
                     l10n.shareDialogDeleteText,
-                    style: theme.textTheme.subtitle2,
+                    style: theme.textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -83,15 +83,9 @@ class TwitterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-        height: 50,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.shareDialogTwitterButtonText),
-        onPressed: () => print(''),
-      ),
+    return ElevatedButton(
+      child: Text(l10n.shareDialogTwitterButtonText),
+      onPressed: () {},
     );
   }
 }
@@ -102,15 +96,9 @@ class FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-        height: 50,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.shareDialogFacebookButtonText),
-        onPressed: () => print(''),
-      ),
+    return ElevatedButton(
+      child: Text(l10n.shareDialogFacebookButtonText),
+      onPressed: () {},
     );
   }
 }

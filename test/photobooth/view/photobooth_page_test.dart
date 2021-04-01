@@ -97,6 +97,7 @@ void main() async {
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraUnknownException());
       await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
 

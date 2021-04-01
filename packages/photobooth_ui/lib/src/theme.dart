@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:photobooth_ui/src/typography/typography.dart';
 
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
@@ -9,8 +10,26 @@ class PhotoboothTheme {
       accentColor: PhotoboothColors.lightBlue,
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
+      textTheme: _textTheme,
+      dialogBackgroundColor: PhotoboothColors.whiteBackground,
     );
   }
+
+  static TextTheme get _textTheme => TextTheme(
+        headline1: PhotoboothTextStyle.headline1,
+        headline2: PhotoboothTextStyle.headline2,
+        headline3: PhotoboothTextStyle.headline3,
+        headline4: PhotoboothTextStyle.headline4,
+        headline5: PhotoboothTextStyle.headline5,
+        headline6: PhotoboothTextStyle.headline6,
+        subtitle1: PhotoboothTextStyle.subtitle1,
+        subtitle2: PhotoboothTextStyle.subtitle2,
+        bodyText1: PhotoboothTextStyle.bodyText1,
+        bodyText2: PhotoboothTextStyle.bodyText2,
+        caption: PhotoboothTextStyle.caption,
+        overline: PhotoboothTextStyle.overline,
+        button: PhotoboothTextStyle.button,
+      );
 
   static AppBarTheme get _appBarTheme {
     return const AppBarTheme(color: PhotoboothColors.lightBlue);
@@ -23,6 +42,9 @@ class PhotoboothTheme {
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         padding: const EdgeInsets.all(24),
+        textStyle: _textTheme.button,
+        primary: PhotoboothColors.blueButton,
+        minimumSize: const Size(208, 54),
       ),
     );
   }

@@ -40,6 +40,13 @@ void main() {
         expect(controller.textureId, equals(textureId));
       });
 
+      test('initializes camera platform', () async {
+        final controller = CameraController();
+        verifyNever(() => platform.init());
+        await controller.initialize();
+        verify(() => platform.init()).called(1);
+      });
+
       test('updates state to available on success', () async {
         final controller = CameraController();
         await controller.initialize();
