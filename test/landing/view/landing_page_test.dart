@@ -14,6 +14,8 @@ class FakeRoute extends Fake implements Route<dynamic> {}
 class FakeRoutePhotobooth extends Fake implements Route<PhotoboothPage> {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   setUpAll(() {
     registerFallbackValue<Route<dynamic>>(FakeRoute());
     registerFallbackValue<Route<PhotoboothPage>>(FakeRoutePhotobooth());
@@ -34,7 +36,6 @@ void main() {
     testWidgets('tapping on take photo button navigates to PhotoboothPage',
         (tester) async {
       final observer = MockNavigatorObserver();
-      tester.binding.window.physicalSizeTestValue = const Size(600, 1000);
 
       await tester.pumpApp(const LandingView(), navigatorObserver: observer);
       await tester.tap(find.byType(TakePhotoButton));
@@ -42,6 +43,8 @@ void main() {
 
       verify(() => observer.didPush(any<Route<PhotoboothPage>>(), any()))
           .called(1);
+      expect(tester.takeException(), isNull);
+      expect(find.byType(PhotoboothPage), findsOneWidget);
     });
   });
 }
