@@ -18,67 +18,62 @@ class ShareDialog extends StatelessWidget {
     final l10n = context.l10n;
     return Dialog(
       backgroundColor: PhotoboothColors.whiteBackground,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 883,
-        ),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 30,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    PreviewImage(
-                      image: cameraImage,
-                      height: 200,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.shareDialogHeading,
-                      style: theme.textTheme.headline1,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.shareDialogSubheading,
-                      style: theme.textTheme.headline2,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    Wrap(
-                      runSpacing: 15,
-                      spacing: 15,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        const TwitterButton(),
-                        const FacebookButton(),
-                      ],
-                    ),
-                    const SizedBox(height: 68),
-                    Text(
-                      l10n.shareDialogDeleteText,
-                      style: theme.textTheme.bodyText2,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30,
+              vertical: 30,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PreviewImage(
+                    image: cameraImage,
+                    height: 200,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.shareDialogHeading,
+                    style: theme.textTheme.headline1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.shareDialogSubheading,
+                    style: theme.textTheme.headline2,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Wrap(
+                    runSpacing: 15,
+                    spacing: 15,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      const TwitterButton(),
+                      const FacebookButton(),
+                    ],
+                  ),
+                  const SizedBox(height: 68),
+                  Text(
+                    l10n.shareDialogDeleteText,
+                    style: theme.textTheme.bodyText2,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              left: 15,
-              top: 15,
-              child: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+          ),
+          Positioned(
+            left: 15,
+            top: 15,
+            child: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
