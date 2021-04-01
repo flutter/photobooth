@@ -1,25 +1,11 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:mocktail/mocktail.dart';
-
 import '../../helpers/helpers.dart';
 
-class MockNavigatorObserver extends Mock implements NavigatorObserver {}
-
-class FakeRoute extends Fake implements Route<dynamic> {}
-
-class FakeRoutePhotobooth extends Fake implements Route<PhotoboothPage> {}
-
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() {
-    registerFallbackValue<Route<dynamic>>(FakeRoute());
-    registerFallbackValue<Route<PhotoboothPage>>(FakeRoutePhotobooth());
-  });
   group('LandingPage', () {
     testWidgets('renders landing view', (tester) async {
       await tester.pumpApp(const LandingPage());
@@ -35,17 +21,15 @@ void main() {
 
     testWidgets('tapping on take photo button navigates to PhotoboothPage',
         (tester) async {
-      final observer = MockNavigatorObserver();
+      await runZonedGuarded(() async {
+        await tester.pumpApp(const LandingView());
+        await tester.ensureVisible(find.byType(TakePhotoButton));
+        await tester.tap(find.byType(TakePhotoButton));
+        await tester.pumpAndSettle();
+      }, (_, __) {});
 
-      await tester.pumpApp(const LandingView(), navigatorObserver: observer);
-      await tester.tap(find.byType(TakePhotoButton));
-      await tester.pumpAndSettle();
-
-      verify(() => observer.didPush(any<Route<PhotoboothPage>>(), any()))
-          .called(1);
-
-      expect(tester.takeException(), isNull);
-      //expect(find.byType(PhotoboothPage), findsOneWidget);
+      expect(find.byType(PhotoboothPage), findsOneWidget);
+      expect(find.byType(LandingView), findsNothing);
     });
   });
 }
