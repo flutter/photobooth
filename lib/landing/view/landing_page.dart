@@ -52,16 +52,10 @@ class TakePhotoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-        height: 54,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.landingPageTakePhotoButtonText),
-        onPressed: () => Navigator.of(context).push(
-          PhotoboothPage.route(),
-        ),
+    return ElevatedButton(
+      child: Text(l10n.landingPageTakePhotoButtonText),
+      onPressed: () => Navigator.of(context).push(
+        PhotoboothPage.route(),
       ),
     );
   }

@@ -15,22 +15,17 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.previewPageShareButtonText),
-        onPressed: () {
-          showDialog(
-            barrierColor: PhotoboothColors.gray.withOpacity(0.75),
-            context: context,
-            builder: (context) => ShareDialog(
-              cameraImage: cameraImage,
-            ),
-          );
-        },
-      ),
+    return ElevatedButton(
+      child: Text(l10n.previewPageShareButtonText),
+      onPressed: () {
+        showDialog(
+          barrierColor: PhotoboothColors.gray.withOpacity(0.75),
+          context: context,
+          builder: (context) => ShareDialog(
+            cameraImage: cameraImage,
+          ),
+        );
+      },
     );
   }
 }

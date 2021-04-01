@@ -9,14 +9,9 @@ class RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        width: 208,
-      ),
-      child: ElevatedButton(
-        child: Text(l10n.previewPageRetakeButtonText),
-        onPressed: () {},
-      ),
+    return ElevatedButton(
+      child: Text(l10n.previewPageRetakeButtonText),
+      onPressed: () {},
     );
   }
 }
