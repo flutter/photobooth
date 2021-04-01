@@ -22,7 +22,8 @@ abstract class Assets {
 Future<Asset> _loadAsset(String path) async {
   final data = await rootBundle.load(path);
   final image = await decodeImageFromList(Uint8List.view(data.buffer));
-  return Asset(image: image, buffer: data.buffer);
+  final bytes = await image.toByteData();
+  return Asset(image: image, buffer: bytes!.buffer);
 }
 
 class Asset {

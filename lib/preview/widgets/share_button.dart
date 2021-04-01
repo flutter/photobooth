@@ -7,10 +7,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class ShareButton extends StatelessWidget {
   const ShareButton({
     Key? key,
-    required this.cameraImage,
+    required this.image,
   }) : super(key: key);
 
-  final CameraImage cameraImage;
+  final ImageData image;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,7 @@ class ShareButton extends StatelessWidget {
         showDialog(
           barrierColor: PhotoboothColors.gray.withOpacity(0.75),
           context: context,
-          builder: (context) => ShareDialog(
-            cameraImage: cameraImage,
-          ),
+          builder: (_) => ShareDialog(image: image),
         );
       },
     );

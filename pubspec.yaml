@@ -15,11 +15,13 @@ dependencies:
   camera:
     path: packages/camera/camera
   flutter_bloc: ^7.0.0
+  image: ^3.0.2
   intl: ^0.17.0
   photobooth_ui:
     path: packages/photobooth_ui
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:
