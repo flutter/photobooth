@@ -37,18 +37,29 @@ class LandingView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
-            ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(
-                width: 208,
-              ),
-              child: ElevatedButton(
-                child: Text(l10n.landingPageTakePhotoButtonText),
-                onPressed: () => Navigator.of(context).push(
-                  PhotoboothPage.route(),
-                ),
-              ),
-            )
+            const TakePhotoButton(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class TakePhotoButton extends StatelessWidget {
+  const TakePhotoButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints.tightFor(
+        width: 208,
+      ),
+      child: ElevatedButton(
+        child: Text(l10n.landingPageTakePhotoButtonText),
+        onPressed: () => Navigator.of(context).push(
+          PhotoboothPage.route(),
         ),
       ),
     );

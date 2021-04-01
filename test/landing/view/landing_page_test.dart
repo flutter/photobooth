@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/landing/landing.dart';
@@ -27,7 +28,7 @@ void main() {
   group('LandingView', () {
     testWidgets('renders take photo button', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byType(ElevatedButton), findsOneWidget);
+      expect(find.byType(TakePhotoButton), findsOneWidget);
     });
 
     testWidgets('tapping on take photo button navigates to PhotoboothPage',
@@ -36,7 +37,7 @@ void main() {
       tester.binding.window.physicalSizeTestValue = const Size(600, 1000);
 
       await tester.pumpApp(const LandingView(), navigatorObserver: observer);
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(TakePhotoButton));
       await tester.pumpAndSettle();
 
       verify(() => observer.didPush(any<Route<PhotoboothPage>>(), any()))
