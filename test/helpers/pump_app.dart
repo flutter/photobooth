@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 extension PumpApp on WidgetTester {
-  Future<void> pumpApp(Widget widget) {
+  Future<void> pumpApp(Widget widget, {NavigatorObserver? navigatorObserver}) {
     return pumpWidget(
       MaterialApp(
         localizationsDelegates: [
@@ -14,6 +14,9 @@ extension PumpApp on WidgetTester {
         ],
         supportedLocales: AppLocalizations.supportedLocales,
         home: widget,
+        navigatorObservers: [
+          if (navigatorObserver != null) navigatorObserver,
+        ],
       ),
     );
   }
