@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -35,11 +37,8 @@ void main() {
     });
 
     testWidgets('tapping on TwitterButton does nothing', (tester) async {
-      await tester.pumpApp(ShareDialog(
-        cameraImage: cameraImage,
-      ));
+      await tester.pumpApp(TwitterButton());
       await tester.tap(find.byType(TwitterButton));
-      expect(find.byType(ShareDialog), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
@@ -51,11 +50,8 @@ void main() {
     });
 
     testWidgets('tapping on FacebookButton does nothing', (tester) async {
-      await tester.pumpApp(ShareDialog(
-        cameraImage: cameraImage,
-      ));
+      await tester.pumpApp(FacebookButton());
       await tester.tap(find.byType(FacebookButton));
-      expect(find.byType(ShareDialog), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
