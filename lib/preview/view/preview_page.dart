@@ -1,6 +1,6 @@
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
 
 class PreviewPage extends StatelessWidget {
@@ -89,17 +89,11 @@ class DesktopButtonsLayout extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Flexible(child: RetakeButton()),
-        const SizedBox(
-          width: 36,
-        ),
+        const SizedBox(width: 36),
         Flexible(
-          child: ShareButton(
-            cameraImage: cameraImage,
-          ),
+          child: ShareButton(cameraImage: cameraImage),
         ),
-        const SizedBox(
-          width: 36,
-        ),
+        const SizedBox(width: 36),
         const Flexible(child: DownloadButton()),
       ],
     );
@@ -121,15 +115,9 @@ class MobileButtonsLayout extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const RetakeButton(),
-        const SizedBox(
-          height: 15,
-        ),
-        ShareButton(
-          cameraImage: cameraImage,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 15),
+        ShareButton(cameraImage: cameraImage),
+        const SizedBox(height: 20),
         const DownloadButton(),
       ],
     );

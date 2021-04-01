@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
@@ -40,14 +40,12 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   posenet.PoseNet? _net;
   CameraImage? _image;
   posenet.Pose? _pose;
-  ui.Image? _dash;
 
   @override
   void initState() {
     super.initState();
     Future.wait([
       _initializePoseNet(),
-      _initializeAssets(),
       _initializeCameraController(),
     ]).then((_) {
       _subscription = _controller.imageStream.listen(_onImage);
@@ -71,23 +69,17 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
     _net = await posenet.load(_posenetConfig);
   }
 
-  Future<void> _initializeAssets() async {
-    final data = await rootBundle.load('assets/images/dash.png');
-    final image = await decodeImageFromList(Uint8List.view(data.buffer));
-    _dash = image;
-  }
-
   void _onImage(CameraImage image) async {
     _pose = await _net?.estimateSinglePose(
       tf_models.ImageData(
-        data: Uint8ClampedList.fromList(image.imageData.data),
-        width: image.imageData.width,
-        height: image.imageData.height,
+        data: Uint8ClampedList.fromList(image.raw.data),
+        width: image.raw.width,
+        height: image.raw.height,
       ),
       config: _poseConfig,
     );
     _image = image;
-    if (_pose != null && _dash != null && mounted) setState(() {});
+    if (_pose != null && mounted) setState(() {});
   }
 
   void _onSnapPressed() async {
@@ -104,7 +96,6 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   Widget build(BuildContext context) {
     final image = _image;
     final pose = _pose;
-    final dash = _dash;
     return Scaffold(
       body: Camera(
         controller: _controller,
@@ -115,11 +106,11 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
               fit: StackFit.expand,
               children: [
                 preview,
-                if (image != null && pose != null && dash != null)
+                if (image != null && pose != null)
                   CustomPaint(
                     key: const Key('photoboothView_posePainter_customPainter'),
                     size: Size(image.width.toDouble(), image.height.toDouble()),
-                    painter: PosePainter(pose: pose, image: dash),
+                    painter: PosePainter(pose: pose, image: Assets.dash.image),
                   ),
               ],
             ),

@@ -16,7 +16,7 @@ class PreviewImage extends StatelessWidget {
     return Transform.rotate(
       angle: -15 / 360,
       child: Image.memory(
-        Uint8List.fromList(image.imageData.decoded),
+        Uint8List.fromList(image.thumbnail.data),
         isAntiAlias: true,
         height: height,
         width: width,
