@@ -1,0 +1,38 @@
+name: photobooth_ui
+
+on:
+  pull_request:
+    paths:
+      - "packages/photobooth_ui/**"
+      - ".github/workflows/photobooth_ui.yaml"
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: packages/photobooth_ui
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          flutter-version: 2.0.0
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: packages/photobooth_ui/coverage/lcov.info
