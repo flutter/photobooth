@@ -88,17 +88,19 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const RetakeButton(),
+        const Flexible(child: RetakeButton()),
         const SizedBox(
-          width: 70,
+          width: 36,
         ),
-        ShareButton(
-          cameraImage: cameraImage,
+        Flexible(
+          child: ShareButton(
+            cameraImage: cameraImage,
+          ),
         ),
         const SizedBox(
-          width: 70,
+          width: 36,
         ),
-        const DownloadButton(),
+        const Flexible(child: DownloadButton()),
       ],
     );
   }
