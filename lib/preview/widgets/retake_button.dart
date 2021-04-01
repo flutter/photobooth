@@ -15,7 +15,7 @@ class RetakeButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         child: Text(l10n.previewPageRetakeButtonText),
-        onPressed: () => print(''),
+        onPressed: () {},
       ),
     );
   }

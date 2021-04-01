@@ -97,7 +97,7 @@ class TwitterButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         child: Text(l10n.shareDialogTwitterButtonText),
-        onPressed: () => print(''),
+        onPressed: () {},
       ),
     );
   }
@@ -116,7 +116,7 @@ class FacebookButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         child: Text(l10n.shareDialogFacebookButtonText),
-        onPressed: () => print(''),
+        onPressed: () {},
       ),
     );
   }
