@@ -7,26 +7,19 @@ import 'package:io_photobooth/preview/preview.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  const mobileBreakpoint = 600;
+  final cameraImage = CameraImage(
+    height: 1,
+    width: 1,
+    imageData: ImageData(
+      width: 1,
+      height: 1,
+      decoded: Uint8List.fromList([]),
+      data: Uint8List.fromList([]),
+    ),
+  );
+
   group('PreviewPage', () {
-    late CameraImage cameraImage;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
-
     test('is routable', () {
       expect(PreviewPage.route(image: cameraImage), isA<MaterialPageRoute>());
     });
@@ -40,26 +33,6 @@ void main() {
   });
 
   group('ButtonsLayout', () {
-    late CameraImage cameraImage;
-    const mobileBreakpoint = 600;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
-
     testWidgets('displays a DesktopButtonsLayout when width>$mobileBreakpoint',
         (tester) async {
       await tester.pumpApp(PreviewPage(
@@ -79,25 +52,6 @@ void main() {
     });
   });
   group('MobileButtonsLayout', () {
-    late CameraImage cameraImage;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
-
     testWidgets('displays a PreviewImage', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,
@@ -126,26 +80,8 @@ void main() {
       expect(find.byType(DownloadButton), findsOneWidget);
     });
   });
+
   group('DesktopButtonsLayout', () {
-    late CameraImage cameraImage;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
-
     testWidgets('displays a PreviewImage', (tester) async {
       await tester.pumpApp(PreviewPage(
         image: cameraImage,

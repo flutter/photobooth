@@ -6,25 +6,18 @@ import 'package:io_photobooth/preview/preview.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  final cameraImage = CameraImage(
+    height: 1,
+    width: 1,
+    imageData: ImageData(
+      width: 1,
+      height: 1,
+      decoded: Uint8List.fromList([]),
+      data: Uint8List.fromList([]),
+    ),
+  );
+
   group('PreviewImage', () {
-    late CameraImage cameraImage;
-
-    setUp(() {
-      const width = 1;
-      const height = 1;
-      final data = Uint8List.fromList([]);
-
-      cameraImage = CameraImage(
-        height: height,
-        width: width,
-        imageData: ImageData(
-          width: width,
-          height: height,
-          decoded: data,
-          data: data,
-        ),
-      );
-    });
     testWidgets('renders without width as parameter', (tester) async {
       await tester.pumpApp(PreviewImage(
         image: cameraImage,

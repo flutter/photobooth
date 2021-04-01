@@ -10,6 +10,7 @@ class PreviewImage extends StatelessWidget {
   final CameraImage image;
   final double? height;
   final double? width;
+
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(

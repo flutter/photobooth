@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
 
-//TODO: move to package
 class ShareButton extends StatelessWidget {
   const ShareButton({
     Key? key,

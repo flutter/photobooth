@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
-//TODO: move to package
 class RetakeButton extends StatelessWidget {
   const RetakeButton({
     Key? key,
