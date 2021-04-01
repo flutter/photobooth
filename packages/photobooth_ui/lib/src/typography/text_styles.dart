@@ -7,6 +7,12 @@ import 'font_weights.dart';
 
 /// Very Good Text Style Definitions
 class VeryGoodTextStyle {
+  static const _baseTextStyle = TextStyle(
+    package: 'photobooth_ui',
+    color: PhotoboothColors.black,
+    fontWeight: VeryGoodFontWeight.regular,
+  );
+
   /// Headline 1 Text Style
 
   static TextStyle get headline1 => _baseTextStyle.copyWith(
@@ -85,10 +91,4 @@ class VeryGoodTextStyle {
         fontSize: 18,
         fontWeight: VeryGoodFontWeight.medium,
       );
-
-  static const _baseTextStyle = TextStyle(
-    package: 'photobooth_ui',
-    color: PhotoboothColors.black,
-    fontWeight: VeryGoodFontWeight.regular,
-  );
 }
