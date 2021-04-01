@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 extension PumpApp on WidgetTester {
-  Future<void> pumpApp(Widget widget) {
+  Future<void> pumpApp(Widget widget) async {
     return pumpWidget(
       MaterialApp(
         localizationsDelegates: [

@@ -200,13 +200,18 @@ class Camera {
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
     previewCanvas.context2D
         .drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
-    final decoded = base64.decode(previewCanvas.toDataUrl().split(',')[1]);
+    final thumbnailData =
+        base64.decode(previewCanvas.toDataUrl().split(',')[1]);
     return CameraImage(
-      imageData: ImageData(
+      raw: ImageData(
         data: Uint8List.fromList(imageData.data),
-        decoded: decoded,
         width: imageData.width,
         height: imageData.height,
+      ),
+      thumbnail: ImageData(
+        data: Uint8List.fromList(thumbnailData),
+        width: videoWidth,
+        height: videoHeight,
       ),
       width: width,
       height: height,
