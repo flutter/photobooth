@@ -37,10 +37,10 @@ class FakeSinglePersonInterfaceConfig extends Fake
     implements tf_models.SinglePersonInterfaceConfig {}
 
 void main() async {
-  const cameraId = 1;
-
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
+
+  const cameraId = 1;
 
   setUpAll(() {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
