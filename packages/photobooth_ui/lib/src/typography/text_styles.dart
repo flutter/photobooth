@@ -65,7 +65,7 @@ class VeryGoodTextStyle {
   /// Body Text 2 Text Style (the default)
   static TextStyle get bodyText2 => _baseTextStyle.copyWith(
         fontSize: 16,
-        fontWeight: VeryGoodFontWeight.medium,
+        fontWeight: VeryGoodFontWeight.regular,
       );
 
   /// Caption Text Style
@@ -77,7 +77,7 @@ class VeryGoodTextStyle {
   /// Overline Text Style
   static TextStyle get overline => _baseTextStyle.copyWith(
         fontSize: 16,
-        fontWeight: VeryGoodFontWeight.bold,
+        fontWeight: VeryGoodFontWeight.regular,
       );
 
   /// Button Text Style

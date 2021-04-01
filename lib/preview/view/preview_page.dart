@@ -29,13 +29,13 @@ class PreviewPage extends StatelessWidget {
                   const SizedBox(height: 24),
                   Text(
                     l10n.previewPageHeading,
-                    style: theme.textTheme.headline4,
+                    style: theme.textTheme.headline1,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
                   Text(
                     l10n.previewPageSubheading,
-                    style: theme.textTheme.headline6,
+                    style: theme.textTheme.headline2,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),

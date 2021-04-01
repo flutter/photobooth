@@ -27,20 +27,25 @@ class LandingView extends StatelessWidget {
           children: [
             Text(
               l10n.landingPageHeading,
-              style: theme.textTheme.headline4,
+              style: theme.textTheme.headline1,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             Text(
               l10n.landingPageSubheading,
-              style: theme.textTheme.headline6,
+              style: theme.textTheme.headline2,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              child: Text(l10n.landingPageTakePhotoButtonText),
-              onPressed: () => Navigator.of(context).push(
-                PhotoboothPage.route(),
+            ConstrainedBox(
+              constraints: const BoxConstraints.tightFor(
+                width: 208,
+              ),
+              child: ElevatedButton(
+                child: Text(l10n.landingPageTakePhotoButtonText),
+                onPressed: () => Navigator.of(context).push(
+                  PhotoboothPage.route(),
+                ),
               ),
             )
           ],
