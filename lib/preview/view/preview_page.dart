@@ -68,11 +68,11 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Flexible(child: RetakeButton()),
+        const Flexible(child: _RetakeButton()),
         const SizedBox(width: 36),
-        Flexible(child: ShareButton(image: image)),
+        Flexible(child: _ShareButton(image: image)),
         const SizedBox(width: 36),
-        Flexible(child: DownloadButton(file: image.toFile())),
+        Flexible(child: _DownloadButton(file: image.toFile())),
       ],
     );
   }
@@ -92,11 +92,11 @@ class MobileButtonsLayout extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const RetakeButton(),
+        const _RetakeButton(),
         const SizedBox(height: 15),
-        ShareButton(image: image),
+        _ShareButton(image: image),
         const SizedBox(height: 20),
-        DownloadButton(file: image.toFile()),
+        _DownloadButton(file: image.toFile()),
       ],
     );
   }
@@ -109,6 +109,61 @@ extension on ImageData {
       data,
       mimeType: 'image/png',
       name: 'photobooth_$uuid.png',
+    );
+  }
+}
+
+class _RetakeButton extends StatelessWidget {
+  const _RetakeButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return ElevatedButton(
+      key: const Key('previewPage_retake_elevatedButton'),
+      child: Text(l10n.previewPageRetakeButtonText),
+      onPressed: () => Navigator.of(context).pop(),
+    );
+  }
+}
+
+class _ShareButton extends StatelessWidget {
+  const _ShareButton({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
+
+  final ImageData image;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return ElevatedButton(
+      key: const Key('previewPage_share_elevatedButton'),
+      child: Text(l10n.previewPageShareButtonText),
+      onPressed: () {
+        showDialog(
+          barrierColor: PhotoboothColors.gray.withOpacity(0.75),
+          context: context,
+          builder: (_) => ShareDialog(image: image),
+        );
+      },
+    );
+  }
+}
+
+class _DownloadButton extends StatelessWidget {
+  const _DownloadButton({Key? key, required this.file}) : super(key: key);
+
+  final XFile file;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return ElevatedButton(
+      key: const Key('previewPage_download_elevatedButton'),
+      child: Text(l10n.previewPageDownloadButtonText),
+      onPressed: () => file.saveTo(''),
     );
   }
 }
