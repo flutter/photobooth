@@ -3,6 +3,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
@@ -40,34 +41,15 @@ class PreviewPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  ButtonsLayout(image: image),
+                  ResponsiveLayoutBuilder(
+                    mobile: (_) => MobileButtonsLayout(image: image),
+                    desktop: (_) => DesktopButtonsLayout(image: image),
+                  ),
                 ],
               ),
             ),
           ),
         ));
-  }
-}
-
-@visibleForTesting
-class ButtonsLayout extends StatelessWidget {
-  const ButtonsLayout({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
-
-  final ImageData image;
-  static const int mobileBreakpoint = 600;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return constraints.maxWidth <= mobileBreakpoint
-            ? MobileButtonsLayout(image: image)
-            : DesktopButtonsLayout(image: image);
-      },
-    );
   }
 }
 
