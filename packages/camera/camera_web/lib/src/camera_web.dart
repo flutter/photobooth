@@ -4,7 +4,6 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:camera_web/src/camera_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';

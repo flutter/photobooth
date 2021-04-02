@@ -32,6 +32,10 @@
     "@previewPageDownloadButtonText": {
         "description": "Button text shown on the retake page which downloads the taken photo."
     },
+    "previewPageCameraNotAllowedText": "You have denied camera permissions. Please grant access in order to use app.",
+    "@previewPageCameraNotAllowedText": {
+        "description": "Text shown when user denies camera permission"
+    },
     "shareDialogHeading": "Share",
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
