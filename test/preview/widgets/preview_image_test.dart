@@ -9,34 +9,21 @@ void main() {
   const width = 1;
   const height = 1;
   final data = Uint8List.fromList([]);
-  final cameraImage = CameraImage(
-    width: width,
-    height: height,
-    raw: ImageData(width: width, height: height, data: data),
-    thumbnail: ImageData(width: width, height: height, data: data),
-  );
+  final image = ImageData(width: width, height: height, data: data);
 
   group('PreviewImage', () {
     testWidgets('renders without width as parameter', (tester) async {
-      await tester.pumpApp(PreviewImage(
-        image: cameraImage,
-        height: 100,
-      ));
+      await tester.pumpApp(PreviewImage(image: image, height: 100));
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
     testWidgets('renders without height as parameter', (tester) async {
-      await tester.pumpApp(PreviewImage(
-        image: cameraImage,
-        width: 100,
-      ));
+      await tester.pumpApp(PreviewImage(image: image, width: 100));
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
     testWidgets('renders without height/width as parameter', (tester) async {
-      await tester.pumpApp(PreviewImage(
-        image: cameraImage,
-      ));
+      await tester.pumpApp(PreviewImage(image: image));
       expect(find.byType(PreviewImage), findsOneWidget);
     });
   });

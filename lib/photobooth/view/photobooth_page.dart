@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
@@ -35,7 +36,12 @@ class PhotoboothPage extends StatefulWidget {
 }
 
 class _PhotoboothPageState extends State<PhotoboothPage> {
-  final _controller = CameraController();
+  final _controller = CameraController(
+    options: const CameraOptions(
+      audio: AudioConstraints(enabled: false),
+      video: VideoConstraints(height: 1024, width: 1024),
+    ),
+  );
   StreamSubscription<CameraImage>? _subscription;
   posenet.PoseNet? _net;
   CameraImage? _image;
@@ -83,7 +89,8 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   }
 
   void _onSnapPressed() async {
-    final image = await _controller.takePicture();
+    final picture = await _controller.takePicture();
+    final image = await _composite(picture, _pose);
     final previewPageRoute = PreviewPage.route(image: image);
     _subscription?.pause();
     await _controller.stop();
@@ -176,18 +183,9 @@ class PosePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (pose.score < _minPoseConfidence) return;
-    for (final keypoint in pose.keypoints) {
-      if (!_supportedParts.contains(keypoint.part)) continue;
-      if (keypoint.score < _minPartConfidence) continue;
-      final x = keypoint.position.x.ceilToDouble();
-      final y = keypoint.position.y.ceilToDouble();
-      final offset = Offset(x, y);
-      final normalizedOffset = Offset(
-        offset.dx - image.width / 2,
-        (offset.dy - image.height) - 50,
-      );
-      canvas.drawImage(image, normalizedOffset, Paint());
+    final positions = _computePositions(pose: pose, image: image);
+    for (final position in positions) {
+      canvas.drawImage(image, position, Paint());
     }
   }
 
@@ -195,4 +193,72 @@ class PosePainter extends CustomPainter {
   bool shouldRepaint(covariant PosePainter oldDelegate) {
     return oldDelegate.image != image || oldDelegate.pose.score != pose.score;
   }
+}
+
+List<Offset> _computePositions({
+  required ui.Image image,
+  posenet.Pose? pose,
+  Size scale = const Size(1.0, 1.0),
+}) {
+  final positions = <Offset>[];
+  final _pose = pose;
+  if (_pose == null) return positions;
+  if (_pose.score < _minPoseConfidence) return positions;
+  for (final keypoint in _pose.keypoints) {
+    if (!_supportedParts.contains(keypoint.part)) continue;
+    if (keypoint.score < _minPartConfidence) continue;
+    final x = keypoint.position.x.ceilToDouble();
+    final y = keypoint.position.y.ceilToDouble();
+    final offset = Offset(x * scale.width, y * scale.height);
+    final normalizedOffset = Offset(
+      (offset.dx - image.width / 2),
+      ((offset.dy - image.height) - 50),
+    );
+    positions.add(normalizedOffset);
+  }
+  return positions;
+}
+
+Future<ImageData> _composite(CameraImage picture, posenet.Pose? pose) async {
+  final xScale = picture.thumbnail.width / picture.raw.width;
+  final yScale = picture.thumbnail.height / picture.raw.height;
+  final scale = Size(xScale, yScale);
+  final positions = _computePositions(
+    pose: pose,
+    image: Assets.dash.image,
+    scale: scale,
+  );
+  final dashImage = img.Image.fromBytes(
+    Assets.dash.image.width,
+    Assets.dash.image.height,
+    Uint8List.view(Assets.dash.buffer),
+  );
+  final rawImage = img.Image.fromBytes(
+    picture.raw.width,
+    picture.raw.height,
+    picture.raw.data,
+  );
+
+  var modifiedImage = img.copyResize(
+    rawImage,
+    height: picture.thumbnail.height,
+    width: picture.thumbnail.width,
+    interpolation: img.Interpolation.average,
+  );
+
+  for (final position in positions) {
+    modifiedImage = img.drawImage(
+      modifiedImage,
+      dashImage,
+      dstX: position.dx.round(),
+      dstY: position.dy.round(),
+    );
+  }
+
+  final data = Uint8List.fromList(img.encodePng(modifiedImage));
+  return ImageData(
+    data: data,
+    width: picture.raw.width,
+    height: picture.raw.height,
+  );
 }

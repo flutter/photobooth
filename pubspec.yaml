@@ -14,7 +14,9 @@ dependencies:
   bloc: ^7.0.0
   camera:
     path: packages/camera/camera
+  file_selector: ^0.8.2
   flutter_bloc: ^7.0.0
+  image: ^3.0.2
   intl: ^0.17.0
   photobooth_ui:
     path: packages/photobooth_ui

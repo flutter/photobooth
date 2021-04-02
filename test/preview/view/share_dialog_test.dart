@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/preview/preview.dart';
+
 import '../../helpers/helpers.dart';
 
 void main() {
@@ -13,17 +13,10 @@ void main() {
     const width = 1;
     const height = 1;
     final data = Uint8List.fromList([]);
-    final cameraImage = CameraImage(
-      width: width,
-      height: height,
-      raw: ImageData(width: width, height: height, data: data),
-      thumbnail: ImageData(width: width, height: height, data: data),
-    );
+    final image = ImageData(width: width, height: height, data: data);
 
     testWidgets('displays a TwitterButton', (tester) async {
-      await tester.pumpApp(ShareDialog(
-        cameraImage: cameraImage,
-      ));
+      await tester.pumpApp(ShareDialog(image: image));
       expect(find.byType(TwitterButton), findsOneWidget);
     });
 
@@ -34,9 +27,7 @@ void main() {
     });
 
     testWidgets('displays a FacebookButton', (tester) async {
-      await tester.pumpApp(ShareDialog(
-        cameraImage: cameraImage,
-      ));
+      await tester.pumpApp(ShareDialog(image: image));
       expect(find.byType(FacebookButton), findsOneWidget);
     });
 
@@ -47,9 +38,7 @@ void main() {
     });
 
     testWidgets('taps on close will dismiss the popup', (tester) async {
-      await tester.pumpApp(ShareDialog(
-        cameraImage: cameraImage,
-      ));
+      await tester.pumpApp(ShareDialog(image: image));
       await tester.tap(find.byIcon(Icons.clear));
       await tester.pumpAndSettle();
       expect(find.byType(ShareDialog), findsNothing);

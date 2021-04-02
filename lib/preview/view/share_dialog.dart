@@ -6,10 +6,10 @@ import 'package:io_photobooth/preview/preview.dart';
 class ShareDialog extends StatelessWidget {
   const ShareDialog({
     Key? key,
-    required this.cameraImage,
+    required this.image,
   }) : super(key: key);
 
-  final CameraImage cameraImage;
+  final ImageData image;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,12 @@ class ShareDialog extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
-              vertical: 30,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PreviewImage(
-                    image: cameraImage,
-                    height: 200,
-                  ),
+                  PreviewImage(image: image, height: 200),
                   const SizedBox(height: 12),
                   Text(
                     l10n.shareDialogHeading,

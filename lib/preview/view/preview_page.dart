@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
@@ -6,9 +7,9 @@ import 'package:io_photobooth/preview/preview.dart';
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
-  final CameraImage image;
+  final ImageData image;
 
-  static Route route({required CameraImage image}) {
+  static Route route({required ImageData image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
   }
 
@@ -39,9 +40,7 @@ class PreviewPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  ButtonsLayout(
-                    cameraImage: image,
-                  ),
+                  ButtonsLayout(image: image),
                 ],
               ),
             ),
@@ -54,21 +53,19 @@ class PreviewPage extends StatelessWidget {
 class ButtonsLayout extends StatelessWidget {
   const ButtonsLayout({
     Key? key,
-    required this.cameraImage,
+    required this.image,
   }) : super(key: key);
-  final CameraImage cameraImage;
+
+  final ImageData image;
   static const int mobileBreakpoint = 600;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth <= mobileBreakpoint)
-          return MobileButtonsLayout(
-            cameraImage: cameraImage,
-          );
-        return DesktopButtonsLayout(
-          cameraImage: cameraImage,
-        );
+        return constraints.maxWidth <= mobileBreakpoint
+            ? MobileButtonsLayout(image: image)
+            : DesktopButtonsLayout(image: image);
       },
     );
   }
@@ -78,10 +75,10 @@ class ButtonsLayout extends StatelessWidget {
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({
     Key? key,
-    required this.cameraImage,
+    required this.image,
   }) : super(key: key);
 
-  final CameraImage cameraImage;
+  final ImageData image;
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +87,9 @@ class DesktopButtonsLayout extends StatelessWidget {
       children: [
         const Flexible(child: RetakeButton()),
         const SizedBox(width: 36),
-        Flexible(
-          child: ShareButton(cameraImage: cameraImage),
-        ),
+        Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
-        const Flexible(child: DownloadButton()),
+        Flexible(child: DownloadButton(file: image.toFile())),
       ],
     );
   }
@@ -104,10 +99,10 @@ class DesktopButtonsLayout extends StatelessWidget {
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({
     Key? key,
-    required this.cameraImage,
+    required this.image,
   }) : super(key: key);
 
-  final CameraImage cameraImage;
+  final ImageData image;
 
   @override
   Widget build(BuildContext context) {
@@ -116,10 +111,16 @@ class MobileButtonsLayout extends StatelessWidget {
       children: [
         const RetakeButton(),
         const SizedBox(height: 15),
-        ShareButton(cameraImage: cameraImage),
+        ShareButton(image: image),
         const SizedBox(height: 20),
-        const DownloadButton(),
+        DownloadButton(file: image.toFile()),
       ],
     );
+  }
+}
+
+extension on ImageData {
+  XFile toFile() {
+    return XFile.fromData(data, mimeType: 'image/png', name: 'photobooth.png');
   }
 }
