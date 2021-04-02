@@ -56,10 +56,7 @@ class PreviewPage extends StatelessWidget {
 
 @visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
-  const DesktopButtonsLayout({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
+  const DesktopButtonsLayout({Key? key, required this.image}) : super(key: key);
 
   final ImageData image;
 
@@ -80,10 +77,7 @@ class DesktopButtonsLayout extends StatelessWidget {
 
 @visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
-  const MobileButtonsLayout({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
+  const MobileButtonsLayout({Key? key, required this.image}) : super(key: key);
 
   final ImageData image;
 
@@ -98,17 +92,6 @@ class MobileButtonsLayout extends StatelessWidget {
         const SizedBox(height: 20),
         _DownloadButton(file: image.toFile()),
       ],
-    );
-  }
-}
-
-extension on ImageData {
-  XFile toFile() {
-    final uuid = const Uuid().v4();
-    return XFile.fromData(
-      data,
-      mimeType: 'image/png',
-      name: 'photobooth_$uuid.png',
     );
   }
 }
@@ -128,10 +111,7 @@ class _RetakeButton extends StatelessWidget {
 }
 
 class _ShareButton extends StatelessWidget {
-  const _ShareButton({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
+  const _ShareButton({Key? key, required this.image}) : super(key: key);
 
   final ImageData image;
 
@@ -164,6 +144,17 @@ class _DownloadButton extends StatelessWidget {
       key: const Key('previewPage_download_elevatedButton'),
       child: Text(l10n.previewPageDownloadButtonText),
       onPressed: () => file.saveTo(''),
+    );
+  }
+}
+
+extension on ImageData {
+  XFile toFile() {
+    final uuid = const Uuid().v4();
+    return XFile.fromData(
+      data,
+      mimeType: 'image/png',
+      name: 'photobooth_$uuid.png',
     );
   }
 }
