@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:uuid/uuid.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
@@ -103,6 +104,11 @@ class MobileButtonsLayout extends StatelessWidget {
 
 extension on ImageData {
   XFile toFile() {
-    return XFile.fromData(data, mimeType: 'image/png', name: 'photobooth.png');
+    final uuid = const Uuid().v4();
+    return XFile.fromData(
+      data,
+      mimeType: 'image/png',
+      name: 'photobooth_$uuid.png',
+    );
   }
 }

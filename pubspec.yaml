@@ -22,6 +22,7 @@ dependencies:
     path: packages/photobooth_ui
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
+  uuid: ^3.0.3
 
 dev_dependencies:
   flutter_test:
