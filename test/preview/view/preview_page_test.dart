@@ -24,24 +24,90 @@ void main() {
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
-    testWidgets('displays a PreviewImage', (tester) async {
-      await tester.pumpApp(PreviewPage(image: image));
-      expect(find.byType(PreviewImage), findsOneWidget);
-    });
-
     testWidgets('displays a RetakeButton', (tester) async {
       await tester.pumpApp(PreviewPage(image: image));
-      expect(find.byType(RetakeButton), findsOneWidget);
+      expect(
+        find.byKey(const Key('previewPage_retake_elevatedButton')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays a ShareButton', (tester) async {
       await tester.pumpApp(PreviewPage(image: image));
-      expect(find.byType(ShareButton), findsOneWidget);
+      expect(
+        find.byKey(const Key('previewPage_share_elevatedButton')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
       await tester.pumpApp(PreviewPage(image: image));
-      expect(find.byType(DownloadButton), findsOneWidget);
+      expect(
+        find.byKey(const Key('previewPage_download_elevatedButton')),
+        findsOneWidget,
+      );
+    });
+  });
+
+  group('ShareButton', () {
+    testWidgets('tapping on share photo button opens ShareDialog',
+        (tester) async {
+      final shareButtonFinder = find.byKey(
+        const Key('previewPage_share_elevatedButton'),
+      );
+      await tester.pumpApp(PreviewPage(image: image));
+
+      await tester.ensureVisible(shareButtonFinder);
+      await tester.tap(shareButtonFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ShareDialog), findsOneWidget);
+    });
+  });
+
+  group('DownloadButton', () {
+    testWidgets('tapping on download photo button completes', (tester) async {
+      final downloadButtonFinder = find.byKey(
+        const Key('previewPage_download_elevatedButton'),
+      );
+      await tester.pumpApp(PreviewPage(image: image));
+
+      await tester.ensureVisible(downloadButtonFinder);
+      await tester.tap(downloadButtonFinder);
+
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('RetakeButton', () {
+    testWidgets('tapping on retake button pops', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              PreviewPage.route(image: image),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final retakeButtonFinder = find.byKey(
+        const Key('previewPage_retake_elevatedButton'),
+      );
+      await tester.ensureVisible(retakeButtonFinder);
+      await tester.tap(retakeButtonFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PreviewPage), findsNothing);
+      expect(find.byKey(initialPage), findsOneWidget);
     });
   });
 
