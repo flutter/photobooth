@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -171,7 +172,17 @@ class PhotoboothError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(error.description);
+    return Text(error.toLocalizedError(context));
+  }
+}
+
+extension on CameraException {
+  String toLocalizedError(BuildContext context) {
+    final l10n = context.l10n;
+    if (this is CameraNotAllowedException) {
+      return l10n.previewPageCameraNotAllowedText;
+    }
+    return description;
   }
 }
 

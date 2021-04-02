@@ -101,6 +101,15 @@ void main() async {
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
 
+    testWidgets('renders error when not allowed', (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraNotAllowedException());
+      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpAndSettle();
+      expect(find.byType(PhotoboothError), findsOneWidget);
+    });
+
     testWidgets('renders preview when available', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
