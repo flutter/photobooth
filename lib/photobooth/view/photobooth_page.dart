@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/photobooth/widgets/photobooth_placeholder.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
@@ -107,7 +108,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
     return Scaffold(
       body: Camera(
         controller: _controller,
-        placeholder: (_) => Center(child: PhotoboothPlaceholder()),
+        placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return PhotoboothPreview(
             preview: Stack(
@@ -129,11 +130,6 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
       ),
     );
   }
-}
-
-class PhotoboothPlaceholder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => const CircularProgressIndicator();
 }
 
 class PhotoboothPreview extends StatelessWidget {
