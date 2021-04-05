@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/decoration/widgets/resizable_widget.dart';
+import 'package:io_photobooth/decoration/widgets/resizable_sticker.dart';
 import 'package:io_photobooth/preview/preview.dart';
 
 class DecorationPage extends StatefulWidget {
