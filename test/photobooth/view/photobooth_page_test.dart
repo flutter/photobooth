@@ -135,6 +135,48 @@ void main() async {
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
     });
 
+    testWidgets('tapping on dash button does nothing', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_dash_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tapping on sparky button does nothing', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_sparky_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tapping on android button does nothing', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_android_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('renders dash in preview when poses are detected',
         (tester) async {
       const key = Key('__target__');

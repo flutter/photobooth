@@ -133,21 +133,30 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_dash_characterIconButton',
+                        ),
                         icon: Image.asset('assets/icons/dash_icon.png'),
                         color: PhotoboothColors.lightBlue,
-                        onPressed: null,
+                        onPressed: () {},
                       ),
                       const SizedBox(height: 16),
                       CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_sparky_characterIconButton',
+                        ),
                         icon: Image.asset('assets/icons/sparky_icon.png'),
                         color: PhotoboothColors.red,
-                        onPressed: null,
+                        onPressed: () {},
                       ),
                       const SizedBox(height: 16),
                       CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_android_characterIconButton',
+                        ),
                         icon: Image.asset('assets/icons/android_icon.png'),
                         color: PhotoboothColors.green,
-                        onPressed: null,
+                        onPressed: () {},
                       )
                     ],
                   ),
@@ -182,14 +191,13 @@ class CharacterIconButton extends StatelessWidget {
       shape: const CircleBorder(
         side: BorderSide(color: Colors.white, width: 8),
       ),
-      child: ElevatedButton.icon(
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           primary: color,
         ),
         onPressed: onPressed,
-        icon: icon,
-        label: const SizedBox(),
+        child: icon,
       ),
     );
   }
