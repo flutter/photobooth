@@ -55,14 +55,21 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
         Positioned(
           top: top,
           left: left,
-          child: Container(
-            height: height,
-            width: width,
-            color: Colors.red[100],
-            child: Image.memory(
-              Uint8List.fromList(widget.sticker.data),
+          child: DraggableContainer(
+            onDrag: (dx, dy) {
+              setState(() {
+                top = top + dy;
+                left = left + dx;
+              });
+            },
+            child: Container(
               height: height,
               width: width,
+              child: Image.memory(
+                Uint8List.fromList(widget.sticker.data),
+                height: height,
+                width: width,
+              ),
             ),
           ),
         ),
@@ -148,26 +155,55 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
             },
           ),
         ),
-
-        Positioned(
-          top: top + height / 2 - ballDiameter / 2,
-          left: left + width / 2 - ballDiameter / 2,
-          child: ManipulatingBall(
-            onDrag: (dx, dy) {
-              setState(() {
-                top = top + dy;
-                left = left + dx;
-              });
-            },
-          ),
-        ),
       ],
     );
   }
 }
 
+class DraggableContainer extends StatefulWidget {
+  DraggableContainer({
+    Key? key,
+    required this.onDrag,
+    required this.child,
+  }) : super(key: key);
+  final Function onDrag;
+  final Widget child;
+
+  @override
+  _DraggableContainerState createState() => _DraggableContainerState();
+}
+
+class _DraggableContainerState extends State<DraggableContainer> {
+  late double initX;
+  late double initY;
+
+  _handleDrag(details) {
+    setState(() {
+      initX = details.globalPosition.dx;
+      initY = details.globalPosition.dy;
+    });
+  }
+
+  _handleUpdate(details) {
+    var dx = details.globalPosition.dx - initX;
+    var dy = details.globalPosition.dy - initY;
+    initX = details.globalPosition.dx;
+    initY = details.globalPosition.dy;
+    widget.onDrag(dx, dy);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onPanStart: _handleDrag,
+      onPanUpdate: _handleUpdate,
+      child: widget.child,
+    );
+  }
+}
+
 class ManipulatingBall extends StatefulWidget {
-  ManipulatingBall({Key? key, required this.onDrag});
+  ManipulatingBall({Key? key, required this.onDrag}) : super(key: key);
 
   final Function onDrag;
 
