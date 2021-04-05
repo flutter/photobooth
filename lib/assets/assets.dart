@@ -20,15 +20,18 @@ abstract class Assets {
 }
 
 Future<Asset> _loadAsset(String path) async {
-  final data = await rootBundle.load(path);
-  final image = await decodeImageFromList(Uint8List.view(data.buffer));
+  final bytesData = await rootBundle.load(path);
+  final data = Uint8List.view(bytesData.buffer);
+  final image = await decodeImageFromList(data);
   final bytes = await image.toByteData();
-  return Asset(image: image, buffer: bytes!.buffer);
+
+  return Asset(image: image, buffer: bytes!.buffer, data: data);
 }
 
 class Asset {
-  const Asset({required this.image, required this.buffer});
+  const Asset({required this.image, required this.buffer, required this.data});
 
   final ui.Image image;
   final ByteBuffer buffer;
+  final Uint8List data;
 }
