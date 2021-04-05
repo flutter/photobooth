@@ -1,3 +1,4 @@
+import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as path from "path";
 import * as querystring from "querystring";
@@ -120,12 +121,12 @@ export async function shareRes(
     parsedPath.dir !== `/${sharePath}` ||
     ![".png", ".jpeg", ".jpg"].includes(parsedPath.ext)
   ) {
-    console.log(`Invalid path: ${reqPath}`);
+    functions.logger.info("Invalid path", {reqPath});
     return notFoundHtml();
   }
 
   if (!(await admin.storage().bucket().file(storagePath).exists())[0]) {
-    console.log(`File not found at : ${storagePath}`);
+    functions.logger.info("File not found", {storagePath});
     return notFoundHtml();
   }
   return foundHtml(storagePath);
