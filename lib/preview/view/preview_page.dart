@@ -28,7 +28,7 @@ class PreviewPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PreviewImage(image: image),
+                  PreviewImage(data: image.data),
                   const SizedBox(height: 24),
                   Text(
                     l10n.previewPageHeading,
