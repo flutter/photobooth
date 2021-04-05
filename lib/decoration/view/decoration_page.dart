@@ -63,32 +63,6 @@ class _DecorationPageState extends State<DecorationPage> {
   }
 }
 
-class StickerPainter extends CustomPainter {
-  const StickerPainter({
-    required this.stickers,
-    required this.offset,
-  });
-
-  final List<Asset> stickers;
-  final Offset offset;
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (stickers.isEmpty) return;
-    for (var sticker in stickers) {
-      canvas.drawImage(
-        sticker.image,
-        offset,
-        Paint(),
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant StickerPainter oldDelegate) {
-    return false;
-  }
-}
-
 class _StickersCarousel extends StatelessWidget {
   const _StickersCarousel({
     Key? key,
