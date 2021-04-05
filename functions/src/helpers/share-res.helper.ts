@@ -114,20 +114,25 @@ function foundHtml(filePath: string): { status: 200; send: string } {
 export async function shareRes(
     reqPath: string
 ): Promise<{ status: number; send: string }> {
-  const parsedPath = path.parse(reqPath);
-  const storagePath = `${storageFolderName}/${parsedPath.base}`;
+  try {
+    const parsedPath = path.parse(reqPath);
+    const storagePath = `${storageFolderName}/${parsedPath.base}`;
 
-  if (
-    parsedPath.dir !== `/${sharePath}` ||
-    ![".png", ".jpeg", ".jpg"].includes(parsedPath.ext)
-  ) {
-    functions.logger.info("Invalid path", {reqPath});
-    return notFoundHtml();
-  }
+    if (
+      parsedPath.dir !== `/${sharePath}` ||
+      ![".png", ".jpeg", ".jpg"].includes(parsedPath.ext)
+    ) {
+      functions.logger.info("Invalid path", {reqPath});
+      return notFoundHtml();
+    }
 
-  if (!(await admin.storage().bucket().file(storagePath).exists())[0]) {
-    functions.logger.info("File not found", {storagePath});
-    return notFoundHtml();
+    if (!(await admin.storage().bucket().file(storagePath).exists())[0]) {
+      functions.logger.info("File not found", {storagePath});
+      return notFoundHtml();
+    }
+    return foundHtml(storagePath);
+  } catch (e) {
+    functions.logger.error(e);
+    return {status: 500, send: "Something went wrong."};
   }
-  return foundHtml(storagePath);
 }
