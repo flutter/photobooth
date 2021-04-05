@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/decoration/widgets/resizable_widget.dart';
 import 'package:io_photobooth/preview/preview.dart';
 
 class DecorationPage extends StatefulWidget {
@@ -29,20 +30,10 @@ class _DecorationPageState extends State<DecorationPage> {
         fit: StackFit.expand,
         children: [
           _PreviewImage(image: widget.image),
-          CustomPaint(
-            size: Size(
-              widget.image.width.toDouble(),
-              widget.image.height.toDouble(),
+          for (var sticker in stickersSelected)
+            ResizebleSticker(
+              sticker: sticker,
             ),
-            painter: StickerPainter(
-                stickers: stickersSelected,
-                offset: Offset(
-                  widget.image.width / 2,
-                  widget.image.height / 2,
-                  //size.width / 2,
-                  //size.height / 2,
-                )),
-          ),
           _GoToPreviewButton(image: widget.image),
           const _GoBackButton(),
           Align(
