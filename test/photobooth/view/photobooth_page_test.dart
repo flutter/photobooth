@@ -122,6 +122,17 @@ void main() async {
       expect(find.byKey(key), findsOneWidget);
     });
 
+    testWidgets('renders dash, sparky, and android buttons', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(CharacterIconButton), findsNWidgets(3));
+    });
+
     testWidgets('renders dash in preview when poses are detected',
         (tester) async {
       const key = Key('__target__');
@@ -151,7 +162,7 @@ void main() async {
       when(() => pose.keypoints).thenReturn([keypoint]);
 
       await tester.runAsync(() async {
-        await tester.pumpApp(const PhotoboothPage());
+        await tester.pumpApp(const PhotoboothPage(enablePoseDetection: true));
         await untilCalled(() => cameraPlatform.imageStream(cameraId));
         await tester.pumpAndSettle();
         await tester.pump();
@@ -198,7 +209,7 @@ void main() async {
       when(() => pose.keypoints).thenReturn([keypoint]);
 
       await tester.runAsync(() async {
-        await tester.pumpApp(const PhotoboothPage());
+        await tester.pumpApp(const PhotoboothPage(enablePoseDetection: true));
         await untilCalled(() => cameraPlatform.imageStream(cameraId));
         await tester.pumpAndSettle();
         await tester.pump();
