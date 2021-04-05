@@ -56,12 +56,12 @@
     "@shareDialogDeleteText": {
         "description": "Text displayed on the share dialog to inform about the delete of the photo"
     },
-    "photoBothPlaceholderHeadline": "Allow IO to access your camera",
-    "@photoBothPlaceholderHeadline": {
+    "photoBoothPlaceholderHeadline": "Allow IO to access your camera",
+    "@photoBoothPlaceholderHeadline": {
         "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
     },
-    "photoBothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them.",
-    "@photoBothPlaceholderSubheadline": {
+    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them.",
+    "@photoBoothPlaceholderSubheadline": {
         "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
     }
 }

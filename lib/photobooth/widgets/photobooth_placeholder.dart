@@ -13,13 +13,13 @@ class PhotoboothPlaceholder extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              l10n.photoBothPlaceholderHeadline,
+              l10n.photoBoothPlaceholderHeadline,
               style: theme.textTheme.headline1,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             Text(
-              l10n.photoBothPlaceholderSubheadline,
+              l10n.photoBoothPlaceholderSubheadline,
               style: theme.textTheme.headline2,
               textAlign: TextAlign.center,
             ),
