@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/decoration/view/decoration_page.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -93,7 +93,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
     final image = await _composite(picture, _pose);
-    final previewPageRoute = PreviewPage.route(image: image);
+    final previewPageRoute = DecorationPage.route(image: image);
     _subscription?.pause();
     await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
