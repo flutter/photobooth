@@ -87,7 +87,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               final mid = (dx + dy) / 2;
               final tempNewHeight = height - 2 * mid;
               final tempNewWidth = width - 2 * mid;
-              if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
                 return;
 
               setState(() {
@@ -110,7 +110,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
                 return;
 
               setState(() {
@@ -133,7 +133,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
                 return;
 
               setState(() {
@@ -156,7 +156,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
                 return;
 
               setState(() {
@@ -217,8 +217,8 @@ class __DraggablePointState extends State<_DraggablePoint> {
         initY = details.globalPosition.dy;
       },
       onPanUpdate: (details) {
-        var dx = details.globalPosition.dx - initX;
-        var dy = details.globalPosition.dy - initY;
+        final dx = details.globalPosition.dx - initX;
+        final dy = details.globalPosition.dy - initY;
         initX = details.globalPosition.dx;
         initY = details.globalPosition.dy;
         widget.onDrag(dx, dy);
