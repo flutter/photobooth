@@ -6,9 +6,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/photobooth/widgets/photobooth_placeholder.dart';
 import 'package:io_photobooth/preview/preview.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -126,7 +126,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
             onSnapPressed: _onSnapPressed,
           );
         },
-        error: (_, error) => Center(child: PhotoboothError(error: error)),
+        error: (_, error) => PhotoboothError(error: error),
       ),
     );
   }
@@ -158,27 +158,6 @@ class PhotoboothPreview extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class PhotoboothError extends StatelessWidget {
-  const PhotoboothError({Key? key, required this.error}) : super(key: key);
-
-  final CameraException error;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(error.toLocalizedError(context));
-  }
-}
-
-extension on CameraException {
-  String toLocalizedError(BuildContext context) {
-    final l10n = context.l10n;
-    if (this is CameraNotAllowedException) {
-      return l10n.previewPageCameraNotAllowedText;
-    }
-    return description;
   }
 }
 
