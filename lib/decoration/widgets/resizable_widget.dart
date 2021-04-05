@@ -31,12 +31,20 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
     minHeight = maxHeight * 0.5;
     height = maxHeight * 0.75;
 
-    width = widget.sticker.image.width.toDouble();
+    maxWidth = widget.sticker.image.width.toDouble();
+    minWidth = maxWidth * 0.5;
+    width = maxWidth * 0.75;
   }
 
   double _getNewHeight(double value) {
     if (value >= maxHeight) return maxHeight;
     if (value <= minHeight) return minHeight;
+    return value;
+  }
+
+  double _getNewWidth(double value) {
+    if (value >= maxWidth) return maxWidth;
+    if (value <= minWidth) return minWidth;
     return value;
   }
 
@@ -53,7 +61,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
             color: Colors.red[100],
             child: Image.memory(
               Uint8List.fromList(widget.sticker.data),
-              height: widget.sticker.image.height.toDouble(),
+              height: height,
               width: width,
             ),
           ),
@@ -65,12 +73,12 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           child: ManipulatingBall(
             onDrag: (dx, dy) {
               var mid = (dx + dy) / 2;
-              var newHeight = height - 2 * mid;
-              var newWidth = width - 2 * mid;
+              var tempNewHeight = height - 2 * mid;
+              var tempNewWidth = width - 2 * mid;
 
               setState(() {
-                height = _getNewHeight(newHeight);
-                width = newWidth > 0 ? newWidth : 0;
+                height = _getNewHeight(tempNewHeight);
+                width = _getNewWidth(tempNewWidth);
                 top = top + mid;
                 left = left + mid;
               });
@@ -90,8 +98,8 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               var newWidth = width + 2 * mid;
 
               setState(() {
-                height = newHeight > 0 ? newHeight : 0;
-                width = newWidth > 0 ? newWidth : 0;
+                height = _getNewHeight(newHeight);
+                width = _getNewWidth(newWidth);
                 top = top - mid;
                 left = left - mid;
               });
@@ -111,8 +119,8 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               var newWidth = width + 2 * mid;
 
               setState(() {
-                height = newHeight > 0 ? newHeight : 0;
-                width = newWidth > 0 ? newWidth : 0;
+                height = _getNewHeight(newHeight);
+                width = _getNewWidth(newWidth);
                 top = top - mid;
                 left = left - mid;
               });
@@ -132,8 +140,8 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
               var newWidth = width + 2 * mid;
 
               setState(() {
-                height = newHeight > 0 ? newHeight : 0;
-                width = newWidth > 0 ? newWidth : 0;
+                height = _getNewHeight(newHeight);
+                width = _getNewWidth(newWidth);
                 top = top - mid;
                 left = left - mid;
               });
