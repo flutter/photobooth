@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -83,12 +85,12 @@ void main() async {
     });
 
     testWidgets('renders Camera', (tester) async {
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       expect(find.byType(Camera), findsOneWidget);
     });
 
     testWidgets('renders placholder when initializing', (tester) async {
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
     });
 
@@ -96,7 +98,7 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraUnknownException());
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -105,7 +107,7 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraNotAllowedException());
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -115,7 +117,7 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
 
       expect(find.byType(PhotoboothPreview), findsOneWidget);
@@ -127,7 +129,7 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(const PhotoboothPage());
+      await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
 
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
