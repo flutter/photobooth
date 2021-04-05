@@ -59,7 +59,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
         Positioned(
           top: top,
           left: left,
-          child: DraggableContainer(
+          child: _DraggablePoint(
             onDrag: (dx, dy) {
               setState(() {
                 top = top + dy;
@@ -73,6 +73,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
                 Uint8List.fromList(widget.sticker.data),
                 height: height,
                 width: width,
+                gaplessPlayback: true,
               ),
             ),
           ),
@@ -83,10 +84,9 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           left: left - ballDiameter / 2,
           child: _ResizePoint(
             onDrag: (dx, dy) {
-              var mid = (dx + dy) / 2;
-              var tempNewHeight = height - 2 * mid;
-              var tempNewWidth = width - 2 * mid;
-              print('Nueva altura $tempNewHeight y el máximo es $maxHeight');
+              final mid = (dx + dy) / 2;
+              final tempNewHeight = height - 2 * mid;
+              final tempNewWidth = width - 2 * mid;
               if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
                 return;
 
@@ -106,10 +106,9 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           left: left + width - ballDiameter / 2,
           child: _ResizePoint(
             onDrag: (dx, dy) {
-              var mid = (dx + (dy * -1)) / 2;
-
-              var tempNewHeight = height + 2 * mid;
-              var tempNewWidth = width + 2 * mid;
+              final mid = (dx + (dy * -1)) / 2;
+              final tempNewHeight = height + 2 * mid;
+              final tempNewWidth = width + 2 * mid;
 
               if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
                 return;
@@ -130,10 +129,9 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           left: left + width - ballDiameter / 2,
           child: _ResizePoint(
             onDrag: (dx, dy) {
-              var mid = (dx + dy) / 2;
-
-              var tempNewHeight = height + 2 * mid;
-              var tempNewWidth = width + 2 * mid;
+              final mid = (dx + dy) / 2;
+              final tempNewHeight = height + 2 * mid;
+              final tempNewWidth = width + 2 * mid;
 
               if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
                 return;
@@ -154,10 +152,9 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           left: left - ballDiameter / 2,
           child: _ResizePoint(
             onDrag: (dx, dy) {
-              var mid = ((dx * -1) + dy) / 2;
-
-              var tempNewHeight = height + 2 * mid;
-              var tempNewWidth = width + 2 * mid;
+              final mid = ((dx * -1) + dy) / 2;
+              final tempNewHeight = height + 2 * mid;
+              final tempNewWidth = width + 2 * mid;
 
               if (tempNewHeight >= maxHeight || tempNewWidth >= maxWidth)
                 return;
@@ -176,20 +173,39 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
   }
 }
 
-class DraggableContainer extends StatefulWidget {
-  DraggableContainer({
-    Key? key,
-    required this.onDrag,
-    required this.child,
-  }) : super(key: key);
+class _ResizePoint extends StatelessWidget {
+  const _ResizePoint({Key? key, required this.onDrag}) : super(key: key);
+
   final Function onDrag;
-  final Widget child;
 
   @override
-  _DraggableContainerState createState() => _DraggableContainerState();
+  Widget build(BuildContext context) {
+    return _DraggablePoint(
+      child: Container(
+        width: ballDiameter,
+        height: ballDiameter,
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.5),
+          shape: BoxShape.circle,
+        ),
+      ),
+      onDrag: onDrag,
+    );
+  }
 }
 
-class _DraggableContainerState extends State<DraggableContainer> {
+class _DraggablePoint extends StatefulWidget {
+  const _DraggablePoint({Key? key, required this.child, required this.onDrag})
+      : super(key: key);
+
+  final Widget child;
+  final Function onDrag;
+
+  @override
+  __DraggablePointState createState() => __DraggablePointState();
+}
+
+class __DraggablePointState extends State<_DraggablePoint> {
   late double initX;
   late double initY;
 
@@ -208,45 +224,6 @@ class _DraggableContainerState extends State<DraggableContainer> {
         widget.onDrag(dx, dy);
       },
       child: widget.child,
-    );
-  }
-}
-
-class _ResizePoint extends StatefulWidget {
-  _ResizePoint({Key? key, required this.onDrag}) : super(key: key);
-
-  final Function onDrag;
-
-  @override
-  _ResizePointState createState() => _ResizePointState();
-}
-
-class _ResizePointState extends State<_ResizePoint> {
-  late double initX;
-  late double initY;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanStart: (details) {
-        initX = details.globalPosition.dx;
-        initY = details.globalPosition.dy;
-      },
-      onPanUpdate: (details) {
-        var dx = details.globalPosition.dx - initX;
-        var dy = details.globalPosition.dy - initY;
-        initX = details.globalPosition.dx;
-        initY = details.globalPosition.dy;
-        widget.onDrag(dx, dy);
-      },
-      child: Container(
-        width: ballDiameter,
-        height: ballDiameter,
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.5),
-          shape: BoxShape.circle,
-        ),
-      ),
     );
   }
 }
