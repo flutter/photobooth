@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
 
@@ -42,12 +43,11 @@ void main() {
       await tester.pumpApp(DecorationPage(
         image: image,
       ));
-      expect(find.byKey(const Key('decorationPage_backButton_iconButton')),
-          findsOneWidget);
+      expect(find.byType(PhotoboothBackButton), findsOneWidget);
     });
   });
 
-  group('BackButton', () {
+  group('PhotoboothBackButton', () {
     testWidgets('dismiss when tapping', (tester) async {
       const initialPage = Key('__target__');
       await tester.pumpApp(Builder(
@@ -67,8 +67,7 @@ void main() {
       expect(find.byType(DecorationPage), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButtonFinder =
-          find.byKey(const Key('decorationPage_backButton_iconButton'));
+      final backButtonFinder = find.byType(PhotoboothBackButton);
       await tester.ensureVisible(backButtonFinder);
       await tester.tap(backButtonFinder);
       await tester.pumpAndSettle();
@@ -76,6 +75,23 @@ void main() {
 
       expect(find.byType(DecorationPage), findsNothing);
       expect(find.byKey(initialPage), findsOneWidget);
+    });
+  });
+
+  group('GoToPreviewButton', () {
+    testWidgets('dismiss when tapping', (tester) async {
+      await tester.pumpApp(DecorationPage(
+        image: image,
+      ));
+
+      final goToPreviewButton = find.byType(GoToPreviewButton);
+      await tester.ensureVisible(goToPreviewButton);
+      await tester.tap(goToPreviewButton);
+      await tester.pumpAndSettle();
+      await tester.pump();
+
+      expect(find.byType(DecorationPage), findsNothing);
+      expect(find.byType(PreviewPage), findsOneWidget);
     });
   });
 }

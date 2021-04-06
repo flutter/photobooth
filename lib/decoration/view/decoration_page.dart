@@ -25,8 +25,23 @@ class _DecorationPageState extends State<DecorationPage> {
         fit: StackFit.expand,
         children: [
           PreviewImage(data: widget.image.data),
-          GoToPreviewButton(image: widget.image),
-          const _BackButton(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: GoToPreviewButton(image: widget.image),
+            ),
+          ),
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 15,
+                top: 15,
+              ),
+              child: PhotoboothBackButton(),
+            ),
+          ),
           const StickersFrame(),
         ],
       ),
@@ -44,38 +59,22 @@ class GoToPreviewButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 15),
-        child: FloatingActionButton(
-          child: const Icon(Icons.arrow_forward),
-          onPressed: () =>
-              Navigator.of(context).push(PreviewPage.route(image: image)),
-        ),
-      ),
+    return FloatingActionButton(
+      child: const Icon(Icons.arrow_forward),
+      onPressed: () =>
+          Navigator.of(context).push(PreviewPage.route(image: image)),
     );
   }
 }
 
-class _BackButton extends StatelessWidget {
-  const _BackButton({Key? key}) : super(key: key);
+class PhotoboothBackButton extends StatelessWidget {
+  const PhotoboothBackButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          top: 15,
-        ),
-        child: IconButton(
-          key: const Key('decorationPage_backButton_iconButton'),
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.refresh),
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(Icons.refresh),
     );
   }
 }
