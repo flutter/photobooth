@@ -93,10 +93,10 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
     final image = await _composite(picture, _pose);
-    final previewPageRoute = DecorationPage.route(image: image);
+    final decorationPageRoute = DecorationPage.route(image: image);
     _subscription?.pause();
     await _controller.stop();
-    await Navigator.of(context).push(previewPageRoute);
+    await Navigator.of(context).push(decorationPageRoute);
     _subscription?.resume();
     await _controller.play();
   }

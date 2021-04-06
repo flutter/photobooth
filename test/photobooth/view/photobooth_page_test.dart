@@ -268,10 +268,13 @@ void main() async {
       );
 
       await tester.pumpAndSettle();
-      final previewPage =
+      final decorationPage =
           tester.widget<DecorationPage>(find.byType(DecorationPage));
-      expect(previewPage.image, isNotNull);
+      expect(decorationPage.image, isNotNull);
       expect(find.byType(DecorationPage), findsOneWidget);
+      await tester.tap(find.byType(PhotoboothBackButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(PhotoboothPage), findsOneWidget);
     });
   });
 
