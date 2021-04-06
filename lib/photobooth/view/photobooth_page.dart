@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/photobooth/widgets/photobooth_placeholder.dart';
 import 'package:io_photobooth/preview/preview.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -27,7 +27,10 @@ const _minPartConfidence = 0.5;
 const _supportedParts = ['leftShoulder', 'rightShoulder'];
 
 class PhotoboothPage extends StatefulWidget {
-  const PhotoboothPage({Key? key}) : super(key: key);
+  const PhotoboothPage({Key? key, this.enablePoseDetection = false})
+      : super(key: key);
+
+  final bool enablePoseDetection;
 
   static Route route() {
     return MaterialPageRoute(builder: (_) => const PhotoboothPage());
@@ -53,7 +56,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   void initState() {
     super.initState();
     Future.wait([
-      _initializePoseNet(),
+      if (widget.enablePoseDetection) _initializePoseNet(),
       _initializeCameraController(),
     ]).then((_) {
       _subscription = _controller.imageStream.listen(_onImage);
@@ -78,14 +81,16 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
   }
 
   void _onImage(CameraImage image) async {
-    _pose = await _net?.estimateSinglePose(
-      tf_models.ImageData(
-        data: Uint8ClampedList.fromList(image.raw.data),
-        width: image.raw.width,
-        height: image.raw.height,
-      ),
-      config: _poseConfig,
-    );
+    if (widget.enablePoseDetection) {
+      _pose = await _net?.estimateSinglePose(
+        tf_models.ImageData(
+          data: Uint8ClampedList.fromList(image.raw.data),
+          width: image.raw.width,
+          height: image.raw.height,
+        ),
+        config: _poseConfig,
+      );
+    }
     _image = image;
     if (_pose != null && mounted) setState(() {});
   }
@@ -121,12 +126,78 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
                     size: Size(image.width.toDouble(), image.height.toDouble()),
                     painter: PosePainter(pose: pose, image: Assets.dash.image),
                   ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_dash_characterIconButton',
+                        ),
+                        icon: Image.asset('assets/icons/dash_icon.png'),
+                        color: PhotoboothColors.lightBlue,
+                        onPressed: () {},
+                      ),
+                      const SizedBox(height: 16),
+                      CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_sparky_characterIconButton',
+                        ),
+                        icon: Image.asset('assets/icons/sparky_icon.png'),
+                        color: PhotoboothColors.red,
+                        onPressed: () {},
+                      ),
+                      const SizedBox(height: 16),
+                      CharacterIconButton(
+                        key: const Key(
+                          'photoboothView_android_characterIconButton',
+                        ),
+                        icon: Image.asset('assets/icons/android_icon.png'),
+                        color: PhotoboothColors.green,
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
             onSnapPressed: _onSnapPressed,
           );
         },
         error: (_, error) => PhotoboothError(error: error),
+      ),
+    );
+  }
+}
+
+class CharacterIconButton extends StatelessWidget {
+  const CharacterIconButton({
+    Key? key,
+    required this.icon,
+    this.color,
+    this.onPressed,
+  }) : super(key: key);
+
+  final Widget icon;
+  final Color? color;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      shape: const CircleBorder(
+        side: BorderSide(color: Colors.white, width: 8),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          primary: color,
+        ),
+        onPressed: onPressed,
+        child: icon,
       ),
     );
   }
