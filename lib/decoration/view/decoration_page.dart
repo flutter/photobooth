@@ -1,10 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
-import 'package:io_photobooth/decoration/widgets/resizable_sticker.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -32,7 +29,7 @@ class _DecorationPageState extends State<DecorationPage> {
         fit: StackFit.expand,
         children: [
           PreviewImage(data: widget.image.data),
-          _StickersButton(onPressed: () {
+          OpenStickersButton(onPressed: () {
             setState(() {
               _displayStickers = !_displayStickers;
             });
@@ -41,10 +38,10 @@ class _DecorationPageState extends State<DecorationPage> {
             ResizebleSticker(
               sticker: sticker,
             ),
-          _GoToPreviewButton(image: widget.image),
-          const _GoBackButton(),
+          GoToPreviewButton(image: widget.image),
+          const _BackButton(),
           if (_displayStickers)
-            _StickersCarousel(
+            StickersCarousel(
               onStickerSelected: (sticker) {
                 stickersSelected.add(sticker);
                 setState(() {});
@@ -56,8 +53,8 @@ class _DecorationPageState extends State<DecorationPage> {
   }
 }
 
-class _StickersButton extends StatelessWidget {
-  const _StickersButton({
+class OpenStickersButton extends StatelessWidget {
+  const OpenStickersButton({
     Key? key,
     required this.onPressed,
   }) : super(key: key);
@@ -79,8 +76,8 @@ class _StickersButton extends StatelessWidget {
   }
 }
 
-class _StickersCarousel extends StatelessWidget {
-  const _StickersCarousel({
+class StickersCarousel extends StatelessWidget {
+  const StickersCarousel({
     Key? key,
     required this.onStickerSelected,
   }) : super(key: key);
@@ -100,7 +97,7 @@ class _StickersCarousel extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _StickerSelection(
+            StickerSelection(
               asset: Assets.dash,
               onStickerSelected: onStickerSelected,
             ),
@@ -111,8 +108,8 @@ class _StickersCarousel extends StatelessWidget {
   }
 }
 
-class _StickerSelection extends StatelessWidget {
-  const _StickerSelection({
+class StickerSelection extends StatelessWidget {
+  const StickerSelection({
     Key? key,
     required this.asset,
     required this.onStickerSelected,
@@ -130,29 +127,8 @@ class _StickerSelection extends StatelessWidget {
   }
 }
 
-class _GoBackButton extends StatelessWidget {
-  const _GoBackButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          top: 15,
-        ),
-        child: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.refresh),
-        ),
-      ),
-    );
-  }
-}
-
-class _GoToPreviewButton extends StatelessWidget {
-  const _GoToPreviewButton({
+class GoToPreviewButton extends StatelessWidget {
+  const GoToPreviewButton({
     Key? key,
     required this.image,
   }) : super(key: key);
@@ -169,6 +145,28 @@ class _GoToPreviewButton extends StatelessWidget {
           child: const Icon(Icons.arrow_forward),
           onPressed: () =>
               Navigator.of(context).push(PreviewPage.route(image: image)),
+        ),
+      ),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  const _BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 15,
+          top: 15,
+        ),
+        child: IconButton(
+          key: const Key('decorationPage_backButton_iconButton'),
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.refresh),
         ),
       ),
     );
