@@ -62,7 +62,11 @@ class OpenStickersButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onPressed.call(),
-      child: Image.asset('assets/icons/stickers_icon.png'),
+      child: Image.asset(
+        'assets/icons/stickers_icon.png',
+        height: 50,
+        width: 50,
+      ),
     );
   }
 }
