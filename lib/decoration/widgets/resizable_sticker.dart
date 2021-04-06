@@ -60,6 +60,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           top: top,
           left: left,
           child: _DraggablePoint(
+            key: const Key('resizableSticker_image_draggablePoint'),
             onDrag: (dx, dy) {
               setState(() {
                 top = top + dy;
@@ -83,6 +84,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           top: top - ballDiameter / 2,
           left: left - ballDiameter / 2,
           child: _ResizePoint(
+            key: const Key('resizableSticker_topLeft_draggablePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
               final tempNewHeight = height - 2 * mid;
@@ -105,6 +107,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           top: top - ballDiameter / 2,
           left: left + width - ballDiameter / 2,
           child: _ResizePoint(
+            key: const Key('resizableSticker_topRight_draggablePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + (dy * -1)) / 2;
               final tempNewHeight = height + 2 * mid;
@@ -128,6 +131,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           top: top + height - ballDiameter / 2,
           left: left + width - ballDiameter / 2,
           child: _ResizePoint(
+            key: const Key('resizableSticker_bottomRight_draggablePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
               final tempNewHeight = height + 2 * mid;
@@ -151,6 +155,7 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
           top: top + height - ballDiameter / 2,
           left: left - ballDiameter / 2,
           child: _ResizePoint(
+            key: const Key('resizableSticker_bottomLeft_draggablePoint'),
             onDrag: (dx, dy) {
               final mid = ((dx * -1) + dy) / 2;
               final tempNewHeight = height + 2 * mid;

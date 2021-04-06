@@ -27,16 +27,14 @@ void main() async {
     testWidgets(
         'when clicks on OpenStickersButton then StickersCarousel displays',
         (tester) async {
-      await tester.pumpApp(Material(
-        child: StickersFrame(),
+      await tester.pumpApp(Scaffold(
+        body: StickersFrame(),
       ));
-      final stickersButton = find.byType(OpenStickersButton);
-      final stickersCarousel = find.byType(StickersCarousel);
-      expect(stickersCarousel, findsNothing);
-      await tester.ensureVisible(stickersButton);
-      await tester.tap(stickersButton);
-      await tester.pump();
-      expect(stickersCarousel, findsOneWidget);
+      expect(find.byType(StickersCarousel), findsNothing);
+      await tester.ensureVisible(find.byType(OpenStickersButton));
+      await tester.tap(find.byType(OpenStickersButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(StickersCarousel), findsOneWidget);
     });
   });
 }
