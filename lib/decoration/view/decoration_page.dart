@@ -6,6 +6,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DecorationPage extends StatelessWidget {
   const DecorationPage({Key? key, required this.image}) : super(key: key);
+  static Route route({required ImageData image}) {
+    return MaterialPageRoute(builder: (_) => DecorationPage(image: image));
+  }
+
   final ImageData image;
 
   @override
