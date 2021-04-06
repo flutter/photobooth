@@ -32,6 +32,21 @@ void main() async {
           findsOneWidget);
     });
 
+    testWidgets('image is draggable', (tester) async {
+      await tester.pumpApp(Material(
+        child: ResizebleSticker(
+          sticker: Assets.dash,
+        ),
+      ));
+      final firstLocation = tester
+          .getCenter(find.byKey(Key('resizableSticker_image_draggablePoint')));
+      await tester.dragFrom(firstLocation, const Offset(200.0, 300.0));
+      await tester.pump(kThemeAnimationDuration);
+      final destination = tester
+          .getCenter(find.byKey(Key('resizableSticker_image_draggablePoint')));
+      expect(firstLocation == destination, false);
+    });
+
     testWidgets('has top left corner as draggable point', (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
