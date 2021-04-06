@@ -42,7 +42,7 @@ class _StickersFrameState extends State<StickersFrame> {
             ),
           ),
         for (var sticker in stickersSelected)
-          ResizebleSticker(
+          ResizableSticker(
             sticker: sticker,
           ),
       ],

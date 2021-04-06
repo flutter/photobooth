@@ -9,19 +9,19 @@ void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
 
-  group('ResizebleSticker', () {
+  group('ResizableSticker', () {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
-      expect(find.byType(ResizebleSticker), findsOneWidget);
+      expect(find.byType(ResizableSticker), findsOneWidget);
     });
 
     testWidgets('image as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -34,7 +34,7 @@ void main() async {
 
     testWidgets('image is draggable', (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -49,7 +49,7 @@ void main() async {
 
     testWidgets('top left corner as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -67,7 +67,7 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: ResizebleSticker(
+                child: ResizableSticker(
                   sticker: Assets.dash,
                 ),
               ),
@@ -90,7 +90,7 @@ void main() async {
 
     testWidgets('top right corner as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -108,7 +108,7 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: ResizebleSticker(
+                child: ResizableSticker(
                   sticker: Assets.dash,
                 ),
               ),
@@ -132,7 +132,7 @@ void main() async {
     testWidgets('bottom right corner as draggable point renders',
         (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -150,7 +150,7 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: ResizebleSticker(
+                child: ResizableSticker(
                   sticker: Assets.dash,
                 ),
               ),
@@ -174,7 +174,7 @@ void main() async {
     testWidgets('bottom left corner as draggable point renders',
         (tester) async {
       await tester.pumpApp(Material(
-        child: ResizebleSticker(
+        child: ResizableSticker(
           sticker: Assets.dash,
         ),
       ));
@@ -192,7 +192,7 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: ResizebleSticker(
+                child: ResizableSticker(
                   sticker: Assets.dash,
                 ),
               ),
