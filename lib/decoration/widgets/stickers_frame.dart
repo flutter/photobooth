@@ -18,20 +18,15 @@ class _StickersFrameState extends State<StickersFrame> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 15,
-              right: 15,
-            ),
-            child: OpenStickersButton(
-              onPressed: () {
-                setState(() {
-                  displayStickers = !displayStickers;
-                });
-              },
-            ),
+        Positioned(
+          right: 15,
+          top: 15,
+          child: OpenStickersButton(
+            onPressed: () {
+              setState(() {
+                displayStickers = !displayStickers;
+              });
+            },
           ),
         ),
         if (displayStickers)
