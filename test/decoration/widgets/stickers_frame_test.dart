@@ -32,7 +32,6 @@ void main() async {
       ));
       final stickersButton = find.byType(OpenStickersButton);
       final stickersCarousel = find.byType(StickersCarousel);
-      expect(stickersButton, findsOneWidget);
       expect(stickersCarousel, findsNothing);
       await tester.ensureVisible(stickersButton);
       await tester.tap(stickersButton);

@@ -21,12 +21,17 @@ class _StickersFrameState extends State<StickersFrame> {
         Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.only(top: 15, right: 15),
-            child: OpenStickersButton(onPressed: () {
-              setState(() {
-                displayStickers = !displayStickers;
-              });
-            }),
+            padding: const EdgeInsets.only(
+              top: 15,
+              right: 15,
+            ),
+            child: OpenStickersButton(
+              onPressed: () {
+                setState(() {
+                  displayStickers = !displayStickers;
+                });
+              },
+            ),
           ),
         ),
         if (displayStickers)
@@ -84,7 +89,7 @@ class StickersCarousel extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          StickerSelection(
+          StickerChoice(
             asset: Assets.dash,
             onStickerSelected: onStickerSelected,
           ),
@@ -94,8 +99,8 @@ class StickersCarousel extends StatelessWidget {
   }
 }
 
-class StickerSelection extends StatelessWidget {
-  const StickerSelection({
+class StickerChoice extends StatelessWidget {
+  const StickerChoice({
     Key? key,
     required this.asset,
     required this.onStickerSelected,
