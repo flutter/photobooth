@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/decoration/view/decoration_page.dart';
+import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
