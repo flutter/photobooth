@@ -111,7 +111,11 @@ class StickerChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Image.memory(asset.data),
+      child: Image.memory(
+        asset.data,
+        height: 50,
+        width: 50,
+      ),
       onTap: () => onStickerSelected(asset),
     );
   }
