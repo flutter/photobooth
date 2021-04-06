@@ -24,9 +24,6 @@ class _ResizebleStickerState extends State<ResizebleSticker> {
   double top = 0;
   double left = 0;
 
-  bool get maxHeightAvailable => height >= maxHeight;
-  bool get maxWidthAvailable => width >= maxWidth;
-
   @override
   void initState() {
     super.initState();
