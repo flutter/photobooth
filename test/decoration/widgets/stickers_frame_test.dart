@@ -1,10 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import '../../helpers/helpers.dart';
 
-void main() {
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await Assets.load();
+
   group('StickersFrame', () {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(Material(
@@ -32,7 +36,6 @@ void main() {
       expect(stickersCarousel, findsNothing);
       await tester.ensureVisible(stickersButton);
       await tester.tap(stickersButton);
-      await tester.pumpAndSettle();
       await tester.pump();
       expect(stickersCarousel, findsOneWidget);
     });

@@ -16,19 +16,31 @@ class _StickersFrameState extends State<StickersFrame> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
-        if (displayStickers)
-          StickersCarousel(
-            onStickerSelected: (sticker) {
-              stickersSelected.add(sticker);
-              setState(() {});
-            },
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15, right: 15),
+            child: OpenStickersButton(onPressed: () {
+              setState(() {
+                displayStickers = !displayStickers;
+              });
+            }),
           ),
-        OpenStickersButton(onPressed: () {
-          setState(() {
-            displayStickers = !displayStickers;
-          });
-        }),
+        ),
+        if (displayStickers)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: StickersCarousel(
+              onStickerSelected: (sticker) {
+                stickersSelected.add(sticker);
+                setState(() {});
+              },
+            ),
+          ),
         for (var sticker in stickersSelected)
           ResizebleSticker(
             sticker: sticker,
@@ -44,20 +56,13 @@ class OpenStickersButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    return Align(
-      alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15, top: 15),
-        child: InkWell(
-          onTap: onPressed,
-          child: Image.asset('assets/icons/stickers_icon.png'),
-        ),
-      ),
+    return InkWell(
+      onTap: () => onPressed.call(),
+      child: Image.asset('assets/icons/stickers_icon.png'),
     );
   }
 }
@@ -72,23 +77,18 @@ class StickersCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(15),
-        color: Colors.grey.withOpacity(0.5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            StickerSelection(
-              asset: Assets.dash,
-              onStickerSelected: onStickerSelected,
-            ),
-          ],
-        ),
+    return Container(
+      height: 100,
+      padding: const EdgeInsets.all(15),
+      color: Colors.grey.withOpacity(0.5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          StickerSelection(
+            asset: Assets.dash,
+            onStickerSelected: onStickerSelected,
+          ),
+        ],
       ),
     );
   }
