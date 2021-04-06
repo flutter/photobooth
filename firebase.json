@@ -1,5 +1,60 @@
 {
   "hosting": {
-    "public": "build/web"
+    "public": "build/web",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": [
+      "firebase.json",
+      "functions/node_modules",
+      "functions/src"
+    ],
+    "rewrites": [
+      { "source": "/api/images/upload",
+        "function": "uploadImage"
+      }
+    ],
+    "headers": [
+      { "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [{
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }]
+      },
+      { "source": "**/*.@(jpg|jpeg|gif|png)",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "max-age=3600"
+        }]
+      }
+    ],
+    "predeploy": []
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs14",
+    "predeploy": [
+      "npm --prefix ./functions run test",
+      "npm --prefix ./functions run build"
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "hosting": {
+      "name": "app",
+      "port": 5000,
+      "host": "0.0.0.0"
+    },
+    "functions": {
+      "name": "api",
+      "port": 5001,
+      "host": "0.0.0.0"
+    },
+    "ui": {
+      "enabled": true,
+      "port": 5002,
+      "host": "0.0.0.0"
+    }
   }
 }
