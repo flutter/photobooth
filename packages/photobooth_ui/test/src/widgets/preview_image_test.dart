@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
-  const List<int> transparentImage = <int>[
+  const transparentImage = <int>[
     0x89,
     0x50,
     0x4E,
