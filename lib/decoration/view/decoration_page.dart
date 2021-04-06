@@ -30,26 +30,17 @@ class _DecorationPageState extends State<DecorationPage> {
         fit: StackFit.expand,
         children: [
           _PreviewImage(image: widget.image),
+          _StickersButton(onPressed: () {
+            setState(() {
+              _displayStickers = !_displayStickers;
+            });
+          }),
           for (var sticker in stickersSelected)
             ResizebleSticker(
               sticker: sticker,
             ),
           _GoToPreviewButton(image: widget.image),
           const _GoBackButton(),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 15, top: 15),
-              child: IconButton(
-                icon: const Icon(Icons.ac_unit),
-                onPressed: () {
-                  setState(() {
-                    _displayStickers = !_displayStickers;
-                  });
-                },
-              ),
-            ),
-          ),
           if (_displayStickers)
             _StickersCarousel(
               onStickerSelected: (sticker) {
@@ -58,6 +49,29 @@ class _DecorationPageState extends State<DecorationPage> {
               },
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _StickersButton extends StatelessWidget {
+  const _StickersButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15, top: 15),
+        child: InkWell(
+          onTap: onPressed,
+          child: Image.asset('assets/icons/stickers_icon.png'),
+        ),
       ),
     );
   }
