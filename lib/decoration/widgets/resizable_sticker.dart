@@ -68,7 +68,7 @@ class _ResizableStickerState extends State<ResizableSticker> {
               height: height,
               width: width,
               child: Image.memory(
-                Uint8List.fromList(widget.sticker.data),
+                Uint8List.fromList(widget.sticker.bytes),
                 height: height,
                 width: width,
                 gaplessPlayback: true,
