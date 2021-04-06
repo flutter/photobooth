@@ -26,10 +26,11 @@ void main() async {
         ),
       ));
       expect(
-          find.byKey(
-            Key('resizableSticker_image_draggablePoint'),
-          ),
-          findsOneWidget);
+        find.byKey(
+          Key('resizableSticker_image_draggablePoint'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('image is draggable', (tester) async {
@@ -54,10 +55,11 @@ void main() async {
         ),
       ));
       expect(
-          find.byKey(
-            Key('resizableSticker_topLeft_draggablePoint'),
-          ),
-          findsOneWidget);
+        find.byKey(
+          Key('resizableSticker_topLeft_draggablePoint'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('top left corner point can resize image', (tester) async {
@@ -95,10 +97,11 @@ void main() async {
         ),
       ));
       expect(
-          find.byKey(
-            Key('resizableSticker_topRight_draggablePoint'),
-          ),
-          findsOneWidget);
+        find.byKey(
+          Key('resizableSticker_topRight_draggablePoint'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('top right corner point can resize image', (tester) async {
@@ -137,10 +140,11 @@ void main() async {
         ),
       ));
       expect(
-          find.byKey(
-            Key('resizableSticker_bottomRight_draggablePoint'),
-          ),
-          findsOneWidget);
+        find.byKey(
+          Key('resizableSticker_bottomRight_draggablePoint'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('bottom right corner point can resize image', (tester) async {
@@ -179,10 +183,11 @@ void main() async {
         ),
       ));
       expect(
-          find.byKey(
-            Key('resizableSticker_bottomLeft_draggablePoint'),
-          ),
-          findsOneWidget);
+        find.byKey(
+          Key('resizableSticker_bottomLeft_draggablePoint'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('bottom left corner point can resize image', (tester) async {
