@@ -24,7 +24,7 @@ void main() async {
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
 
-    testWidgets(
+    /*testWidgets(
         'when clicks on OpenStickersButton then StickersCarousel displays',
         (tester) async {
       await tester.pumpApp(Scaffold(
@@ -35,6 +35,6 @@ void main() async {
       await tester.tap(find.byType(OpenStickersButton));
       await tester.pumpAndSettle();
       expect(find.byType(StickersCarousel), findsOneWidget);
-    });
+    });*/
   });
 }
