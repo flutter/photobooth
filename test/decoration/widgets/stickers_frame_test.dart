@@ -36,5 +36,19 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byType(StickersCarousel), findsOneWidget);
     });
+
+    testWidgets('displays ResizebleSticker when selecting in the carousel',
+        (tester) async {
+      await tester.pumpApp(Scaffold(
+        body: StickersFrame(),
+      ));
+      await tester.ensureVisible(find.byType(OpenStickersButton));
+      await tester.tap(find.byType(OpenStickersButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(ResizebleSticker), findsNothing);
+      await tester.tap(find.byType(StickerChoice));
+      await tester.pumpAndSettle();
+      expect(find.byType(ResizebleSticker), findsOneWidget);
+    });
   });
 }
