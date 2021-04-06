@@ -29,6 +29,12 @@ class PreviewImage extends StatelessWidget {
       Uint8List.fromList(data),
       height: height,
       width: width,
+      errorBuilder: (context, error, stackTrace) {
+        return Text(
+          '$error, $stackTrace',
+          key: const Key('previewImage_errorText'),
+        );
+      },
     );
   }
 }

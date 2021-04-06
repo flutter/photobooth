@@ -96,5 +96,12 @@ void main() {
       await tester.pumpWidget(PreviewImage(data: data));
       expect(find.byType(PreviewImage), findsOneWidget);
     });
+
+    testWidgets('renders error with empty image', (tester) async {
+      await tester.pumpWidget(PreviewImage(data: Uint8List.fromList([])));
+      await tester.pumpAndSettle();
+      final exception = tester.takeException();
+      expect(exception, isNotNull);
+    });
   });
 }
