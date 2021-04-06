@@ -19,7 +19,7 @@ void main() async {
       expect(find.byType(ResizebleSticker), findsOneWidget);
     });
 
-    testWidgets('has image as draggable point', (tester) async {
+    testWidgets('image as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
           sticker: Assets.dash,
@@ -47,7 +47,7 @@ void main() async {
       expect(firstLocation == destination, false);
     });
 
-    testWidgets('has top left corner as draggable point', (tester) async {
+    testWidgets('top left corner as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
           sticker: Assets.dash,
@@ -60,7 +60,35 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('has top right corner as draggable point', (tester) async {
+    testWidgets('top left corner point can resize image', (tester) async {
+      await tester.pumpApp(
+        Material(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ResizebleSticker(
+                  sticker: Assets.dash,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      final draggablePointFinder =
+          find.byKey(Key('resizableSticker_topLeft_draggablePoint'));
+      final imageFinder = find.byType(Image);
+
+      final originalSize = tester.getSize(imageFinder);
+      final firstLocation = tester.getCenter(draggablePointFinder);
+      await tester.dragFrom(
+          firstLocation, Offset(firstLocation.dx + 10, firstLocation.dy + 10));
+      await tester.pump(kThemeAnimationDuration);
+      final newSize = tester.getSize(imageFinder);
+      expect(originalSize == newSize, false);
+    });
+
+    testWidgets('top right corner as draggable point renders', (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
           sticker: Assets.dash,
@@ -73,7 +101,36 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('has bottom right corner as draggable point', (tester) async {
+    testWidgets('top right corner point can resize image', (tester) async {
+      await tester.pumpApp(
+        Material(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ResizebleSticker(
+                  sticker: Assets.dash,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      final draggablePointFinder =
+          find.byKey(Key('resizableSticker_topRight_draggablePoint'));
+      final imageFinder = find.byType(Image);
+
+      final originalSize = tester.getSize(imageFinder);
+      final firstLocation = tester.getCenter(draggablePointFinder);
+      await tester.dragFrom(
+          firstLocation, Offset(firstLocation.dx + 10, firstLocation.dy + 10));
+      await tester.pump(kThemeAnimationDuration);
+      final newSize = tester.getSize(imageFinder);
+      expect(originalSize == newSize, false);
+    });
+
+    testWidgets('bottom right corner as draggable point renders',
+        (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
           sticker: Assets.dash,
@@ -86,7 +143,36 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('has bottom left corner as draggable point', (tester) async {
+    testWidgets('bottom right corner point can resize image', (tester) async {
+      await tester.pumpApp(
+        Material(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ResizebleSticker(
+                  sticker: Assets.dash,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      final draggablePointFinder =
+          find.byKey(Key('resizableSticker_bottomRight_draggablePoint'));
+      final imageFinder = find.byType(Image);
+
+      final originalSize = tester.getSize(imageFinder);
+      final firstLocation = tester.getCenter(draggablePointFinder);
+      await tester.dragFrom(
+          firstLocation, Offset(firstLocation.dx + 10, firstLocation.dy + 10));
+      await tester.pump(kThemeAnimationDuration);
+      final newSize = tester.getSize(imageFinder);
+      expect(originalSize == newSize, false);
+    });
+
+    testWidgets('bottom left corner as draggable point renders',
+        (tester) async {
       await tester.pumpApp(Material(
         child: ResizebleSticker(
           sticker: Assets.dash,
@@ -97,6 +183,34 @@ void main() async {
             Key('resizableSticker_bottomLeft_draggablePoint'),
           ),
           findsOneWidget);
+    });
+
+    testWidgets('bottom left corner point can resize image', (tester) async {
+      await tester.pumpApp(
+        Material(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ResizebleSticker(
+                  sticker: Assets.dash,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      final draggablePointFinder =
+          find.byKey(Key('resizableSticker_bottomLeft_draggablePoint'));
+      final imageFinder = find.byType(Image);
+
+      final originalSize = tester.getSize(imageFinder);
+      final firstLocation = tester.getCenter(draggablePointFinder);
+      await tester.dragFrom(
+          firstLocation, Offset(firstLocation.dx + 10, firstLocation.dy + 10));
+      await tester.pump(kThemeAnimationDuration);
+      final newSize = tester.getSize(imageFinder);
+      expect(originalSize == newSize, false);
     });
   });
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
 class ResizebleSticker extends StatefulWidget {
-  ResizebleSticker({required this.sticker});
+  ResizebleSticker({Key? key, required this.sticker}) : super(key: key);
 
   final Asset sticker;
   @override
