@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/decoration/widgets/resizable_sticker.dart';
 import 'package:io_photobooth/preview/preview.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DecorationPage extends StatefulWidget {
   const DecorationPage({Key? key, required this.image}) : super(key: key);
@@ -29,7 +31,7 @@ class _DecorationPageState extends State<DecorationPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          _PreviewImage(image: widget.image),
+          PreviewImage(data: widget.image.data),
           _StickersButton(onPressed: () {
             setState(() {
               _displayStickers = !_displayStickers;
@@ -169,25 +171,6 @@ class _GoToPreviewButton extends StatelessWidget {
               Navigator.of(context).push(PreviewPage.route(image: image)),
         ),
       ),
-    );
-  }
-}
-
-class _PreviewImage extends StatelessWidget {
-  const _PreviewImage({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
-
-  final ImageData image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.memory(
-      Uint8List.fromList(image.data),
-      errorBuilder: (context, error, stackTrace) {
-        return Text('$error, $stackTrace');
-      },
     );
   }
 }
