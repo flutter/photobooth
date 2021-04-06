@@ -24,11 +24,11 @@ void main() {
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
-    testWidgets('renders OpenStickersButton', (tester) async {
+    testWidgets('renders StickersFrame', (tester) async {
       await tester.pumpApp(DecorationPage(
         image: image,
       ));
-      expect(find.byType(OpenStickersButton), findsOneWidget);
+      expect(find.byType(StickersFrame), findsOneWidget);
     });
 
     testWidgets('renders GoToPreviewButton', (tester) async {
