@@ -22,7 +22,7 @@ const _poseConfig = tf_models.SinglePersonInterfaceConfig(
 );
 
 class PhotoboothPage extends StatefulWidget {
-  const PhotoboothPage({Key? key, this.enablePoseDetection = true})
+  const PhotoboothPage({Key? key, this.enablePoseDetection = false})
       : super(key: key);
 
   final bool enablePoseDetection;
