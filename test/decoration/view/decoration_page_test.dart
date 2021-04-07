@@ -82,9 +82,7 @@ void main() async {
   testWidgets('tapping preview button routes to PreviewPage', (tester) async {
     await tester.pumpApp(DecorationPage(image: image));
 
-    final goToPreviewButton = find.byKey(
-      const Key('decorationPage_preview_floatingActionButton'),
-    );
+    final goToPreviewButton = find.byType(GoNextButton);
     await tester.ensureVisible(goToPreviewButton);
     await tester.tap(goToPreviewButton);
     await tester.pumpAndSettle();

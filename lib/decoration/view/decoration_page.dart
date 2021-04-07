@@ -37,8 +37,7 @@ class DecorationPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: FloatingActionButton(
-                key: const Key('decorationPage_preview_floatingActionButton'),
+              child: GoNextButton(
                 onPressed: () => Navigator.of(context).push(
                   PreviewPage.route(image: image),
                 ),
@@ -95,6 +94,29 @@ class DecorationView extends StatelessWidget {
         for (final sticker in state.stickers)
           DraggableResizableAsset(asset: sticker),
       ],
+    );
+  }
+}
+
+class GoNextButton extends StatelessWidget {
+  const GoNextButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: InkWell(
+        onTap: onPressed,
+        child: Image.asset(
+          'assets/icons/go_next_icon.png',
+          height: 100,
+          width: 100,
+        ),
+      ),
     );
   }
 }
