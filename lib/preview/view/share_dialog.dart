@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
   const ShareDialog({
@@ -24,7 +24,7 @@ class ShareDialog extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PreviewImage(image: image, height: 200),
+                  PreviewImage(data: image.data, height: 200),
                   const SizedBox(height: 12),
                   Text(
                     l10n.shareDialogHeading,

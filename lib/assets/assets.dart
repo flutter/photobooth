@@ -1,8 +1,8 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 abstract class Assets {
   static late final Asset dash;
@@ -21,14 +21,9 @@ abstract class Assets {
 
 Future<Asset> _loadAsset(String path) async {
   final data = await rootBundle.load(path);
-  final image = await decodeImageFromList(Uint8List.view(data.buffer));
-  final bytes = await image.toByteData();
-  return Asset(image: image, buffer: bytes!.buffer);
-}
+  final bytes = Uint8List.view(data.buffer);
+  final image = await decodeImageFromList(bytes);
+  final imageBytes = await image.toByteData();
 
-class Asset {
-  const Asset({required this.image, required this.buffer});
-
-  final ui.Image image;
-  final ByteBuffer buffer;
+  return Asset(image: image, buffer: imageBytes!.buffer, bytes: bytes);
 }

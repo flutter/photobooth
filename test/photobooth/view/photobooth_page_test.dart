@@ -7,8 +7,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/preview/preview.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
@@ -217,7 +217,7 @@ void main() async {
       });
     });
 
-    testWidgets('navigates to PreviewPage photo is taken', (tester) async {
+    testWidgets('navigates to DecorationPage photo is taken', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       const keypoint = tf_models.Keypoint(
@@ -268,12 +268,13 @@ void main() async {
       );
 
       await tester.pumpAndSettle();
-      final previewPage = tester.widget<PreviewPage>(find.byType(PreviewPage));
-      expect(previewPage.image, isNotNull);
-
-      await tester.tap(find.byType(BackButton));
+      final decorationPage =
+          tester.widget<DecorationPage>(find.byType(DecorationPage));
+      expect(decorationPage.image, isNotNull);
+      expect(find.byType(DecorationPage), findsOneWidget);
+      await tester.tap(find.byKey(const Key('decorationPage_back_iconButton')));
       await tester.pumpAndSettle();
-      expect(find.byType(PhotoboothPreview), findsOneWidget);
+      expect(find.byType(PhotoboothPage), findsOneWidget);
     });
   });
 
