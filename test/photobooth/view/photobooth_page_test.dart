@@ -162,7 +162,8 @@ void main() async {
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('tapping on dash button does nothing', (tester) async {
+    testWidgets('tapping on dash button does nothing on desktop',
+        (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
@@ -174,6 +175,26 @@ void main() async {
         const Key('photoboothView_dash_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tapping on dash button does nothing on mobile',
+        (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_dash_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('tapping on sparky button does nothing', (tester) async {
@@ -190,6 +211,26 @@ void main() async {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('tapping on sparky button does nothing on mobile',
+        (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_sparky_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    });
+
     testWidgets('tapping on android button does nothing', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -202,6 +243,26 @@ void main() async {
         const Key('photoboothView_android_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tapping on android button does nothing on mobile',
+        (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_android_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('renders dash in preview when poses are detected',
