@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -50,7 +51,9 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: const CameraOptions(
       audio: AudioConstraints(enabled: false),
-      video: VideoConstraints(height: 1024, width: 1024),
+      video: kIsWeb
+          ? VideoConstraints(height: 720, width: 1080)
+          : VideoConstraints(height: 1080, width: 720),
     ),
   );
   StreamSubscription<CameraImage>? _subscription;
