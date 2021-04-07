@@ -9,6 +9,7 @@ import 'font_weights.dart';
 class PhotoboothTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'photobooth_ui',
+    fontFamily: 'GoogleSans',
     color: PhotoboothColors.black,
     fontWeight: PhotoboothFontWeight.regular,
   );

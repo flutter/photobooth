@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -22,9 +20,6 @@ const _posenetConfig = tf_models.ModelConfig(
 const _poseConfig = tf_models.SinglePersonInterfaceConfig(
   flipHorizontal: false,
 );
-const _minPoseConfidence = 0.1;
-const _minPartConfidence = 0.5;
-const _supportedParts = ['leftShoulder', 'rightShoulder'];
 
 class PhotoboothPage extends StatefulWidget {
   const PhotoboothPage({Key? key, this.enablePoseDetection = false})
@@ -108,209 +103,31 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
 
   @override
   Widget build(BuildContext context) {
-    final image = _image;
-    final pose = _pose;
     return Scaffold(
       body: Camera(
         controller: _controller,
-        placeholder: (_) => Center(child: PhotoboothPlaceholder()),
+        placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return PhotoboothPreview(
-            preview: Stack(
-              fit: StackFit.expand,
-              children: [
-                preview,
-                if (image != null && pose != null)
-                  CustomPaint(
-                    key: const Key('photoboothView_posePainter_customPainter'),
-                    size: Size(image.width.toDouble(), image.height.toDouble()),
-                    painter: PosePainter(pose: pose, image: Assets.dash.image),
-                  ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      CharacterIconButton(
-                        key: const Key(
-                          'photoboothView_dash_characterIconButton',
-                        ),
-                        icon: Image.asset('assets/icons/dash_icon.png'),
-                        color: PhotoboothColors.lightBlue,
-                        onPressed: () {},
-                      ),
-                      const SizedBox(height: 16),
-                      CharacterIconButton(
-                        key: const Key(
-                          'photoboothView_sparky_characterIconButton',
-                        ),
-                        icon: Image.asset('assets/icons/sparky_icon.png'),
-                        color: PhotoboothColors.red,
-                        onPressed: () {},
-                      ),
-                      const SizedBox(height: 16),
-                      CharacterIconButton(
-                        key: const Key(
-                          'photoboothView_android_characterIconButton',
-                        ),
-                        icon: Image.asset('assets/icons/android_icon.png'),
-                        color: PhotoboothColors.green,
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+            image: _image,
+            pose: _pose,
+            preview: preview,
             onSnapPressed: _onSnapPressed,
           );
         },
-        error: (_, error) => Center(child: PhotoboothError(error: error)),
+        error: (_, error) => PhotoboothError(error: error),
       ),
     );
   }
-}
-
-class CharacterIconButton extends StatelessWidget {
-  const CharacterIconButton({
-    Key? key,
-    required this.icon,
-    this.color,
-    this.onPressed,
-  }) : super(key: key);
-
-  final Widget icon;
-  final Color? color;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      shape: const CircleBorder(
-        side: BorderSide(color: Colors.white, width: 8),
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          primary: color,
-        ),
-        onPressed: onPressed,
-        child: icon,
-      ),
-    );
-  }
-}
-
-class PhotoboothPlaceholder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => const CircularProgressIndicator();
-}
-
-class PhotoboothPreview extends StatelessWidget {
-  const PhotoboothPreview({
-    Key? key,
-    required this.preview,
-    required this.onSnapPressed,
-  }) : super(key: key);
-
-  final Widget preview;
-  final VoidCallback onSnapPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        preview,
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: FloatingActionButton(
-            key: const Key('photoboothPreview_photo_floatingActionButton'),
-            child: const Icon(Icons.photo_camera),
-            onPressed: onSnapPressed,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class PhotoboothError extends StatelessWidget {
-  const PhotoboothError({Key? key, required this.error}) : super(key: key);
-
-  final CameraException error;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(error.toLocalizedError(context));
-  }
-}
-
-extension on CameraException {
-  String toLocalizedError(BuildContext context) {
-    final l10n = context.l10n;
-    if (this is CameraNotAllowedException) {
-      return l10n.previewPageCameraNotAllowedText;
-    }
-    return description;
-  }
-}
-
-class PosePainter extends CustomPainter {
-  const PosePainter({required this.pose, required this.image});
-
-  final posenet.Pose pose;
-  final ui.Image image;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final positions = _computePositions(pose: pose, image: image);
-    for (final position in positions) {
-      canvas.drawImage(image, position, Paint());
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant PosePainter oldDelegate) {
-    return oldDelegate.image != image || oldDelegate.pose.score != pose.score;
-  }
-}
-
-List<Offset> _computePositions({
-  required ui.Image image,
-  posenet.Pose? pose,
-  Size scale = const Size(1.0, 1.0),
-}) {
-  final positions = <Offset>[];
-  final _pose = pose;
-  if (_pose == null) return positions;
-  if (_pose.score < _minPoseConfidence) return positions;
-  for (final keypoint in _pose.keypoints) {
-    if (!_supportedParts.contains(keypoint.part)) continue;
-    if (keypoint.score < _minPartConfidence) continue;
-    final x = keypoint.position.x.ceilToDouble();
-    final y = keypoint.position.y.ceilToDouble();
-    final offset = Offset(x * scale.width, y * scale.height);
-    final normalizedOffset = Offset(
-      (offset.dx - image.width / 2),
-      ((offset.dy - image.height) - 50),
-    );
-    positions.add(normalizedOffset);
-  }
-  return positions;
 }
 
 Future<ImageData> _composite(CameraImage picture, posenet.Pose? pose) async {
   final xScale = picture.thumbnail.width / picture.raw.width;
   final yScale = picture.thumbnail.height / picture.raw.height;
   final scale = Size(xScale, yScale);
-  final positions = _computePositions(
-    pose: pose,
-    image: Assets.dash.image,
-    scale: scale,
-  );
+  final positions = pose != null
+      ? pose.toPositions(image: Assets.dash.image, scale: scale)
+      : const <Offset>[];
   final dashImage = img.Image.fromBytes(
     Assets.dash.image.width,
     Assets.dash.image.height,
