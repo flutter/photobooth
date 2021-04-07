@@ -272,7 +272,7 @@ void main() async {
           tester.widget<DecorationPage>(find.byType(DecorationPage));
       expect(decorationPage.image, isNotNull);
       expect(find.byType(DecorationPage), findsOneWidget);
-      await tester.tap(find.byType(PhotoboothBackButton));
+      await tester.tap(find.byKey(const Key('decorationPage_back_iconButton')));
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothPage), findsOneWidget);
     });

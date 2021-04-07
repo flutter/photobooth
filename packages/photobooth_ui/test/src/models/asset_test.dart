@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MockImage extends Mock implements ui.Image {}
 

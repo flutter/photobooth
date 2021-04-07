@@ -8,10 +8,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^0.1.1
   very_good_analysis: ^2.0.0
 
 fonts:

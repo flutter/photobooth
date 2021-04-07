@@ -1,20 +1,26 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
-const ballDiameter = 15.0;
+const _cornerDiameter = 15.0;
 
-class ResizableSticker extends StatefulWidget {
-  ResizableSticker({Key? key, required this.sticker}) : super(key: key);
+/// {@template draggable_resizable_asset}
+/// A widget which allows a user to drag and resize the provided [asset].
+/// {@endtemplate}
+class DraggableResizableAsset extends StatefulWidget {
+  /// {@macro draggable_resizable_asset}
+  DraggableResizableAsset({Key? key, required this.asset}) : super(key: key);
 
-  final Asset sticker;
+  /// The asset which will be rendered and will be draggable and resizable.
+  final Asset asset;
 
   @override
-  _ResizableStickerState createState() => _ResizableStickerState();
+  _DraggableResizableAssetState createState() =>
+      _DraggableResizableAssetState();
 }
 
-class _ResizableStickerState extends State<ResizableSticker> {
+class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   late double height;
   late double width;
   late double minHeight;
@@ -28,11 +34,11 @@ class _ResizableStickerState extends State<ResizableSticker> {
   @override
   void initState() {
     super.initState();
-    maxHeight = widget.sticker.image.height.toDouble();
+    maxHeight = widget.asset.image.height.toDouble();
     minHeight = maxHeight * 0.5;
     height = maxHeight * 0.75;
 
-    maxWidth = widget.sticker.image.width.toDouble();
+    maxWidth = widget.asset.image.width.toDouble();
     minWidth = maxWidth * 0.5;
     width = maxWidth * 0.75;
   }
@@ -58,7 +64,7 @@ class _ResizableStickerState extends State<ResizableSticker> {
           top: top,
           left: left,
           child: _DraggablePoint(
-            key: const Key('resizableSticker_image_draggablePoint'),
+            key: const Key('draggableResizableAsset_image_draggablePoint'),
             onDrag: (dx, dy) {
               setState(() {
                 top = top + dy;
@@ -69,7 +75,7 @@ class _ResizableStickerState extends State<ResizableSticker> {
               height: height,
               width: width,
               child: Image.memory(
-                Uint8List.fromList(widget.sticker.bytes),
+                Uint8List.fromList(widget.asset.bytes),
                 height: height,
                 width: width,
                 gaplessPlayback: true,
@@ -79,16 +85,17 @@ class _ResizableStickerState extends State<ResizableSticker> {
         ),
         // Top Left Corner
         Positioned(
-          top: top - ballDiameter / 2,
-          left: left - ballDiameter / 2,
+          top: top - _cornerDiameter / 2,
+          left: left - _cornerDiameter / 2,
           child: _ResizePoint(
-            key: const Key('resizableSticker_topLeft_draggablePoint'),
+            key: const Key('draggableResizableAsset_topLeft_resizePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
               final tempNewHeight = height - 2 * mid;
               final tempNewWidth = width - 2 * mid;
-              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
+              }
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
@@ -102,17 +109,18 @@ class _ResizableStickerState extends State<ResizableSticker> {
 
         // Top Right corner
         Positioned(
-          top: top - ballDiameter / 2,
-          left: left + width - ballDiameter / 2,
+          top: top - _cornerDiameter / 2,
+          left: left + width - _cornerDiameter / 2,
           child: _ResizePoint(
-            key: const Key('resizableSticker_topRight_draggablePoint'),
+            key: const Key('draggableResizableAsset_topRight_resizePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + (dy * -1)) / 2;
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
+              }
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
@@ -126,17 +134,18 @@ class _ResizableStickerState extends State<ResizableSticker> {
 
         // Bottom right corner
         Positioned(
-          top: top + height - ballDiameter / 2,
-          left: left + width - ballDiameter / 2,
+          top: top + height - _cornerDiameter / 2,
+          left: left + width - _cornerDiameter / 2,
           child: _ResizePoint(
-            key: const Key('resizableSticker_bottomRight_draggablePoint'),
+            key: const Key('draggableResizableAsset_bottomRight_resizePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
+              }
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
@@ -150,17 +159,18 @@ class _ResizableStickerState extends State<ResizableSticker> {
 
         // Bottom left corner
         Positioned(
-          top: top + height - ballDiameter / 2,
-          left: left - ballDiameter / 2,
+          top: top + height - _cornerDiameter / 2,
+          left: left - _cornerDiameter / 2,
           child: _ResizePoint(
-            key: const Key('resizableSticker_bottomLeft_draggablePoint'),
+            key: const Key('draggableResizableAsset_bottomLeft_resizePoint'),
             onDrag: (dx, dy) {
               final mid = ((dx * -1) + dy) / 2;
               final tempNewHeight = height + 2 * mid;
               final tempNewWidth = width + 2 * mid;
 
-              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight)
+              if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
+              }
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
@@ -179,14 +189,14 @@ class _ResizableStickerState extends State<ResizableSticker> {
 class _ResizePoint extends StatelessWidget {
   const _ResizePoint({Key? key, required this.onDrag}) : super(key: key);
 
-  final Function onDrag;
+  final void Function(double, double) onDrag;
 
   @override
   Widget build(BuildContext context) {
     return _DraggablePoint(
       child: Container(
-        width: ballDiameter,
-        height: ballDiameter,
+        width: _cornerDiameter,
+        height: _cornerDiameter,
         decoration: BoxDecoration(
           color: Colors.blue.withOpacity(0.5),
           shape: BoxShape.circle,
@@ -202,7 +212,7 @@ class _DraggablePoint extends StatefulWidget {
       : super(key: key);
 
   final Widget child;
-  final Function onDrag;
+  final void Function(double, double) onDrag;
 
   @override
   _DraggablePointState createState() => _DraggablePointState();
