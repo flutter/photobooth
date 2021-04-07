@@ -1,6 +1,5 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-
 import 'package:camera/camera.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
@@ -36,40 +35,9 @@ class PhotoboothPreview extends StatelessWidget {
               size: Size(image.width.toDouble(), image.height.toDouble()),
               painter: PosePainter(pose: pose, image: Assets.dash.image),
             ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CharacterIconButton(
-                  key: const Key(
-                    'photoboothView_dash_characterIconButton',
-                  ),
-                  icon: Image.asset('assets/icons/dash_icon.png'),
-                  color: PhotoboothColors.lightBlue,
-                  onPressed: () {},
-                ),
-                const SizedBox(height: 16),
-                CharacterIconButton(
-                  key: const Key(
-                    'photoboothView_sparky_characterIconButton',
-                  ),
-                  icon: Image.asset('assets/icons/sparky_icon.png'),
-                  color: PhotoboothColors.red,
-                  onPressed: () {},
-                ),
-                const SizedBox(height: 16),
-                CharacterIconButton(
-                  key: const Key(
-                    'photoboothView_android_characterIconButton',
-                  ),
-                  icon: Image.asset('assets/icons/android_icon.png'),
-                  color: PhotoboothColors.green,
-                  onPressed: () {},
-                )
-              ],
-            ),
+          ResponsiveLayoutBuilder(
+            mobile: (_) => const MobileCharactersIconLayout(),
+            desktop: (_) => const DesktopCharactersIconLayout(),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -77,6 +45,112 @@ class PhotoboothPreview extends StatelessWidget {
               key: const Key('photoboothPreview_photo_floatingActionButton'),
               child: const Icon(Icons.photo_camera),
               onPressed: onSnapPressed,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DesktopCharactersIconLayout extends StatelessWidget {
+  const DesktopCharactersIconLayout({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_dash_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/dash_icon.png'),
+              color: PhotoboothColors.lightBlue,
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_sparky_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/sparky_icon.png'),
+              color: PhotoboothColors.red,
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_android_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/android_icon.png'),
+              color: PhotoboothColors.green,
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MobileCharactersIconLayout extends StatelessWidget {
+  const MobileCharactersIconLayout({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_dash_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/dash_icon.png'),
+              color: PhotoboothColors.lightBlue,
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_sparky_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/sparky_icon.png'),
+              color: PhotoboothColors.red,
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Flexible(
+            child: CharacterIconButton(
+              key: const Key(
+                'photoboothView_android_characterIconButton',
+              ),
+              icon: Image.asset('assets/icons/android_icon.png'),
+              color: PhotoboothColors.green,
+              onPressed: () {},
             ),
           ),
         ],
@@ -110,7 +184,10 @@ class CharacterIconButton extends StatelessWidget {
           primary: color,
         ),
         onPressed: onPressed,
-        child: icon,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: icon,
+        ),
       ),
     );
   }
