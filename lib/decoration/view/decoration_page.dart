@@ -137,8 +137,8 @@ class OpenStickersButton extends StatelessWidget {
         onTap: onPressed,
         child: Image.asset(
           'assets/icons/stickers_icon.png',
-          height: 50,
-          width: 50,
+          height: 54,
+          width: 54,
         ),
       ),
     );
