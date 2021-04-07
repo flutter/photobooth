@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 
@@ -28,10 +29,13 @@ Future<Asset> _loadAsset(String path) async {
   return Asset(image: image, buffer: imageBytes!.buffer, bytes: bytes);
 }
 
-class Asset {
+class Asset extends Equatable {
   const Asset({required this.image, required this.buffer, required this.bytes});
 
   final ui.Image image;
   final ByteBuffer buffer;
   final Uint8List bytes;
+
+  @override
+  List<Object?> get props => [image, buffer, bytes];
 }

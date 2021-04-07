@@ -3,15 +3,16 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
+const ballDiameter = 15.0;
+
 class ResizableSticker extends StatefulWidget {
   ResizableSticker({Key? key, required this.sticker}) : super(key: key);
 
   final Asset sticker;
+
   @override
   _ResizableStickerState createState() => _ResizableStickerState();
 }
-
-const ballDiameter = 15.0;
 
 class _ResizableStickerState extends State<ResizableSticker> {
   late double height;
@@ -204,10 +205,10 @@ class _DraggablePoint extends StatefulWidget {
   final Function onDrag;
 
   @override
-  __DraggablePointState createState() => __DraggablePointState();
+  _DraggablePointState createState() => _DraggablePointState();
 }
 
-class __DraggablePointState extends State<_DraggablePoint> {
+class _DraggablePointState extends State<_DraggablePoint> {
   late double initX;
   late double initY;
 

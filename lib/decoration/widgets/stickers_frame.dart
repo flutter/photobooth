@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 
-class StickersFrame extends StatefulWidget {
+class StickersFrame extends StatelessWidget {
   const StickersFrame({Key? key}) : super(key: key);
 
   @override
-  _StickersFrameState createState() => _StickersFrameState();
-}
-
-class _StickersFrameState extends State<StickersFrame> {
-  bool displayStickers = false;
-  var stickersSelected = <Asset>[];
-
-  @override
   Widget build(BuildContext context) {
+    final state = context.watch<DecorationBloc>().state;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -23,28 +17,25 @@ class _StickersFrameState extends State<StickersFrame> {
           top: 15,
           child: OpenStickersButton(
             onPressed: () {
-              setState(() {
-                displayStickers = !displayStickers;
-              });
+              context.read<DecorationBloc>().add(const DecorationModeToggled());
             },
           ),
         ),
-        if (displayStickers)
+        if (state.mode.isActive)
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             child: StickersCarousel(
               onStickerSelected: (sticker) {
-                stickersSelected.add(sticker);
-                setState(() {});
+                context
+                    .read<DecorationBloc>()
+                    .add(DecorationStickerSelected(sticker: sticker));
               },
             ),
           ),
-        for (var sticker in stickersSelected)
-          ResizableSticker(
-            sticker: sticker,
-          ),
+        for (final sticker in state.stickers)
+          ResizableSticker(sticker: sticker),
       ],
     );
   }
@@ -56,16 +47,18 @@ class OpenStickersButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onPressed.call(),
-      child: Image.asset(
-        'assets/icons/stickers_icon.png',
-        height: 50,
-        width: 50,
+    return Material(
+      child: InkWell(
+        onTap: onPressed,
+        child: Image.asset(
+          'assets/icons/stickers_icon.png',
+          height: 50,
+          width: 50,
+        ),
       ),
     );
   }
@@ -77,7 +70,7 @@ class StickersCarousel extends StatelessWidget {
     required this.onStickerSelected,
   }) : super(key: key);
 
-  final Function(Asset) onStickerSelected;
+  final ValueSetter<Asset> onStickerSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +99,7 @@ class StickerChoice extends StatelessWidget {
   }) : super(key: key);
 
   final Asset asset;
-  final Function(Asset) onStickerSelected;
+  final ValueSetter<Asset> onStickerSelected;
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DecorationPage extends StatelessWidget {
   const DecorationPage({Key? key, required this.image}) : super(key: key);
+
   static Route route({required ImageData image}) {
     return MaterialPageRoute(builder: (_) => DecorationPage(image: image));
   }
@@ -29,14 +31,14 @@ class DecorationPage extends StatelessWidget {
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(
-                left: 15,
-                top: 15,
-              ),
+              padding: EdgeInsets.only(left: 15, top: 15),
               child: PhotoboothBackButton(),
             ),
           ),
-          const StickersFrame(),
+          BlocProvider(
+            create: (_) => DecorationBloc(),
+            child: const StickersFrame(),
+          ),
         ],
       ),
     );
@@ -55,8 +57,9 @@ class GoToPreviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: const Icon(Icons.arrow_forward),
-      onPressed: () =>
-          Navigator.of(context).push(PreviewPage.route(image: image)),
+      onPressed: () => Navigator.of(context).push(
+        PreviewPage.route(image: image),
+      ),
     );
   }
 }
