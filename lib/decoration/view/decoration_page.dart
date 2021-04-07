@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -26,10 +27,9 @@ class DecorationPage extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, top: 15),
-              child: IconButton(
-                key: const Key('decorationPage_back_iconButton'),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.refresh),
+              child: RetakeButton(
+                onPressed: () => Navigator.of(context).popUntil(
+                    (route) => route is MaterialPageRoute<PhotoboothPage>),
               ),
             ),
           ),
@@ -95,6 +95,29 @@ class DecorationView extends StatelessWidget {
         for (final sticker in state.stickers)
           DraggableResizableAsset(asset: sticker),
       ],
+    );
+  }
+}
+
+class RetakeButton extends StatelessWidget {
+  const RetakeButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: InkWell(
+        onTap: onPressed,
+        child: Image.asset(
+          'assets/icons/retake_icon.png',
+          height: 54,
+          width: 66,
+        ),
+      ),
     );
   }
 }

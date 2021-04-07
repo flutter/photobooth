@@ -70,16 +70,13 @@ void main() async {
     expect(find.byType(DecorationPage), findsOneWidget);
     expect(find.byKey(initialPage), findsNothing);
 
-    final backButtonFinder = find.byKey(
-      const Key('decorationPage_back_iconButton'),
-    );
+    final backButtonFinder = find.byType(RetakeButton);
     await tester.ensureVisible(backButtonFinder);
     await tester.tap(backButtonFinder);
     await tester.pumpAndSettle();
     await tester.pump();
 
     expect(find.byType(DecorationPage), findsNothing);
-    expect(find.byKey(initialPage), findsOneWidget);
   });
 
   testWidgets('tapping preview button routes to PreviewPage', (tester) async {
