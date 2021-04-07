@@ -110,8 +110,8 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
         preview: (context, preview) {
           return PhotoboothPreview(
             image: _image,
-            preview: preview,
             pose: _pose,
+            preview: preview,
             onSnapPressed: _onSnapPressed,
           );
         },
