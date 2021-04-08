@@ -74,9 +74,7 @@ class DesktopCharactersIconLayout extends StatelessWidget {
               onPressed: () {},
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           Flexible(
             child: CharacterIconButton(
               key: const Key(
@@ -87,9 +85,7 @@ class DesktopCharactersIconLayout extends StatelessWidget {
               onPressed: () {},
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           Flexible(
             child: CharacterIconButton(
               key: const Key(
@@ -127,9 +123,7 @@ class MobileCharactersIconLayout extends StatelessWidget {
               onPressed: () {},
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           Flexible(
             child: CharacterIconButton(
               key: const Key(
@@ -140,9 +134,7 @@ class MobileCharactersIconLayout extends StatelessWidget {
               onPressed: () {},
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           Flexible(
             child: CharacterIconButton(
               key: const Key(
