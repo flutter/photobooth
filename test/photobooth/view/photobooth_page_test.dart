@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
@@ -133,6 +134,32 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
+    });
+
+    testWidgets('displays a DesktopCharactersIconLayout', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+      expect(find.byType(DesktopCharactersIconLayout), findsOneWidget);
+    });
+
+    testWidgets('displays a MobileCharactersIconLayout', (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+      expect(find.byType(MobileCharactersIconLayout), findsOneWidget);
+
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('tapping on dash button does nothing', (tester) async {
