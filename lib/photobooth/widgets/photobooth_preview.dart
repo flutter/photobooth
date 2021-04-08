@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/photobooth/widgets/shutter_button.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -75,10 +76,10 @@ class PhotoboothPreview extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
+            child: ShutterButton(
               key: const Key('photoboothPreview_photo_floatingActionButton'),
-              child: const Icon(Icons.photo_camera),
-              onPressed: onSnapPressed,
+              //child: const Icon(Icons.photo_camera),
+              //onPressed: onSnapPressed,
             ),
           ),
         ],
