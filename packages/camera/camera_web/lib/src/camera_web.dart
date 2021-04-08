@@ -92,6 +92,7 @@ class Camera {
   final CameraOptions options;
   final int textureId;
   final html.Window window;
+  final html.DivElement _divElement = html.DivElement();
   final _imageStreamController = StreamController<CameraImage>.broadcast();
 
   Future<void> initialize() async {
@@ -103,8 +104,9 @@ class Camera {
     videoElement = html.VideoElement();
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
-      (_) => videoElement,
+      (_) => _divElement,
     );
+    _divElement.append(videoElement);
 
     final stream = await _getMediaStream();
 
@@ -112,6 +114,7 @@ class Camera {
       ..autoplay = false
       ..muted = !options.audio.enabled
       ..srcObject = stream
+      ..style.transform = 'rotateY(180deg)'
       ..setAttribute('playsinline', '');
   }
 
@@ -195,6 +198,8 @@ class Camera {
       width: videoWidth,
       height: videoHeight,
     );
+    canvas.context2D.translate(canvas.width!, 0);
+    canvas.context2D.scale(-1, 1);
     canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
     previewCanvas.context2D
