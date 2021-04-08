@@ -24,6 +24,40 @@ class PhotoboothPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = this.image;
     final pose = this.pose;
+    final children = <Widget>[
+      Flexible(
+        child: CharacterIconButton(
+          key: const Key(
+            'photoboothView_dash_characterIconButton',
+          ),
+          icon: Image.asset('assets/icons/dash_icon.png'),
+          color: PhotoboothColors.lightBlue,
+          onPressed: () {},
+        ),
+      ),
+      const SizedBox(height: 16),
+      Flexible(
+        child: CharacterIconButton(
+          key: const Key(
+            'photoboothView_sparky_characterIconButton',
+          ),
+          icon: Image.asset('assets/icons/sparky_icon.png'),
+          color: PhotoboothColors.red,
+          onPressed: () {},
+        ),
+      ),
+      const SizedBox(height: 16),
+      Flexible(
+        child: CharacterIconButton(
+          key: const Key(
+            'photoboothView_android_characterIconButton',
+          ),
+          icon: Image.asset('assets/icons/android_icon.png'),
+          color: PhotoboothColors.green,
+          onPressed: () {},
+        ),
+      ),
+    ];
     return Center(
       child: Stack(
         fit: StackFit.expand,
@@ -36,8 +70,8 @@ class PhotoboothPreview extends StatelessWidget {
               painter: PosePainter(pose: pose, image: Assets.dash.image),
             ),
           ResponsiveLayoutBuilder(
-            mobile: (_) => const MobileCharactersIconLayout(),
-            desktop: (_) => const DesktopCharactersIconLayout(),
+            mobile: (_) => MobileCharactersIconLayout(children: children),
+            desktop: (_) => DesktopCharactersIconLayout(children: children),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -54,7 +88,12 @@ class PhotoboothPreview extends StatelessWidget {
 }
 
 class DesktopCharactersIconLayout extends StatelessWidget {
-  const DesktopCharactersIconLayout({Key? key}) : super(key: key);
+  const DesktopCharactersIconLayout({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -63,47 +102,19 @@ class DesktopCharactersIconLayout extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_dash_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/dash_icon.png'),
-              color: PhotoboothColors.lightBlue,
-              onPressed: () {},
-            ),
-          ),
-          const SizedBox(height: 16),
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_sparky_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/sparky_icon.png'),
-              color: PhotoboothColors.red,
-              onPressed: () {},
-            ),
-          ),
-          const SizedBox(height: 16),
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_android_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/android_icon.png'),
-              color: PhotoboothColors.green,
-              onPressed: () {},
-            ),
-          ),
-        ],
+        children: children,
       ),
     );
   }
 }
 
 class MobileCharactersIconLayout extends StatelessWidget {
-  const MobileCharactersIconLayout({Key? key}) : super(key: key);
+  const MobileCharactersIconLayout({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -112,40 +123,7 @@ class MobileCharactersIconLayout extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_dash_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/dash_icon.png'),
-              color: PhotoboothColors.lightBlue,
-              onPressed: () {},
-            ),
-          ),
-          const SizedBox(height: 16),
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_sparky_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/sparky_icon.png'),
-              color: PhotoboothColors.red,
-              onPressed: () {},
-            ),
-          ),
-          const SizedBox(height: 16),
-          Flexible(
-            child: CharacterIconButton(
-              key: const Key(
-                'photoboothView_android_characterIconButton',
-              ),
-              icon: Image.asset('assets/icons/android_icon.png'),
-              color: PhotoboothColors.green,
-              onPressed: () {},
-            ),
-          ),
-        ],
+        children: children,
       ),
     );
   }
