@@ -78,8 +78,7 @@ class PhotoboothPreview extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: ShutterButton(
               key: const Key('photoboothPreview_photo_floatingActionButton'),
-              //child: const Icon(Icons.photo_camera),
-              //onPressed: onSnapPressed,
+              onAnimationFinished: onSnapPressed,
             ),
           ),
         ],

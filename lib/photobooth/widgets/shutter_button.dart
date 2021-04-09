@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShutterButton extends StatefulWidget {
-  ShutterButton({Key? key}) : super(key: key);
+  ShutterButton({
+    Key? key,
+    required this.onAnimationFinished,
+  }) : super(key: key);
+
+  final VoidCallback onAnimationFinished;
 
   @override
   _ShutterButtonState createState() => _ShutterButtonState();
@@ -28,6 +33,14 @@ class _ShutterButtonState extends State<ShutterButton>
       vsync: this,
       duration: const Duration(seconds: 3),
     );
+    controller.addStatusListener((status) async {
+      print(status);
+      if (status == AnimationStatus.dismissed) {
+        // Add small delay to force the animation to finish
+        await Future.delayed(const Duration(milliseconds: 100));
+        widget.onAnimationFinished.call();
+      }
+    });
   }
 
   @override
