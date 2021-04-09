@@ -37,8 +37,8 @@ class _ShutterButtonState extends State<ShutterButton>
       builder: (context, child) {
         if (controller.isAnimating) {
           return Container(
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 80,
             child: Stack(
               children: [
                 Align(
@@ -46,7 +46,7 @@ class _ShutterButtonState extends State<ShutterButton>
                   child: Text(
                     timerString,
                     style: const TextStyle(
-                      fontSize: 74,
+                      fontSize: 60,
                       fontWeight: FontWeight.w500,
                       color: PhotoboothColors.white,
                     ),
@@ -109,15 +109,25 @@ class TimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final progress = (1.0 - animation.value) * 2 * math.pi;
+    Color progressColor;
+    if (progress <= 2) {
+      progressColor = PhotoboothColors.blue;
+    } else if (progress <= 4) {
+      progressColor = PhotoboothColors.orange;
+    } else {
+      progressColor = PhotoboothColors.green;
+    }
+    print(animation.value);
     var paint = Paint()
-      ..color = PhotoboothColors.white
+      ..color = progressColor
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-    paint.color = Colors.red;
-    final progress = (1.0 - animation.value) * 2 * math.pi;
+    paint.color = Colors.white;
+
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, -progress, false, paint);
   }
 
