@@ -60,7 +60,7 @@ class PhotoFrame extends StatelessWidget {
           child: Stack(
             children: [
               AspectRatio(
-                aspectRatio: 4 / 3,
+                aspectRatio: image.width > image.height ? 4 / 3 : 3 / 4,
                 child: FittedBox(
                     fit: BoxFit.fill,
                     child: PreviewImage(
