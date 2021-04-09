@@ -18,47 +18,73 @@ class DecorationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-              child: Container(
-            color: Colors.red,
-          )),
-          Align(
-            alignment: Alignment.center,
-            child: Stack(
-              children: [
-                AspectRatio(
-                  aspectRatio: 4 / 3,
-                  child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: PreviewImage(
-                        data: image.data,
-                      )),
-                ),
-                RetakeButton(
-                  onPressed: () => Navigator.of(context).popUntil(
-                      (route) => route is MaterialPageRoute<PhotoboothPage>),
-                ),
-              ],
+    return BlocProvider(
+      create: (context) => DecorationBloc(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+                child: Container(
+              color: PhotoboothColors.whiteBackground,
+            )),
+            PhotoFrame(
+              image: image,
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: GoNextButton(
-              onPressed: () => Navigator.of(context).push(
-                PreviewPage.route(image: image),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: GoNextButton(
+                onPressed: () => Navigator.of(context).push(
+                  PreviewPage.route(image: image),
+                ),
               ),
             ),
-          ),
-          BlocProvider(
-            create: (_) => DecorationBloc(),
-            child: const DecorationView(),
-          ),
-        ],
+            const DecorationView(),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class PhotoFrame extends StatelessWidget {
+  const PhotoFrame({Key? key, required this.image}) : super(key: key);
+
+  final ImageData image;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: 4 / 3,
+                child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: PreviewImage(
+                      data: image.data,
+                    )),
+              ),
+              RetakeButton(
+                onPressed: () => Navigator.of(context).popUntil(
+                    (route) => route is MaterialPageRoute<PhotoboothPage>),
+              ),
+              Positioned(
+                right: 0,
+                child: OpenStickersButton(
+                  onPressed: () {
+                    context
+                        .read<DecorationBloc>()
+                        .add(const DecorationModeToggled());
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -72,15 +98,6 @@ class DecorationView extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Positioned(
-          right: 15,
-          top: 15,
-          child: OpenStickersButton(
-            onPressed: () {
-              context.read<DecorationBloc>().add(const DecorationModeToggled());
-            },
-          ),
-        ),
         if (state.mode.isActive)
           Positioned(
             left: 0,
