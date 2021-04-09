@@ -95,6 +95,8 @@ class Camera {
   final _imageStreamController = StreamController<CameraImage>.broadcast();
 
   Future<void> initialize() async {
+    print(window.navigator.platform);
+
     final isSupported = window.navigator.mediaDevices?.getUserMedia != null;
     if (!isSupported) {
       throw const CameraNotSupportedException();
@@ -108,7 +110,7 @@ class Camera {
     );
 
     final stream = await _getMediaStream();
-
+    print(stream.getVideoTracks()[0].getSettings());
     videoElement
       ..autoplay = false
       ..muted = !options.audio.enabled
