@@ -63,7 +63,7 @@ class _ShutterButtonState extends State<ShutterButton>
             ),
           );
         } else {
-          return FloatingActionButton(
+          return CameraButton(
             onPressed: () {
               controller.reverse(
                 from: 1,
@@ -72,6 +72,30 @@ class _ShutterButtonState extends State<ShutterButton>
           );
         }
       },
+    );
+  }
+}
+
+class CameraButton extends StatelessWidget {
+  const CameraButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: PhotoboothColors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        child: Image.asset(
+          'assets/icons/camera_button_icon.png',
+          height: 84,
+          width: 84,
+        ),
+      ),
     );
   }
 }
