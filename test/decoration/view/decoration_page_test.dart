@@ -101,7 +101,8 @@ void main() async {
 
     testWidgets('renders OpenStickersButton', (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
@@ -109,7 +110,8 @@ void main() async {
     testWidgets('does not render StickerCarousel when mode is inactive',
         (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       expect(find.byType(StickersCarousel), findsNothing);
     });
@@ -119,7 +121,8 @@ void main() async {
         DecorationState(mode: DecorationMode.active),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       expect(find.byType(StickersCarousel), findsOneWidget);
     });
@@ -127,7 +130,8 @@ void main() async {
     testWidgets('adds DecorationModeToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       await tester.ensureVisible(find.byType(OpenStickersButton));
       await tester.tap(find.byType(OpenStickersButton));
@@ -141,7 +145,8 @@ void main() async {
         DecorationState(mode: DecorationMode.active, stickers: []),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       expect(find.byType(DraggableResizableAsset), findsNothing);
     });
@@ -155,7 +160,8 @@ void main() async {
         ),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
     });
@@ -168,7 +174,8 @@ void main() async {
         DecorationState(mode: DecorationMode.active, stickers: [sticker]),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+            value: decorationBloc, child: Material(child: DecorationView())),
       );
       await tester.tap(find.byType(StickerChoice));
       verify(

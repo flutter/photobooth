@@ -35,13 +35,9 @@ class DecorationPage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: GoNextButton(
-                onPressed: () => Navigator.of(context).push(
-                  PreviewPage.route(image: image),
-                ),
-                child: const Icon(Icons.arrow_forward),
+            child: GoNextButton(
+              onPressed: () => Navigator.of(context).push(
+                PreviewPage.route(image: image),
               ),
             ),
           ),
@@ -108,14 +104,12 @@ class GoNextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/go_next_icon.png',
-          height: 100,
-          width: 100,
-        ),
+    return InkWell(
+      onTap: onPressed,
+      child: Image.asset(
+        'assets/icons/go_next_button_icon.png',
+        height: 100,
+        width: 100,
       ),
     );
   }
@@ -131,14 +125,12 @@ class RetakeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/retake_icon.png',
-          height: 54,
-          width: 66,
-        ),
+    return InkWell(
+      onTap: onPressed,
+      child: Image.asset(
+        'assets/icons/retake_button_icon.png',
+        height: 54,
+        width: 66,
       ),
     );
   }
@@ -154,14 +146,12 @@ class OpenStickersButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/stickers_icon.png',
-          height: 54,
-          width: 54,
-        ),
+    return InkWell(
+      onTap: onPressed,
+      child: Image.asset(
+        'assets/icons/stickers_button_icon.png',
+        height: 54,
+        width: 54,
       ),
     );
   }
