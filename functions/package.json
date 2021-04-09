@@ -13,11 +13,11 @@
     "logs": "firebase functions:log",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
-    "start": "GOOGLE_APPLICATION_CREDENTIALS='creds/development.json' npm run shell",
+    "start": "npm run shell",
     "test:coverage": "jest --collect-coverage",
     "test:ts": "mocha -r ts-node/register --reporter spec tests/**/*.js",
     "test:upload": "gsutil cp testdata/upload.png gs://io-photobooth-dev.appspot.com/uploads",
-    "test": "jest"
+    "test": "GCLOUD_PROJECT=io-photobooth-dev jest"
   },
   "dependencies": {
     "child-process-promise": "^2.2.1",

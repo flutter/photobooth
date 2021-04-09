@@ -14,61 +14,67 @@ import { STORAGE_BUCKET } from '../config';
 
 
 /**
- * Generate a thumbnail for a new image upload
+ * Create a thumbnail from an Image
+ * @param {Object} object - storage object
+ * @param {Object} context - storage event context
+ * @return {void}
  */
-export const generateThumbnail = functions
-  .storage
-  .object()
-  .onFinalize(async (
-    object: functions.storage.ObjectMetadata,
-    context: functions.EventContext
-  ): Promise<void> => {
-    const { contentType, name: filePath = '', metageneration } = object;
+export async function generateImageThumb(
+  object: functions.storage.ObjectMetadata,
+  context: functions.EventContext
+): Promise<void> {
+  const { contentType, name: filePath = '', metageneration } = object;
 
-    functions.logger.info(object);
-    functions.logger.info(context);
+  functions.logger.info(object);
+  functions.logger.info(context);
 
-    if (metageneration && metageneration === '1') {
-      return;
-    }
+  if (metageneration && metageneration === '1') {
+    return;
+  }
 
-    if (!contentType?.startsWith('image/')) {
-      return functions.logger.warn('File is not an image!', { contentType });
-    } else if (filePath.includes('_thumb')) {
-      return functions.logger.info('Image has already been processed');
-    }
+  if (contentType !== 'image/png') {
+    return functions.logger.info('File is not a PNG', { contentType });
+  } else if (filePath.includes('_thumb')) {
+    return functions.logger.info('Image has already been processed');
+  }
 
-    const { dir: dirname, base: fileName, ext: fileExt } = path.parse(filePath);
-    const bucket = admin.storage().bucket(STORAGE_BUCKET);
-    const tempFilePath = path.join(os.tmpdir(), fileName);
+  const { dir: dirname, base: fileName, ext: fileExt } = path.parse(filePath);
+  const bucket = admin.storage().bucket(STORAGE_BUCKET);
+  const tempFilePath = path.join(os.tmpdir(), fileName);
 
-    await bucket.file(filePath).download({ destination: tempFilePath });
+  await bucket.file(filePath).download({ destination: tempFilePath });
 
-    // Generate a thumbnail using ImageMagick.
-    // TODO generate with correct dimensions and aspect ratio
-    const newWidth = 200;
-    const hewHeight = 200;
+  // Generate a thumbnail using ImageMagick.
+  // TODO generate with correct dimensions and aspect
+  // ratio as images will come in a varying sizes.
+  const newWidth = 200;
+  const hewHeight = 200;
 
-    // End gte symbol means only resize images larger than this
-    // We could use a perc based dimension like 50%, but a bit naive
-    const dim = `${newWidth}x${hewHeight}>`;
+  // End gte symbol means only resize images larger than this
+  // We could use a perc based dimension like 50%, but a bit naive
+  const dim = `${newWidth}x${hewHeight}>`;
 
-    await spawn('convert', [ tempFilePath, '-thumbnail', `${dim}`, tempFilePath ]);
+  await spawn('convert', [ tempFilePath, '-thumbnail', `${dim}`, tempFilePath ]);
 
-    const thumbFileName = path.normalize(
-      path.format({ dir: dirname, name: fileName, ext: fileExt })
-    );
+  const thumbFileName = path.normalize(
+    path.format({ dir: dirname, name: fileName, ext: fileExt })
+  );
 
-    functions.logger.log('Uploading image thumbnail', thumbFileName);
+  functions.logger.log('Uploading image thumbnail', thumbFileName);
 
-    // Upload thumb as main image with the original name/path
-    await bucket.upload(tempFilePath, {
-      destination: path.join(dirname, thumbFileName),
-      metadata: { contentType },
-    });
-
-    return fs.unlinkSync(tempFilePath);
+  // Upload thumb as main image with the original name/path
+  await bucket.upload(tempFilePath, {
+    destination: path.join(dirname, thumbFileName),
+    metadata: { contentType },
   });
+
+  return fs.unlinkSync(tempFilePath);
+}
+
+/**
+ * Storage trigger - generates a thumb for a new image upload
+ */
+export const generateThumbnail = functions.storage.object().onFinalize(generateImageThumb);
 
 
 /**

@@ -9,8 +9,8 @@
       "functions/src"
     ],
     "rewrites": [
-      { "source": "/api/images/upload",
-        "function": "uploadImage"
+      { "source": "/share",
+        "function": "shareImage"
       }
     ],
     "headers": [

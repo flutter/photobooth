@@ -191,9 +191,6 @@ export async function getShareResponse(
 
     if (isValidPath) {
       exists = await admin.storage().bucket().file(storagePath).exists();
-
-      console.log({ exists });
-
       if (exists && exists[0]) {
         return {
           status: 200,
@@ -225,7 +222,7 @@ export async function getShareResponse(
 export const shareImage = functions.https.onRequest(async (req, res) => {
   const { status, send } = await getShareResponse(req.path);
 
-  // development only, set to actual production hosting domain
+  // Development only, set to actual production hosting domain
   res.set('Access-Control-Allow-Origin', '*');
 
   res.status(status).send(send);

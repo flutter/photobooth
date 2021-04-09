@@ -1,17 +1,17 @@
 import * as admin from 'firebase-admin';
 
-// NOTE not using service account for now
-// import serviceKey from '../creds/development.json';
-// admin.initializeApp({
-//   credential: admin.credential.cert(JSON.stringify(serviceKey)),
-// });
+import { STORAGE_BUCKET } from './config';
 
-admin.initializeApp();
+admin.initializeApp({
+  storageBucket: `${STORAGE_BUCKET}.appspot.com`,
+});
 
-import * as ImageApi from './images';
+// import * as ImageApi from './images';
 import * as ShareApi from './share';
 
 
-export const uploadImage = ImageApi.uploadImage;
-export const generateThumbnail = ImageApi.generateThumbnail;
+// NOTE putting both of these on hold
+// export const uploadImage = ImageApi.uploadImage;
+// export const generateThumbnail = ImageApi.generateThumbnail;
+
 export const shareImage = ShareApi.shareImage;
