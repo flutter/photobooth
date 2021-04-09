@@ -92,7 +92,6 @@ class Camera {
   final CameraOptions options;
   final int textureId;
   final html.Window window;
-  final html.DivElement _divElement = html.DivElement();
   final _imageStreamController = StreamController<CameraImage>.broadcast();
 
   Future<void> initialize() async {
@@ -104,9 +103,8 @@ class Camera {
     videoElement = html.VideoElement();
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
-      (_) => _divElement,
+      (_) => videoElement,
     );
-    _divElement.append(videoElement);
 
     final stream = await _getMediaStream();
 
@@ -163,6 +161,7 @@ class Camera {
       videoElement.srcObject = stream;
     }
     await videoElement.play();
+    videoElement.mirror();
     _onAnimationFrame();
   }
 
@@ -198,9 +197,10 @@ class Camera {
       width: videoWidth,
       height: videoHeight,
     );
-    canvas.context2D.translate(canvas.width!, 0);
-    canvas.context2D.scale(-1, 1);
-    canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
+    canvas.context2D
+      ..translate(width, 0)
+      ..scale(-1, 1)
+      ..drawImageScaled(videoElement, 0, 0, width, height);
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
     previewCanvas.context2D
         .drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
@@ -220,5 +220,15 @@ class Camera {
       width: width,
       height: height,
     );
+  }
+}
+
+extension on html.VideoElement {
+  void mirror() {
+    style
+      ..removeProperty('transform-origin')
+      ..setProperty('transform', 'scaleX(-1)')
+      ..setProperty('-webkit-transform', 'scaleX(-1)')
+      ..setProperty('-moz-transform', 'scaleX(-1)');
   }
 }
