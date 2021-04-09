@@ -34,7 +34,6 @@ class _ShutterButtonState extends State<ShutterButton>
       duration: const Duration(seconds: 3),
     );
     controller.addStatusListener((status) async {
-      print(status);
       if (status == AnimationStatus.dismissed) {
         // Add small delay to force the animation to finish
         await Future.delayed(const Duration(milliseconds: 100));
@@ -50,8 +49,9 @@ class _ShutterButtonState extends State<ShutterButton>
       builder: (context, child) {
         if (controller.isAnimating) {
           return Container(
-            height: 80,
-            width: 80,
+            height: 70,
+            width: 70,
+            margin: const EdgeInsets.only(bottom: 15),
             child: Stack(
               children: [
                 Align(
@@ -59,7 +59,7 @@ class _ShutterButtonState extends State<ShutterButton>
                   child: Text(
                     timerString,
                     style: const TextStyle(
-                      fontSize: 60,
+                      fontSize: 50,
                       fontWeight: FontWeight.w500,
                       color: PhotoboothColors.white,
                     ),
@@ -131,7 +131,6 @@ class TimerPainter extends CustomPainter {
     } else {
       progressColor = PhotoboothColors.green;
     }
-    print(animation.value);
     var paint = Paint()
       ..color = progressColor
       ..strokeWidth = 5.0
