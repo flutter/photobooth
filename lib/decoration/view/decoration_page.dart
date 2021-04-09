@@ -22,15 +22,27 @@ class DecorationPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          PreviewImage(data: image.data),
+          Positioned.fill(
+              child: Container(
+            color: Colors.red,
+          )),
           Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15),
-              child: RetakeButton(
-                onPressed: () => Navigator.of(context).popUntil(
-                    (route) => route is MaterialPageRoute<PhotoboothPage>),
-              ),
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 4 / 3,
+                  child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: PreviewImage(
+                        data: image.data,
+                      )),
+                ),
+                RetakeButton(
+                  onPressed: () => Navigator.of(context).popUntil(
+                      (route) => route is MaterialPageRoute<PhotoboothPage>),
+                ),
+              ],
             ),
           ),
           Align(
