@@ -15,7 +15,7 @@ jobs:
         with:
           flutter-version: 2.0.4
       - run: flutter packages get
-      - run: flutter build web --web-renderer canvaskit
+      - run: flutter build web --web-renderer html
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
