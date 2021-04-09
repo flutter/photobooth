@@ -28,8 +28,11 @@ class DecorationPage extends StatelessWidget {
                 child: Container(
               color: PhotoboothColors.whiteBackground,
             )),
-            PhotoFrame(
-              image: image,
+            Align(
+              alignment: Alignment.center,
+              child: PhotoFrame(
+                image: image,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -55,33 +58,24 @@ class PhotoFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Align(
-          alignment: Alignment.center,
-          child: Stack(
-            children: [
-              AspectRatio(
-                aspectRatio: image.width > image.height ? 4 / 3 : 3 / 4,
-                child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: PreviewImage(
-                      data: image.data,
-                    )),
-              ),
-              RetakeButton(
-                onPressed: () => Navigator.of(context).popUntil(
-                    (route) => route is MaterialPageRoute<PhotoboothPage>),
-              ),
-              Positioned(
-                right: 0,
-                child: OpenStickersButton(
-                  onPressed: () {
-                    context
-                        .read<DecorationBloc>()
-                        .add(const DecorationModeToggled());
-                  },
-                ),
-              ),
-            ],
+        AspectRatio(
+          aspectRatio: image.width > image.height ? 4 / 3 : 3 / 4,
+          child: FittedBox(
+              fit: BoxFit.fill,
+              child: PreviewImage(
+                data: image.data,
+              )),
+        ),
+        RetakeButton(
+          onPressed: () => Navigator.of(context)
+              .popUntil((route) => route is MaterialPageRoute<PhotoboothPage>),
+        ),
+        Positioned(
+          right: 0,
+          child: OpenStickersButton(
+            onPressed: () {
+              context.read<DecorationBloc>().add(const DecorationModeToggled());
+            },
           ),
         ),
       ],
