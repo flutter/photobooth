@@ -101,6 +101,7 @@ class Camera {
     }
 
     videoElement = html.VideoElement();
+    // ignore: avoid_dynamic_calls
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
       (_) => videoElement,
