@@ -141,7 +141,7 @@ class TimerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final progress = (1.0 - animation.value) * 2 * math.pi;
-    Color progressColor;
+    late final Color progressColor;
     if (progress <= 2) {
       progressColor = PhotoboothColors.blue;
     } else if (progress <= 4) {
@@ -149,7 +149,7 @@ class TimerPainter extends CustomPainter {
     } else {
       progressColor = PhotoboothColors.green;
     }
-    var paint = Paint()
+    final paint = Paint()
       ..color = progressColor
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
@@ -157,7 +157,6 @@ class TimerPainter extends CustomPainter {
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
     paint.color = Colors.white;
-
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, -progress, false, paint);
   }
 
