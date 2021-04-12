@@ -291,7 +291,7 @@ void main() async {
       });
 
       await tester.tap(
-        find.byKey(const Key('photoboothPreview_photo_floatingActionButton')),
+        find.byKey(const Key('photoboothPreview_photo_shutterButton')),
       );
 
       await tester.pumpAndSettle();
