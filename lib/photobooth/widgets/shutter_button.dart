@@ -28,8 +28,6 @@ class _ShutterButtonState extends State<ShutterButton>
     );
     controller.addStatusListener((status) async {
       if (status == AnimationStatus.dismissed) {
-        // Add small delay to force the animation to finish
-        await Future.delayed(const Duration(milliseconds: 100));
         widget.onCountdownComplete();
       }
     });
