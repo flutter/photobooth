@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -32,7 +33,9 @@ class PhotoboothPreview extends StatelessWidget {
           ),
           icon: Image.asset('assets/icons/dash_icon.png'),
           color: PhotoboothColors.lightBlue,
-          onPressed: () {},
+          onPressed: () {
+            context.read<PhotoboothBloc>().add(const PhotoboothDashToggled());
+          },
         ),
       ),
       const SizedBox(height: 16),
@@ -43,7 +46,9 @@ class PhotoboothPreview extends StatelessWidget {
           ),
           icon: Image.asset('assets/icons/sparky_icon.png'),
           color: PhotoboothColors.red,
-          onPressed: () {},
+          onPressed: () {
+            context.read<PhotoboothBloc>().add(const PhotoboothSparkyToggled());
+          },
         ),
       ),
       const SizedBox(height: 16),
@@ -54,10 +59,15 @@ class PhotoboothPreview extends StatelessWidget {
           ),
           icon: Image.asset('assets/icons/android_icon.png'),
           color: PhotoboothColors.green,
-          onPressed: () {},
+          onPressed: () {
+            context
+                .read<PhotoboothBloc>()
+                .add(const PhotoboothAndroidToggled());
+          },
         ),
       ),
     ];
+    final state = context.watch<PhotoboothBloc>().state;
     return Center(
       child: Stack(
         fit: StackFit.expand,
@@ -80,6 +90,27 @@ class PhotoboothPreview extends StatelessWidget {
               onCountdownComplete: onSnapPressed,
             ),
           ),
+          if (state.isAndroidSelected)
+            DraggableResizableAsset(
+              key: const Key(
+                'photoboothPreview_android_draggableResizableAsset',
+              ),
+              asset: Assets.android,
+            ),
+          if (state.isDashSelected)
+            DraggableResizableAsset(
+              key: const Key(
+                'photoboothPreview_dash_draggableResizableAsset',
+              ),
+              asset: Assets.dash,
+            ),
+          if (state.isSparkySelected)
+            DraggableResizableAsset(
+              key: const Key(
+                'photoboothPreview_sparky_draggableResizableAsset',
+              ),
+              asset: Assets.sparky,
+            ),
         ],
       ),
     );

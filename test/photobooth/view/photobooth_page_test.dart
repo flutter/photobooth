@@ -3,8 +3,10 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
@@ -36,14 +38,19 @@ class FakeModelConfig extends Fake implements tf_models.ModelConfig {}
 
 class FakeImageData extends Fake implements tf_models.ImageData {}
 
+class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+    implements PhotoboothBloc {}
+
+class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+
+class FakePhotoboothState extends Fake implements PhotoboothState {}
+
 class FakeSinglePersonInterfaceConfig extends Fake
     implements tf_models.SinglePersonInterfaceConfig {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
-
-  const cameraId = 1;
 
   setUpAll(() {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
@@ -52,46 +59,69 @@ void main() async {
     registerFallbackValue<tf_models.SinglePersonInterfaceConfig>(
       FakeSinglePersonInterfaceConfig(),
     );
+    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+  });
+
+  const cameraId = 1;
+  late CameraPlatform cameraPlatform;
+  late tf_models.TensorflowModelsPlatform tensorflowModelsPlatform;
+  late tf_models.PoseNet posenet;
+
+  setUp(() {
+    cameraPlatform = MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+    when(() => cameraPlatform.init()).thenAnswer((_) async => {});
+    when(
+      () => cameraPlatform.create(any()),
+    ).thenAnswer((_) async => cameraId);
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
+    when(
+      () => cameraPlatform.imageStream(any()),
+    ).thenAnswer((_) => const Stream<CameraImage>.empty());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
+
+    posenet = MockPoseNet();
+    tensorflowModelsPlatform = MockTensorflowModelsPlatform();
+    tf_models.TensorflowModelsPlatform.instance = tensorflowModelsPlatform;
+    when(
+      () => tensorflowModelsPlatform.loadPosenet(any()),
+    ).thenAnswer((_) async => posenet);
   });
 
   group('PhotoboothPage', () {
-    late CameraPlatform cameraPlatform;
-    late tf_models.TensorflowModelsPlatform tensorflowModelsPlatform;
-    late tf_models.PoseNet posenet;
-
-    setUp(() {
-      cameraPlatform = MockCameraPlatform();
-      CameraPlatform.instance = cameraPlatform;
-      when(() => cameraPlatform.init()).thenAnswer((_) async => {});
-      when(
-        () => cameraPlatform.create(any()),
-      ).thenAnswer((_) async => cameraId);
-      when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
-      when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
-      when(
-        () => cameraPlatform.imageStream(any()),
-      ).thenAnswer((_) => const Stream<CameraImage>.empty());
-      when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
-
-      posenet = MockPoseNet();
-      tensorflowModelsPlatform = MockTensorflowModelsPlatform();
-      tf_models.TensorflowModelsPlatform.instance = tensorflowModelsPlatform;
-      when(
-        () => tensorflowModelsPlatform.loadPosenet(any()),
-      ).thenAnswer((_) async => posenet);
-    });
-
     test('is routable', () {
       expect(PhotoboothPage.route(), isA<MaterialPageRoute>());
     });
 
-    testWidgets('renders Camera', (tester) async {
+    testWidgets('displays a PhotoboothView', (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
       await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+      expect(find.byType(PhotoboothView), findsOneWidget);
+    });
+  });
+
+  group('PhotoboothView', () {
+    late PhotoboothBloc photoboothBloc;
+
+    setUp(() {
+      photoboothBloc = MockPhotoboothBloc();
+      when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+    });
+
+    testWidgets('renders Camera', (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       expect(find.byType(Camera), findsOneWidget);
     });
 
     testWidgets('renders placholder when initializing', (tester) async {
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
     });
 
@@ -99,7 +129,9 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraUnknownException());
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -108,7 +140,9 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraNotAllowedException());
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -118,7 +152,9 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(PhotoboothPreview), findsOneWidget);
@@ -130,10 +166,108 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
+    });
+
+    testWidgets('renders only android when only android is selected',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          isAndroidSelected: true,
+          isDashSelected: false,
+          isSparkySelected: false,
+        ),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(
+          const Key('photoboothPreview_android_draggableResizableAsset'),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders only dash when only dash is selected', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          isAndroidSelected: false,
+          isDashSelected: true,
+          isSparkySelected: false,
+        ),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders only sparky when only sparky is selected',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          isAndroidSelected: false,
+          isDashSelected: false,
+          isSparkySelected: true,
+        ),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(
+          const Key('photoboothPreview_sparky_draggableResizableAsset'),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders dash, sparky, and android when all are selected',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          isAndroidSelected: true,
+          isDashSelected: true,
+          isSparkySelected: true,
+        ),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DraggableResizableAsset), findsNWidgets(3));
     });
 
     testWidgets('displays a DesktopCharactersIconLayout', (tester) async {
@@ -141,7 +275,9 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
       expect(find.byType(DesktopCharactersIconLayout), findsOneWidget);
     });
@@ -155,53 +291,65 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
       expect(find.byType(MobileCharactersIconLayout), findsOneWidget);
 
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('tapping on dash button does nothing', (tester) async {
+    testWidgets('tapping on dash button adds DashToggled', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(
         const Key('photoboothView_dash_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
+      verify(() => photoboothBloc.add(PhotoboothDashToggled())).called(1);
     });
 
-    testWidgets('tapping on sparky button does nothing', (tester) async {
+    testWidgets('tapping on sparky button adds SparkyToggled', (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(
         const Key('photoboothView_sparky_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
+      verify(() => photoboothBloc.add(PhotoboothSparkyToggled())).called(1);
     });
 
-    testWidgets('tapping on android button does nothing', (tester) async {
+    testWidgets('tapping on android button adds AndroidToggled',
+        (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(
         const Key('photoboothView_android_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
+      verify(() => photoboothBloc.add(PhotoboothAndroidToggled())).called(1);
     });
 
     testWidgets('renders dash in preview when poses are detected',
@@ -233,7 +381,12 @@ void main() async {
       when(() => pose.keypoints).thenReturn([keypoint]);
 
       await tester.runAsync(() async {
-        await tester.pumpApp(const PhotoboothPage(enablePoseDetection: true));
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: photoboothBloc,
+            child: PhotoboothView(enablePoseDetection: true),
+          ),
+        );
         await untilCalled(() => cameraPlatform.imageStream(cameraId));
         await tester.pumpAndSettle();
         await tester.pump();
@@ -280,7 +433,12 @@ void main() async {
       when(() => pose.keypoints).thenReturn([keypoint]);
 
       await tester.runAsync(() async {
-        await tester.pumpApp(const PhotoboothPage(enablePoseDetection: true));
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: photoboothBloc,
+            child: PhotoboothView(enablePoseDetection: true),
+          ),
+        );
         await untilCalled(() => cameraPlatform.imageStream(cameraId));
         await tester.pumpAndSettle();
         await tester.pump();
@@ -288,61 +446,62 @@ void main() async {
           find.byKey(const Key('photoboothView_posePainter_customPainter')),
           findsOneWidget,
         );
+
+        await tester.tap(
+          find.byKey(const Key('photoboothPreview_photo_shutterButton')),
+        );
+
+        await tester.pumpAndSettle();
+        final decorationPage =
+            tester.widget<DecorationPage>(find.byType(DecorationPage));
+        expect(decorationPage.image, isNotNull);
+        expect(find.byType(DecorationPage), findsOneWidget);
+        await tester
+            .tap(find.byKey(const Key('decorationPage_back_iconButton')));
+        await tester.pumpAndSettle();
+        expect(find.byType(PhotoboothView), findsOneWidget);
+      });
+    });
+
+    group('PosePainter', () {
+      test('should not repaint if image and pose are the same', () {
+        final pose = MockPose();
+        final image = MockImage();
+
+        when(() => pose.score).thenReturn(0);
+
+        final painterA = PosePainter(pose: pose, image: image);
+        final painterB = PosePainter(pose: pose, image: image);
+
+        expect(painterA.shouldRepaint(painterB), isFalse);
       });
 
-      await tester.tap(
-        find.byKey(const Key('photoboothPreview_photo_shutterButton')),
-      );
+      test('should repaint if image changes', () {
+        final pose = MockPose();
+        final imageA = MockImage();
+        final imageB = MockImage();
 
-      await tester.pumpAndSettle();
-      final decorationPage =
-          tester.widget<DecorationPage>(find.byType(DecorationPage));
-      expect(decorationPage.image, isNotNull);
-      expect(find.byType(DecorationPage), findsOneWidget);
-      await tester.tap(find.byKey(const Key('decorationPage_back_iconButton')));
-      await tester.pumpAndSettle();
-      expect(find.byType(PhotoboothPage), findsOneWidget);
-    });
-  });
+        when(() => pose.score).thenReturn(0);
 
-  group('PosePainter', () {
-    test('should not repaint if image and pose are the same', () {
-      final pose = MockPose();
-      final image = MockImage();
+        final painterA = PosePainter(pose: pose, image: imageA);
+        final painterB = PosePainter(pose: pose, image: imageB);
 
-      when(() => pose.score).thenReturn(0);
+        expect(painterA.shouldRepaint(painterB), isTrue);
+      });
 
-      final painterA = PosePainter(pose: pose, image: image);
-      final painterB = PosePainter(pose: pose, image: image);
+      test('should repaint if pose score changes', () {
+        final poseA = MockPose();
+        final poseB = MockPose();
+        final image = MockImage();
 
-      expect(painterA.shouldRepaint(painterB), isFalse);
-    });
+        when(() => poseA.score).thenReturn(0);
+        when(() => poseB.score).thenReturn(0.5);
 
-    test('should repaint if image changes', () {
-      final pose = MockPose();
-      final imageA = MockImage();
-      final imageB = MockImage();
+        final painterA = PosePainter(pose: poseA, image: image);
+        final painterB = PosePainter(pose: poseB, image: image);
 
-      when(() => pose.score).thenReturn(0);
-
-      final painterA = PosePainter(pose: pose, image: imageA);
-      final painterB = PosePainter(pose: pose, image: imageB);
-
-      expect(painterA.shouldRepaint(painterB), isTrue);
-    });
-
-    test('should repaint if pose score changes', () {
-      final poseA = MockPose();
-      final poseB = MockPose();
-      final image = MockImage();
-
-      when(() => poseA.score).thenReturn(0);
-      when(() => poseB.score).thenReturn(0.5);
-
-      final painterA = PosePainter(pose: poseA, image: image);
-      final painterB = PosePainter(pose: poseB, image: image);
-
-      expect(painterA.shouldRepaint(painterB), isTrue);
+        expect(painterA.shouldRepaint(painterB), isTrue);
+      });
     });
   });
 }

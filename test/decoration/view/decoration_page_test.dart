@@ -143,10 +143,7 @@ void main() async {
         'does not display DraggableResizableAsset when stickers is empty',
         (tester) async {
       when(() => decorationBloc.state).thenReturn(
-        DecorationState(
-          mode: DecorationMode.active,
-          stickers: [],
-        ),
+        DecorationState(mode: DecorationMode.active, stickers: []),
       );
       await tester.pumpApp(
         BlocProvider.value(value: decorationBloc, child: DecorationView()),
@@ -170,12 +167,10 @@ void main() async {
 
     testWidgets('adds DecorationStickerSelected when StickerChoice tapped',
         (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
       final sticker = Assets.dash;
       when(() => decorationBloc.state).thenReturn(
-        DecorationState(
-          mode: DecorationMode.active,
-          stickers: [sticker],
-        ),
+        DecorationState(mode: DecorationMode.active, stickers: [sticker]),
       );
       await tester.pumpApp(
         BlocProvider.value(value: decorationBloc, child: DecorationView()),
@@ -184,6 +179,7 @@ void main() async {
       verify(
         () => decorationBloc.add(DecorationStickerSelected(sticker: sticker)),
       ).called(1);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
   });
 }
