@@ -25,33 +25,29 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   late double width;
   late double minHeight;
   late double maxHeight;
-  late double minWidth;
-  late double maxWidth;
 
-  double top = 0;
-  double left = 0;
+  late double top;
+  late double left;
 
   @override
   void initState() {
     super.initState();
     maxHeight = widget.asset.image.height.toDouble();
-    minHeight = maxHeight * 0.5;
-    height = maxHeight * 0.75;
+    minHeight = maxHeight * 0.05;
+    height = maxHeight * 0.1;
+    width = height;
+  }
 
-    maxWidth = widget.asset.image.width.toDouble();
-    minWidth = maxWidth * 0.5;
-    width = maxWidth * 0.75;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    left = MediaQuery.of(context).size.width / 2 - (width / 2);
+    top = MediaQuery.of(context).size.height / 2 - (height / 2);
   }
 
   double _getNewHeight(double value) {
     if (value >= maxHeight) return maxHeight;
     if (value <= minHeight) return minHeight;
-    return value;
-  }
-
-  double _getNewWidth(double value) {
-    if (value >= maxWidth) return maxWidth;
-    if (value <= minWidth) return minWidth;
     return value;
   }
 
@@ -99,7 +95,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top + mid;
                 left = left + mid;
               });
@@ -124,7 +120,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
@@ -149,7 +145,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
@@ -174,7 +170,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
