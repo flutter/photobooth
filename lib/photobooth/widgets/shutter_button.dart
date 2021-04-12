@@ -140,7 +140,7 @@ class TimerPainter extends CustomPainter {
 
   @visibleForTesting
   Color calculateColor(double progress) {
-    late final Color progressColor;
+    Color progressColor;
     if (progress <= 2) {
       progressColor = PhotoboothColors.blue;
     } else if (progress <= 4) {
