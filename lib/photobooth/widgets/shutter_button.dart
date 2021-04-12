@@ -5,10 +5,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class ShutterButton extends StatefulWidget {
   ShutterButton({
     Key? key,
-    required this.onAnimationFinished,
+    required this.onCountdownComplete,
   }) : super(key: key);
 
-  final VoidCallback onAnimationFinished;
+  final VoidCallback onCountdownComplete;
 
   @override
   _ShutterButtonState createState() => _ShutterButtonState();
@@ -18,13 +18,6 @@ class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
   var displayAnimation = false;
   late AnimationController controller;
-  String get timerString {
-    var duration = (controller.duration! * controller.value).inSeconds;
-    if (duration != 3) {
-      duration = duration + 1;
-    }
-    return '${(duration % 60).toString().padLeft(1, '0')}';
-  }
 
   @override
   void initState() {
@@ -37,9 +30,15 @@ class _ShutterButtonState extends State<ShutterButton>
       if (status == AnimationStatus.dismissed) {
         // Add small delay to force the animation to finish
         await Future.delayed(const Duration(milliseconds: 100));
-        widget.onAnimationFinished.call();
+        widget.onCountdownComplete();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override
@@ -47,44 +46,63 @@ class _ShutterButtonState extends State<ShutterButton>
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        if (controller.isAnimating) {
-          return Container(
-            height: 70,
-            width: 70,
-            margin: const EdgeInsets.only(bottom: 15),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    timerString,
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.w500,
-                      color: PhotoboothColors.white,
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: CustomPaint(
-                    painter: TimerPainter(
-                      animation: controller,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        } else {
-          return CameraButton(
-            onPressed: () {
-              controller.reverse(
-                from: 1,
+        return controller.isAnimating
+            ? CountdownTimer(
+                controller: controller,
+              )
+            : CameraButton(
+                onPressed: () {
+                  controller.reverse(
+                    from: 1,
+                  );
+                },
               );
-            },
-          );
-        }
       },
+    );
+  }
+}
+
+class CountdownTimer extends StatelessWidget {
+  const CountdownTimer({Key? key, required this.controller}) : super(key: key);
+
+  final AnimationController controller;
+
+  String get timerString {
+    var duration = (controller.duration! * controller.value).inSeconds;
+    if (duration != 3) {
+      duration = duration + 1;
+    }
+    return '${(duration % 60).toString().padLeft(1, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      width: 70,
+      margin: const EdgeInsets.only(bottom: 15),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              timerString,
+              style: const TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.w500,
+                color: PhotoboothColors.white,
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: CustomPaint(
+              painter: TimerPainter(
+                animation: controller,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
