@@ -86,7 +86,7 @@ void main() async {
       final firstLocation = tester.getCenter(resizePointFinder);
       await tester.dragFrom(
         firstLocation,
-        Offset(firstLocation.dx + 10, firstLocation.dy + 10),
+        Offset(firstLocation.dx - 1, firstLocation.dy - 1),
       );
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
