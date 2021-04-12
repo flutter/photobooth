@@ -66,7 +66,6 @@ void main() {
       when(() => animation.value).thenReturn(2);
 
       final canvas = MockCanvas();
-      final paint = MockPaint();
 
       TimerPainter(animation: animation)..paint(canvas, const Size(200, 200));
 
