@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -87,8 +86,8 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
             key: const Key('draggableResizableAsset_topLeft_resizePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
-              final tempNewHeight = height - 2 * mid;
-              final tempNewWidth = width - 2 * mid;
+              final tempNewHeight = (height - 2 * mid).abs();
+              final tempNewWidth = (width - 2 * mid).abs();
               if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
               }
