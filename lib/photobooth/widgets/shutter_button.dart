@@ -37,8 +37,8 @@ class _ShutterButtonState extends State<ShutterButton>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -138,9 +138,7 @@ class TimerPainter extends CustomPainter {
 
   final Animation<double> animation;
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final progress = (1.0 - animation.value) * 2 * math.pi;
+  Color calculateColor(double progress) {
     late final Color progressColor;
     if (progress <= 2) {
       progressColor = PhotoboothColors.blue;
@@ -149,6 +147,13 @@ class TimerPainter extends CustomPainter {
     } else {
       progressColor = PhotoboothColors.green;
     }
+    return progressColor;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final progress = (1.0 - animation.value) * 2 * math.pi;
+    final progressColor = calculateColor(progress);
     final paint = Paint()
       ..color = progressColor
       ..strokeWidth = 5.0
