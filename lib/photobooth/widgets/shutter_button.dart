@@ -138,6 +138,7 @@ class TimerPainter extends CustomPainter {
 
   final Animation<double> animation;
 
+  @visibleForTesting
   Color calculateColor(double progress) {
     late final Color progressColor;
     if (progress <= 2) {
