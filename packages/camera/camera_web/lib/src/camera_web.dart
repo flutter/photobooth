@@ -203,7 +203,9 @@ class Camera {
       ..drawImageScaled(videoElement, 0, 0, width, height);
     final imageData = canvas.context2D.getImageData(0, 0, width, height);
     previewCanvas.context2D
-        .drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
+      ..translate(videoWidth, 0)
+      ..scale(-1, 1)
+      ..drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
     final thumbnailData =
         base64.decode(previewCanvas.toDataUrl().split(',')[1]);
     return CameraImage(

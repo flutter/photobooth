@@ -3,8 +3,7 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
@@ -21,21 +20,33 @@ const _poseConfig = tf_models.SinglePersonInterfaceConfig(
   flipHorizontal: false,
 );
 
-class PhotoboothPage extends StatefulWidget {
-  const PhotoboothPage({Key? key, this.enablePoseDetection = false})
-      : super(key: key);
-
-  final bool enablePoseDetection;
+class PhotoboothPage extends StatelessWidget {
+  const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute(builder: (_) => const PhotoboothPage());
   }
 
   @override
-  _PhotoboothPageState createState() => _PhotoboothPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => PhotoboothBloc(),
+      child: const PhotoboothView(),
+    );
+  }
 }
 
-class _PhotoboothPageState extends State<PhotoboothPage> {
+class PhotoboothView extends StatefulWidget {
+  const PhotoboothView({Key? key, this.enablePoseDetection = false})
+      : super(key: key);
+
+  final bool enablePoseDetection;
+
+  @override
+  _PhotoboothViewState createState() => _PhotoboothViewState();
+}
+
+class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: const CameraOptions(
       audio: AudioConstraints(enabled: false),
@@ -92,8 +103,7 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final image = await _composite(picture, _pose);
-    final decorationPageRoute = DecorationPage.route(image: image);
+    final decorationPageRoute = DecorationPage.route(image: picture.thumbnail);
     _subscription?.pause();
     await _controller.stop();
     await Navigator.of(context).push(decorationPageRoute);
@@ -119,46 +129,4 @@ class _PhotoboothPageState extends State<PhotoboothPage> {
       ),
     );
   }
-}
-
-Future<ImageData> _composite(CameraImage picture, posenet.Pose? pose) async {
-  final xScale = picture.thumbnail.width / picture.raw.width;
-  final yScale = picture.thumbnail.height / picture.raw.height;
-  final scale = Size(xScale, yScale);
-  final positions = pose != null
-      ? pose.toPositions(image: Assets.dash.image, scale: scale)
-      : const <Offset>[];
-  final dashImage = img.Image.fromBytes(
-    Assets.dash.image.width,
-    Assets.dash.image.height,
-    Uint8List.view(Assets.dash.buffer),
-  );
-  final rawImage = img.Image.fromBytes(
-    picture.raw.width,
-    picture.raw.height,
-    picture.raw.data,
-  );
-
-  var modifiedImage = img.copyResize(
-    rawImage,
-    height: picture.thumbnail.height,
-    width: picture.thumbnail.width,
-    interpolation: img.Interpolation.average,
-  );
-
-  for (final position in positions) {
-    modifiedImage = img.drawImage(
-      modifiedImage,
-      dashImage,
-      dstX: position.dx.round(),
-      dstY: position.dy.round(),
-    );
-  }
-
-  final data = Uint8List.fromList(img.encodePng(modifiedImage));
-  return ImageData(
-    data: data,
-    width: picture.raw.width,
-    height: picture.raw.height,
-  );
 }

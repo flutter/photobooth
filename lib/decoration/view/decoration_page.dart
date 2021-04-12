@@ -133,9 +133,12 @@ class StickersCarousel extends StatelessWidget {
       height: 100,
       padding: const EdgeInsets.all(15),
       color: Colors.grey.withOpacity(0.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [...stickers],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [...stickers],
+        ),
       ),
     );
   }
