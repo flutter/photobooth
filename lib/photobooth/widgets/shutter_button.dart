@@ -162,6 +162,6 @@ class TimerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(dynamic oldDelegate) {
-    return true;
+    return false;
   }
 }
