@@ -60,14 +60,19 @@ void main() async {
 
       final imageFinder =
           find.byKey(Key('mobileDraggableResizableImage_image'));
-      final origin = tester.getCenter(imageFinder);
       final originalSize = tester.getSize(imageFinder);
 
       // create two touches:
-      final touch1 = await tester.startGesture(origin.translate(-5, 0));
-      final touch2 = await tester.startGesture(origin.translate(5, 0));
+      final touch1 = await tester
+          .startGesture(tester.getCenter(imageFinder) - const Offset(1, 1));
+      await tester.pump();
+      final touch2 = await tester
+          .startGesture(tester.getCenter(imageFinder) + const Offset(2, 2));
+      await tester.pump();
+
       // zoom in:
       await touch1.moveBy(Offset(-8, 0));
+      await tester.pump();
       await touch2.moveBy(Offset(8, 0));
       await tester.pump();
 
@@ -80,45 +85,7 @@ void main() async {
       expect(originalSize == finalSize, false);
     });
 
-    testWidgets('is resizable 2', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Stack(
-            children: [
-              MobileDraggableResizableImage(
-                image: image,
-                height: 100,
-              ),
-            ],
-          ),
-        ),
-      );
-
-      final imageFinder =
-          find.byKey(Key('mobileDraggableResizableImage_image'));
-      final childCenter = tester.getCenter(imageFinder);
-      final originalSize = tester.getSize(imageFinder);
-
-      final scaleStart1 = Offset(childCenter.dx - 5.0, childCenter.dy);
-      final scaleStart2 = Offset(childCenter.dx + 5.0, childCenter.dy);
-      final scaleEnd1 = Offset(childCenter.dx - 8.0, childCenter.dy);
-      final scaleEnd2 = Offset(childCenter.dx + 8.0, childCenter.dy);
-      final gesture = await tester.createGesture();
-      final gesture2 = await tester.createGesture();
-      await gesture.down(scaleStart1);
-      await gesture2.down(scaleStart2);
-      await tester.pump();
-      await gesture.moveTo(scaleEnd1);
-      await gesture2.moveTo(scaleEnd2);
-      await tester.pump();
-      await gesture.up();
-      await gesture2.up();
-      await tester.pumpAndSettle();
-      final finalSize = tester.getSize(imageFinder);
-      expect(originalSize == finalSize, false);
-    });
-
-    testWidgets('is resizable 3', (WidgetTester tester) async {
+    testWidgets('is resizable 2', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
