@@ -28,4 +28,7 @@ abstract class PhotoboothColors {
 
   /// Green
   static const Color green = Color(0xFF3fBC5C);
+
+  /// Orange
+  static const Color orange = Color(0xFFFFBB00);
 }

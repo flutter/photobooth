@@ -85,10 +85,9 @@ class PhotoboothPreview extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
-              key: const Key('photoboothPreview_photo_floatingActionButton'),
-              child: const Icon(Icons.photo_camera),
-              onPressed: onSnapPressed,
+            child: ShutterButton(
+              key: const Key('photoboothPreview_photo_shutterButton'),
+              onCountdownComplete: onSnapPressed,
             ),
           ),
           if (state.isAndroidSelected)

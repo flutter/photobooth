@@ -447,11 +447,10 @@ void main() async {
           findsOneWidget,
         );
 
-        await tester.tap(
-          find.byKey(const Key('photoboothPreview_photo_floatingActionButton')),
-        );
-
+        await tester.tap(find.byType(CameraButton));
         await tester.pumpAndSettle();
+        expect(find.byType(DecorationPage), findsOneWidget);
+
         final decorationPage =
             tester.widget<DecorationPage>(find.byType(DecorationPage));
         expect(decorationPage.image, isNotNull);
