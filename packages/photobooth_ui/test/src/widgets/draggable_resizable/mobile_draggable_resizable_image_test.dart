@@ -1,17 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../../helpers/helpers.dart';
-
-class MockImage extends Mock implements ui.Image {}
-
-class MockAsset extends Mock implements Asset {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
