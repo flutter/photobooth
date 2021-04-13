@@ -16,7 +16,7 @@ class MockAsset extends Mock implements Asset {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('DesktopDraggableResizableAsset', () {
+  group('DesktopDraggableResizableImage', () {
     late ui.Image image;
     late Asset asset;
 

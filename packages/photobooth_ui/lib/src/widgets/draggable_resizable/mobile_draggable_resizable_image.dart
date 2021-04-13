@@ -65,6 +65,8 @@ class _MobileDraggableResizableImageState
             alignment: Alignment.center,
             child: GestureDetector(
               onScaleStart: (details) {
+                print('onScaleStart');
+
                 if (details.pointerCount == 1) {
                   initX = details.focalPoint.dx;
                   initY = details.focalPoint.dy;
@@ -73,6 +75,7 @@ class _MobileDraggableResizableImageState
                 }
               },
               onScaleUpdate: (details) {
+                print('onScaleUpdate');
                 if (details.pointerCount == 1) {
                   final dx = details.focalPoint.dx - initX;
                   final dy = details.focalPoint.dy - initY;
@@ -93,6 +96,7 @@ class _MobileDraggableResizableImageState
                 width: _width,
                 child: Image.memory(
                   widget.image,
+                  key: const Key('mobileDraggableResizableImage_image'),
                   height: _height,
                   width: _width,
                   gaplessPlayback: true,
