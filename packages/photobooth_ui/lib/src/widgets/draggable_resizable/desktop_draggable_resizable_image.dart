@@ -1,25 +1,30 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _cornerDiameter = 15.0;
 
-/// {@template draggable_resizable_asset}
-/// A widget which allows a user to drag and resize the provided [asset].
+/// {@template desktop_draggable_resizable_image}
+/// A widget which allows a user to drag and resize the provided [image].
 /// {@endtemplate}
-class DraggableResizableAsset extends StatefulWidget {
+class DesktopDraggableResizableAsset extends StatefulWidget {
   /// {@macro draggable_resizable_asset}
-  DraggableResizableAsset({Key? key, required this.asset}) : super(key: key);
+  DesktopDraggableResizableAsset(
+      {Key? key, required this.image, required this.height})
+      : super(key: key);
 
-  /// The asset which will be rendered and will be draggable and resizable.
-  final Asset asset;
+  /// Image that will be draggable and resizable
+  final Uint8List image;
+
+  /// Height image
+  final double height;
 
   @override
-  _DraggableResizableAssetState createState() =>
-      _DraggableResizableAssetState();
+  _DesktopDraggableResizableAssetState createState() =>
+      _DesktopDraggableResizableAssetState();
 }
 
-class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
+class _DesktopDraggableResizableAssetState
+    extends State<DesktopDraggableResizableAsset> {
   late double height;
   late double width;
   late double minHeight;
@@ -31,7 +36,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   @override
   void initState() {
     super.initState();
-    maxHeight = widget.asset.image.height.toDouble();
+    maxHeight = widget.height.toDouble();
     minHeight = maxHeight * 0.05;
     height = maxHeight * 0.1;
     width = height;
@@ -70,7 +75,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
               height: height,
               width: width,
               child: Image.memory(
-                Uint8List.fromList(widget.asset.bytes),
+                widget.image,
                 height: height,
                 width: width,
                 gaplessPlayback: true,
