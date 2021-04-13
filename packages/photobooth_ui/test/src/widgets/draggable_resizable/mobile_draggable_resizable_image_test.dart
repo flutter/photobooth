@@ -57,16 +57,16 @@ void main() async {
 
       // create two touches:
       final touch1 = await tester
-          .startGesture(tester.getCenter(imageFinder) - const Offset(1, 1));
+          .startGesture(tester.getCenter(imageFinder) - const Offset(1, -1));
       await tester.pump();
       final touch2 = await tester
-          .startGesture(tester.getCenter(imageFinder) + const Offset(2, 2));
+          .startGesture(tester.getCenter(imageFinder) + const Offset(-2, 2));
       await tester.pump();
 
       // zoom in:
-      await touch1.moveBy(Offset(-8, 0));
+      await touch1.moveBy(Offset(-8, 8));
       await tester.pump();
-      await touch2.moveBy(Offset(8, 0));
+      await touch2.moveBy(Offset(8, -8));
       await tester.pump();
 
       // cancel touches:
