@@ -20,22 +20,26 @@ class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
   late final AnimationController controller;
 
+  void _onAnimationStatusChanged(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed) {
+      widget.onCountdownComplete();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
       duration: _shutterCountdownDuration,
-    )..addStatusListener((status) async {
-        if (status == AnimationStatus.dismissed) {
-          widget.onCountdownComplete();
-        }
-      });
+    )..addStatusListener(_onAnimationStatusChanged);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller
+      ..removeStatusListener(_onAnimationStatusChanged)
+      ..dispose();
     super.dispose();
   }
 
