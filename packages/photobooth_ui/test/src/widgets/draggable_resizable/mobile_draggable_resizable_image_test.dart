@@ -13,30 +13,19 @@ class MockImage extends Mock implements ui.Image {}
 
 class MockAsset extends Mock implements Asset {}
 
-void main() {
+void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  late ui.Image image;
-  late Asset asset;
+  final image = Uint8List.fromList(transparentImage);
 
   group('MobileDraggableResizableImage', () {
-    setUp(() {
-      image = MockImage();
-      asset = MockAsset();
-
-      when(() => image.width).thenReturn(100);
-      when(() => image.height).thenReturn(100);
-      when(() => asset.image).thenReturn(image);
-      when(() => asset.bytes).thenReturn(Uint8List.fromList(transparentImage));
-    });
-
     testWidgets('is draggable', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
             children: [
               MobileDraggableResizableImage(
-                image: asset.bytes,
-                height: asset.image.height.toDouble(),
+                image: image,
+                height: 100,
               ),
             ],
           ),
@@ -61,8 +50,8 @@ void main() {
           home: Stack(
             children: [
               MobileDraggableResizableImage(
-                image: asset.bytes,
-                height: asset.image.height.toDouble(),
+                image: image,
+                height: 100,
               ),
             ],
           ),
@@ -96,8 +85,8 @@ void main() {
           home: Stack(
             children: [
               MobileDraggableResizableImage(
-                image: asset.bytes,
-                height: asset.image.height.toDouble(),
+                image: image,
+                height: 100,
               ),
             ],
           ),
