@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/web_helper.dart';
-
+import 'package:photobooth_ui/src/platform_helper/platform_helper.dart';
 import 'desktop_draggable_resizable_image.dart';
 import 'mobile_draggable_resizable_image.dart';
+export 'desktop_draggable_resizable_image.dart';
+export 'mobile_draggable_resizable_image.dart';
 
 /// {@template draggable_resizable_asset}
 /// A widget which allows a user to drag and resize the provided [asset].
@@ -26,12 +27,12 @@ class DraggableResizableAsset extends StatefulWidget {
 class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   @override
   Widget build(BuildContext context) {
-    if (WebHelper().isMobile())
+    if (PlatformHelper.isMobile)
       return MobileDraggableResizableImage(
         image: widget.asset.bytes,
         height: widget.asset.image.height.toDouble(),
       );
-    return DesktopDraggableResizableAsset(
+    return DesktopDraggableResizableImage(
       image: widget.asset.bytes,
       height: widget.asset.image.height.toDouble(),
     );

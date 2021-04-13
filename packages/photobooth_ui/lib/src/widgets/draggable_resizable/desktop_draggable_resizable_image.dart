@@ -6,9 +6,9 @@ const _cornerDiameter = 15.0;
 /// {@template desktop_draggable_resizable_image}
 /// A widget which allows a user to drag and resize the provided [image].
 /// {@endtemplate}
-class DesktopDraggableResizableAsset extends StatefulWidget {
+class DesktopDraggableResizableImage extends StatefulWidget {
   /// {@macro draggable_resizable_asset}
-  DesktopDraggableResizableAsset(
+  DesktopDraggableResizableImage(
       {Key? key, required this.image, required this.height})
       : super(key: key);
 
@@ -19,12 +19,12 @@ class DesktopDraggableResizableAsset extends StatefulWidget {
   final double height;
 
   @override
-  _DesktopDraggableResizableAssetState createState() =>
-      _DesktopDraggableResizableAssetState();
+  _DesktopDraggableResizableImageState createState() =>
+      _DesktopDraggableResizableImageState();
 }
 
-class _DesktopDraggableResizableAssetState
-    extends State<DesktopDraggableResizableAsset> {
+class _DesktopDraggableResizableImageState
+    extends State<DesktopDraggableResizableImage> {
   late double height;
   late double width;
   late double minHeight;

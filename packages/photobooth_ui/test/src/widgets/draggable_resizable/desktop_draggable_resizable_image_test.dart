@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class MockImage extends Mock implements ui.Image {}
 
@@ -16,7 +16,7 @@ class MockAsset extends Mock implements Asset {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('DraggableResizableAsset', () {
+  group('DesktopDraggableResizableAsset', () {
     late ui.Image image;
     late Asset asset;
 
@@ -32,7 +32,12 @@ void main() async {
 
     testWidgets('image as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
@@ -42,7 +47,12 @@ void main() async {
 
     testWidgets('image is draggable', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+          ),
+        ),
       );
       final firstLocation = tester.getCenter(
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
@@ -57,7 +67,12 @@ void main() async {
 
     testWidgets('top left corner as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_topLeft_resizePoint')),
@@ -72,7 +87,10 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
               ),
             ],
           ),
@@ -95,7 +113,19 @@ void main() async {
 
     testWidgets('top right corner as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_topRight_resizePoint')),
@@ -110,7 +140,10 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
               ),
             ],
           ),
@@ -134,7 +167,19 @@ void main() async {
     testWidgets('bottom right corner as draggable point renders',
         (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_bottomRight_resizePoint')),
@@ -149,7 +194,10 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
               ),
             ],
           ),
@@ -173,7 +221,19 @@ void main() async {
     testWidgets('bottom left corner as draggable point renders',
         (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_bottomLeft_resizePoint')),
@@ -188,7 +248,10 @@ void main() async {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
               ),
             ],
           ),
