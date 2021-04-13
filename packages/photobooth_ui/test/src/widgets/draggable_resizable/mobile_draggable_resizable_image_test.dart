@@ -66,7 +66,6 @@ void main() async {
       // create two touches:
       final touch1 = await tester.startGesture(origin.translate(-5, 0));
       final touch2 = await tester.startGesture(origin.translate(5, 0));
-
       // zoom in:
       await touch1.moveBy(Offset(-8, 0));
       await touch2.moveBy(Offset(8, 0));
@@ -75,6 +74,8 @@ void main() async {
       // cancel touches:
       await touch1.cancel();
       await touch2.cancel();
+      await tester.pumpAndSettle();
+
       final finalSize = tester.getSize(imageFinder);
       expect(originalSize == finalSize, false);
     });
@@ -115,6 +116,38 @@ void main() async {
       await tester.pumpAndSettle();
       final finalSize = tester.getSize(imageFinder);
       expect(originalSize == finalSize, false);
+    });
+
+    testWidgets('is resizable 3', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Stack(
+            children: [
+              MobileDraggableResizableImage(
+                image: image,
+                height: 100,
+              ),
+            ],
+          ),
+        ),
+      );
+
+      final imageFinder =
+          find.byKey(Key('mobileDraggableResizableImage_image'));
+      final originalImageSize = tester.getSize(imageFinder);
+
+      await tester
+          .startGesture(tester.getCenter(imageFinder) - const Offset(1, 1));
+      await tester.pump();
+      final pointer2 = await tester
+          .startGesture(tester.getCenter(imageFinder) + const Offset(2, 2));
+      await tester.pump();
+      await pointer2.moveTo(tester.getCenter(imageFinder) - const Offset(0, 5));
+      await tester.pumpAndSettle();
+
+      final finalImageSize = tester.getSize(imageFinder);
+
+      expect(originalImageSize == finalImageSize, false);
     });
   });
 }
