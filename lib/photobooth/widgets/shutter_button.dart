@@ -2,8 +2,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+const _shutterCountdownDuration = Duration(seconds: 3);
+
 class ShutterButton extends StatefulWidget {
-  ShutterButton({
+  const ShutterButton({
     Key? key,
     required this.onCountdownComplete,
   }) : super(key: key);
@@ -16,21 +18,19 @@ class ShutterButton extends StatefulWidget {
 
 class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
-  var displayAnimation = false;
-  late AnimationController controller;
+  late final AnimationController controller;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
-    );
-    controller.addStatusListener((status) async {
-      if (status == AnimationStatus.dismissed) {
-        widget.onCountdownComplete();
-      }
-    });
+      duration: _shutterCountdownDuration,
+    )..addStatusListener((status) async {
+        if (status == AnimationStatus.dismissed) {
+          widget.onCountdownComplete();
+        }
+      });
   }
 
   @override
@@ -45,16 +45,8 @@ class _ShutterButtonState extends State<ShutterButton>
       animation: controller,
       builder: (context, child) {
         return controller.isAnimating
-            ? CountdownTimer(
-                controller: controller,
-              )
-            : CameraButton(
-                onPressed: () {
-                  controller.reverse(
-                    from: 1,
-                  );
-                },
-              );
+            ? CountdownTimer(controller: controller)
+            : CameraButton(onPressed: () => controller.reverse(from: 1));
       },
     );
   }
@@ -65,16 +57,10 @@ class CountdownTimer extends StatelessWidget {
 
   final AnimationController controller;
 
-  String get timerString {
-    var duration = (controller.duration! * controller.value).inSeconds;
-    if (duration != 3) {
-      duration = duration + 1;
-    }
-    return '${(duration % 60).toString().padLeft(1, '0')}';
-  }
-
   @override
   Widget build(BuildContext context) {
+    final secondsRemaining =
+        (_shutterCountdownDuration.inSeconds * controller.value).ceil();
     return Container(
       height: 70,
       width: 70,
@@ -84,7 +70,7 @@ class CountdownTimer extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              timerString,
+              '$secondsRemaining',
               style: const TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.w500,
@@ -93,11 +79,7 @@ class CountdownTimer extends StatelessWidget {
             ),
           ),
           Positioned.fill(
-            child: CustomPaint(
-              painter: TimerPainter(
-                animation: controller,
-              ),
-            ),
+            child: CustomPaint(painter: TimerPainter(animation: controller)),
           )
         ],
       ),
@@ -106,10 +88,7 @@ class CountdownTimer extends StatelessWidget {
 }
 
 class CameraButton extends StatelessWidget {
-  const CameraButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const CameraButton({Key? key, required this.onPressed}) : super(key: key);
 
   final VoidCallback onPressed;
 
@@ -130,23 +109,15 @@ class CameraButton extends StatelessWidget {
 }
 
 class TimerPainter extends CustomPainter {
-  TimerPainter({
-    required this.animation,
-  }) : super(repaint: animation);
+  const TimerPainter({required this.animation}) : super(repaint: animation);
 
   final Animation<double> animation;
 
   @visibleForTesting
   Color calculateColor(double progress) {
-    Color progressColor;
-    if (progress <= 2) {
-      progressColor = PhotoboothColors.blue;
-    } else if (progress <= 4) {
-      progressColor = PhotoboothColors.orange;
-    } else {
-      progressColor = PhotoboothColors.green;
-    }
-    return progressColor;
+    if (progress <= 2) return PhotoboothColors.blue;
+    if (progress <= 4) return PhotoboothColors.orange;
+    return PhotoboothColors.green;
   }
 
   @override
@@ -165,7 +136,5 @@ class TimerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(dynamic oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(TimerPainter oldDelegate) => false;
 }
