@@ -169,7 +169,8 @@ void main() async {
               image: image,
             )),
       );
-      await tester.tap(find.byType(StickerChoice));
+      final stickerChoice = find.byType(StickerChoice).first;
+      await tester.tap(stickerChoice);
       verify(
         () => decorationBloc.add(DecorationStickerSelected(sticker: sticker)),
       ).called(1);
