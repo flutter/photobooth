@@ -1,6 +1,7 @@
 name: photobooth_ui
 description: UI Toolkit for the Photobooth Flutter Application
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -9,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.0
+  platform_helper:
+    path: ../platform_helper
 
 dev_dependencies:
   flutter_test:
