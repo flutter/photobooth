@@ -64,7 +64,7 @@
     "@photoBoothPlaceholderSubheadline": {
         "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
     },
-    "stickersDrawerTitle": "Add Stickers",
+    "stickersDrawerTitle": "Add Props",
     "@stickersDrawerTitle": {
         "description": "Text displayed on the stickers drawer as title"
     }
