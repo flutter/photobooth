@@ -53,7 +53,6 @@ void main() async {
 
       final imageFinder =
           find.byKey(Key('mobileDraggableResizableImage_image'));
-      final originalSize = tester.getSize(imageFinder);
 
       // create two touches:
       final touch1 = await tester
@@ -74,40 +73,15 @@ void main() async {
       await touch2.cancel();
       await tester.pumpAndSettle();
 
-      final finalSize = tester.getSize(imageFinder);
-      expect(originalSize == finalSize, false);
-    });
-
-    testWidgets('is resizable 2', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Stack(
-            children: [
-              MobileDraggableResizableImage(
-                image: image,
-                height: 100,
-              ),
-            ],
-          ),
-        ),
+      final transformFinder = find.ancestor(
+        of: imageFinder,
+        matching: find.byType(Transform),
       );
-
-      final imageFinder =
-          find.byKey(Key('mobileDraggableResizableImage_image'));
-      final originalImageSize = tester.getSize(imageFinder);
-
-      await tester
-          .startGesture(tester.getCenter(imageFinder) - const Offset(1, 1));
-      await tester.pump();
-      final pointer2 = await tester
-          .startGesture(tester.getCenter(imageFinder) + const Offset(2, 2));
-      await tester.pump();
-      await pointer2.moveTo(tester.getCenter(imageFinder) - const Offset(0, 5));
-      await tester.pumpAndSettle();
-
-      final finalImageSize = tester.getSize(imageFinder);
-
-      expect(originalImageSize == finalImageSize, false);
+      final transformWidget = tester.widget<Transform>(transformFinder);
+      expect(
+        transformWidget.transform,
+        equals(Matrix4.diagonal3Values(15, 15, 1.0)),
+      );
     });
   });
 }
