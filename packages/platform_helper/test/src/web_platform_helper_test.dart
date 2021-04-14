@@ -1,8 +1,8 @@
 @TestOn('chrome')
 import 'dart:html' as html hide window;
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:platform_helper/platform_helper.dart';
+import 'package:platform_helper/src/web.dart';
+import 'package:test/test.dart';
 
 class MockWindow extends Mock implements html.Window {}
 
@@ -20,7 +20,7 @@ void main() {
       when(() => navigator.userAgent).thenReturn('iphone');
     });
     test('returns true when user agent is in browser from mobile', () async {
-      final helper = PlatformHelper()..setWindow(window);
+      final helper = PlatformHelper()..localWindow = window;
       expect(helper.isMobile, true);
     });
 
