@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/platform_helper/platform_helper.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'desktop_draggable_resizable_image.dart';
 import 'mobile_draggable_resizable_image.dart';
 export 'desktop_draggable_resizable_image.dart';
@@ -20,7 +20,7 @@ class DraggableResizableAsset extends StatelessWidget {
   final Asset asset;
   @override
   Widget build(BuildContext context) {
-    if (PlatformHelper.isMobile)
+    if (PlatformHelper().isMobile)
       return MobileDraggableResizableImage(
         image: asset.bytes,
         height: asset.image.height.toDouble(),

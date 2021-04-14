@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/platform_helper/platform_helper.dart';
 
 import '../../../helpers/constants.dart';
 
 class MockImage extends Mock implements ui.Image {}
 
 class MockAsset extends Mock implements Asset {}
-
-class MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
