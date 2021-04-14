@@ -3,10 +3,8 @@
 class PlatformHelper {
   PlatformHelper();
   bool get isMobile {
-    throw 'Unsupported';
+    return false;
   }
 
-  void setWindow(dynamic window) {
-    throw 'Unsupported';
-  }
+  void setWindow(dynamic window) {}
 }
