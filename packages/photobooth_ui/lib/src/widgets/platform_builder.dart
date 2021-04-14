@@ -6,11 +6,13 @@ import 'package:platform_helper/platform_helper.dart';
 /// {@endtemplate}
 class PlatformBuilder extends StatelessWidget {
   /// {@macro platform_builder}
-  const PlatformBuilder({
+  PlatformBuilder({
     Key? key,
     required this.mobile,
     required this.desktop,
-  }) : super(key: key);
+    PlatformHelper? platformHelper,
+  })  : _platformHelper = platformHelper ?? PlatformHelper(),
+        super(key: key);
 
   /// [Widget] for mobile.
   final Widget mobile;
@@ -18,8 +20,10 @@ class PlatformBuilder extends StatelessWidget {
   /// [Widget] for desktop.
   final Widget desktop;
 
+  final PlatformHelper _platformHelper;
+
   @override
   Widget build(BuildContext context) {
-    return PlatformHelper().isMobile ? mobile : desktop;
+    return _platformHelper.isMobile ? mobile : desktop;
   }
 }
