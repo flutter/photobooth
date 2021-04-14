@@ -107,6 +107,26 @@ void main() async {
       expect(find.byType(StickersDrawer), findsOneWidget);
     });
 
+    testWidgets('adds DecorationModeToggled when close button is tapped',
+        (tester) async {
+      when(() => decorationBloc.state).thenReturn(
+        DecorationState(mode: DecorationMode.active),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+            value: decorationBloc,
+            child: DecorationView(
+              image: image,
+            )),
+      );
+      expect(find.byType(StickersDrawer), findsOneWidget);
+      await tester
+          .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
+      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
+      await tester.pumpAndSettle();
+      verify(() => decorationBloc.add(DecorationModeToggled())).called(1);
+    });
+
     testWidgets('adds DecorationModeToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(

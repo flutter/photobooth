@@ -83,13 +83,14 @@ class DecorationView extends StatelessWidget {
           BlocBuilder<DecorationBloc, DecorationState>(
             buildWhen: (previous, current) => previous.mode != current.mode,
             builder: (context, state) {
-              if (state.mode.isNotActive) return const SizedBox();
-              return const Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: StickersDrawer(),
-              );
+              if (state.mode.isActive)
+                return const Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: StickersDrawer(),
+                );
+              return const SizedBox();
             },
           ),
         ],

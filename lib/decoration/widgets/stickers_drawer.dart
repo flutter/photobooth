@@ -6,9 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class StickersDrawer extends StatelessWidget {
-  const StickersDrawer({
-    Key? key,
-  }) : super(key: key);
+  const StickersDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +43,7 @@ class StickersDrawer extends StatelessWidget {
                 ),
               ),
               IconButton(
+                  key: const Key('stickersDrawer_close_iconButton'),
                   onPressed: () => context
                       .read<DecorationBloc>()
                       .add(const DecorationModeToggled()),
