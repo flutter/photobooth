@@ -6,7 +6,7 @@ import 'package:platform_helper/platform_helper.dart';
 void main() {
   group('MobilePlatformHelper', () {
     test('returns true', () async {
-      final helper = PlatformHelper();
+      final helper = const PlatformHelper();
       expect(helper.isMobile, true);
     });
   });

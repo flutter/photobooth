@@ -20,6 +20,6 @@ class PlatformBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformHelper().isMobile ? mobile : desktop;
+    return const PlatformHelper().isMobile ? mobile : desktop;
   }
 }
