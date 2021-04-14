@@ -12,11 +12,21 @@ class StickersDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stickers = [Assets.dash];
+    final stickers = [
+      Assets.dash,
+      Assets.android,
+      Assets.sparky,
+      Assets.dash,
+      Assets.android,
+      Assets.sparky,
+      Assets.dash,
+      Assets.android,
+      Assets.sparky,
+    ];
     final width = MediaQuery.of(context).size.width;
     final l10n = context.l10n;
     return Container(
-      width: width * 0.3,
+      width: width * 0.35,
       color: Colors.white,
       padding: const EdgeInsets.only(left: 46, right: 46, top: 30),
       child: Column(
@@ -25,12 +35,14 @@ class StickersDrawer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                l10n.stickersDrawerTitle,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .copyWith(fontSize: 30),
+              Flexible(
+                child: Text(
+                  l10n.stickersDrawerTitle,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(fontSize: 30),
+                ),
               ),
               IconButton(
                   onPressed: () => context

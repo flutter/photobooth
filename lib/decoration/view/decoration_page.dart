@@ -71,7 +71,6 @@ class DecorationView extends StatelessWidget {
                 previous.stickers.length != current.stickers.length,
             builder: (context, state) {
               if (state.stickers.isEmpty) return const SizedBox();
-              print("Build stickers");
               return Stack(
                 fit: StackFit.expand,
                 children: [
@@ -85,7 +84,6 @@ class DecorationView extends StatelessWidget {
             buildWhen: (previous, current) => previous.mode != current.mode,
             builder: (context, state) {
               if (state.mode.isNotActive) return const SizedBox();
-              print("Build drawer");
               return const Positioned(
                 right: 0,
                 top: 0,
