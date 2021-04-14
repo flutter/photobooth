@@ -9,7 +9,7 @@ export 'mobile_draggable_resizable_image.dart';
 /// {@template draggable_resizable_asset}
 /// A widget which allows a user to drag and resize the provided [asset].
 /// {@endtemplate}
-class DraggableResizableAsset extends StatefulWidget {
+class DraggableResizableAsset extends StatelessWidget {
   /// {@macro draggable_resizable_asset}
   const DraggableResizableAsset({
     Key? key,
@@ -18,23 +18,16 @@ class DraggableResizableAsset extends StatefulWidget {
 
   /// The asset which will be rendered and will be draggable and resizable.
   final Asset asset;
-
-  @override
-  _DraggableResizableAssetState createState() =>
-      _DraggableResizableAssetState();
-}
-
-class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   @override
   Widget build(BuildContext context) {
     if (PlatformHelper.isMobile)
       return MobileDraggableResizableImage(
-        image: widget.asset.bytes,
-        height: widget.asset.image.height.toDouble(),
+        image: asset.bytes,
+        height: asset.image.height.toDouble(),
       );
     return DesktopDraggableResizableImage(
-      image: widget.asset.bytes,
-      height: widget.asset.image.height.toDouble(),
+      image: asset.bytes,
+      height: asset.image.height.toDouble(),
     );
   }
 }
