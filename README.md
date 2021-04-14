@@ -25,7 +25,8 @@ $ flutter run -d chrome
 _\*Io Photobooth works on Web._
 
 ### Known Issues
-- App crashes when granting camera permissions (https://github.com/flutter/flutter/issues/56109). Current solve is run in release or extermal terminal.
+
+- App crashes when granting camera permissions (https://github.com/flutter/flutter/issues/56109). Current solution is to run in release or external terminal.
 - Run with HTML renderer due to mirroring issues with CanvasKit
 
 ---
