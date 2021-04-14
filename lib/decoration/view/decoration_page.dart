@@ -1,8 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/decoration/widgets/stickers_drawer.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -17,20 +17,40 @@ class DecorationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => DecorationBloc(),
+        child: DecorationView(image: image));
+  }
+}
+
+class DecorationView extends StatelessWidget {
+  const DecorationView({Key? key, required this.image}) : super(key: key);
+  final ImageData image;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
           PreviewImage(data: image.data),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15),
-              child: IconButton(
-                key: const Key('decorationPage_back_iconButton'),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.refresh),
-              ),
+          Positioned(
+            left: 15,
+            top: 15,
+            child: IconButton(
+              key: const Key('decorationPage_back_iconButton'),
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.refresh),
+            ),
+          ),
+          Positioned(
+            right: 15,
+            top: 15,
+            child: OpenStickersButton(
+              onPressed: () {
+                context
+                    .read<DecorationBloc>()
+                    .add(const DecorationModeToggled());
+              },
             ),
           ),
           Align(
@@ -46,55 +66,36 @@ class DecorationPage extends StatelessWidget {
               ),
             ),
           ),
-          BlocProvider(
-            create: (_) => DecorationBloc(),
-            child: const DecorationView(),
+          BlocBuilder<DecorationBloc, DecorationState>(
+            buildWhen: (previous, current) =>
+                previous.stickers.length != current.stickers.length,
+            builder: (context, state) {
+              if (state.stickers.isEmpty) return const SizedBox();
+              print("Build stickers");
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  for (final sticker in state.stickers)
+                    DraggableResizableAsset(asset: sticker),
+                ],
+              );
+            },
+          ),
+          BlocBuilder<DecorationBloc, DecorationState>(
+            buildWhen: (previous, current) => previous.mode != current.mode,
+            builder: (context, state) {
+              if (state.mode.isNotActive) return const SizedBox();
+              print("Build drawer");
+              return const Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: StickersDrawer(),
+              );
+            },
           ),
         ],
       ),
-    );
-  }
-}
-
-class DecorationView extends StatelessWidget {
-  const DecorationView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.watch<DecorationBloc>().state;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Positioned(
-          right: 15,
-          top: 15,
-          child: OpenStickersButton(
-            onPressed: () {
-              context.read<DecorationBloc>().add(const DecorationModeToggled());
-            },
-          ),
-        ),
-        if (state.mode.isActive)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: StickersCarousel(
-              stickers: [
-                StickerChoice(
-                  asset: Assets.dash,
-                  onPressed: () {
-                    context
-                        .read<DecorationBloc>()
-                        .add(DecorationStickerSelected(sticker: Assets.dash));
-                  },
-                ),
-              ],
-            ),
-          ),
-        for (final sticker in state.stickers)
-          DraggableResizableAsset(asset: sticker),
-      ],
     );
   }
 }
@@ -118,51 +119,6 @@ class OpenStickersButton extends StatelessWidget {
           width: 50,
         ),
       ),
-    );
-  }
-}
-
-class StickersCarousel extends StatelessWidget {
-  const StickersCarousel({Key? key, required this.stickers}) : super(key: key);
-
-  final List<Widget> stickers;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      padding: const EdgeInsets.all(15),
-      color: Colors.grey.withOpacity(0.5),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [...stickers],
-        ),
-      ),
-    );
-  }
-}
-
-class StickerChoice extends StatelessWidget {
-  const StickerChoice({
-    Key? key,
-    required this.asset,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final Asset asset;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Image.memory(
-        asset.bytes,
-        height: asset.image.height.toDouble(),
-        width: asset.image.width.toDouble(),
-      ),
-      onTap: onPressed,
     );
   }
 }
