@@ -29,5 +29,8 @@ jobs:
       - name: Analyze
         run: flutter analyze lib test
 
-      - name: Run tests
+      - name: Run tests chrome
         run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
+
+      - name: Run tests
+        run: flutter test --no-pub --test-randomize-ordering-seed random
