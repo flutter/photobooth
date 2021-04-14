@@ -37,7 +37,7 @@ void main() async {
       expect(origin == destination, false);
     });
 
-    testWidgets('is resizable 1', (tester) async {
+    testWidgets('is resizable', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
