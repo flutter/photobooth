@@ -1,5 +1,5 @@
 name: platform_helper
-description: A new Flutter package project.
+description: A Flutter package which helps detect the host platform
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
