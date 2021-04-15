@@ -9,9 +9,9 @@ import 'package:uuid/uuid.dart';
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
-  static Route route({required ImageData image}) {
+  static Route route({required CameraImage image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
   }
 
@@ -58,7 +58,7 @@ class PreviewPage extends StatelessWidget {
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class DesktopButtonsLayout extends StatelessWidget {
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ class _RetakeButton extends StatelessWidget {
 class _ShareButton extends StatelessWidget {
   const _ShareButton({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +148,7 @@ class _DownloadButton extends StatelessWidget {
   }
 }
 
-extension on ImageData {
+extension on CameraImage {
   XFile toFile() {
     final uuid = const Uuid().v4();
     return XFile.fromData(

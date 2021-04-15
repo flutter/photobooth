@@ -9,11 +9,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class DecorationPage extends StatelessWidget {
   const DecorationPage({Key? key, required this.image}) : super(key: key);
 
-  static Route route({required ImageData image}) {
+  static Route route({required CameraImage image}) {
     return MaterialPageRoute(builder: (_) => DecorationPage(image: image));
   }
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {

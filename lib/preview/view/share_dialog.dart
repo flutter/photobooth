@@ -9,7 +9,7 @@ class ShareDialog extends StatelessWidget {
     required this.image,
   }) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
