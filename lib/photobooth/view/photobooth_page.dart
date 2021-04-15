@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf_models;
 
@@ -49,11 +50,11 @@ class PhotoboothView extends StatefulWidget {
 
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
-    options: const CameraOptions(
-      audio: AudioConstraints(enabled: false),
-      video: kIsWeb
-          ? VideoConstraints(height: 720, width: 1080)
-          : VideoConstraints(height: 1080, width: 720),
+    options: CameraOptions(
+      audio: const AudioConstraints(enabled: false),
+      video: isMobile
+          ? const VideoConstraints(width: 3072, height: 4096)
+          : const VideoConstraints(width: 4096, height: 3072),
     ),
   );
   StreamSubscription<CameraImage>? _subscription;
