@@ -20,8 +20,6 @@ dependencies:
   flutter_bloc: ^7.0.0
   image: ^3.0.2
   intl: ^0.17.0
-  platform_helper:
-    path: packages/platform_helper
   photobooth_ui:
     path: packages/photobooth_ui
   tensorflow_models:

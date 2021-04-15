@@ -1,12 +1,10 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:equatable/equatable.dart';
-
 /// {@template asset}
 /// A Dart object which holds metadata for a given asset.
 /// {@endtemplate}
-class Asset extends Equatable {
+class Asset {
   /// {@macro asset}
   const Asset({required this.image, required this.buffer, required this.bytes});
 
@@ -18,7 +16,4 @@ class Asset extends Equatable {
 
   /// THe image bytes (useful for rendering images via `Image.memory`).
   final Uint8List bytes;
-
-  @override
-  List<Object?> get props => [image, buffer, bytes];
 }
