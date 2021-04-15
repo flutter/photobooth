@@ -108,7 +108,6 @@ class Camera {
     );
 
     final stream = await _getMediaStream();
-
     videoElement
       ..autoplay = false
       ..muted = !options.audio.enabled
