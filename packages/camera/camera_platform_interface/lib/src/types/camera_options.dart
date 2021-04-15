@@ -57,15 +57,10 @@ class VideoConstraints {
     if (!enabled) return false;
     final json = <String, dynamic>{};
 
-    if (width != null) {
-      json['width'] = {'ideal': width};
-    }
-    if (height != null) {
-      json['height'] = {'ideal': height};
-    }
-    if (facingMode != null) {
-      json['facingMode'] = facingMode!.toJson();
-    }
+    if (width != null) json['width'] = width;
+    if (height != null) json['height'] = height;
+    if (facingMode != null) json['facingMode'] = facingMode!.toJson();
+
     return json;
   }
 }
