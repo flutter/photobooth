@@ -1,6 +1,5 @@
-/// Returns true if it is a mobile device. IO implementation
-
+/// IO Implementation of [PlatformHelper]
 class PlatformHelper {
-  PlatformHelper();
+  /// Returns whether the current platform is running on a mobile device.
   bool get isMobile => true;
 }

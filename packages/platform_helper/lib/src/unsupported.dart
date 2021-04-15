@@ -1,6 +1,8 @@
-/// Returns true if it is a mobile device. IO implementation
+/// Unsupported Implementation of [PlatformHelper]
 
 class PlatformHelper {
-  PlatformHelper();
-  bool get isMobile => false;
+  /// Throws [UnsupportedError].
+  bool get isMobile {
+    throw UnsupportedError('isMobile is not supported on the current platform');
+  }
 }

@@ -194,6 +194,7 @@ class _ResizePoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DraggablePoint(
+      onDrag: onDrag,
       child: Container(
         width: _cornerDiameter,
         height: _cornerDiameter,
@@ -202,7 +203,6 @@ class _ResizePoint extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      onDrag: onDrag,
     );
   }
 }
