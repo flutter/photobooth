@@ -104,8 +104,8 @@ class _RetakeButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_retake_elevatedButton'),
-      child: Text(l10n.previewPageRetakeButtonText),
       onPressed: () => Navigator.of(context).pop(),
+      child: Text(l10n.previewPageRetakeButtonText),
     );
   }
 }
@@ -120,7 +120,6 @@ class _ShareButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_share_elevatedButton'),
-      child: Text(l10n.previewPageShareButtonText),
       onPressed: () {
         showDialog(
           barrierColor: PhotoboothColors.gray.withOpacity(0.75),
@@ -128,6 +127,7 @@ class _ShareButton extends StatelessWidget {
           builder: (_) => ShareDialog(image: image),
         );
       },
+      child: Text(l10n.previewPageShareButtonText),
     );
   }
 }
@@ -142,8 +142,8 @@ class _DownloadButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_download_elevatedButton'),
-      child: Text(l10n.previewPageDownloadButtonText),
       onPressed: () => file.saveTo(''),
+      child: Text(l10n.previewPageDownloadButtonText),
     );
   }
 }

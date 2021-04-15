@@ -39,10 +39,10 @@ class DecorationPage extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 15),
               child: FloatingActionButton(
                 key: const Key('decorationPage_preview_floatingActionButton'),
-                child: const Icon(Icons.arrow_forward),
                 onPressed: () => Navigator.of(context).push(
                   PreviewPage.route(image: image),
                 ),
+                child: const Icon(Icons.arrow_forward),
               ),
             ),
           ),
@@ -157,12 +157,12 @@ class StickerChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPressed,
       child: Image.memory(
         asset.bytes,
         height: asset.image.height.toDouble(),
         width: asset.image.width.toDouble(),
       ),
-      onTap: onPressed,
     );
   }
 }

@@ -350,6 +350,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  platform_helper:
+    dependency: "direct main"
+    description:
+      path: "packages/platform_helper"
+      relative: true
+    source: path
+    version: "0.0.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -529,7 +536,7 @@ packages:
       name: very_good_analysis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   vm_service:
     dependency: transitive
     description:
