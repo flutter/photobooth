@@ -11,13 +11,13 @@ class MockByteBuffer extends Mock implements ByteBuffer {}
 
 void main() {
   group('Asset', () {
-    test('supports value equality', () {
+    test('does not support value equality', () {
       final image = MockImage();
       final buffer = MockByteBuffer();
       final bytes = Uint8List.fromList([]);
       final assetA = Asset(image: image, buffer: buffer, bytes: bytes);
       final assetB = Asset(image: image, buffer: buffer, bytes: bytes);
-      expect(assetA, equals(assetB));
+      expect(assetA, isNot(equals(assetB)));
     });
   });
 }
