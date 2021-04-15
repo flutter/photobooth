@@ -20,7 +20,7 @@ void main() {
       when(() => navigator.userAgent).thenReturn('iphone');
     });
     test('returns true when user agent is in browser from mobile', () async {
-      final helper = PlatformHelper()..localWindow = window;
+      final helper = PlatformHelper()..window = window;
       expect(helper.isMobile, true);
     });
 

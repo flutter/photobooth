@@ -1,12 +1,17 @@
 import 'dart:html' as html;
 
+import 'package:flutter/foundation.dart';
+
 class PlatformHelper {
   PlatformHelper();
-  html.Window? localWindow;
+
+  @visibleForTesting
+  html.Window? window;
+
+  html.Window get _window => window ?? html.window;
 
   bool get isMobile {
-    localWindow ??= html.window;
-    final userAgent = localWindow!.navigator.userAgent.toString().toLowerCase();
+    final userAgent = _window.navigator.userAgent.toString().toLowerCase();
     if (userAgent.contains('iphone') ||
         userAgent.contains('android') ||
         userAgent.contains('ipad')) return true;
