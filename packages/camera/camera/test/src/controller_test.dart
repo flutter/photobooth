@@ -112,54 +112,13 @@ void main() {
 
       test('invokes CameraPlatform.takePicture', () async {
         final image = CameraImage(
-          raw: ImageData(
-            data: Uint8List.fromList([]),
-            width: 1,
-            height: 1,
-          ),
-          thumbnail: ImageData(
-            data: Uint8List.fromList([]),
-            width: 1,
-            height: 1,
-          ),
+          data: Uint8List.fromList([]),
           width: 1,
           height: 1,
         );
         when(() => platform.takePicture(any())).thenAnswer((_) async => image);
         expect(await controller.takePicture(), equals(image));
         verify(() => platform.takePicture(textureId)).called(1);
-      });
-    });
-
-    group('imageStream', () {
-      late CameraController controller;
-
-      setUp(() async {
-        controller = CameraController();
-        await controller.initialize();
-      });
-
-      test('invokes CameraPlatform.imageStream', () async {
-        final image = CameraImage(
-          raw: ImageData(
-            data: Uint8List.fromList([]),
-            width: 0,
-            height: 0,
-          ),
-          thumbnail: ImageData(
-            data: Uint8List.fromList([]),
-            width: 0,
-            height: 0,
-          ),
-          width: 1,
-          height: 1,
-        );
-
-        when(() => platform.imageStream(any())).thenAnswer(
-          (_) => Stream.value(image),
-        );
-        expect(controller.imageStream, emitsInOrder([image]));
-        verify(() => platform.imageStream(textureId)).called(1);
       });
     });
 

@@ -58,8 +58,4 @@ abstract class CameraPlatform extends PlatformInterface {
   Future<CameraImage> takePicture(int textureId) {
     throw UnimplementedError('takePicture() has not been implemented.');
   }
-
-  Stream<CameraImage> imageStream(int textureId) {
-    throw UnimplementedError('imageStream() has not been implemented.');
-  }
 }
