@@ -35,6 +35,6 @@ module.exports = {
     'indent': [ 'error', 2 ],
     'no-unused-vars': [ 'warn' ],
     'new-cap': [ 'warn' ],
-    "require-jsdoc": [0],
+    'require-jsdoc': [ 0 ],
   },
 };
