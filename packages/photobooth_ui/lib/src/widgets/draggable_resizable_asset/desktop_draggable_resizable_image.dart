@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _cornerDiameter = 15.0;
 
@@ -8,15 +9,21 @@ const _cornerDiameter = 15.0;
 /// {@endtemplate}
 class DesktopDraggableResizableImage extends StatefulWidget {
   /// {@macro draggable_resizable_asset}
-  DesktopDraggableResizableImage(
-      {Key? key, required this.image, required this.height})
-      : super(key: key);
+  DesktopDraggableResizableImage({
+    Key? key,
+    required this.image,
+    required this.height,
+    this.onUpdate,
+  }) : super(key: key);
 
   /// Image that will be draggable and resizable
   final Uint8List image;
 
   /// Height image
   final double height;
+
+  /// Drag/Resize value setter.
+  final ValueSetter<DragUpdate>? onUpdate;
 
   @override
   _DesktopDraggableResizableImageState createState() =>
@@ -70,6 +77,12 @@ class _DesktopDraggableResizableImageState
                 top = top + dy;
                 left = left + dx;
               });
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
             child: Container(
               height: height,
@@ -93,6 +106,7 @@ class _DesktopDraggableResizableImageState
               final mid = (dx + dy) / 2;
               final tempNewHeight = (height - 2 * mid).abs();
               final tempNewWidth = (width - 2 * mid).abs();
+
               if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
               }
@@ -103,6 +117,13 @@ class _DesktopDraggableResizableImageState
                 top = top + mid;
                 left = left + mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -128,6 +149,13 @@ class _DesktopDraggableResizableImageState
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -153,6 +181,13 @@ class _DesktopDraggableResizableImageState
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -178,6 +213,13 @@ class _DesktopDraggableResizableImageState
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),

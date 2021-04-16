@@ -19,6 +19,9 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
+    final actualRatio = image.width / image.height;
+    final adjustedRatio = targetRatio / actualRatio;
     return Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -28,7 +31,13 @@ class PreviewPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PreviewImage(data: image.data),
+                  Transform.rotate(
+                    angle: -15 / 180,
+                    child: PreviewImage(
+                      data: image.data,
+                      height: image.height * adjustedRatio,
+                    ),
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     l10n.previewPageHeading,

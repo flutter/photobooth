@@ -75,26 +75,41 @@ class PhotoboothPreview extends StatelessWidget {
               onCountdownComplete: onSnapPressed,
             ),
           ),
-          if (state.isAndroidSelected)
+          if (state.android.isSelected)
             DraggableResizableAsset(
               key: const Key(
                 'photoboothPreview_android_draggableResizableAsset',
               ),
               asset: Assets.android,
+              onUpdate: (update) {
+                context
+                    .read<PhotoboothBloc>()
+                    .add(PhotoboothAndroidUpdated(update: update));
+              },
             ),
-          if (state.isDashSelected)
+          if (state.dash.isSelected)
             DraggableResizableAsset(
               key: const Key(
                 'photoboothPreview_dash_draggableResizableAsset',
               ),
               asset: Assets.dash,
+              onUpdate: (update) {
+                context
+                    .read<PhotoboothBloc>()
+                    .add(PhotoboothDashUpdated(update: update));
+              },
             ),
-          if (state.isSparkySelected)
+          if (state.sparky.isSelected)
             DraggableResizableAsset(
               key: const Key(
                 'photoboothPreview_sparky_draggableResizableAsset',
               ),
               asset: Assets.sparky,
+              onUpdate: (update) {
+                context
+                    .read<PhotoboothBloc>()
+                    .add(PhotoboothSparkyUpdated(update: update));
+              },
             ),
         ],
       ),

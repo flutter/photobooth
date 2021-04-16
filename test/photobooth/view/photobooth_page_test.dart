@@ -32,6 +32,8 @@ class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
+class FakeDragUpdate extends Fake implements DragUpdate {}
+
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
@@ -40,6 +42,7 @@ void main() async {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue<DragUpdate>(FakeDragUpdate());
   });
 
   const cameraId = 1;
@@ -144,11 +147,7 @@ void main() async {
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          isAndroidSelected: true,
-          isDashSelected: false,
-          isSparkySelected: false,
-        ),
+        PhotoboothState(android: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -167,13 +166,34 @@ void main() async {
       );
     });
 
+    testWidgets('adds PhotoboothAndroidUpdated when dragged', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(android: CharacterAsset(isSelected: true)),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.drag(
+        find.byKey(
+          const Key('photoboothPreview_android_draggableResizableAsset'),
+        ),
+        Offset(10, 10),
+      );
+
+      verify(
+        () => photoboothBloc.add(any(that: isA<PhotoboothAndroidUpdated>())),
+      ).called(1);
+    });
+
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          isAndroidSelected: false,
-          isDashSelected: true,
-          isSparkySelected: false,
-        ),
+        PhotoboothState(dash: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -190,14 +210,33 @@ void main() async {
       );
     });
 
+    testWidgets('adds PhotoboothDashUpdated when dragged', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(dash: CharacterAsset(isSelected: true)),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.drag(
+        find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
+        Offset(10, 10),
+      );
+
+      verify(
+        () => photoboothBloc.add(any(that: isA<PhotoboothDashUpdated>())),
+      ).called(1);
+    });
+
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          isAndroidSelected: false,
-          isDashSelected: false,
-          isSparkySelected: true,
-        ),
+        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -216,13 +255,38 @@ void main() async {
       );
     });
 
+    testWidgets('adds PhotoboothSparkyUpdated when dragged', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
+      );
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.drag(
+        find.byKey(
+          const Key('photoboothPreview_sparky_draggableResizableAsset'),
+        ),
+        Offset(10, 10),
+      );
+
+      verify(
+        () => photoboothBloc.add(any(that: isA<PhotoboothSparkyUpdated>())),
+      ).called(1);
+    });
+
     testWidgets('renders dash, sparky, and android when all are selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          isAndroidSelected: true,
-          isDashSelected: true,
-          isSparkySelected: true,
+          android: CharacterAsset(isSelected: true),
+          dash: CharacterAsset(isSelected: true),
+          sparky: CharacterAsset(isSelected: true),
         ),
       );
       const key = Key('__target__');
