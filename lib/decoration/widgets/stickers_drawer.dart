@@ -11,52 +11,73 @@ class StickersDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stickers = [
-      Assets.dash,
-      Assets.android,
-      Assets.sparky,
-      Assets.dash,
-      Assets.android,
-      Assets.sparky,
-      Assets.dash,
-      Assets.android,
-      Assets.sparky,
+      Assets.banana,
+      Assets.barette,
+      Assets.birthdayCake,
+      Assets.bowtie,
+      Assets.cateyeGlasses,
+      Assets.coffeeMug,
+      Assets.dumbell,
+      Assets.genericMug,
+      Assets.genGlasses,
+      Assets.graphMug,
+      Assets.guitar,
+      Assets.headband,
+      Assets.headphones,
+      Assets.megaphone,
+      Assets.ovalGlasses,
+      Assets.partyHat,
+      Assets.pencil,
+      Assets.pizza,
+      Assets.roundGlasses,
+      Assets.roundGlasses1,
+      Assets.soda,
+      Assets.squareGlasses,
+      Assets.star,
+      Assets.sunglasses,
     ];
     final width = MediaQuery.of(context).size.width;
     final l10n = context.l10n;
     return Container(
       width: width * 0.35,
       color: PhotoboothColors.white,
-      padding: const EdgeInsets.only(left: 46, right: 46, top: 30),
+      padding: const EdgeInsets.only(top: 30),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  l10n.stickersDrawerTitle,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontSize: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    l10n.stickersDrawerTitle,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(fontSize: 30),
+                  ),
                 ),
-              ),
-              IconButton(
-                key: const Key('stickersDrawer_close_iconButton'),
-                onPressed: () => context
-                    .read<DecorationBloc>()
-                    .add(const DecorationModeToggled()),
-                icon: const Icon(Icons.clear),
-              ),
-            ],
+                IconButton(
+                  key: const Key('stickersDrawer_close_iconButton'),
+                  onPressed: () => context
+                      .read<DecorationBloc>()
+                      .add(const DecorationModeToggled()),
+                  icon: const Icon(Icons.clear),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 15),
           Flexible(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 15,
               ),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               itemCount: stickers.length,
               itemBuilder: (context, index) => StickerChoice(
                 asset: stickers[index],
