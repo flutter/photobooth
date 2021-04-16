@@ -55,9 +55,7 @@ void main() async {
       await tester.pumpApp(
         DecorationPage(
           image: image,
-          state: PhotoboothState(
-            android: CharacterAsset.android().copyWith(isSelected: true),
-          ),
+          state: PhotoboothState(android: CharacterAsset(isSelected: true)),
         ),
       );
       expect(
@@ -70,9 +68,7 @@ void main() async {
       await tester.pumpApp(
         DecorationPage(
           image: image,
-          state: PhotoboothState(
-            dash: CharacterAsset.dash().copyWith(isSelected: true),
-          ),
+          state: PhotoboothState(dash: CharacterAsset(isSelected: true)),
         ),
       );
       expect(
@@ -85,9 +81,7 @@ void main() async {
       await tester.pumpApp(
         DecorationPage(
           image: image,
-          state: PhotoboothState(
-            sparky: CharacterAsset.sparky().copyWith(isSelected: true),
-          ),
+          state: PhotoboothState(sparky: CharacterAsset(isSelected: true)),
         ),
       );
       expect(

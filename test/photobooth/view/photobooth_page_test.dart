@@ -147,9 +147,7 @@ void main() async {
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          android: CharacterAsset.android().copyWith(isSelected: true),
-        ),
+        PhotoboothState(android: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -170,9 +168,7 @@ void main() async {
 
     testWidgets('adds PhotoboothAndroidUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          android: CharacterAsset.android().copyWith(isSelected: true),
-        ),
+        PhotoboothState(android: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -197,9 +193,7 @@ void main() async {
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          dash: CharacterAsset.dash().copyWith(isSelected: true),
-        ),
+        PhotoboothState(dash: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -218,9 +212,7 @@ void main() async {
 
     testWidgets('adds PhotoboothDashUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          dash: CharacterAsset.dash().copyWith(isSelected: true),
-        ),
+        PhotoboothState(dash: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -244,9 +236,7 @@ void main() async {
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          sparky: CharacterAsset.sparky().copyWith(isSelected: true),
-        ),
+        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -267,9 +257,7 @@ void main() async {
 
     testWidgets('adds PhotoboothSparkyUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          sparky: CharacterAsset.sparky().copyWith(isSelected: true),
-        ),
+        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -296,9 +284,9 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          android: CharacterAsset.android().copyWith(isSelected: true),
-          dash: CharacterAsset.dash().copyWith(isSelected: true),
-          sparky: CharacterAsset.sparky().copyWith(isSelected: true),
+          android: CharacterAsset(isSelected: true),
+          dash: CharacterAsset(isSelected: true),
+          sparky: CharacterAsset(isSelected: true),
         ),
       );
       const key = Key('__target__');

@@ -22,7 +22,7 @@ void main() {
         act: (bloc) => bloc.add(PhotoboothAndroidUpdated(update: update)),
         expect: () => [
           PhotoboothState(
-            android: CharacterAsset.android().copyWith(
+            android: CharacterAsset(
               position: CharacterAssetPosition(
                 dx: position.dx,
                 dy: position.dy,
@@ -43,18 +43,14 @@ void main() {
         build: () => PhotoboothBloc(),
         act: (bloc) => bloc.add(PhotoboothAndroidToggled()),
         expect: () => [
-          PhotoboothState(
-            android: CharacterAsset.android().copyWith(isSelected: true),
-          ),
+          PhotoboothState(android: CharacterAsset(isSelected: true)),
         ],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits isSelected: false when isSelected is true',
         build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(
-          android: CharacterAsset.android().copyWith(isSelected: true),
-        ),
+        seed: () => PhotoboothState(android: CharacterAsset(isSelected: true)),
         act: (bloc) => bloc.add(PhotoboothAndroidToggled()),
         expect: () => [PhotoboothState()],
       );
@@ -67,7 +63,7 @@ void main() {
         act: (bloc) => bloc.add(PhotoboothDashUpdated(update: update)),
         expect: () => [
           PhotoboothState(
-            dash: CharacterAsset.dash().copyWith(
+            dash: CharacterAsset(
               position: CharacterAssetPosition(
                 dx: position.dx,
                 dy: position.dy,
@@ -88,18 +84,14 @@ void main() {
         build: () => PhotoboothBloc(),
         act: (bloc) => bloc.add(PhotoboothDashToggled()),
         expect: () => [
-          PhotoboothState(
-            dash: CharacterAsset.dash().copyWith(isSelected: true),
-          ),
+          PhotoboothState(dash: CharacterAsset(isSelected: true)),
         ],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits isSelected: false when isSelected is true',
         build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(
-          dash: CharacterAsset.dash().copyWith(isSelected: true),
-        ),
+        seed: () => PhotoboothState(dash: CharacterAsset(isSelected: true)),
         act: (bloc) => bloc.add(PhotoboothDashToggled()),
         expect: () => [PhotoboothState()],
       );
@@ -112,7 +104,7 @@ void main() {
         act: (bloc) => bloc.add(PhotoboothSparkyUpdated(update: update)),
         expect: () => [
           PhotoboothState(
-            sparky: CharacterAsset.sparky().copyWith(
+            sparky: CharacterAsset(
               position: CharacterAssetPosition(
                 dx: position.dx,
                 dy: position.dy,
@@ -133,18 +125,14 @@ void main() {
         build: () => PhotoboothBloc(),
         act: (bloc) => bloc.add(PhotoboothSparkyToggled()),
         expect: () => [
-          PhotoboothState(
-            sparky: CharacterAsset.sparky().copyWith(isSelected: true),
-          ),
+          PhotoboothState(sparky: CharacterAsset(isSelected: true)),
         ],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits isSelected: false when isSelected is true',
         build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(
-          sparky: CharacterAsset.sparky().copyWith(isSelected: true),
-        ),
+        seed: () => PhotoboothState(sparky: CharacterAsset(isSelected: true)),
         act: (bloc) => bloc.add(PhotoboothSparkyToggled()),
         expect: () => [PhotoboothState()],
       );
