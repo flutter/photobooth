@@ -128,13 +128,7 @@ class DecorationView extends StatelessWidget {
                 previous.stickers.length != current.stickers.length,
             builder: (context, state) {
               if (state.stickers.isEmpty) return const SizedBox();
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  for (final sticker in state.stickers)
-                    DraggableResizableAsset(asset: sticker),
-                ],
-              );
+              return _DraggableStickers(stickers: state.stickers);
             },
           ),
           BlocBuilder<DecorationBloc, DecorationState>(
@@ -156,6 +150,26 @@ class DecorationView extends StatelessWidget {
   }
 }
 
+class _DraggableStickers extends StatelessWidget {
+  const _DraggableStickers({
+    Key? key,
+    required this.stickers,
+  }) : super(key: key);
+
+  final List<Asset> stickers;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        for (final sticker in stickers) DraggableResizableAsset(asset: sticker),
+      ],
+    );
+  }
+}
+
+@visibleForTesting
 class OpenStickersButton extends StatelessWidget {
   const OpenStickersButton({
     Key? key,
