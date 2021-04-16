@@ -9,9 +9,4 @@ admin.initializeApp({
 // import * as ImageApi from './images';
 import * as ShareApi from './share';
 
-
-// NOTE putting both of these on hold
-// export const uploadImage = ImageApi.uploadImage;
-// export const generateThumbnail = ImageApi.generateThumbnail;
-
 export const shareImage = ShareApi.shareImage;
