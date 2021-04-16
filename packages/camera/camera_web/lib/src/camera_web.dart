@@ -106,7 +106,6 @@ class Camera {
       ..autoplay = false
       ..muted = !options.audio.enabled
       ..srcObject = stream
-      ..style.transform = 'rotateY(180deg)'
       ..setAttribute('playsinline', '');
   }
 
