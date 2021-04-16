@@ -12,6 +12,7 @@ void main() async {
 
   group('MobileDraggableResizableImage', () {
     testWidgets('is draggable', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -19,6 +20,7 @@ void main() async {
               MobileDraggableResizableImage(
                 image: image,
                 height: 100,
+                onUpdate: onUpdateCalls.add,
               ),
             ],
           ),
@@ -35,9 +37,11 @@ void main() async {
         find.byKey(Key('mobileDraggableResizableImage_image')),
       );
       expect(origin == destination, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('is resizable', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -45,6 +49,7 @@ void main() async {
               MobileDraggableResizableImage(
                 image: image,
                 height: 100,
+                onUpdate: onUpdateCalls.add,
               ),
             ],
           ),
@@ -82,6 +87,7 @@ void main() async {
         transformWidget.transform,
         equals(Matrix4.diagonal3Values(15, 15, 1.0)),
       );
+      expect(onUpdateCalls, isNotEmpty);
     });
   });
 }

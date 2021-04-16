@@ -62,7 +62,10 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final decorationPageRoute = DecorationPage.route(image: picture);
+    final decorationPageRoute = DecorationPage.route(
+      image: picture,
+      state: context.read<PhotoboothBloc>().state,
+    );
     await _controller.stop();
     await Navigator.of(context).push(decorationPageRoute);
     await _controller.play();

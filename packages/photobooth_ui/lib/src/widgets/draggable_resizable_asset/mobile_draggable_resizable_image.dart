@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template mobile_draggable_resizable_image}
 /// A widget which allows a user to drag and resize the provided [image]
@@ -12,6 +13,7 @@ class MobileDraggableResizableImage extends StatefulWidget {
     Key? key,
     required this.image,
     required this.height,
+    this.onUpdate,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,9 @@ class MobileDraggableResizableImage extends StatefulWidget {
 
   /// Height image
   final double height;
+
+  /// Drag/Resize value setter.
+  final ValueSetter<DragUpdate>? onUpdate;
 }
 
 class _MobileDraggableResizableImageState
@@ -82,10 +87,24 @@ class _MobileDraggableResizableImageState
                     top = top + dy;
                     left = left + dx;
                   });
+
+                  widget.onUpdate?.call(
+                    DragUpdate(
+                      position: Offset(left, top),
+                      size: Size(_width, _height),
+                    ),
+                  );
                 } else {
                   setState(() {
                     _scaleFactor = _baseScaleFactor * details.scale;
                   });
+
+                  widget.onUpdate?.call(
+                    DragUpdate(
+                      position: Offset(left, top),
+                      size: Size(_width, _height),
+                    ),
+                  );
                 }
               },
               child: Container(
