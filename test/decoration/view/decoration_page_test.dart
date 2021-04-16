@@ -257,7 +257,7 @@ void main() async {
     testWidgets('adds DecorationStickerSelected when StickerChoice tapped',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
-      final sticker = Assets.dash;
+      final sticker = Assets.banana;
       when(() => decorationBloc.state).thenReturn(
         DecorationState(mode: DecorationMode.active, stickers: [sticker]),
       );
