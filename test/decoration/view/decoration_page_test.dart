@@ -230,12 +230,18 @@ void main() async {
 
     testWidgets('displays DraggableResizableAsset when stickers is populated',
         (tester) async {
-      when(() => decorationBloc.state).thenReturn(
-        DecorationState(
-          mode: DecorationMode.active,
-          stickers: [Assets.dash, Assets.dash],
-        ),
+      final state = DecorationState(
+        mode: DecorationMode.active,
+        stickers: [Assets.dash, Assets.dash],
       );
+      whenListen(
+        decorationBloc,
+        Stream.fromIterable([
+          state,
+        ]),
+        initialState: state,
+      );
+
       await tester.pumpApp(
         BlocProvider.value(
           value: decorationBloc,
