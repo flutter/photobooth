@@ -324,5 +324,60 @@ void main() async {
       expect(find.byType(DecorationPage), findsNothing);
       expect(find.byType(PreviewPage), findsOneWidget);
     });
+
+    testWidgets('does not display ClearStickersButton when stickers is empty',
+        (tester) async {
+      when(() => decorationBloc.state).thenReturn(
+        DecorationState(mode: DecorationMode.active, stickers: []),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
+      );
+      expect(find.byType(ClearStickersButton), findsNothing);
+    });
+
+    testWidgets('displays ClearStickersButton when stickers is not empty',
+        (tester) async {
+      when(() => decorationBloc.state).thenReturn(
+        DecorationState(mode: DecorationMode.active, stickers: [Assets.banana]),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
+      );
+      expect(find.byType(ClearStickersButton), findsOneWidget);
+    });
+
+    testWidgets('adds StickersCleared when ClearStickersButton is tapped',
+        (tester) async {
+      when(() => decorationBloc.state).thenReturn(
+        DecorationState(mode: DecorationMode.active, stickers: [Assets.banana]),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
+      );
+      final clearStickersButtonFinder = find.byType(ClearStickersButton);
+      await tester.ensureVisible(clearStickersButtonFinder);
+      await tester.tap(clearStickersButtonFinder);
+      await tester.pumpAndSettle();
+      verify(() => decorationBloc.add(DecorationStickersCleared())).called(1);
+    });
   });
 }

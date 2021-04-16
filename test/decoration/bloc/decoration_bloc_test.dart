@@ -47,5 +47,16 @@ void main() {
         ],
       );
     });
+
+    group('StickersCleared', () {
+      blocTest<DecorationBloc, DecorationState>(
+        'emits state with empty stickers',
+        build: () => DecorationBloc(),
+        act: (bloc) => bloc.add(DecorationStickersCleared()),
+        expect: () => [
+          DecorationState(stickers: []),
+        ],
+      );
+    });
   });
 }

@@ -16,6 +16,8 @@ class DecorationBloc extends Bloc<DecorationEvent, DecorationState> {
       yield _mapDecorationModeToggledToState(state);
     } else if (event is DecorationStickerSelected) {
       yield _mapStickerSelectedToState(event, state);
+    } else if (event is DecorationStickersCleared) {
+      yield _mapStickersClearedToState(state);
     }
   }
 
@@ -33,6 +35,14 @@ class DecorationBloc extends Bloc<DecorationEvent, DecorationState> {
   ) {
     return state.copyWith(
       stickers: List.of(state.stickers)..add(event.sticker),
+    );
+  }
+
+  DecorationState _mapStickersClearedToState(
+    DecorationState state,
+  ) {
+    return state.copyWith(
+      stickers: [],
     );
   }
 }
