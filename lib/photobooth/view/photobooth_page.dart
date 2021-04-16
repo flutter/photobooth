@@ -11,7 +11,10 @@ class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const PhotoboothPage());
+    return MaterialPageRoute(
+      builder: (_) => const PhotoboothPage(),
+      settings: const RouteSettings(name: 'PhotoboothPage'),
+    );
   }
 
   @override

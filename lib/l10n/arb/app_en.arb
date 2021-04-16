@@ -63,5 +63,9 @@
     "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them.",
     "@photoBoothPlaceholderSubheadline": {
         "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
+    },
+    "stickersDrawerTitle": "Add Props",
+    "@stickersDrawerTitle": {
+        "description": "Text displayed on the stickers drawer as title"
     }
 }
