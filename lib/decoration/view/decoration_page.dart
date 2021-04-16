@@ -90,13 +90,29 @@ class DecorationView extends StatelessWidget {
             ),
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15),
-              child: IconButton(
-                key: const Key('decorationPage_back_iconButton'),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.refresh),
-              ),
+            child: Row(
+              children: [
+                IconButton(
+                  key: const Key('decorationPage_back_iconButton'),
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.refresh),
+                ),
+                BlocBuilder<DecorationBloc, DecorationState>(
+                  builder: (context, state) {
+                    if (state.stickers.isEmpty) return const SizedBox();
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: ClearStickersButton(
+                        onPressed: () {
+                          context
+                              .read<DecorationBloc>()
+                              .add(const StickersCleared());
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           Positioned(
@@ -188,6 +204,28 @@ class OpenStickersButton extends StatelessWidget {
           height: 50,
           width: 50,
         ),
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+class ClearStickersButton extends StatelessWidget {
+  const ClearStickersButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Image.asset(
+        'assets/icons/delete_icon.png',
+        height: 50,
+        width: 50,
       ),
     );
   }
