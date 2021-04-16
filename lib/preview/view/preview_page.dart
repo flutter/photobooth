@@ -113,7 +113,9 @@ class _RetakeButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_retake_elevatedButton'),
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () => Navigator.of(context).popUntil(
+        (route) => route.settings.name == 'PhotoboothPage',
+      ),
       child: Text(l10n.previewPageRetakeButtonText),
     );
   }
