@@ -174,9 +174,12 @@ class CharacterIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: PhotoboothColors.transparent,
       shape: const CircleBorder(
-        side: BorderSide(color: Colors.white, width: 8),
+        side: BorderSide(
+          color: PhotoboothColors.white,
+          width: 8,
+        ),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
