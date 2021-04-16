@@ -3,6 +3,7 @@ module.exports = {
   env: {
     es6: true,
     node: true,
+    jest: true,
   },
   extends: [
     'eslint:recommended',
@@ -34,5 +35,6 @@ module.exports = {
     'indent': [ 'error', 2 ],
     'no-unused-vars': [ 'warn' ],
     'new-cap': [ 'warn' ],
+    "require-jsdoc": [0],
   },
 };

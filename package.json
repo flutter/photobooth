@@ -8,4 +8,4 @@
     "api": "npm --prefix ./functions run dev",
     "test:functions": "npm --prefix ./functions run test"
   }
-}  
+}

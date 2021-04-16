@@ -68,11 +68,6 @@ class CameraPlugin extends CameraPlatform {
     return _cameras[textureId]!.takePicture();
   }
 
-  @override
-  Stream<CameraImage> imageStream(int textureId) {
-    return _cameras[textureId]!._imageStreamController.stream;
-  }
-
   void _disposeAllCameras() {
     for (final camera in _cameras.values) {
       camera.dispose();
@@ -92,7 +87,6 @@ class Camera {
   final CameraOptions options;
   final int textureId;
   final html.Window window;
-  final _imageStreamController = StreamController<CameraImage>.broadcast();
 
   Future<void> initialize() async {
     final isSupported = window.navigator.mediaDevices?.getUserMedia != null;
@@ -101,13 +95,13 @@ class Camera {
     }
 
     videoElement = html.VideoElement();
+    // ignore: avoid_dynamic_calls
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
       (_) => videoElement,
     );
 
     final stream = await _getMediaStream();
-
     videoElement
       ..autoplay = false
       ..muted = !options.audio.enabled
@@ -145,22 +139,13 @@ class Camera {
     }
   }
 
-  bool get _isPlaying => !videoElement.paused;
-
-  void _onAnimationFrame([num? _]) async {
-    if (_imageStreamController.isClosed) return;
-    final image = await takePicture();
-    _imageStreamController.add(image);
-    if (_isPlaying) window.requestAnimationFrame(_onAnimationFrame);
-  }
-
   Future<void> play() async {
     if (videoElement.srcObject == null) {
       final stream = await _getMediaStream();
       videoElement.srcObject = stream;
     }
     await videoElement.play();
-    _onAnimationFrame();
+    videoElement.mirror();
   }
 
   void stop() {
@@ -178,42 +163,31 @@ class Camera {
     videoElement
       ..srcObject = null
       ..load();
-    _imageStreamController.close();
   }
 
   Future<CameraImage> takePicture() async {
     final videoWidth = videoElement.videoWidth;
     final videoHeight = videoElement.videoHeight;
-    final widthPx = videoElement.style.width.split('px');
-    final heightPx = videoElement.style.height.split('px');
-    final widthString = widthPx.isNotEmpty ? widthPx.first : '$videoWidth';
-    final heightString = heightPx.isNotEmpty ? heightPx.first : '$videoHeight';
-    final width = int.tryParse(widthString) ?? videoWidth;
-    final height = int.tryParse(heightString) ?? videoHeight;
-    final canvas = html.CanvasElement(width: width, height: height);
-    final previewCanvas = html.CanvasElement(
+    final canvas = html.CanvasElement(width: videoWidth, height: videoHeight);
+    canvas.context2D
+      ..translate(videoWidth, 0)
+      ..scale(-1, 1)
+      ..drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
+    final thumbnailData = base64.decode(canvas.toDataUrl().split(',')[1]);
+    return CameraImage(
+      data: Uint8List.fromList(thumbnailData),
       width: videoWidth,
       height: videoHeight,
     );
-    canvas.context2D.drawImageScaled(videoElement, 0, 0, width, height);
-    final imageData = canvas.context2D.getImageData(0, 0, width, height);
-    previewCanvas.context2D
-        .drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
-    final thumbnailData =
-        base64.decode(previewCanvas.toDataUrl().split(',')[1]);
-    return CameraImage(
-      raw: ImageData(
-        data: Uint8List.fromList(imageData.data),
-        width: imageData.width,
-        height: imageData.height,
-      ),
-      thumbnail: ImageData(
-        data: Uint8List.fromList(thumbnailData),
-        width: videoWidth,
-        height: videoHeight,
-      ),
-      width: width,
-      height: height,
-    );
+  }
+}
+
+extension on html.VideoElement {
+  void mirror() {
+    style
+      ..removeProperty('transform-origin')
+      ..setProperty('transform', 'scaleX(-1)')
+      ..setProperty('-webkit-transform', 'scaleX(-1)')
+      ..setProperty('-moz-transform', 'scaleX(-1)');
   }
 }

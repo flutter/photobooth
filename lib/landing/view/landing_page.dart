@@ -53,10 +53,10 @@ class TakePhotoButton extends StatelessWidget {
     final l10n = context.l10n;
 
     return ElevatedButton(
-      child: Text(l10n.landingPageTakePhotoButtonText),
       onPressed: () => Navigator.of(context).push(
         PhotoboothPage.route(),
       ),
+      child: Text(l10n.landingPageTakePhotoButtonText),
     );
   }
 }

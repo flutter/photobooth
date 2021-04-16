@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -9,6 +7,7 @@ import 'font_weights.dart';
 class PhotoboothTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'photobooth_ui',
+    fontFamily: 'GoogleSans',
     color: PhotoboothColors.black,
     fontWeight: PhotoboothFontWeight.regular,
   );

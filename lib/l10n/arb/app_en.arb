@@ -55,5 +55,17 @@
     "shareDialogDeleteText": "If you would like to delete your photo prior to the 30 days, please contact photobooth@google.com",
     "@shareDialogDeleteText": {
         "description": "Text displayed on the share dialog to inform about the delete of the photo"
+    },
+    "photoBoothPlaceholderHeadline": "Allow IO to access your camera",
+    "@photoBoothPlaceholderHeadline": {
+        "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
+    },
+    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them.",
+    "@photoBoothPlaceholderSubheadline": {
+        "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
+    },
+    "stickersDrawerTitle": "Add Props",
+    "@stickersDrawerTitle": {
+        "description": "Text displayed on the stickers drawer as title"
     }
 }

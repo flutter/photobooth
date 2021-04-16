@@ -43,7 +43,7 @@ class PhotoboothTheme {
         ),
         padding: const EdgeInsets.all(24),
         textStyle: _textTheme.button,
-        primary: PhotoboothColors.blueButton,
+        primary: PhotoboothColors.blue,
         minimumSize: const Size(208, 54),
       ),
     );

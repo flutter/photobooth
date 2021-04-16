@@ -5,16 +5,20 @@ import 'package:camera/camera.dart';
 
 const _cameraOptions = CameraOptions(audio: AudioConstraints(enabled: false));
 
-void main() => runApp(App());
+void main() => runApp(const App());
 
 class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomePage());
+    return const MaterialApp(home: HomePage());
   }
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -42,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onSnapPressed() async {
     final image = await _controller.takePicture();
-    final previewPageRoute = PreviewPage.route(image: image.raw.data);
+    final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
     await Navigator.of(context).push(previewPageRoute);
     await _controller.play();
@@ -58,8 +62,8 @@ class _HomePageState extends State<HomePage> {
             child: CircularProgressIndicator(),
           ),
           preview: (context, preview) => CameraFrame(
-            child: preview,
             onSnapPressed: _onSnapPressed,
+            child: preview,
           ),
           error: (context, error) => Center(child: Text(error.description)),
         ),
@@ -86,8 +90,8 @@ class CameraFrame extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: ElevatedButton(
-            child: const Text('Take Photo'),
             onPressed: onSnapPressed,
+            child: const Text('Take Photo'),
           ),
         ),
       ],

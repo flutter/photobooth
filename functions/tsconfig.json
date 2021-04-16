@@ -7,6 +7,7 @@
     "noUnusedLocals": true,
     "outDir": "lib",
     "resolveJsonModule": true,
+    "noUnusedParameters": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2017"

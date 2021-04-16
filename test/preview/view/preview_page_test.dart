@@ -12,7 +12,7 @@ void main() {
   const width = 1;
   const height = 1;
   final data = Uint8List.fromList([]);
-  final image = ImageData(width: width, height: height, data: data);
+  final image = CameraImage(width: width, height: height, data: data);
 
   group('PreviewPage', () {
     test('is routable', () {
@@ -80,15 +80,31 @@ void main() {
   });
 
   group('RetakeButton', () {
-    testWidgets('tapping on retake button pops', (tester) async {
-      const initialPage = Key('__target__');
+    testWidgets('tapping on retake button goes back to PhotoboothPage',
+        (tester) async {
+      const photoboothPage = Key('photoboothPage');
       await tester.pumpApp(Builder(
         builder: (context) {
           return ElevatedButton(
-            key: initialPage,
-            onPressed: () => Navigator.of(context).push(
-              PreviewPage.route(image: image),
-            ),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (c) => Container(
+                    key: photoboothPage,
+                  ),
+                  settings: RouteSettings(name: 'PhotoboothPage'),
+                ),
+              );
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (c) => Container(),
+                  settings: RouteSettings(name: 'IntermediatePage'),
+                ),
+              );
+
+              Navigator.of(context).push(PreviewPage.route(image: image));
+            },
             child: const SizedBox(),
           );
         },
@@ -97,7 +113,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(PreviewPage), findsOneWidget);
-      expect(find.byKey(initialPage), findsNothing);
 
       final retakeButtonFinder = find.byKey(
         const Key('previewPage_retake_elevatedButton'),
@@ -107,7 +122,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(PreviewPage), findsNothing);
-      expect(find.byKey(initialPage), findsOneWidget);
+      expect(find.byKey(photoboothPage), findsOneWidget);
     });
   });
 

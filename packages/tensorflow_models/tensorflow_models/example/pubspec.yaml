@@ -13,7 +13,7 @@ dependencies:
     path: ../
 
 dev_dependencies:
-  very_good_analysis: ^2.0.0
+  very_good_analysis: ^2.0.3
 
 flutter:
   uses-material-design: true

@@ -20,6 +20,15 @@ abstract class PhotoboothColors {
   /// Light Blue
   static const Color lightBlue = Color(0xFF428EFF);
 
-  /// Light Blue
-  static const Color blueButton = Color(0xFF428EFF);
+  /// Blue
+  static const Color blue = Color(0xFF428EFF);
+
+  /// Red
+  static const Color red = Color(0xFFFB5246);
+
+  /// Green
+  static const Color green = Color(0xFF3fBC5C);
+
+  /// Orange
+  static const Color orange = Color(0xFFFFBB00);
 }
