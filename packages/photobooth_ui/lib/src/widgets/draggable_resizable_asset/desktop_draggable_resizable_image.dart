@@ -241,7 +241,7 @@ class _ResizePoint extends StatelessWidget {
         width: _cornerDiameter,
         height: _cornerDiameter,
         decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.5),
+          color: PhotoboothColors.blue.withOpacity(0.5),
           shape: BoxShape.circle,
         ),
       ),
