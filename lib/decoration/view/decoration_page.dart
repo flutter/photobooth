@@ -106,7 +106,7 @@ class DecorationView extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<DecorationBloc>()
-                              .add(const StickersCleared());
+                              .add(const DecorationStickersCleared());
                         },
                       ),
                     );

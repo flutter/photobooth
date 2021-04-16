@@ -52,7 +52,7 @@ void main() {
       blocTest<DecorationBloc, DecorationState>(
         'emits state with empty stickers',
         build: () => DecorationBloc(),
-        act: (bloc) => bloc.add(StickersCleared()),
+        act: (bloc) => bloc.add(DecorationStickersCleared()),
         expect: () => [
           DecorationState(stickers: []),
         ],

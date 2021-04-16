@@ -20,8 +20,8 @@ class DecorationStickerSelected extends DecorationEvent {
   List<Object> get props => [sticker];
 }
 
-class StickersCleared extends DecorationEvent {
-  const StickersCleared();
+class DecorationStickersCleared extends DecorationEvent {
+  const DecorationStickersCleared();
 
   @override
   List<Object> get props => [];

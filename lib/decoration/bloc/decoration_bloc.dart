@@ -16,7 +16,7 @@ class DecorationBloc extends Bloc<DecorationEvent, DecorationState> {
       yield _mapDecorationModeToggledToState(state);
     } else if (event is DecorationStickerSelected) {
       yield _mapStickerSelectedToState(event, state);
-    } else if (event is StickersCleared) {
+    } else if (event is DecorationStickersCleared) {
       yield _mapStickersClearedToState(state);
     }
   }

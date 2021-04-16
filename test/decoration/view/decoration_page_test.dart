@@ -377,7 +377,7 @@ void main() async {
       await tester.ensureVisible(clearStickersButtonFinder);
       await tester.tap(clearStickersButtonFinder);
       await tester.pumpAndSettle();
-      verify(() => decorationBloc.add(StickersCleared())).called(1);
+      verify(() => decorationBloc.add(DecorationStickersCleared())).called(1);
     });
   });
 }
