@@ -98,53 +98,6 @@ void main() async {
     });
   });
 
-  testWidgets('tapping on back button pops route', (tester) async {
-    const initialPage = Key('__target__');
-    await tester.pumpApp(Builder(
-      builder: (context) {
-        return ElevatedButton(
-          key: initialPage,
-          onPressed: () => Navigator.of(context).push(
-            DecorationPage.route(image: image, state: PhotoboothState()),
-          ),
-          child: const SizedBox(),
-        );
-      },
-    ));
-    await tester.tap(find.byType(ElevatedButton));
-    await tester.pumpAndSettle();
-
-    expect(find.byType(DecorationPage), findsOneWidget);
-    expect(find.byKey(initialPage), findsNothing);
-
-    final backButtonFinder = find.byKey(
-      const Key('decorationPage_back_iconButton'),
-    );
-    await tester.ensureVisible(backButtonFinder);
-    await tester.tap(backButtonFinder);
-    await tester.pumpAndSettle();
-    await tester.pump();
-
-    expect(find.byType(DecorationPage), findsNothing);
-    expect(find.byKey(initialPage), findsOneWidget);
-  });
-
-  testWidgets('tapping preview button routes to PreviewPage', (tester) async {
-    await tester.pumpApp(
-      DecorationPage(image: image, state: PhotoboothState()),
-    );
-
-    final goToPreviewButton = find.byKey(
-      const Key('decorationPage_preview_floatingActionButton'),
-    );
-    await tester.ensureVisible(goToPreviewButton);
-    await tester.tap(goToPreviewButton);
-    await tester.pumpAndSettle();
-
-    expect(find.byType(DecorationPage), findsNothing);
-    expect(find.byType(PreviewPage), findsOneWidget);
-  });
-
   group('DecorationView', () {
     late DecorationBloc decorationBloc;
 
@@ -153,35 +106,104 @@ void main() async {
       when(() => decorationBloc.state).thenReturn(DecorationState());
     });
 
+    testWidgets('renders PreviewImage', (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
+      );
+      expect(find.byType(PreviewImage), findsOneWidget);
+    });
+
+    testWidgets('renders DecorationView', (tester) async {
+      await tester.pumpApp(
+        DecorationPage(
+          image: image,
+          state: PhotoboothState(),
+        ),
+      );
+      expect(find.byType(DecorationView), findsOneWidget);
+    });
+
     testWidgets('renders OpenStickersButton', (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
 
-    testWidgets('does not render StickerCarousel when mode is inactive',
+    testWidgets('does not render StickersDrawer when mode is inactive',
         (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
-      expect(find.byType(StickersCarousel), findsNothing);
+      expect(find.byType(StickersDrawer), findsNothing);
     });
 
-    testWidgets('renders StickerCarousel when mode is active', (tester) async {
+    testWidgets('renders StickersDrawer when mode is active', (tester) async {
       when(() => decorationBloc.state).thenReturn(
         DecorationState(mode: DecorationMode.active),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
-      expect(find.byType(StickersCarousel), findsOneWidget);
+      expect(find.byType(StickersDrawer), findsOneWidget);
+    });
+
+    testWidgets('adds DecorationModeToggled when close button is tapped',
+        (tester) async {
+      when(() => decorationBloc.state).thenReturn(
+        DecorationState(mode: DecorationMode.active),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
+      );
+      expect(find.byType(StickersDrawer), findsOneWidget);
+      await tester
+          .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
+      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
+      await tester.pumpAndSettle();
+      verify(() => decorationBloc.add(DecorationModeToggled())).called(1);
     });
 
     testWidgets('adds DecorationModeToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
       await tester.ensureVisible(find.byType(OpenStickersButton));
       await tester.tap(find.byType(OpenStickersButton));
@@ -195,21 +217,39 @@ void main() async {
         DecorationState(mode: DecorationMode.active, stickers: []),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
       expect(find.byType(DraggableResizableAsset), findsNothing);
     });
 
     testWidgets('displays DraggableResizableAsset when stickers is populated',
         (tester) async {
-      when(() => decorationBloc.state).thenReturn(
-        DecorationState(
-          mode: DecorationMode.active,
-          stickers: [Assets.dash, Assets.dash],
-        ),
+      final state = DecorationState(
+        mode: DecorationMode.active,
+        stickers: [Assets.dash, Assets.dash],
       );
+      whenListen(
+        decorationBloc,
+        Stream.fromIterable([
+          state,
+        ]),
+        initialState: state,
+      );
+
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
       expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
     });
@@ -222,13 +262,67 @@ void main() async {
         DecorationState(mode: DecorationMode.active, stickers: [sticker]),
       );
       await tester.pumpApp(
-        BlocProvider.value(value: decorationBloc, child: DecorationView()),
+        BlocProvider.value(
+          value: decorationBloc,
+          child: DecorationView(
+            image: image,
+            state: PhotoboothState(),
+          ),
+        ),
       );
-      await tester.tap(find.byType(StickerChoice));
+      final stickerChoice = find.byType(StickerChoice).first;
+      await tester.tap(stickerChoice);
       verify(
         () => decorationBloc.add(DecorationStickerSelected(sticker: sticker)),
       ).called(1);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    });
+
+    testWidgets('tapping on back button pops route', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              DecorationPage.route(image: image, state: PhotoboothState()),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DecorationPage), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final backButtonFinder = find.byKey(
+        const Key('decorationPage_back_iconButton'),
+      );
+      await tester.ensureVisible(backButtonFinder);
+      await tester.tap(backButtonFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DecorationPage), findsNothing);
+      expect(find.byKey(initialPage), findsOneWidget);
+    });
+
+    testWidgets('tapping preview button routes to PreviewPage', (tester) async {
+      await tester.pumpApp(DecorationPage(
+        image: image,
+        state: PhotoboothState(),
+      ));
+
+      final goToPreviewButton = find.byKey(
+        const Key('decorationPage_preview_floatingActionButton'),
+      );
+      await tester.ensureVisible(goToPreviewButton);
+      await tester.tap(goToPreviewButton);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DecorationPage), findsNothing);
+      expect(find.byType(PreviewPage), findsOneWidget);
     });
   });
 }
