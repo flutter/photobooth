@@ -17,8 +17,9 @@
     "start": "npm run shell",
     "test:coverage": "jest --collect-coverage",
     "test:ts": "mocha -r ts-node/register --reporter spec tests/**/*.js",
-    "test:upload": "gsutil cp testdata/upload.png gs://io-photobooth-dev.appspot.com/uploads",
-    "test": "GCLOUD_PROJECT=io-photobooth-dev jest"
+    "test:upload": "gsutil cp testdata/upload.jpeg gs://io-photobooth-dev.appspot.com/uploads",
+    "test": "GCLOUD_PROJECT=io-photobooth-dev jest",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "child-process-promise": "^2.2.1",

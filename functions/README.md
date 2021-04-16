@@ -10,7 +10,7 @@ This function validates the requested path is valid for sharing (that it is /sha
 
 From the root folder of the project, run `firebase serve`. The console will output localhost paths that you can access in your browser.
 
-For instance, to test the "share" function, try `http://localhost:5001/io-photobooth-dev/us-central1/share/share/test.png`
+For instance, to test the "share" function, try `http://localhost:5001/io-photobooth-dev/us-central1/shareImage/share/upload.jpg`
 
 ## Running tests
 

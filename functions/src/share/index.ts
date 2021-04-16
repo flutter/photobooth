@@ -1,10 +1,9 @@
 import * as path from 'path';
 import * as querystring from 'querystring';
-
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import { STORAGE_BUCKET, SHARE_PATH } from '../config';
+import { UPLOAD_PATH, SHARE_PATH } from '../config';
 
 
 const htmlMeta = {
@@ -26,7 +25,7 @@ const htmlMeta = {
  */
 function bucketPathForFile(filename: string): string {
   return (
-    `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET }` +
+    `https://firebasestorage.googleapis.com/v0/b/${admin.storage().bucket().name}` +
     `/o/${querystring.escape(filename)}?alt=media`
   );
 }
@@ -183,10 +182,10 @@ export async function getShareResponse(
   try {
     const { dir, ext, base } = path.parse(reqPath);
     const isValidPath = (
-      dir !== `/${SHARE_PATH}` || ![ '.png', '.jpeg', '.jpg' ].includes(ext)
+      dir === `/${SHARE_PATH}` && [ '.png', '.jpeg', '.jpg' ].includes(ext)
     );
 
-    const storagePath = `${STORAGE_BUCKET}/${base}`;
+    const storagePath = `${UPLOAD_PATH}/${base}`;
     let exists: [boolean] | undefined;
 
     if (isValidPath) {

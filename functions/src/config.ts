@@ -1,3 +1,3 @@
 export const ENV = process.env.NODE_ENV;
-export const STORAGE_BUCKET = 'io-photobooth-dev.appspot.com';
+export const UPLOAD_PATH = 'uploads';
 export const SHARE_PATH = 'share';
