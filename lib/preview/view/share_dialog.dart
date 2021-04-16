@@ -9,7 +9,7 @@ class ShareDialog extends StatelessWidget {
     required this.image,
   }) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,8 @@ class TwitterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
-      child: Text(l10n.shareDialogTwitterButtonText),
       onPressed: () {},
+      child: Text(l10n.shareDialogTwitterButtonText),
     );
   }
 }
@@ -91,8 +91,8 @@ class FacebookButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
-      child: Text(l10n.shareDialogFacebookButtonText),
       onPressed: () {},
+      child: Text(l10n.shareDialogFacebookButtonText),
     );
   }
 }

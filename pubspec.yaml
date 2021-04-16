@@ -22,8 +22,6 @@ dependencies:
   intl: ^0.17.0
   photobooth_ui:
     path: packages/photobooth_ui
-  tensorflow_models:
-    path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.3
 
 dev_dependencies:
@@ -31,7 +29,7 @@ dev_dependencies:
     sdk: flutter
   bloc_test: ^8.0.0
   mocktail: ^0.1.1
-  very_good_analysis: ^2.0.0
+  very_good_analysis: ^2.0.3
 
 flutter:
   uses-material-design: true

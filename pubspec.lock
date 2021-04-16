@@ -350,6 +350,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  platform_helper:
+    dependency: transitive
+    description:
+      path: "packages/platform_helper"
+      relative: true
+    source: path
+    version: "0.0.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -431,7 +438,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.0"
   stack_trace:
     dependency: transitive
     description:
@@ -453,27 +460,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  tensorflow_models:
-    dependency: "direct main"
-    description:
-      path: "packages/tensorflow_models/tensorflow_models"
-      relative: true
-    source: path
-    version: "0.1.0"
-  tensorflow_models_platform_interface:
-    dependency: transitive
-    description:
-      path: "packages/tensorflow_models/tensorflow_models_platform_interface"
-      relative: true
-    source: path
-    version: "0.0.1"
-  tensorflow_models_web:
-    dependency: transitive
-    description:
-      path: "packages/tensorflow_models/tensorflow_models_web"
-      relative: true
-    source: path
-    version: "0.0.0"
   term_glyph:
     dependency: transitive
     description:
@@ -529,7 +515,7 @@ packages:
       name: very_good_analysis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   vm_service:
     dependency: transitive
     description:

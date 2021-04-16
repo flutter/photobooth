@@ -1,31 +1,51 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/decoration/widgets/stickers_drawer.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DecorationPage extends StatelessWidget {
-  const DecorationPage({Key? key, required this.image}) : super(key: key);
+  const DecorationPage({
+    Key? key,
+    required this.image,
+    required this.state,
+  }) : super(key: key);
 
-  static Route route({required ImageData image}) {
-    return MaterialPageRoute(builder: (_) => DecorationPage(image: image));
+  static Route route({
+    required CameraImage image,
+    required PhotoboothState state,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => DecorationPage(image: image, state: state),
+    );
   }
 
-  final ImageData image;
+  final CameraImage image;
+  final PhotoboothState state;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => DecorationBloc(),
-        child: DecorationView(image: image));
+        child: DecorationView(
+          image: image,
+          state: state,
+        ));
   }
 }
 
 class DecorationView extends StatelessWidget {
-  const DecorationView({Key? key, required this.image}) : super(key: key);
-  final ImageData image;
+  const DecorationView({
+    Key? key,
+    required this.image,
+    required this.state,
+  }) : super(key: key);
+  final CameraImage image;
+  final PhotoboothState state;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +53,48 @@ class DecorationView extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           PreviewImage(data: image.data),
-          Positioned(
-            left: 15,
-            top: 15,
-            child: IconButton(
-              key: const Key('decorationPage_back_iconButton'),
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.refresh),
+          if (state.android.isSelected)
+            Positioned(
+              key: const Key('decorationPage_android_positioned'),
+              top: state.android.position.dy,
+              left: state.android.position.dx,
+              child: Image.memory(
+                Assets.android.bytes,
+                height: state.android.size.height,
+                width: state.android.size.width,
+              ),
+            ),
+          if (state.dash.isSelected)
+            Positioned(
+              key: const Key('decorationPage_dash_positioned'),
+              top: state.dash.position.dy,
+              left: state.dash.position.dx,
+              child: Image.memory(
+                Assets.dash.bytes,
+                height: state.dash.size.height,
+                width: state.dash.size.width,
+              ),
+            ),
+          if (state.sparky.isSelected)
+            Positioned(
+              key: const Key('decorationPage_sparky_positioned'),
+              top: state.sparky.position.dy,
+              left: state.sparky.position.dx,
+              child: Image.memory(
+                Assets.sparky.bytes,
+                height: state.sparky.size.height,
+                width: state.sparky.size.width,
+              ),
+            ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, top: 15),
+              child: IconButton(
+                key: const Key('decorationPage_back_iconButton'),
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.refresh),
+              ),
             ),
           ),
           Positioned(
@@ -59,10 +114,10 @@ class DecorationView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 15),
               child: FloatingActionButton(
                 key: const Key('decorationPage_preview_floatingActionButton'),
-                child: const Icon(Icons.arrow_forward),
                 onPressed: () => Navigator.of(context).push(
                   PreviewPage.route(image: image),
                 ),
+                child: const Icon(Icons.arrow_forward),
               ),
             ),
           ),

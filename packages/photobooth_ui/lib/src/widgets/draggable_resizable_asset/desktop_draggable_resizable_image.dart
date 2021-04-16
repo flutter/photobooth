@@ -1,57 +1,64 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _cornerDiameter = 15.0;
 
-/// {@template draggable_resizable_asset}
-/// A widget which allows a user to drag and resize the provided [asset].
+/// {@template desktop_draggable_resizable_image}
+/// A widget which allows a user to drag and resize the provided [image].
 /// {@endtemplate}
-class DraggableResizableAsset extends StatefulWidget {
+class DesktopDraggableResizableImage extends StatefulWidget {
   /// {@macro draggable_resizable_asset}
-  DraggableResizableAsset({Key? key, required this.asset}) : super(key: key);
+  DesktopDraggableResizableImage({
+    Key? key,
+    required this.image,
+    required this.height,
+    this.onUpdate,
+  }) : super(key: key);
 
-  /// The asset which will be rendered and will be draggable and resizable.
-  final Asset asset;
+  /// Image that will be draggable and resizable
+  final Uint8List image;
+
+  /// Height image
+  final double height;
+
+  /// Drag/Resize value setter.
+  final ValueSetter<DragUpdate>? onUpdate;
 
   @override
-  _DraggableResizableAssetState createState() =>
-      _DraggableResizableAssetState();
+  _DesktopDraggableResizableImageState createState() =>
+      _DesktopDraggableResizableImageState();
 }
 
-class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
+class _DesktopDraggableResizableImageState
+    extends State<DesktopDraggableResizableImage> {
   late double height;
   late double width;
   late double minHeight;
   late double maxHeight;
-  late double minWidth;
-  late double maxWidth;
 
-  double top = 0;
-  double left = 0;
+  late double top;
+  late double left;
 
   @override
   void initState() {
     super.initState();
-    maxHeight = widget.asset.image.height.toDouble();
-    minHeight = maxHeight * 0.5;
-    height = maxHeight * 0.75;
+    maxHeight = widget.height.toDouble();
+    minHeight = maxHeight * 0.05;
+    height = maxHeight * 0.1;
+    width = height;
+  }
 
-    maxWidth = widget.asset.image.width.toDouble();
-    minWidth = maxWidth * 0.5;
-    width = maxWidth * 0.75;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    left = MediaQuery.of(context).size.width / 2 - (width / 2);
+    top = MediaQuery.of(context).size.height / 2 - (height / 2);
   }
 
   double _getNewHeight(double value) {
     if (value >= maxHeight) return maxHeight;
     if (value <= minHeight) return minHeight;
-    return value;
-  }
-
-  double _getNewWidth(double value) {
-    if (value >= maxWidth) return maxWidth;
-    if (value <= minWidth) return minWidth;
     return value;
   }
 
@@ -70,12 +77,18 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
                 top = top + dy;
                 left = left + dx;
               });
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
             child: Container(
               height: height,
               width: width,
               child: Image.memory(
-                Uint8List.fromList(widget.asset.bytes),
+                widget.image,
                 height: height,
                 width: width,
                 gaplessPlayback: true,
@@ -91,18 +104,26 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
             key: const Key('draggableResizableAsset_topLeft_resizePoint'),
             onDrag: (dx, dy) {
               final mid = (dx + dy) / 2;
-              final tempNewHeight = height - 2 * mid;
-              final tempNewWidth = width - 2 * mid;
+              final tempNewHeight = (height - 2 * mid).abs();
+              final tempNewWidth = (width - 2 * mid).abs();
+
               if (tempNewHeight >= maxHeight || tempNewHeight <= minHeight) {
                 return;
               }
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top + mid;
                 left = left + mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -124,10 +145,17 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -149,10 +177,17 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -174,10 +209,17 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
 
               setState(() {
                 height = _getNewHeight(tempNewHeight);
-                width = _getNewWidth(tempNewWidth);
+                width = tempNewWidth;
                 top = top - mid;
                 left = left - mid;
               });
+
+              widget.onUpdate?.call(
+                DragUpdate(
+                  position: Offset(left, top),
+                  size: Size(width, height),
+                ),
+              );
             },
           ),
         ),
@@ -194,6 +236,7 @@ class _ResizePoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DraggablePoint(
+      onDrag: onDrag,
       child: Container(
         width: _cornerDiameter,
         height: _cornerDiameter,
@@ -202,7 +245,6 @@ class _ResizePoint extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      onDrag: onDrag,
     );
   }
 }

@@ -9,9 +9,9 @@ import 'package:uuid/uuid.dart';
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
-  static Route route({required ImageData image}) {
+  static Route route({required CameraImage image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
   }
 
@@ -19,6 +19,9 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
+    final actualRatio = image.width / image.height;
+    final adjustedRatio = targetRatio / actualRatio;
     return Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -28,7 +31,13 @@ class PreviewPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PreviewImage(data: image.data),
+                  Transform.rotate(
+                    angle: -15 / 180,
+                    child: PreviewImage(
+                      data: image.data,
+                      height: image.height * adjustedRatio,
+                    ),
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     l10n.previewPageHeading,
@@ -58,7 +67,7 @@ class PreviewPage extends StatelessWidget {
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +88,7 @@ class DesktopButtonsLayout extends StatelessWidget {
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +113,8 @@ class _RetakeButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_retake_elevatedButton'),
-      child: Text(l10n.previewPageRetakeButtonText),
       onPressed: () => Navigator.of(context).pop(),
+      child: Text(l10n.previewPageRetakeButtonText),
     );
   }
 }
@@ -113,14 +122,13 @@ class _RetakeButton extends StatelessWidget {
 class _ShareButton extends StatelessWidget {
   const _ShareButton({Key? key, required this.image}) : super(key: key);
 
-  final ImageData image;
+  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_share_elevatedButton'),
-      child: Text(l10n.previewPageShareButtonText),
       onPressed: () {
         showDialog(
           barrierColor: PhotoboothColors.gray.withOpacity(0.75),
@@ -128,6 +136,7 @@ class _ShareButton extends StatelessWidget {
           builder: (_) => ShareDialog(image: image),
         );
       },
+      child: Text(l10n.previewPageShareButtonText),
     );
   }
 }
@@ -142,13 +151,13 @@ class _DownloadButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('previewPage_download_elevatedButton'),
-      child: Text(l10n.previewPageDownloadButtonText),
       onPressed: () => file.saveTo(''),
+      child: Text(l10n.previewPageDownloadButtonText),
     );
   }
 }
 
-extension on ImageData {
+extension on CameraImage {
   XFile toFile() {
     final uuid = const Uuid().v4();
     return XFile.fromData(

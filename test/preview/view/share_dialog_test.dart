@@ -13,7 +13,7 @@ void main() {
     const width = 1;
     const height = 1;
     final data = Uint8List.fromList([]);
-    final image = ImageData(width: width, height: height, data: data);
+    final image = CameraImage(width: width, height: height, data: data);
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(ShareDialog(image: image));

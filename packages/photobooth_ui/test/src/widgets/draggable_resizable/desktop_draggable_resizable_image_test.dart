@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class MockImage extends Mock implements ui.Image {}
 
@@ -16,7 +16,7 @@ class MockAsset extends Mock implements Asset {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('DraggableResizableAsset', () {
+  group('DesktopDraggableResizableImage', () {
     late ui.Image image;
     late Asset asset;
 
@@ -32,7 +32,12 @@ void main() async {
 
     testWidgets('image as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
@@ -41,8 +46,15 @@ void main() async {
     });
 
     testWidgets('image is draggable', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+            onUpdate: onUpdateCalls.add,
+          ),
+        ),
       );
       final firstLocation = tester.getCenter(
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
@@ -53,11 +65,17 @@ void main() async {
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
       );
       expect(firstLocation == destination, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('top left corner as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_topLeft_resizePoint')),
@@ -66,13 +84,18 @@ void main() async {
     });
 
     testWidgets('top left corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
+                ),
               ),
             ],
           ),
@@ -86,16 +109,29 @@ void main() async {
       final firstLocation = tester.getCenter(resizePointFinder);
       await tester.dragFrom(
         firstLocation,
-        Offset(firstLocation.dx + 10, firstLocation.dy + 10),
+        Offset(firstLocation.dx - 1, firstLocation.dy - 1),
       );
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('top right corner as draggable point renders', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_topRight_resizePoint')),
@@ -104,13 +140,18 @@ void main() async {
     });
 
     testWidgets('top right corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
+                ),
               ),
             ],
           ),
@@ -129,12 +170,25 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('bottom right corner as draggable point renders',
         (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_bottomRight_resizePoint')),
@@ -143,13 +197,18 @@ void main() async {
     });
 
     testWidgets('bottom right corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
+                ),
               ),
             ],
           ),
@@ -168,12 +227,25 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('bottom left corner as draggable point renders',
         (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizableAsset(asset: asset)),
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_bottomLeft_resizePoint')),
@@ -182,13 +254,18 @@ void main() async {
     });
 
     testWidgets('bottom left corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
-                child: DraggableResizableAsset(asset: asset),
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
+                ),
               ),
             ],
           ),
@@ -207,6 +284,7 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
   });
 }
