@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
-import 'package:io_photobooth/decoration/widgets/stickers_drawer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:mocktail/mocktail.dart';
@@ -106,6 +105,7 @@ void main() async {
       decorationBloc = MockDecorationBloc();
       when(() => decorationBloc.state).thenReturn(DecorationState());
     });
+
     testWidgets('renders PreviewImage', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
@@ -303,7 +303,6 @@ void main() async {
       await tester.ensureVisible(backButtonFinder);
       await tester.tap(backButtonFinder);
       await tester.pumpAndSettle();
-      await tester.pump();
 
       expect(find.byType(DecorationPage), findsNothing);
       expect(find.byKey(initialPage), findsOneWidget);

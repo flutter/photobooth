@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
-import 'package:io_photobooth/decoration/widgets/stickers_drawer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -30,11 +29,12 @@ class DecorationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => DecorationBloc(),
-        child: DecorationView(
-          image: image,
-          state: state,
-        ));
+      create: (context) => DecorationBloc(),
+      child: DecorationView(
+        image: image,
+        state: state,
+      ),
+    );
   }
 }
 
@@ -44,8 +44,10 @@ class DecorationView extends StatelessWidget {
     required this.image,
     required this.state,
   }) : super(key: key);
+
   final CameraImage image;
   final PhotoboothState state;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

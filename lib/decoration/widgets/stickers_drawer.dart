@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/decoration/bloc/decoration_bloc.dart';
+import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -25,7 +25,7 @@ class StickersDrawer extends StatelessWidget {
     final l10n = context.l10n;
     return Container(
       width: width * 0.35,
-      color: Colors.white,
+      color: PhotoboothColors.white,
       padding: const EdgeInsets.only(left: 46, right: 46, top: 30),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -43,25 +43,27 @@ class StickersDrawer extends StatelessWidget {
                 ),
               ),
               IconButton(
-                  key: const Key('stickersDrawer_close_iconButton'),
-                  onPressed: () => context
-                      .read<DecorationBloc>()
-                      .add(const DecorationModeToggled()),
-                  icon: const Icon(Icons.clear)),
+                key: const Key('stickersDrawer_close_iconButton'),
+                onPressed: () => context
+                    .read<DecorationBloc>()
+                    .add(const DecorationModeToggled()),
+                icon: const Icon(Icons.clear),
+              ),
             ],
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Flexible(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3),
+                crossAxisCount: 3,
+              ),
               itemCount: stickers.length,
               itemBuilder: (context, index) => StickerChoice(
                 asset: stickers[index],
                 onPressed: () => context.read<DecorationBloc>().add(
-                      DecorationStickerSelected(sticker: stickers[index]),
+                      DecorationStickerSelected(
+                        sticker: stickers[index],
+                      ),
                     ),
               ),
             ),
@@ -72,6 +74,7 @@ class StickersDrawer extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class StickerChoice extends StatelessWidget {
   const StickerChoice({
     Key? key,
