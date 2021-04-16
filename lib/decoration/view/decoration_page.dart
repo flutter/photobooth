@@ -154,6 +154,7 @@ class OpenStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: PhotoboothColors.transparent,
       child: InkWell(
         onTap: onPressed,
         child: Image.asset(
@@ -176,7 +177,7 @@ class StickersCarousel extends StatelessWidget {
     return Container(
       height: 100,
       padding: const EdgeInsets.all(15),
-      color: Colors.grey.withOpacity(0.5),
+      color: PhotoboothColors.gray.withOpacity(0.5),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
