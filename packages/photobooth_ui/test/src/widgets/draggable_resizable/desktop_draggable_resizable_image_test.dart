@@ -46,11 +46,13 @@ void main() async {
     });
 
     testWidgets('image is draggable', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: DesktopDraggableResizableImage(
             image: asset.bytes,
             height: asset.image.height.toDouble(),
+            onUpdate: onUpdateCalls.add,
           ),
         ),
       );
@@ -63,6 +65,7 @@ void main() async {
         find.byKey(Key('draggableResizableAsset_image_draggablePoint')),
       );
       expect(firstLocation == destination, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('top left corner as draggable point renders', (tester) async {
@@ -81,6 +84,7 @@ void main() async {
     });
 
     testWidgets('top left corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -90,6 +94,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
                 ),
               ),
             ],
@@ -109,6 +114,7 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('top right corner as draggable point renders', (tester) async {
@@ -134,6 +140,7 @@ void main() async {
     });
 
     testWidgets('top right corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -143,6 +150,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
                 ),
               ),
             ],
@@ -162,6 +170,7 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('bottom right corner as draggable point renders',
@@ -188,6 +197,7 @@ void main() async {
     });
 
     testWidgets('bottom right corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -197,6 +207,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
                 ),
               ),
             ],
@@ -216,6 +227,7 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
 
     testWidgets('bottom left corner as draggable point renders',
@@ -242,6 +254,7 @@ void main() async {
     });
 
     testWidgets('bottom left corner point can resize image', (tester) async {
+      final onUpdateCalls = <DragUpdate>[];
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -251,6 +264,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  onUpdate: onUpdateCalls.add,
                 ),
               ),
             ],
@@ -270,6 +284,7 @@ void main() async {
       await tester.pump(kThemeAnimationDuration);
       final newSize = tester.getSize(imageFinder);
       expect(originalSize == newSize, false);
+      expect(onUpdateCalls, isNotEmpty);
     });
   });
 }
