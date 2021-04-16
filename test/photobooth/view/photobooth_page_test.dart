@@ -65,6 +65,10 @@ void main() async {
       expect(PhotoboothPage.route(), isA<MaterialPageRoute>());
     });
 
+    test('route name is PhotoboothPage', () {
+      expect(PhotoboothPage.route().settings.name, 'PhotoboothPage');
+    });
+
     testWidgets('displays a PhotoboothView', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
       await tester.pumpApp(PhotoboothPage());
