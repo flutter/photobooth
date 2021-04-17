@@ -25,6 +25,8 @@ class FakeCameraOptions extends Fake implements CameraOptions {}
 
 class MockImage extends Mock implements ui.Image {}
 
+class MockCameraImage extends Mock implements CameraImage {}
+
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -47,10 +49,14 @@ void main() async {
 
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
+  late CameraImage cameraImage;
 
   setUp(() {
+    cameraImage = MockCameraImage();
     cameraPlatform = MockCameraPlatform();
     CameraPlatform.instance = cameraPlatform;
+    when(() => cameraImage.width).thenReturn(4);
+    when(() => cameraImage.height).thenReturn(3);
     when(() => cameraPlatform.init()).thenAnswer((_) async => {});
     when(
       () => cameraPlatform.create(any()),
@@ -58,6 +64,8 @@ void main() async {
     when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
     when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
     when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => cameraImage);
   });
 
   group('PhotoboothPage', () {
@@ -151,7 +159,9 @@ void main() async {
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(android: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          android: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -172,7 +182,9 @@ void main() async {
 
     testWidgets('adds PhotoboothAndroidUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(android: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          android: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -197,7 +209,9 @@ void main() async {
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(dash: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          dash: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -216,7 +230,9 @@ void main() async {
 
     testWidgets('adds PhotoboothDashUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(dash: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          dash: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -240,7 +256,9 @@ void main() async {
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          sparky: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -261,7 +279,9 @@ void main() async {
 
     testWidgets('adds PhotoboothSparkyUpdated when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          sparky: CharacterAsset(isSelected: true),
+        ),
       );
       const key = Key('__target__');
       const preview = SizedBox(key: key);
@@ -387,14 +407,16 @@ void main() async {
       verify(() => photoboothBloc.add(PhotoboothAndroidToggled())).called(1);
     });
 
-    testWidgets('navigates to DecorationPage photo is taken', (tester) async {
+    testWidgets('navigates to DecorationPage when photo is taken',
+        (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       final image = CameraImage(
         data: Uint8List.fromList(transparentImage),
-        width: 4,
-        height: 4,
+        width: 1280,
+        height: 720,
       );
+      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
       when(
         () => cameraPlatform.takePicture(cameraId),
@@ -402,10 +424,7 @@ void main() async {
 
       await tester.runAsync(() async {
         await tester.pumpApp(
-          BlocProvider.value(
-            value: photoboothBloc,
-            child: PhotoboothView(enablePoseDetection: true),
-          ),
+          BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
         );
         await tester.pumpAndSettle();
         await tester.pump();
@@ -414,14 +433,16 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.byType(DecorationPage), findsOneWidget);
 
-        final decorationPage =
-            tester.widget<DecorationPage>(find.byType(DecorationPage));
+        final decorationPage = tester.widget<DecorationPage>(
+          find.byType(DecorationPage),
+        );
         expect(decorationPage.image, isNotNull);
         expect(find.byType(DecorationPage), findsOneWidget);
-        await tester
-            .tap(find.byKey(const Key('decorationPage_back_iconButton')));
+
+        await tester.tap(find.byType(RetakeButton));
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothView), findsOneWidget);
+        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
       });
     });
   });

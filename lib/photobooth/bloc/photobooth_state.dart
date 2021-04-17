@@ -57,7 +57,7 @@ class PhotoboothState extends Equatable {
   final CharacterAsset sparky;
 
   @override
-  List<Object> get props => [android, dash, sparky];
+  List<Object?> get props => [android, dash, sparky];
 
   PhotoboothState copyWith({
     CharacterAsset? android,

@@ -297,9 +297,7 @@ void main() async {
       expect(find.byType(DecorationPage), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButtonFinder = find.byKey(
-        const Key('decorationPage_back_iconButton'),
-      );
+      final backButtonFinder = find.byType(RetakeButton);
       await tester.ensureVisible(backButtonFinder);
       await tester.tap(backButtonFinder);
       await tester.pumpAndSettle();
@@ -314,9 +312,7 @@ void main() async {
         state: PhotoboothState(),
       ));
 
-      final goToPreviewButton = find.byKey(
-        const Key('decorationPage_preview_floatingActionButton'),
-      );
+      final goToPreviewButton = find.byType(NextButton);
       await tester.ensureVisible(goToPreviewButton);
       await tester.tap(goToPreviewButton);
       await tester.pumpAndSettle();

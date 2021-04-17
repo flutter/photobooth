@@ -12,6 +12,7 @@ void main() {
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
+    print(details.stack.toString());
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
@@ -19,6 +20,7 @@ void main() {
     () => Assets.load().then((_) => runApp(const App())),
     (error, stackTrace) {
       print(error.toString());
+      print(stackTrace.toString());
       log(error.toString(), stackTrace: stackTrace);
     },
   );
