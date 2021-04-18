@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
+import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
@@ -13,9 +14,11 @@ class PhotoboothPage extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
       builder: (_) => const PhotoboothPage(),
-      settings: const RouteSettings(name: 'PhotoboothPage'),
+      settings: const RouteSettings(name: name),
     );
   }
+
+  static const String name = 'PhotoboothPage';
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +30,7 @@ class PhotoboothPage extends StatelessWidget {
 }
 
 class PhotoboothView extends StatefulWidget {
-  const PhotoboothView({Key? key, this.enablePoseDetection = false})
-      : super(key: key);
-
-  final bool enablePoseDetection;
+  const PhotoboothView({Key? key}) : super(key: key);
 
   @override
   _PhotoboothViewState createState() => _PhotoboothViewState();
@@ -65,28 +65,44 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final decorationPageRoute = DecorationPage.route(
+    final stickersPage = StickersPage.route(
       image: picture,
       state: context.read<PhotoboothBloc>().state,
     );
     await _controller.stop();
-    await Navigator.of(context).push(decorationPageRoute);
+    await Navigator.of(context).push(stickersPage);
     await _controller.play();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Camera(
-        controller: _controller,
-        placeholder: (_) => const PhotoboothPlaceholder(),
-        preview: (context, preview) {
-          return PhotoboothPreview(
-            preview: preview,
-            onSnapPressed: _onSnapPressed,
-          );
-        },
-        error: (_, error) => PhotoboothError(error: error),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/backgrounds/wood_background.png',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
+          Center(
+            child: Camera(
+              controller: _controller,
+              placeholder: (_) => const PhotoboothPlaceholder(),
+              preview: (context, preview) {
+                final targetAspectRatio = isMobile ? 3 / 4 : 4 / 3;
+                return AspectRatio(
+                  aspectRatio: targetAspectRatio,
+                  child: PhotoboothPreview(
+                    preview: preview,
+                    onSnapPressed: _onSnapPressed,
+                  ),
+                );
+              },
+              error: (_, error) => PhotoboothError(error: error),
+            ),
+          ),
+        ],
       ),
     );
   }

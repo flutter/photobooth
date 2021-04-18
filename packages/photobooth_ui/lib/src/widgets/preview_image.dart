@@ -28,7 +28,7 @@ class PreviewImage extends StatelessWidget {
     return Image.memory(
       Uint8List.fromList(data),
       filterQuality: FilterQuality.high,
-      fit: BoxFit.fitHeight,
+      fit: BoxFit.cover,
       height: height,
       width: width,
       errorBuilder: (context, error, stackTrace) {
