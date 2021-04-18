@@ -1,12 +1,14 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/preview/preview.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/preview/preview.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
@@ -21,7 +23,6 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
     return SafeArea(
       child: Stack(
         fit: StackFit.expand,
@@ -38,26 +39,7 @@ class PreviewPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FractionallySizedBox(
-                      widthFactor: 0.4,
-                      child: AspectRatio(
-                        aspectRatio: targetRatio,
-                        child: Transform.rotate(
-                          angle: -11 * (math.pi / 180),
-                          child: Material(
-                            elevation: 4,
-                            color: PhotoboothColors.white,
-                            child: AspectRatio(
-                              aspectRatio: targetRatio,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: PreviewImage(data: image.data),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _Photo(image: image.data),
                     const SizedBox(height: 24),
                     Text(
                       l10n.previewPageHeading,
@@ -126,6 +108,37 @@ class MobileButtonsLayout extends StatelessWidget {
         const SizedBox(height: 20),
         _DownloadButton(file: image.toFile()),
       ],
+    );
+  }
+}
+
+class _Photo extends StatelessWidget {
+  const _Photo({Key? key, required this.image}) : super(key: key);
+
+  final Uint8List image;
+
+  @override
+  Widget build(BuildContext context) {
+    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
+    return FractionallySizedBox(
+      widthFactor: 0.4,
+      child: AspectRatio(
+        aspectRatio: targetRatio,
+        child: Transform.rotate(
+          angle: -11 * (math.pi / 180),
+          child: Material(
+            elevation: 4,
+            color: PhotoboothColors.white,
+            child: AspectRatio(
+              aspectRatio: targetRatio,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: PreviewImage(data: image),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
