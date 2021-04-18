@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class PhotoboothPage extends StatelessWidget {
@@ -65,12 +65,12 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final decorationPageRoute = DecorationPage.route(
+    final stickersPage = StickersPage.route(
       image: picture,
       state: context.read<PhotoboothBloc>().state,
     );
     await _controller.stop();
-    await Navigator.of(context).push(decorationPageRoute);
+    await Navigator.of(context).push(stickersPage);
     await _controller.play();
   }
 
