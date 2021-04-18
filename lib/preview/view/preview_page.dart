@@ -33,7 +33,10 @@ class PreviewPage extends StatelessWidget {
                     widthFactor: 0.4,
                     child: AspectRatio(
                       aspectRatio: targetRatio,
-                      child: PreviewImage(data: image.data),
+                      child: Transform.rotate(
+                        angle: -15 / 180,
+                        child: PreviewImage(data: image.data),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
