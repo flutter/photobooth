@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -143,7 +143,7 @@ void main() async {
       expect(find.byKey(key), findsOneWidget);
     });
 
-    testWidgets('navigates to DecorationPage when photo is taken',
+    testWidgets('navigates to StickersPage when photo is taken',
         (tester) async {
       const preview = SizedBox();
       final image = CameraImage(
@@ -169,13 +169,13 @@ void main() async {
 
         await tester.tap(find.byType(CameraButton));
         await tester.pumpAndSettle();
-        expect(find.byType(DecorationPage), findsOneWidget);
+        expect(find.byType(StickersPage), findsOneWidget);
 
-        final decorationPage = tester.widget<DecorationPage>(
-          find.byType(DecorationPage),
+        final stickersPage = tester.widget<StickersPage>(
+          find.byType(StickersPage),
         );
-        expect(decorationPage.image, isNotNull);
-        expect(find.byType(DecorationPage), findsOneWidget);
+        expect(stickersPage.image, isNotNull);
+        expect(find.byType(StickersPage), findsOneWidget);
 
         final retakeButton = tester.widget<RetakeButton>(
           find.byType(RetakeButton),

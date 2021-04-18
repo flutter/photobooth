@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 
-class DecorationPage extends StatelessWidget {
-  const DecorationPage({
+class StickersPage extends StatelessWidget {
+  const StickersPage({
     Key? key,
     required this.image,
     required this.state,
@@ -19,7 +19,7 @@ class DecorationPage extends StatelessWidget {
     required PhotoboothState state,
   }) {
     return MaterialPageRoute(
-      builder: (_) => DecorationPage(image: image, state: state),
+      builder: (_) => StickersPage(image: image, state: state),
     );
   }
 
@@ -29,14 +29,14 @@ class DecorationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DecorationBloc(),
-      child: DecorationView(image: image, state: state),
+      create: (_) => StickersBloc(),
+      child: StickersView(image: image, state: state),
     );
   }
 }
 
-class DecorationView extends StatelessWidget {
-  const DecorationView({
+class StickersView extends StatelessWidget {
+  const StickersView({
     Key? key,
     required this.image,
     required this.state,
@@ -65,7 +65,7 @@ class DecorationView extends StatelessWidget {
                   PreviewImage(data: image.data),
                   if (state.android.isSelected)
                     Positioned(
-                      key: const Key('decorationPage_android_positioned'),
+                      key: const Key('stickersView_android_positioned'),
                       top: state.android.position.dy,
                       left: state.android.position.dx,
                       child: Image.memory(
@@ -76,7 +76,7 @@ class DecorationView extends StatelessWidget {
                     ),
                   if (state.dash.isSelected)
                     Positioned(
-                      key: const Key('decorationPage_dash_positioned'),
+                      key: const Key('stickersView_dash_positioned'),
                       top: state.dash.position.dy,
                       left: state.dash.position.dx,
                       child: Image.memory(
@@ -87,7 +87,7 @@ class DecorationView extends StatelessWidget {
                     ),
                   if (state.sparky.isSelected)
                     Positioned(
-                      key: const Key('decorationPage_sparky_positioned'),
+                      key: const Key('stickersView_sparky_positioned'),
                       top: state.sparky.position.dy,
                       left: state.sparky.position.dx,
                       child: Image.memory(
@@ -96,6 +96,12 @@ class DecorationView extends StatelessWidget {
                         width: state.sparky.size.width,
                       ),
                     ),
+                  BlocBuilder<StickersBloc, StickersState>(
+                    builder: (context, state) {
+                      if (state.stickers.isEmpty) return const SizedBox();
+                      return _DraggableStickers(stickers: state.stickers);
+                    },
+                  ),
                   Positioned(
                     left: 15,
                     top: 15,
@@ -115,8 +121,8 @@ class DecorationView extends StatelessWidget {
                     child: OpenStickersButton(
                       onPressed: () {
                         context
-                            .read<DecorationBloc>()
-                            .add(const DecorationModeToggled());
+                            .read<StickersBloc>()
+                            .add(const StickersModeToggled());
                       },
                     ),
                   ),
@@ -128,17 +134,11 @@ class DecorationView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  BlocBuilder<DecorationBloc, DecorationState>(
-                    builder: (context, state) {
-                      if (state.stickers.isEmpty) return const SizedBox();
-                      return _DraggableStickers(stickers: state.stickers);
-                    },
-                  ),
                 ],
               ),
             ),
           ),
-          BlocBuilder<DecorationBloc, DecorationState>(
+          BlocBuilder<StickersBloc, StickersState>(
             buildWhen: (previous, current) => previous.mode != current.mode,
             builder: (context, state) {
               return state.mode.isActive
@@ -187,6 +187,8 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      clipBehavior: Clip.hardEdge,
+      shape: const CircleBorder(),
       color: PhotoboothColors.transparent,
       child: InkWell(
         onTap: onPressed,
@@ -205,13 +207,13 @@ class _ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isHidden = context.select(
-      (DecorationBloc bloc) => bloc.state.stickers.isEmpty,
+      (StickersBloc bloc) => bloc.state.stickers.isEmpty,
     );
 
     if (isHidden) return const SizedBox();
     return ClearStickersButton(
       onPressed: () {
-        context.read<DecorationBloc>().add(const DecorationStickersCleared());
+        context.read<StickersBloc>().add(const StickersCleared());
       },
     );
   }

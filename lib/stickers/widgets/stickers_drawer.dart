@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/decoration/decoration.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+
+final _stickers = [
+  Assets.banana,
+  Assets.barette,
+  Assets.birthdayCake,
+  Assets.bowtie,
+  Assets.cateyeGlasses,
+  Assets.coffeeMug,
+  Assets.dumbell,
+  Assets.genericMug,
+  Assets.genGlasses,
+  Assets.graphMug,
+  Assets.guitar,
+  Assets.headband,
+  Assets.headphones,
+  Assets.megaphone,
+  Assets.ovalGlasses,
+  Assets.partyHat,
+  Assets.pencil,
+  Assets.pizza,
+  Assets.roundGlasses,
+  Assets.roundGlasses1,
+  Assets.soda,
+  Assets.squareGlasses,
+  Assets.star,
+  Assets.sunglasses,
+];
 
 class StickersDrawer extends StatelessWidget {
   const StickersDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final stickers = [
-      Assets.banana,
-      Assets.barette,
-      Assets.birthdayCake,
-      Assets.bowtie,
-      Assets.cateyeGlasses,
-      Assets.coffeeMug,
-      Assets.dumbell,
-      Assets.genericMug,
-      Assets.genGlasses,
-      Assets.graphMug,
-      Assets.guitar,
-      Assets.headband,
-      Assets.headphones,
-      Assets.megaphone,
-      Assets.ovalGlasses,
-      Assets.partyHat,
-      Assets.pencil,
-      Assets.pizza,
-      Assets.roundGlasses,
-      Assets.roundGlasses1,
-      Assets.soda,
-      Assets.squareGlasses,
-      Assets.star,
-      Assets.sunglasses,
-    ];
     final width = MediaQuery.of(context).size.width;
     final l10n = context.l10n;
     return Container(
@@ -62,8 +63,8 @@ class StickersDrawer extends StatelessWidget {
                 IconButton(
                   key: const Key('stickersDrawer_close_iconButton'),
                   onPressed: () => context
-                      .read<DecorationBloc>()
-                      .add(const DecorationModeToggled()),
+                      .read<StickersBloc>()
+                      .add(const StickersModeToggled()),
                   icon: const Icon(Icons.clear),
                 ),
               ],
@@ -78,14 +79,14 @@ class StickersDrawer extends StatelessWidget {
                 crossAxisSpacing: 15,
               ),
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              itemCount: stickers.length,
+              itemCount: _stickers.length,
               itemBuilder: (context, index) => StickerChoice(
-                asset: stickers[index],
-                onPressed: () => context.read<DecorationBloc>().add(
-                      DecorationStickerSelected(
-                        sticker: stickers[index],
-                      ),
-                    ),
+                asset: _stickers[index],
+                onPressed: () {
+                  context
+                      .read<StickersBloc>()
+                      .add(StickerSelected(sticker: _stickers[index]));
+                },
               ),
             ),
           ),
