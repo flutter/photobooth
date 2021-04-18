@@ -270,8 +270,9 @@ void main() async {
           ),
         ),
       );
-      final stickerChoice = find.byType(StickerChoice).first;
-      await tester.tap(stickerChoice);
+      final stickerChoice =
+          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
+      stickerChoice.onPressed();
       verify(
         () => decorationBloc.add(DecorationStickerSelected(sticker: sticker)),
       ).called(1);
