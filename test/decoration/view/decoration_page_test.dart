@@ -205,8 +205,9 @@ void main() async {
           ),
         ),
       );
-      await tester.ensureVisible(find.byType(OpenStickersButton));
-      await tester.tap(find.byType(OpenStickersButton));
+      tester
+          .widget<OpenStickersButton>(find.byType(OpenStickersButton))
+          .onPressed();
       verify(() => decorationBloc.add(DecorationModeToggled())).called(1);
     });
 
