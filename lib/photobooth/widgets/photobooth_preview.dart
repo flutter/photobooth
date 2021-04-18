@@ -17,13 +17,16 @@ class PhotoboothPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PhotoboothBloc>().state;
     final children = <Widget>[
       Flexible(
         child: CharacterIconButton(
           key: const Key(
             'photoboothView_dash_characterIconButton',
           ),
-          icon: const AssetImage('assets/icons/dash_icon.png'),
+          icon: state.dash.isSelected
+              ? const AssetImage('assets/icons/dash_icon_disabled.png')
+              : const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
             context.read<PhotoboothBloc>().add(const PhotoboothDashToggled());
           },
@@ -35,7 +38,9 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_sparky_characterIconButton',
           ),
-          icon: const AssetImage('assets/icons/sparky_icon.png'),
+          icon: state.sparky.isSelected
+              ? const AssetImage('assets/icons/sparky_icon_disabled.png')
+              : const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
             context.read<PhotoboothBloc>().add(const PhotoboothSparkyToggled());
           },
@@ -47,7 +52,9 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_android_characterIconButton',
           ),
-          icon: const AssetImage('assets/icons/android_icon.png'),
+          icon: state.android.isSelected
+              ? const AssetImage('assets/icons/android_icon_disabled.png')
+              : const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
@@ -56,7 +63,6 @@ class PhotoboothPreview extends StatelessWidget {
         ),
       ),
     ];
-    final state = context.watch<PhotoboothBloc>().state;
     return Stack(
       fit: StackFit.expand,
       children: [
