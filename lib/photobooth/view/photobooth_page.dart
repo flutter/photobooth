@@ -95,21 +95,3 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     );
   }
 }
-
-class AspectRatioClipper extends CustomClipper<Rect> {
-  const AspectRatioClipper({required this.aspectRatio});
-
-  final double aspectRatio;
-
-  @override
-  Rect getClip(Size size) {
-    return Rect.fromCenter(
-      center: Offset(size.width / 2, size.height / 2),
-      width: size.height * aspectRatio,
-      height: size.height,
-    );
-  }
-
-  @override
-  bool shouldReclip(oldClipper) => false;
-}

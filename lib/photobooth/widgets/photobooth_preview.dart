@@ -64,9 +64,6 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
-        Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.red)),
-        ),
         ResponsiveLayoutBuilder(
           mobile: (_) => MobileCharactersIconLayout(children: children),
           desktop: (_) => DesktopCharactersIconLayout(children: children),
