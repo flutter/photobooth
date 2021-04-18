@@ -299,9 +299,8 @@ void main() async {
       expect(find.byType(DecorationPage), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButtonFinder = find.byType(RetakeButton);
-      await tester.ensureVisible(backButtonFinder);
-      await tester.tap(backButtonFinder);
+      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
+      backButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(DecorationPage), findsNothing);
