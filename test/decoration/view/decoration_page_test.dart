@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
@@ -308,7 +308,7 @@ void main() async {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping preview button routes to PreviewPage', (tester) async {
+    testWidgets('tapping preview button routes to SharePage', (tester) async {
       await tester.pumpApp(DecorationPage(
         image: image,
         state: PhotoboothState(),
@@ -320,7 +320,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byType(DecorationPage), findsNothing);
-      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(find.byType(SharePage), findsOneWidget);
     });
 
     testWidgets('does not display ClearStickersButton when stickers is empty',
