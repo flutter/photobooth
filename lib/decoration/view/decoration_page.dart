@@ -49,7 +49,13 @@ class DecorationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        fit: StackFit.expand,
         children: [
+          Image.asset(
+            'assets/backgrounds/wood_background.png',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
           Center(
             child: AspectRatio(
               aspectRatio: isMobile ? 3 / 4 : 4 / 3,

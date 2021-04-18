@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -20,25 +21,37 @@ class LandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              l10n.landingPageHeading,
-              style: theme.textTheme.headline1,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              l10n.landingPageSubheading,
-              style: theme.textTheme.headline2,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            const TakePhotoButton(),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            PhotoboothColors.gray,
+            PhotoboothColors.white,
           ],
+        ),
+      ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.landingPageHeading,
+                style: theme.textTheme.headline1,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                l10n.landingPageSubheading,
+                style: theme.textTheme.headline2,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              const TakePhotoButton(),
+            ],
+          ),
         ),
       ),
     );

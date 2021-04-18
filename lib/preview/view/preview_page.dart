@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
@@ -20,47 +22,69 @@ class PreviewPage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final targetRatio = isMobile ? 3 / 4 : 4 / 3;
-    return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FractionallySizedBox(
-                    widthFactor: 0.4,
-                    child: AspectRatio(
-                      aspectRatio: targetRatio,
-                      child: Transform.rotate(
-                        angle: -15 / 180,
-                        child: PreviewImage(data: image.data),
+    return SafeArea(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/backgrounds/share_background.png',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
+          Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 0.4,
+                      child: AspectRatio(
+                        aspectRatio: targetRatio,
+                        child: Transform.rotate(
+                          angle: -11 * (math.pi / 180),
+                          child: Material(
+                            elevation: 4,
+                            color: PhotoboothColors.white,
+                            child: AspectRatio(
+                              aspectRatio: targetRatio,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: PreviewImage(data: image.data),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.previewPageHeading,
-                    style: theme.textTheme.headline1,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.previewPageSubheading,
-                    style: theme.textTheme.headline2,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-                  ResponsiveLayoutBuilder(
-                    mobile: (_) => MobileButtonsLayout(image: image),
-                    desktop: (_) => DesktopButtonsLayout(image: image),
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.previewPageHeading,
+                      style: theme.textTheme.headline1
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.previewPageSubheading,
+                      style: theme.textTheme.headline2
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+                    ResponsiveLayoutBuilder(
+                      mobile: (_) => MobileButtonsLayout(image: image),
+                      desktop: (_) => DesktopButtonsLayout(image: image),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 }
 
