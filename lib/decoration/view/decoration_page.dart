@@ -1,11 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/preview/preview.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DecorationPage extends StatelessWidget {
   const DecorationPage({
@@ -99,7 +99,7 @@ class DecorationView extends StatelessWidget {
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                         const SizedBox(width: 15),
-                        const ClearStickersButton(),
+                        const _ClearStickersButton(),
                       ],
                     ),
                   ),
@@ -193,24 +193,41 @@ class NextButton extends StatelessWidget {
   }
 }
 
-class ClearStickersButton extends StatelessWidget {
-  const ClearStickersButton({Key? key}) : super(key: key);
+class _ClearStickersButton extends StatelessWidget {
+  const _ClearStickersButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isActive = context.select(
-      (DecorationBloc bloc) => bloc.state.stickers.isNotEmpty,
+    final isHidden = context.select(
+      (DecorationBloc bloc) => bloc.state.stickers.isEmpty,
     );
-    final button = Material(
+
+    if (isHidden) return const SizedBox();
+    return ClearStickersButton(
+      onPressed: () {
+        context.read<DecorationBloc>().add(const DecorationStickersCleared());
+      },
+    );
+  }
+}
+
+class ClearStickersButton extends StatelessWidget {
+  const ClearStickersButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
       color: PhotoboothColors.transparent,
       child: InkWell(
-        onTap: () {
-          context.read<DecorationBloc>().add(const DecorationStickersCleared());
-        },
+        onTap: onPressed,
         child: Image.asset('assets/icons/delete_icon.png', height: 50),
       ),
     );
-    return isActive ? button : const SizedBox();
   }
 }
 

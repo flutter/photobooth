@@ -369,10 +369,10 @@ void main() async {
           ),
         ),
       );
-      final clearStickersButtonFinder = find.byType(ClearStickersButton);
-      await tester.ensureVisible(clearStickersButtonFinder);
-      await tester.tap(clearStickersButtonFinder);
-      await tester.pumpAndSettle();
+      final clearStickersButton = tester.widget<ClearStickersButton>(
+        find.byType(ClearStickersButton),
+      );
+      clearStickersButton.onPressed();
       verify(() => decorationBloc.add(DecorationStickersCleared())).called(1);
     });
   });
