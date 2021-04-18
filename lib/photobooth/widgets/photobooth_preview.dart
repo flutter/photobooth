@@ -65,13 +65,6 @@ class PhotoboothPreview extends StatelessWidget {
           mobile: (_) => MobileCharactersIconLayout(children: children),
           desktop: (_) => DesktopCharactersIconLayout(children: children),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: ShutterButton(
-            key: const Key('photoboothPreview_photo_shutterButton'),
-            onCountdownComplete: onSnapPressed,
-          ),
-        ),
         if (state.android.isSelected)
           DraggableResizableAsset(
             key: const Key(
@@ -108,6 +101,13 @@ class PhotoboothPreview extends StatelessWidget {
                   .add(PhotoboothSparkyUpdated(update: update));
             },
           ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ShutterButton(
+            key: const Key('photoboothPreview_photo_shutterButton'),
+            onCountdownComplete: onSnapPressed,
+          ),
+        ),
       ],
     );
   }
