@@ -314,9 +314,9 @@ void main() async {
         state: PhotoboothState(),
       ));
 
-      final goToPreviewButton = find.byType(NextButton);
-      await tester.ensureVisible(goToPreviewButton);
-      await tester.tap(goToPreviewButton);
+      final goToPreviewButton =
+          tester.widget<NextButton>(find.byType(NextButton));
+      goToPreviewButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(DecorationPage), findsNothing);
