@@ -7,6 +7,7 @@ import 'package:test/test.dart';
 void main() {
   group('PhotoboothEvent', () {
     const update = DragUpdate(position: Offset(0, 0), size: Size(0, 0));
+
     test('PhotoboothAndroidUpdated supports value equality', () {
       final instanceA = PhotoboothAndroidUpdated(update: update);
       final instanceB = PhotoboothAndroidUpdated(update: update);

@@ -20,8 +20,6 @@ class PreviewPage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final targetRatio = isMobile ? 3 / 4 : 4 / 3;
-    final actualRatio = image.width / image.height;
-    final adjustedRatio = targetRatio / actualRatio;
     return Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -31,11 +29,14 @@ class PreviewPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Transform.rotate(
-                    angle: -15 / 180,
-                    child: PreviewImage(
-                      data: image.data,
-                      height: image.height * adjustedRatio,
+                  FractionallySizedBox(
+                    widthFactor: 0.4,
+                    child: AspectRatio(
+                      aspectRatio: targetRatio,
+                      child: Transform.rotate(
+                        angle: -15 / 180,
+                        child: PreviewImage(data: image.data),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),

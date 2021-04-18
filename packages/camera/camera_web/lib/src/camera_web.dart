@@ -187,6 +187,7 @@ extension on html.VideoElement {
     style
       ..removeProperty('transform-origin')
       ..setProperty('transform', 'scaleX(-1)')
+      ..setProperty('object-fit', 'cover')
       ..setProperty('-webkit-transform', 'scaleX(-1)')
       ..setProperty('-moz-transform', 'scaleX(-1)');
   }

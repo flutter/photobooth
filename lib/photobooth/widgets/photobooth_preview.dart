@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class PhotoboothPreview extends StatelessWidget {
@@ -59,60 +60,58 @@ class PhotoboothPreview extends StatelessWidget {
       ),
     ];
     final state = context.watch<PhotoboothBloc>().state;
-    return Center(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          preview,
-          ResponsiveLayoutBuilder(
-            mobile: (_) => MobileCharactersIconLayout(children: children),
-            desktop: (_) => DesktopCharactersIconLayout(children: children),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        preview,
+        ResponsiveLayoutBuilder(
+          mobile: (_) => MobileCharactersIconLayout(children: children),
+          desktop: (_) => DesktopCharactersIconLayout(children: children),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ShutterButton(
+            key: const Key('photoboothPreview_photo_shutterButton'),
+            onCountdownComplete: onSnapPressed,
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ShutterButton(
-              key: const Key('photoboothPreview_photo_shutterButton'),
-              onCountdownComplete: onSnapPressed,
+        ),
+        if (state.android.isSelected)
+          DraggableResizableAsset(
+            key: const Key(
+              'photoboothPreview_android_draggableResizableAsset',
             ),
+            asset: Assets.android,
+            onUpdate: (update) {
+              context
+                  .read<PhotoboothBloc>()
+                  .add(PhotoboothAndroidUpdated(update: update));
+            },
           ),
-          if (state.android.isSelected)
-            DraggableResizableAsset(
-              key: const Key(
-                'photoboothPreview_android_draggableResizableAsset',
-              ),
-              asset: Assets.android,
-              onUpdate: (update) {
-                context
-                    .read<PhotoboothBloc>()
-                    .add(PhotoboothAndroidUpdated(update: update));
-              },
+        if (state.dash.isSelected)
+          DraggableResizableAsset(
+            key: const Key(
+              'photoboothPreview_dash_draggableResizableAsset',
             ),
-          if (state.dash.isSelected)
-            DraggableResizableAsset(
-              key: const Key(
-                'photoboothPreview_dash_draggableResizableAsset',
-              ),
-              asset: Assets.dash,
-              onUpdate: (update) {
-                context
-                    .read<PhotoboothBloc>()
-                    .add(PhotoboothDashUpdated(update: update));
-              },
+            asset: Assets.dash,
+            onUpdate: (update) {
+              context
+                  .read<PhotoboothBloc>()
+                  .add(PhotoboothDashUpdated(update: update));
+            },
+          ),
+        if (state.sparky.isSelected)
+          DraggableResizableAsset(
+            key: const Key(
+              'photoboothPreview_sparky_draggableResizableAsset',
             ),
-          if (state.sparky.isSelected)
-            DraggableResizableAsset(
-              key: const Key(
-                'photoboothPreview_sparky_draggableResizableAsset',
-              ),
-              asset: Assets.sparky,
-              onUpdate: (update) {
-                context
-                    .read<PhotoboothBloc>()
-                    .add(PhotoboothSparkyUpdated(update: update));
-              },
-            ),
-        ],
-      ),
+            asset: Assets.sparky,
+            onUpdate: (update) {
+              context
+                  .read<PhotoboothBloc>()
+                  .add(PhotoboothSparkyUpdated(update: update));
+            },
+          ),
+      ],
     );
   }
 }
@@ -187,10 +186,7 @@ class CharacterIconButton extends StatelessWidget {
           primary: color,
         ),
         onPressed: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: icon,
-        ),
+        child: icon,
       ),
     );
   }
