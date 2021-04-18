@@ -29,8 +29,8 @@ class PreviewPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Transform.rotate(
-                    angle: -15 / 180,
+                  FractionallySizedBox(
+                    widthFactor: 0.4,
                     child: AspectRatio(
                       aspectRatio: targetRatio,
                       child: PreviewImage(data: image.data),
