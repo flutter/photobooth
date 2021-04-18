@@ -5,7 +5,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/share/share.dart';
 
 class DecorationPage extends StatelessWidget {
   const DecorationPage({
@@ -124,7 +124,7 @@ class DecorationView extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: NextButton(
                       onPressed: () => Navigator.of(context).push(
-                        PreviewPage.route(image: image),
+                        SharePage.route(image: image),
                       ),
                     ),
                   ),

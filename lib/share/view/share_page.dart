@@ -4,19 +4,20 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/share/share.dart';
 
-class PreviewPage extends StatelessWidget {
-  const PreviewPage({Key? key, required this.image}) : super(key: key);
+class SharePage extends StatelessWidget {
+  const SharePage({Key? key, required this.image}) : super(key: key);
 
   final CameraImage image;
 
   static Route route({required CameraImage image}) {
-    return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
+    return MaterialPageRoute(builder: (_) => SharePage(image: image));
   }
 
   @override
@@ -70,7 +71,6 @@ class PreviewPage extends StatelessWidget {
   }
 }
 
-@visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({Key? key, required this.image}) : super(key: key);
 
@@ -91,7 +91,6 @@ class DesktopButtonsLayout extends StatelessWidget {
   }
 }
 
-@visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({Key? key, required this.image}) : super(key: key);
 
@@ -150,9 +149,9 @@ class _RetakeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
-      key: const Key('previewPage_retake_elevatedButton'),
+      key: const Key('sharePage_retake_elevatedButton'),
       onPressed: () => Navigator.of(context).popUntil(
-        (route) => route.settings.name == 'PhotoboothPage',
+        (route) => route.settings.name == PhotoboothPage.name,
       ),
       child: Text(l10n.previewPageRetakeButtonText),
     );
@@ -168,7 +167,7 @@ class _ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
-      key: const Key('previewPage_share_elevatedButton'),
+      key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
         showDialog(
           barrierColor: PhotoboothColors.gray.withOpacity(0.75),
@@ -190,7 +189,7 @@ class _DownloadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return ElevatedButton(
-      key: const Key('previewPage_download_elevatedButton'),
+      key: const Key('sharePage_download_elevatedButton'),
       onPressed: () => file.saveTo(''),
       child: Text(l10n.previewPageDownloadButtonText),
     );

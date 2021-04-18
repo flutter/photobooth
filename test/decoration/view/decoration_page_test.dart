@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/decoration/decoration.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/preview/preview.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
@@ -299,28 +299,27 @@ void main() async {
       expect(find.byType(DecorationPage), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButtonFinder = find.byType(RetakeButton);
-      await tester.ensureVisible(backButtonFinder);
-      await tester.tap(backButtonFinder);
+      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
+      backButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(DecorationPage), findsNothing);
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping preview button routes to PreviewPage', (tester) async {
+    testWidgets('tapping preview button routes to SharePage', (tester) async {
       await tester.pumpApp(DecorationPage(
         image: image,
         state: PhotoboothState(),
       ));
 
-      final goToPreviewButton = find.byType(NextButton);
-      await tester.ensureVisible(goToPreviewButton);
-      await tester.tap(goToPreviewButton);
+      final goToPreviewButton =
+          tester.widget<NextButton>(find.byType(NextButton));
+      goToPreviewButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(DecorationPage), findsNothing);
-      expect(find.byType(PreviewPage), findsOneWidget);
+      expect(find.byType(SharePage), findsOneWidget);
     });
 
     testWidgets('does not display ClearStickersButton when stickers is empty',
