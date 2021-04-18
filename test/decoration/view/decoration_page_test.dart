@@ -205,8 +205,9 @@ void main() async {
           ),
         ),
       );
-      await tester.ensureVisible(find.byType(OpenStickersButton));
-      await tester.tap(find.byType(OpenStickersButton));
+      tester
+          .widget<OpenStickersButton>(find.byType(OpenStickersButton))
+          .onPressed();
       verify(() => decorationBloc.add(DecorationModeToggled())).called(1);
     });
 
@@ -270,8 +271,9 @@ void main() async {
           ),
         ),
       );
-      final stickerChoice = find.byType(StickerChoice).first;
-      await tester.tap(stickerChoice);
+      final stickerChoice =
+          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
+      stickerChoice.onPressed();
       verify(
         () => decorationBloc.add(DecorationStickerSelected(sticker: sticker)),
       ).called(1);

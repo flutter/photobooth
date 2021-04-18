@@ -75,22 +75,32 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Camera(
-          controller: _controller,
-          placeholder: (_) => const PhotoboothPlaceholder(),
-          preview: (context, preview) {
-            final targetAspectRatio = isMobile ? 3 / 4 : 4 / 3;
-            return AspectRatio(
-              aspectRatio: targetAspectRatio,
-              child: PhotoboothPreview(
-                preview: preview,
-                onSnapPressed: _onSnapPressed,
-              ),
-            );
-          },
-          error: (_, error) => PhotoboothError(error: error),
-        ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/backgrounds/wood_background.png',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
+          Center(
+            child: Camera(
+              controller: _controller,
+              placeholder: (_) => const PhotoboothPlaceholder(),
+              preview: (context, preview) {
+                final targetAspectRatio = isMobile ? 3 / 4 : 4 / 3;
+                return AspectRatio(
+                  aspectRatio: targetAspectRatio,
+                  child: PhotoboothPreview(
+                    preview: preview,
+                    onSnapPressed: _onSnapPressed,
+                  ),
+                );
+              },
+              error: (_, error) => PhotoboothError(error: error),
+            ),
+          ),
+        ],
       ),
     );
   }

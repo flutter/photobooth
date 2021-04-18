@@ -23,8 +23,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_dash_characterIconButton',
           ),
-          icon: Image.asset('assets/icons/dash_icon.png'),
-          color: PhotoboothColors.lightBlue,
+          icon: const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
             context.read<PhotoboothBloc>().add(const PhotoboothDashToggled());
           },
@@ -36,8 +35,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_sparky_characterIconButton',
           ),
-          icon: Image.asset('assets/icons/sparky_icon.png'),
-          color: PhotoboothColors.red,
+          icon: const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
             context.read<PhotoboothBloc>().add(const PhotoboothSparkyToggled());
           },
@@ -49,8 +47,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_android_characterIconButton',
           ),
-          icon: Image.asset('assets/icons/android_icon.png'),
-          color: PhotoboothColors.green,
+          icon: const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
@@ -150,7 +147,7 @@ class MobileCharactersIconLayout extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: children,
       ),
@@ -162,31 +159,24 @@ class CharacterIconButton extends StatelessWidget {
   const CharacterIconButton({
     Key? key,
     required this.icon,
-    this.color,
     this.onPressed,
   }) : super(key: key);
 
-  final Widget icon;
-  final Color? color;
+  final AssetImage icon;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: PhotoboothColors.transparent,
-      shape: const CircleBorder(
-        side: BorderSide(
-          color: PhotoboothColors.white,
-          width: 8,
-        ),
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          primary: color,
-        ),
-        onPressed: onPressed,
-        child: icon,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.hardEdge,
+      child: Ink.image(
+        fit: BoxFit.cover,
+        image: icon,
+        width: 120,
+        height: 120,
+        child: InkWell(onTap: onPressed),
       ),
     );
   }

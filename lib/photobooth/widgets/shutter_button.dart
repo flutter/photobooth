@@ -99,6 +99,8 @@ class CameraButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      clipBehavior: Clip.hardEdge,
+      shape: const CircleBorder(),
       color: PhotoboothColors.transparent,
       child: InkWell(
         onTap: onPressed,
