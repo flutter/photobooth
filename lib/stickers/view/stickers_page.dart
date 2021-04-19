@@ -6,6 +6,7 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class StickersPage extends StatelessWidget {
   const StickersPage({
@@ -266,11 +267,15 @@ class ClearStickersButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Material(
       color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset('assets/icons/delete_icon.png', height: 50),
+      child: Tooltip(
+        message: l10n.clearStickersButtonTooltip,
+        child: InkWell(
+          onTap: onPressed,
+          child: Image.asset('assets/icons/delete_icon.png', height: 50),
+        ),
       ),
     );
   }
@@ -286,13 +291,17 @@ class RetakeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Material(
       color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/retake_button_icon.png',
-          height: 54,
+      child: Tooltip(
+        message: l10n.retakeButtonTooltip,
+        child: InkWell(
+          onTap: onPressed,
+          child: Image.asset(
+            'assets/icons/retake_button_icon.png',
+            height: 54,
+          ),
         ),
       ),
     );
@@ -309,13 +318,17 @@ class OpenStickersButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Material(
       color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/stickers_button_icon.png',
-          height: 50,
+      child: Tooltip(
+        message: l10n.openStickersTooltip,
+        child: InkWell(
+          onTap: onPressed,
+          child: Image.asset(
+            'assets/icons/stickers_button_icon.png',
+            height: 50,
+          ),
         ),
       ),
     );
