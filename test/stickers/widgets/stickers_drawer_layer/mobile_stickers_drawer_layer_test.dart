@@ -68,32 +68,6 @@ void main() async {
       );
       expect(find.byType(MobileStickersDrawerLayer), findsOneWidget);
     });
-
-    testWidgets('opens when state is active', (tester) async {
-      /*tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([
-          StickersState(
-            mode: StickersMode.active,
-          )
-        ]),
-        initialState: StickersState(),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: Scaffold(
-            body: MobileStickersDrawerLayer(
-              stickersBloc: stickersBloc,
-            ),
-          ),
-        ),
-      );
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);*/
-    });
   });
 
   group('MobileStickersDrawer', () {
@@ -107,12 +81,5 @@ void main() async {
       );
       expect(find.byType(MobileStickersDrawer), findsOneWidget);
     });
-
-    testWidgets('adds StickerSelected when StickerChoice tapped',
-        (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
-    });
-
-    testWidgets('can be closed', (tester) async {});
   });
 }
