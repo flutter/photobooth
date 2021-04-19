@@ -67,10 +67,6 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
-        ResponsiveLayoutBuilder(
-          mobile: (_) => MobileCharactersIconLayout(children: children),
-          desktop: (_) => DesktopCharactersIconLayout(children: children),
-        ),
         if (state.android.isSelected)
           DraggableResizableAsset(
             key: const Key(
@@ -107,6 +103,10 @@ class PhotoboothPreview extends StatelessWidget {
                   .add(PhotoboothSparkyUpdated(update: update));
             },
           ),
+        ResponsiveLayoutBuilder(
+          mobile: (_) => MobileCharactersIconLayout(children: children),
+          desktop: (_) => DesktopCharactersIconLayout(children: children),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: ShutterButton(
