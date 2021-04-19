@@ -113,6 +113,7 @@ class StickersView extends StatelessWidget {
             listener: (context, state) async {
               await showModalBottomSheet(
                 context: context,
+                barrierColor: PhotoboothColors.black.withOpacity(0.75),
                 backgroundColor: PhotoboothColors.transparent,
                 isScrollControlled: true,
                 builder: (_) => MobileStickersDrawer(
