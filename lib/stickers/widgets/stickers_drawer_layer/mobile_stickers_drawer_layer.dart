@@ -45,6 +45,7 @@ class MobileStickersDrawer extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.95,
+      width: size.width,
       decoration: const BoxDecoration(
         color: PhotoboothColors.white,
         borderRadius: BorderRadius.only(

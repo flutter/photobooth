@@ -32,7 +32,7 @@ class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
 void main() async {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
+  final data = Uint8List.fromList(transparentImage);
   final image = CameraImage(width: width, height: height, data: data);
 
   TestWidgetsFlutterBinding.ensureInitialized();
