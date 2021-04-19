@@ -31,9 +31,7 @@ final _stickers = [
 ];
 
 class StickersDrawerLayer extends StatelessWidget {
-  const StickersDrawerLayer({
-    Key? key,
-  }) : super(key: key);
+  const StickersDrawerLayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
