@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 final _stickers = [
   Assets.banana,
@@ -39,9 +38,7 @@ class StickersDrawerLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformBuilder(
-      mobile: MobileStickersDrawerLayer(
-        stickersBloc: context.read<StickersBloc>(),
-      ),
+      mobile: const SizedBox(),
       desktop: const DesktopStickersDrawerLayer(),
     );
   }

@@ -105,7 +105,26 @@ class StickersView extends StatelessWidget {
               ),
             ),
           ),
-          const StickersDrawerLayer(),
+          BlocListener<StickersBloc, StickersState>(
+            listenWhen: (previous, current) =>
+                isMobile &&
+                current.mode.isActive &&
+                current.mode != previous.mode,
+            listener: (context, state) async {
+              await showModalBottomSheet(
+                context: context,
+                backgroundColor: PhotoboothColors.transparent,
+                isScrollControlled: true,
+                builder: (_) => MobileStickersDrawer(
+                  onStickerSelected: (sticker) => context
+                      .read<StickersBloc>()
+                      .add(StickerSelected(sticker: sticker)),
+                ),
+              );
+              context.read<StickersBloc>().add(const StickersModeToggled());
+            },
+            child: const StickersDrawerLayer(),
+          ),
         ],
       ),
     );
