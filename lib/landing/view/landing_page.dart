@@ -9,6 +9,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: PhotoboothColors.white,
       body: LandingView(),
     );
   }
@@ -21,38 +22,40 @@ class LandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            PhotoboothColors.gray,
-            PhotoboothColors.white,
-          ],
-        ),
-      ),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                l10n.landingPageHeading,
-                style: theme.textTheme.headline1,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Text(
-                l10n.landingPageSubheading,
-                style: theme.textTheme.headline2,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              const TakePhotoButton(),
-            ],
+    return SingleChildScrollView(
+      child: Stack(
+        children: [
+          Image.asset(
+            'assets/backgrounds/landing_background.jpg',
+            key: const Key('landingPage_background'),
+            fit: BoxFit.fitWidth,
+            filterQuality: FilterQuality.high,
           ),
-        ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 108),
+              child: Column(
+                children: [
+                  Text(
+                    l10n.landingPageHeading,
+                    key: const Key('landingPage_heading_text'),
+                    style: theme.textTheme.headline1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.landingPageSubheading,
+                    key: const Key('landingPage_subheading_text'),
+                    style: theme.textTheme.headline2,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  const TakePhotoButton(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
