@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.0
+  adaptive_breakpoints: ^0.0.4
   platform_helper:
     path: ../platform_helper
 
