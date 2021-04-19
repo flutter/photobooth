@@ -1,0 +1,11 @@
+{
+  "name": "io-photobooth",
+  "version": "0.1.0",
+  "private": false,
+  "dependencies": {},
+  "scripts": {
+    "emulate": "npm --prefix ./functions run tsc -w & firebase emulators:start --only hosting,functions,storage",
+    "api": "npm --prefix ./functions run dev",
+    "test:functions": "npm --prefix ./functions run test"
+  }
+}

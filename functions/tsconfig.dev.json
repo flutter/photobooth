@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "noUnusedLocals": false
+  },
   "include": [
     ".eslintrc.js"
   ]
