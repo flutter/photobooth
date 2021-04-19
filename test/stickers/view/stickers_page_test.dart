@@ -198,28 +198,6 @@ void main() async {
       expect(find.byType(StickersDrawerLayer), findsOneWidget);
     });
 
-    testWidgets('adds StickersModeToggled when close button is tapped',
-        (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(image: image),
-        ),
-      );
-      expect(find.byType(DesktopStickersDrawer), findsOneWidget);
-      await tester
-          .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
-      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
-      await tester.pumpAndSettle();
-      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
-    });
-
     testWidgets('adds StickersModeToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
@@ -277,31 +255,6 @@ void main() async {
         ),
       );
       expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
-    });
-
-    testWidgets('adds StickerSelected when StickerChoice tapped',
-        (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
-      final sticker = Assets.banana;
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active, stickers: [sticker]),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(image: image),
-        ),
-      );
-      final stickerChoice =
-          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
-      stickerChoice.onPressed();
-      verify(
-        () => stickersBloc.add(StickerSelected(sticker: sticker)),
-      ).called(1);
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('tapping on back button pops route', (tester) async {

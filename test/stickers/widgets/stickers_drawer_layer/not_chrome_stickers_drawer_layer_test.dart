@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
-@TestOn('chrome')
+@TestOn('!chrome')
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class FakeStickersEvent extends Fake implements StickersEvent {}
 
@@ -35,9 +35,7 @@ void main() {
           providers: [
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersDrawerLayer(
-            onStickerSelected: (sticker) {},
-          ),
+          child: StickersDrawerLayer(),
         ),
       );
 

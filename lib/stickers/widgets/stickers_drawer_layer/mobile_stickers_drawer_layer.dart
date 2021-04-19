@@ -5,12 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class MobileStickersDrawerLayer extends StatelessWidget {
-  const MobileStickersDrawerLayer({
-    Key? key,
-    required this.onStickerSelected,
-  }) : super(key: key);
+  const MobileStickersDrawerLayer({Key? key, required this.stickersBloc})
+      : super(key: key);
 
-  final Function(Asset) onStickerSelected;
+  final StickersBloc stickersBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +20,11 @@ class MobileStickersDrawerLayer extends StatelessWidget {
           context: context,
           backgroundColor: PhotoboothColors.transparent,
           isScrollControlled: true,
-          builder: (context) => MobileStickersDrawer(
-            onStickerSelected: onStickerSelected,
+          builder: (_) => MobileStickersDrawer(
+            onStickerSelected: (sticker) =>
+                stickersBloc.add(StickerSelected(sticker: sticker)),
           ),
-        ).whenComplete(() =>
-            context.read<StickersBloc>().add(const StickersModeToggled()));
+        ).whenComplete(() => stickersBloc.add(const StickersModeToggled()));
       },
       child: const SizedBox(),
     );

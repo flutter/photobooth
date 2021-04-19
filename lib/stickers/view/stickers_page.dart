@@ -105,13 +105,7 @@ class StickersView extends StatelessWidget {
               ),
             ),
           ),
-          StickersDrawerLayer(
-            onStickerSelected: (sticker) {
-              context
-                  .read<StickersBloc>()
-                  .add(StickerSelected(sticker: sticker));
-            },
-          ),
+          const StickersDrawerLayer(),
         ],
       ),
     );

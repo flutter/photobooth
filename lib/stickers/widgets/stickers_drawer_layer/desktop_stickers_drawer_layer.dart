@@ -7,10 +7,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 class DesktopStickersDrawerLayer extends StatelessWidget {
   const DesktopStickersDrawerLayer({
     Key? key,
-    required this.onStickerSelected,
   }) : super(key: key);
-
-  final Function(Asset) onStickerSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +15,11 @@ class DesktopStickersDrawerLayer extends StatelessWidget {
       buildWhen: (previous, current) => previous.mode != current.mode,
       builder: (context, state) {
         return state.mode.isActive
-            ? Positioned(
+            ? const Positioned(
                 right: 0,
                 top: 0,
                 bottom: 0,
-                child: DesktopStickersDrawer(
-                  onStickerSelected: onStickerSelected,
-                ),
+                child: DesktopStickersDrawer(),
               )
             : const SizedBox();
       },
@@ -35,10 +30,7 @@ class DesktopStickersDrawerLayer extends StatelessWidget {
 class DesktopStickersDrawer extends StatelessWidget {
   const DesktopStickersDrawer({
     Key? key,
-    required this.onStickerSelected,
   }) : super(key: key);
-
-  final Function(Asset) onStickerSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +70,9 @@ class DesktopStickersDrawer extends StatelessWidget {
           const SizedBox(height: 15),
           Flexible(
             child: StickersGrid(
-              onStickerSelected: onStickerSelected,
+              onStickerSelected: (sticker) => context
+                  .read<StickersBloc>()
+                  .add(StickerSelected(sticker: sticker)),
             ),
           ),
         ],

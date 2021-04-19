@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 final _stickers = [
   Assets.banana,
@@ -33,20 +34,15 @@ final _stickers = [
 class StickersDrawerLayer extends StatelessWidget {
   const StickersDrawerLayer({
     Key? key,
-    required this.onStickerSelected,
   }) : super(key: key);
-
-  final Function(Asset) onStickerSelected;
 
   @override
   Widget build(BuildContext context) {
     return PlatformBuilder(
       mobile: MobileStickersDrawerLayer(
-        onStickerSelected: onStickerSelected,
+        stickersBloc: context.read<StickersBloc>(),
       ),
-      desktop: DesktopStickersDrawerLayer(
-        onStickerSelected: onStickerSelected,
-      ),
+      desktop: const DesktopStickersDrawerLayer(),
     );
   }
 }
