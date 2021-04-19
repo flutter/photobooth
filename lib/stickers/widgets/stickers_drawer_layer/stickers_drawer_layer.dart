@@ -50,7 +50,7 @@ class StickersGrid extends StatelessWidget {
     required this.onStickerSelected,
   }) : super(key: key);
 
-  final Function(Asset) onStickerSelected;
+  final ValueSetter<Asset> onStickerSelected;
 
   @override
   Widget build(BuildContext context) {

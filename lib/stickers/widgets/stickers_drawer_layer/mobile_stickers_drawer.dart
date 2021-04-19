@@ -41,7 +41,7 @@ class MobileStickersDrawer extends StatelessWidget {
           Text(
             l10n.stickersDrawerTitle,
             style:
-                Theme.of(context).textTheme.headline3!.copyWith(fontSize: 24),
+                Theme.of(context).textTheme.headline3?.copyWith(fontSize: 24),
           ),
           const SizedBox(height: 15),
           Flexible(

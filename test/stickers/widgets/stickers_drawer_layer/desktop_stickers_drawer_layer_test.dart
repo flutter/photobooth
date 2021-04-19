@@ -31,21 +31,6 @@ void main() async {
 
   group('DesktopStickersDrawerLayer', () {
     testWidgets('renders', (tester) async {
-      when(() => stickersBloc.state).thenReturn(StickersState());
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: Scaffold(
-            body: DesktopStickersDrawerLayer(),
-          ),
-        ),
-      );
-      expect(find.byType(DesktopStickersDrawerLayer), findsOneWidget);
-    });
-
-    testWidgets('verify it renders when changes', (tester) async {
       final state = StickersState();
       whenListen(
         stickersBloc,
