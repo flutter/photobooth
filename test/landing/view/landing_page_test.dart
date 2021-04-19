@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import '../../helpers/helpers.dart';
@@ -33,6 +34,11 @@ void main() {
     testWidgets('renders take photo button', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byType(TakePhotoButton), findsOneWidget);
+    });
+
+    testWidgets('renders black footer', (tester) async {
+      await tester.pumpApp(const LandingView());
+      expect(find.byType(BlackFooter), findsOneWidget);
     });
 
     testWidgets('tapping on take photo button navigates to PhotoboothPage',

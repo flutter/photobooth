@@ -4,6 +4,8 @@ import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+export 'widgets/widgets.dart';
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 

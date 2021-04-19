@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -69,6 +70,14 @@ void main() {
       await tester.pumpApp(SharePage(image: image));
       expect(
         find.byKey(const Key('sharePage_download_elevatedButton')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays white footer', (tester) async {
+      await tester.pumpApp(SharePage(image: image));
+      expect(
+        find.byType(WhiteFooter),
         findsOneWidget,
       );
     });

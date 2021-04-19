@@ -12,6 +12,30 @@
     "@landingPageTakePhotoButtonText": {
         "description": "Button text shown on the landing page which navigates to the photo booth."
     },
+    "footerMadeWithText": "Made with ",
+    "@footerMadeWithText": {
+        "description": "Text shown on the footer which mentiones technologies used to build the app."
+    },
+    "footerGoogleIOLinkText": "Google IO",
+    "@footerGoogleIOLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Google IO page."
+    },
+    "footerCodelabLinkText": "Codelab",
+    "@footerCodelabLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Codelab page."
+    },
+    "footerHowItsMadeLinkText": "How It's Made",
+    "@footerHowItsMadeLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the How It's Made page."
+    },
+    "footerTermsOfServiceLinkText": "Terms of Service",
+    "@footerTermsOfServiceLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Terms of Service page."
+    },
+    "footerPrivacyPolicyLinkText": "Privacy Policy",
+    "@footerPrivacyPolicyLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
+    },
     "previewPageHeading": "Nice shot!",
     "@previewPageHeading": {
         "description": "Heading shown on the preview page."
