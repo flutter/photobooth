@@ -12,6 +12,7 @@ class PhotoboothTheme {
       elevatedButtonTheme: _elevatedButtonTheme,
       textTheme: _textTheme,
       dialogBackgroundColor: PhotoboothColors.whiteBackground,
+      tooltipTheme: _tooltipTheme,
     );
   }
 
@@ -45,6 +46,14 @@ class PhotoboothTheme {
         textStyle: _textTheme.button,
         primary: PhotoboothColors.blue,
         minimumSize: const Size(208, 54),
+      ),
+    );
+  }
+
+  static TooltipThemeData get _tooltipTheme {
+    return const TooltipThemeData(
+      decoration: BoxDecoration(
+        color: PhotoboothColors.lightBlue,
       ),
     );
   }
