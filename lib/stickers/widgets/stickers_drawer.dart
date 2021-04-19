@@ -7,14 +7,14 @@ import 'package:io_photobooth/l10n/l10n.dart';
 
 final _stickers = [
   Assets.banana,
-  Assets.barette,
+  Assets.beret,
   Assets.birthdayCake,
-  Assets.bowtie,
-  Assets.cateyeGlasses,
+  Assets.bowTie,
+  Assets.catEyeGlasses,
   Assets.coffeeMug,
   Assets.dumbell,
   Assets.genericMug,
-  Assets.genGlasses,
+  Assets.genericGlasses,
   Assets.graphMug,
   Assets.guitar,
   Assets.headband,
