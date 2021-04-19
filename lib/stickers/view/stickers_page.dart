@@ -11,42 +11,39 @@ class StickersPage extends StatelessWidget {
   const StickersPage({
     Key? key,
     required this.image,
-    required this.state,
   }) : super(key: key);
 
   static Route route({
     required CameraImage image,
-    required PhotoboothState state,
+    required PhotoboothBloc photoboothBloc,
   }) {
     return MaterialPageRoute(
-      builder: (_) => StickersPage(image: image, state: state),
+      builder: (_) => BlocProvider.value(
+        value: photoboothBloc,
+        child: StickersPage(image: image),
+      ),
     );
   }
 
   final CameraImage image;
-  final PhotoboothState state;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => StickersBloc(),
-      child: StickersView(image: image, state: state),
+      child: StickersView(image: image),
     );
   }
 }
 
 class StickersView extends StatelessWidget {
-  const StickersView({
-    Key? key,
-    required this.image,
-    required this.state,
-  }) : super(key: key);
+  const StickersView({Key? key, required this.image}) : super(key: key);
 
   final CameraImage image;
-  final PhotoboothState state;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PhotoboothBloc>().state;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -130,7 +127,10 @@ class StickersView extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: NextButton(
                       onPressed: () => Navigator.of(context).push(
-                        SharePage.route(image: image),
+                        SharePage.route(
+                          image: image,
+                          photoboothBloc: context.read<PhotoboothBloc>(),
+                        ),
                       ),
                     ),
                   ),

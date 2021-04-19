@@ -1,12 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
+
+class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+
+class FakePhotoboothState extends Fake implements PhotoboothState {}
+
+class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+    implements PhotoboothBloc {}
 
 void main() {
   const width = 1;
@@ -14,9 +24,24 @@ void main() {
   final data = Uint8List.fromList([]);
   final image = CameraImage(width: width, height: height, data: data);
 
+  late PhotoboothBloc photoboothBloc;
+
+  setUpAll(() {
+    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+  });
+
+  setUp(() {
+    photoboothBloc = MockPhotoboothBloc();
+    when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+  });
+
   group('SharePage', () {
     test('is routable', () {
-      expect(SharePage.route(image: image), isA<MaterialPageRoute>());
+      expect(
+        SharePage.route(image: image, photoboothBloc: photoboothBloc),
+        isA<MaterialPageRoute>(),
+      );
     });
 
     testWidgets('displays a PreviewImage', (tester) async {
@@ -89,21 +114,22 @@ void main() {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (c) => Container(
-                    key: photoboothPage,
-                  ),
-                  settings: RouteSettings(name: 'PhotoboothPage'),
+                  builder: (_) => const SizedBox(key: photoboothPage),
+                  settings: RouteSettings(name: PhotoboothPage.name),
                 ),
               );
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (c) => Container(),
+                  builder: (_) => const SizedBox(),
                   settings: RouteSettings(name: 'IntermediatePage'),
                 ),
               );
 
-              Navigator.of(context).push(SharePage.route(image: image));
+              Navigator.of(context).push(SharePage.route(
+                image: image,
+                photoboothBloc: photoboothBloc,
+              ));
             },
             child: const SizedBox(),
           );
@@ -123,6 +149,8 @@ void main() {
 
       expect(find.byType(SharePage), findsNothing);
       expect(find.byKey(photoboothPage), findsOneWidget);
+
+      verify(() => photoboothBloc.add(PhotoboothCharactersCleared())).called(1);
     });
   });
 
