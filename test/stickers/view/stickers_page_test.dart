@@ -166,21 +166,6 @@ void main() async {
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
 
-    testWidgets(
-        'does not render WebStickersDrawer when mode is inactive '
-        'and is not mobile', (tester) async {
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(image: image),
-        ),
-      );
-      expect(find.byType(DesktopStickersDrawer), findsNothing);
-    });
-
     testWidgets('renders StickersDrawerLayer when mode is active',
         (tester) async {
       when(() => stickersBloc.state).thenReturn(

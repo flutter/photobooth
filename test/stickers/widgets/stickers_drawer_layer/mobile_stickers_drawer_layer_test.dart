@@ -29,7 +29,7 @@ void main() async {
     stickersBloc = MockStickersBloc();
   });
 
-  group('DesktopStickersDrawerLayer', () {
+  group('MobileStickersDrawerLayer', () {
     testWidgets('renders', (tester) async {
       when(() => stickersBloc.state).thenReturn(StickersState());
       await tester.pumpApp(
@@ -38,11 +38,13 @@ void main() async {
             BlocProvider.value(value: stickersBloc),
           ],
           child: Scaffold(
-            body: DesktopStickersDrawerLayer(),
+            body: MobileStickersDrawerLayer(
+              stickersBloc: stickersBloc,
+            ),
           ),
         ),
       );
-      expect(find.byType(DesktopStickersDrawerLayer), findsOneWidget);
+      expect(find.byType(MobileStickersDrawerLayer), findsOneWidget);
     });
 
     testWidgets('verify it renders when changes', (tester) async {
@@ -58,28 +60,34 @@ void main() async {
             BlocProvider.value(value: stickersBloc),
           ],
           child: Scaffold(
-            body: DesktopStickersDrawerLayer(),
+            body: MobileStickersDrawerLayer(
+              stickersBloc: stickersBloc,
+            ),
           ),
         ),
       );
-      expect(find.byType(DesktopStickersDrawerLayer), findsOneWidget);
+      expect(find.byType(MobileStickersDrawerLayer), findsOneWidget);
     });
   });
 
-  group('DesktopStickersDrawer', () {
-    testWidgets('renders', (tester) async {
-      when(() => stickersBloc.state).thenReturn(StickersState());
+  group('MobileStickersDrawer', () {
+    testWidgets('opens when state is active', (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
+      when(() => stickersBloc.state).thenReturn(
+        StickersState(mode: StickersMode.active),
+      );
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: stickersBloc),
           ],
           child: Scaffold(
-            body: DesktopStickersDrawer(),
+            body: MobileStickersDrawerLayer(
+              stickersBloc: stickersBloc,
+            ),
           ),
         ),
       );
-      expect(find.byType(DesktopStickersDrawer), findsOneWidget);
     });
 
     testWidgets('adds StickerSelected when StickerChoice tapped',
@@ -95,7 +103,9 @@ void main() async {
             BlocProvider.value(value: stickersBloc),
           ],
           child: Scaffold(
-            body: DesktopStickersDrawer(),
+            body: MobileStickersDrawerLayer(
+              stickersBloc: stickersBloc,
+            ),
           ),
         ),
       );
@@ -117,7 +127,9 @@ void main() async {
             BlocProvider.value(value: stickersBloc),
           ],
           child: Scaffold(
-            body: DesktopStickersDrawer(),
+            body: MobileStickersDrawerLayer(
+              stickersBloc: stickersBloc,
+            ),
           ),
         ),
       );
