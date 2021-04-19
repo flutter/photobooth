@@ -338,5 +338,78 @@ void main() async {
       clearStickersButton.onPressed();
       verify(() => stickersBloc.add(StickersCleared())).called(1);
     });
+
+    testWidgets('opens MobileStickersDrawer when is mobile and is active',
+        (tester) async {
+      whenListen(
+        stickersBloc,
+        Stream.fromIterable([StickersState(mode: StickersMode.active)]),
+        initialState: StickersState(mode: StickersMode.inactive),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(image: image),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(MobileStickersDrawer), findsOneWidget);
+    });
+
+    testWidgets('can select stickers on MobileStickersDrawer', (tester) async {
+      final sticker = Assets.banana;
+      whenListen(
+        stickersBloc,
+        Stream.fromIterable([
+          StickersState(mode: StickersMode.active),
+        ]),
+        initialState: StickersState(mode: StickersMode.inactive),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(image: image),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(MobileStickersDrawer), findsOneWidget);
+      final stickerChoice =
+          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
+      stickerChoice.onPressed();
+      verify(() => stickersBloc.add(StickerSelected(sticker: sticker)))
+          .called(1);
+    });
+
+    testWidgets('can close MobileStickersDrawer', (tester) async {
+      whenListen(
+        stickersBloc,
+        Stream.fromIterable([
+          StickersState(mode: StickersMode.active),
+        ]),
+        initialState: StickersState(mode: StickersMode.inactive),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(image: image),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(MobileStickersDrawer), findsOneWidget);
+      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
+      await tester.pumpAndSettle();
+      expect(find.byType(MobileStickersDrawer), findsNothing);
+
+      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
+    });
   });
 }
