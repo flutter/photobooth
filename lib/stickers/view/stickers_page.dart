@@ -105,17 +105,11 @@ class StickersView extends StatelessWidget {
               ),
             ),
           ),
-          BlocBuilder<StickersBloc, StickersState>(
-            buildWhen: (previous, current) => previous.mode != current.mode,
-            builder: (context, state) {
-              return state.mode.isActive
-                  ? const Positioned(
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: StickersDrawer(),
-                    )
-                  : const SizedBox();
+          StickersDrawerLayer(
+            onStickerSelected: (sticker) {
+              context
+                  .read<StickersBloc>()
+                  .add(StickerSelected(sticker: sticker));
             },
           ),
         ],
