@@ -54,7 +54,7 @@ class FooterMadeWithLink extends StatelessWidget {
             .merge(DefaultTextStyle.of(context).style),
         children: <TextSpan>[
           TextSpan(
-            text: 'Flutter',
+            text: l10n.footerMadeWithFlutterLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 openLink('https://flutter.dev');
@@ -67,7 +67,7 @@ class FooterMadeWithLink extends StatelessWidget {
             text: ' & ',
           ),
           TextSpan(
-            text: 'Firebase',
+            text: l10n.footerMadeWithFirebaseLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 openLink('https://firebase.google.com');
