@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -14,6 +15,21 @@ void main() {
   });
 
   group('LandingView', () {
+    testWidgets('renders image background', (tester) async {
+      await tester.pumpApp(const LandingView());
+      expect(find.byKey(Key('landingPage_background')), findsOneWidget);
+    });
+
+    testWidgets('renders heading', (tester) async {
+      await tester.pumpApp(const LandingView());
+      expect(find.byKey(Key('landingPage_heading_text')), findsOneWidget);
+    });
+
+    testWidgets('renders subheading', (tester) async {
+      await tester.pumpApp(const LandingView());
+      expect(find.byKey(Key('landingPage_subheading_text')), findsOneWidget);
+    });
+
     testWidgets('renders take photo button', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byType(TakePhotoButton), findsOneWidget);
