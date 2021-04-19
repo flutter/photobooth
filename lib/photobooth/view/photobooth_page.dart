@@ -67,7 +67,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     final picture = await _controller.takePicture();
     final stickersPage = StickersPage.route(
       image: picture,
-      state: context.read<PhotoboothBloc>().state,
+      photoboothBloc: context.read<PhotoboothBloc>(),
     );
     await _controller.stop();
     await Navigator.of(context).push(stickersPage);

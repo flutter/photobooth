@@ -7,6 +7,10 @@ abstract class PhotoboothEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class PhotoboothCharactersCleared extends PhotoboothEvent {
+  const PhotoboothCharactersCleared();
+}
+
 abstract class PhotoboothCharacterUpdated extends PhotoboothEvent {
   const PhotoboothCharacterUpdated({required this.update});
   final DragUpdate update;

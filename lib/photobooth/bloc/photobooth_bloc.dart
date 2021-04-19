@@ -63,6 +63,8 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
           ),
         ),
       );
+    } else if (event is PhotoboothCharactersCleared) {
+      yield const PhotoboothState();
     }
   }
 }

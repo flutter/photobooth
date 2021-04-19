@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
@@ -16,8 +17,16 @@ class SharePage extends StatelessWidget {
 
   final CameraImage image;
 
-  static Route route({required CameraImage image}) {
-    return MaterialPageRoute(builder: (_) => SharePage(image: image));
+  static Route route({
+    required CameraImage image,
+    required PhotoboothBloc photoboothBloc,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => BlocProvider.value(
+        value: photoboothBloc,
+        child: SharePage(image: image),
+      ),
+    );
   }
 
   @override
@@ -150,9 +159,12 @@ class _RetakeButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       key: const Key('sharePage_retake_elevatedButton'),
-      onPressed: () => Navigator.of(context).popUntil(
-        (route) => route.settings.name == PhotoboothPage.name,
-      ),
+      onPressed: () {
+        context.read<PhotoboothBloc>().add(const PhotoboothCharactersCleared());
+        Navigator.of(context).popUntil(
+          (route) => route.settings.name == PhotoboothPage.name,
+        );
+      },
       child: Text(l10n.previewPageRetakeButtonText),
     );
   }

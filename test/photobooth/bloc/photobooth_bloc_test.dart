@@ -15,6 +15,15 @@ void main() {
       expect(PhotoboothBloc().state, equals(PhotoboothState()));
     });
 
+    group('PhotoboothCharactersCleared', () {
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits PhotoboothState',
+        build: () => PhotoboothBloc(),
+        act: (bloc) => bloc.add(PhotoboothCharactersCleared()),
+        expect: () => [PhotoboothState()],
+      );
+    });
+
     group('PhotoboothAndroidUpdated', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated android position and size',
