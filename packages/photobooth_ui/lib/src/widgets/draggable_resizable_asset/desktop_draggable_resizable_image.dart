@@ -39,6 +39,7 @@ class _DesktopDraggableResizableImageState
 
   double? top;
   double? left;
+  Size? initialSize;
 
   @override
   void initState() {
@@ -59,36 +60,53 @@ class _DesktopDraggableResizableImageState
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
         left = left ??= constraints.maxWidth / 2 - (width / 2);
         top = top ??= constraints.maxHeight / 2 - (height / 2);
+
+        final widthFactor = constraints.maxWidth / initialSize!.width;
+        final heightFactor = constraints.maxHeight / initialSize!.height;
+
+        final normalizedWidth = width * widthFactor;
+        final normalizedHeight = height * heightFactor;
+
+        final normalizedLeft = left! * widthFactor;
+        final normalizedTop = top! * heightFactor;
+
+        widget.onUpdate?.call(
+          DragUpdate(
+            position: Offset(normalizedLeft, normalizedTop),
+            size: Size(normalizedWidth, normalizedHeight),
+          ),
+        );
 
         return Stack(
           children: <Widget>[
             //Image
             Positioned(
-              top: top,
-              left: left,
+              top: normalizedTop,
+              left: normalizedLeft,
               child: _DraggablePoint(
                 key: const Key('draggableResizableAsset_image_draggablePoint'),
                 onDrag: (dx, dy) {
                   setState(() {
-                    top = top! + dy;
-                    left = left! + dx;
+                    top = top! + (dy / heightFactor);
+                    left = left! + (dx / widthFactor);
                   });
                   widget.onUpdate?.call(
                     DragUpdate(
-                      position: Offset(left!, top!),
-                      size: Size(width, height),
+                      position: Offset(normalizedLeft, normalizedTop),
+                      size: Size(normalizedWidth, normalizedHeight),
                     ),
                   );
                 },
                 child: Container(
-                  height: height,
-                  width: width,
+                  height: normalizedHeight,
+                  width: normalizedWidth,
                   child: Image.memory(
                     widget.image,
-                    height: height,
-                    width: width,
+                    height: normalizedHeight,
+                    width: normalizedWidth,
                     gaplessPlayback: true,
                   ),
                 ),
@@ -96,8 +114,8 @@ class _DesktopDraggableResizableImageState
             ),
             // Top Left Corner
             Positioned(
-              top: top! - _cornerDiameter / 2,
-              left: left! - _cornerDiameter / 2,
+              top: normalizedTop - _cornerDiameter / 2,
+              left: normalizedLeft - _cornerDiameter / 2,
               child: _ResizePoint(
                 key: const Key('draggableResizableAsset_topLeft_resizePoint'),
                 onDrag: (dx, dy) {
@@ -119,8 +137,8 @@ class _DesktopDraggableResizableImageState
 
                   widget.onUpdate?.call(
                     DragUpdate(
-                      position: Offset(left!, top!),
-                      size: Size(width, height),
+                      position: Offset(normalizedLeft, normalizedTop),
+                      size: Size(normalizedWidth, normalizedHeight),
                     ),
                   );
                 },
@@ -129,8 +147,8 @@ class _DesktopDraggableResizableImageState
 
             // Top Right corner
             Positioned(
-              top: top! - _cornerDiameter / 2,
-              left: left! + width - _cornerDiameter / 2,
+              top: normalizedTop - _cornerDiameter / 2,
+              left: normalizedLeft + normalizedWidth - _cornerDiameter / 2,
               child: _ResizePoint(
                 key: const Key('draggableResizableAsset_topRight_resizePoint'),
                 onDrag: (dx, dy) {
@@ -152,8 +170,8 @@ class _DesktopDraggableResizableImageState
 
                   widget.onUpdate?.call(
                     DragUpdate(
-                      position: Offset(left!, top!),
-                      size: Size(width, height),
+                      position: Offset(normalizedLeft, normalizedTop),
+                      size: Size(normalizedWidth, normalizedHeight),
                     ),
                   );
                 },
@@ -162,8 +180,8 @@ class _DesktopDraggableResizableImageState
 
             // Bottom right corner
             Positioned(
-              top: top! + height - _cornerDiameter / 2,
-              left: left! + width - _cornerDiameter / 2,
+              top: normalizedTop + normalizedHeight - _cornerDiameter / 2,
+              left: normalizedLeft + normalizedWidth - _cornerDiameter / 2,
               child: _ResizePoint(
                 key: const Key(
                   'draggableResizableAsset_bottomRight_resizePoint',
@@ -187,8 +205,8 @@ class _DesktopDraggableResizableImageState
 
                   widget.onUpdate?.call(
                     DragUpdate(
-                      position: Offset(left!, top!),
-                      size: Size(width, height),
+                      position: Offset(normalizedLeft, normalizedTop),
+                      size: Size(normalizedWidth, normalizedHeight),
                     ),
                   );
                 },
@@ -197,8 +215,8 @@ class _DesktopDraggableResizableImageState
 
             // Bottom left corner
             Positioned(
-              top: top! + height - _cornerDiameter / 2,
-              left: left! - _cornerDiameter / 2,
+              top: normalizedTop + normalizedHeight - _cornerDiameter / 2,
+              left: normalizedLeft - _cornerDiameter / 2,
               child: _ResizePoint(
                 key: const Key(
                   'draggableResizableAsset_bottomLeft_resizePoint',
@@ -222,8 +240,8 @@ class _DesktopDraggableResizableImageState
 
                   widget.onUpdate?.call(
                     DragUpdate(
-                      position: Offset(left!, top!),
-                      size: Size(width, height),
+                      position: Offset(normalizedLeft, normalizedTop),
+                      size: Size(normalizedWidth, normalizedHeight),
                     ),
                   );
                 },

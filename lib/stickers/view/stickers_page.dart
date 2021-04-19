@@ -43,7 +43,6 @@ class StickersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<PhotoboothBloc>().state;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -60,39 +59,7 @@ class StickersView extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   PreviewImage(data: image.data),
-                  if (state.android.isSelected)
-                    Positioned(
-                      key: const Key('stickersView_android_positioned'),
-                      top: state.android.position.dy,
-                      left: state.android.position.dx,
-                      child: Image.memory(
-                        Assets.android.bytes,
-                        height: state.android.size.height,
-                        width: state.android.size.width,
-                      ),
-                    ),
-                  if (state.dash.isSelected)
-                    Positioned(
-                      key: const Key('stickersView_dash_positioned'),
-                      top: state.dash.position.dy,
-                      left: state.dash.position.dx,
-                      child: Image.memory(
-                        Assets.dash.bytes,
-                        height: state.dash.size.height,
-                        width: state.dash.size.width,
-                      ),
-                    ),
-                  if (state.sparky.isSelected)
-                    Positioned(
-                      key: const Key('stickersView_sparky_positioned'),
-                      top: state.sparky.position.dy,
-                      left: state.sparky.position.dx,
-                      child: Image.memory(
-                        Assets.sparky.bytes,
-                        height: state.sparky.size.height,
-                        width: state.sparky.size.width,
-                      ),
-                    ),
+                  const CharactersLayer(),
                   BlocBuilder<StickersBloc, StickersState>(
                     builder: (context, state) {
                       if (state.stickers.isEmpty) return const SizedBox();
@@ -153,6 +120,68 @@ class StickersView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CharactersLayer extends StatefulWidget {
+  const CharactersLayer({Key? key}) : super(key: key);
+
+  @override
+  _CharactersLayerState createState() => _CharactersLayerState();
+}
+
+class _CharactersLayerState extends State<CharactersLayer> {
+  Size? initialSize;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<PhotoboothBloc>().state;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
+
+        final widthFactor = constraints.maxWidth / initialSize!.width;
+        final heightFactor = constraints.maxHeight / initialSize!.height;
+
+        return Stack(
+          children: [
+            if (state.android.isSelected)
+              Positioned(
+                key: const Key('stickersView_android_positioned'),
+                top: state.android.position.dy * heightFactor,
+                left: state.android.position.dx * widthFactor,
+                child: Image.memory(
+                  Assets.android.bytes,
+                  height: state.android.size.height * heightFactor,
+                  width: state.android.size.width * widthFactor,
+                ),
+              ),
+            if (state.dash.isSelected)
+              Positioned(
+                key: const Key('stickersView_dash_positioned'),
+                top: state.dash.position.dy * heightFactor,
+                left: state.dash.position.dx * widthFactor,
+                child: Image.memory(
+                  Assets.dash.bytes,
+                  height: state.dash.size.height * heightFactor,
+                  width: state.dash.size.width * widthFactor,
+                ),
+              ),
+            if (state.sparky.isSelected)
+              Positioned(
+                key: const Key('stickersView_sparky_positioned'),
+                top: state.sparky.position.dy * heightFactor,
+                left: state.sparky.position.dx * widthFactor,
+                child: Image.memory(
+                  Assets.sparky.bytes,
+                  height: state.sparky.size.height * heightFactor,
+                  width: state.sparky.size.width * widthFactor,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
