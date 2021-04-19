@@ -166,8 +166,9 @@ void main() async {
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
 
-    testWidgets('does not render StickersDrawer when mode is inactive',
-        (tester) async {
+    testWidgets(
+        'does not render WebStickersDrawer when mode is inactive '
+        'and is not mobile', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [
@@ -177,10 +178,11 @@ void main() async {
           child: StickersView(image: image),
         ),
       );
-      expect(find.byType(StickersDrawer), findsNothing);
+      expect(find.byType(DesktopStickersDrawer), findsNothing);
     });
 
-    testWidgets('renders StickersDrawer when mode is active', (tester) async {
+    testWidgets('renders StickersDrawerLayer when mode is active',
+        (tester) async {
       when(() => stickersBloc.state).thenReturn(
         StickersState(mode: StickersMode.active),
       );
@@ -193,7 +195,7 @@ void main() async {
           child: StickersView(image: image),
         ),
       );
-      expect(find.byType(StickersDrawer), findsOneWidget);
+      expect(find.byType(StickersDrawerLayer), findsOneWidget);
     });
 
     testWidgets('adds StickersModeToggled when close button is tapped',
@@ -210,7 +212,7 @@ void main() async {
           child: StickersView(image: image),
         ),
       );
-      expect(find.byType(StickersDrawer), findsOneWidget);
+      expect(find.byType(DesktopStickersDrawer), findsOneWidget);
       await tester
           .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
       await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
