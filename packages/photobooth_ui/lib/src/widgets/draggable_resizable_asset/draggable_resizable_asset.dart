@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import 'desktop_draggable_resizable_image.dart';
 import 'mobile_draggable_resizable_image.dart';
@@ -38,6 +39,8 @@ class DraggableResizableAsset extends StatelessWidget {
     required this.asset,
     this.onUpdate,
     this.onDelete,
+    this.canTransform = false,
+    this.platformHelper,
   }) : super(key: key);
 
   /// The asset which will be rendered and will be draggable and resizable.
@@ -49,9 +52,17 @@ class DraggableResizableAsset extends StatelessWidget {
   /// Delete callback
   final VoidCallback? onDelete;
 
+  /// Whether or not the asset can be dragged or resized.
+  /// Defaults to false.
+  final bool canTransform;
+
+  /// Optional [PlatformHelper] which can be used to determine the platform.
+  final PlatformHelper? platformHelper;
+
   @override
   Widget build(BuildContext context) {
     return PlatformBuilder(
+      platformHelper: platformHelper,
       mobile: MobileDraggableResizableImage(
         image: asset.bytes,
         height: asset.image.height.toDouble(),
@@ -60,6 +71,7 @@ class DraggableResizableAsset extends StatelessWidget {
       desktop: DesktopDraggableResizableImage(
         image: asset.bytes,
         height: asset.image.height.toDouble(),
+        canTransform: canTransform,
         onUpdate: onUpdate,
         onDelete: onDelete,
       ),

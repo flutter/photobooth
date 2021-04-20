@@ -1,5 +1,7 @@
 part of 'photobooth_bloc.dart';
 
+const emptyAssetId = -1;
+
 class PhotoConstraint extends Equatable {
   const PhotoConstraint({this.width = 1, this.height = 1});
 
@@ -68,25 +70,29 @@ class PhotoboothState extends Equatable {
   const PhotoboothState({
     this.characters = const <PhotoAsset>[],
     this.stickers = const <PhotoAsset>[],
+    this.selectedAssetId = emptyAssetId,
     this.image,
   });
 
   final CameraImage? image;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;
+  final int selectedAssetId;
 
   @override
-  List<Object?> get props => [image, characters, stickers];
+  List<Object?> get props => [image, characters, stickers, selectedAssetId];
 
   PhotoboothState copyWith({
     CameraImage? image,
     List<PhotoAsset>? characters,
     List<PhotoAsset>? stickers,
+    int? selectedAssetId,
   }) {
     return PhotoboothState(
       image: image ?? this.image,
       characters: characters ?? this.characters,
       stickers: stickers ?? this.stickers,
+      selectedAssetId: selectedAssetId ?? this.selectedAssetId,
     );
   }
 }

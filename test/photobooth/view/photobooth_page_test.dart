@@ -511,5 +511,22 @@ void main() async {
         ),
       ).called(1);
     });
+
+    testWidgets('tapping on background adds PhotoTapped', (tester) async {
+      const preview = SizedBox();
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothPreview_background_gestureDetector'),
+      ));
+      expect(tester.takeException(), isNull);
+      verify(() => photoboothBloc.add(PhotoTapped())).called(1);
+    });
   });
 }

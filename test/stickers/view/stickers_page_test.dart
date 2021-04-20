@@ -496,5 +496,29 @@ void main() async {
 
       verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
+
+    testWidgets('adds PhotoTapped when background photo is tapped',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          image: image,
+        ),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      final background = tester.widget<GestureDetector>(
+        find.byKey(const Key('stickersView_background_gestureDetector')),
+      );
+      background.onTap?.call();
+      verify(() => photoboothBloc.add(PhotoTapped())).called(1);
+    });
   });
 }

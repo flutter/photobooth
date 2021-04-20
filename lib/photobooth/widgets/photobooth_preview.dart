@@ -74,6 +74,14 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
+        Positioned.fill(
+          child: GestureDetector(
+            key: const Key('photoboothPreview_background_gestureDetector'),
+            onTap: () {
+              context.read<PhotoboothBloc>().add(const PhotoTapped());
+            },
+          ),
+        ),
         const Align(
           alignment: Alignment.bottomLeft,
           child: Padding(
@@ -87,6 +95,7 @@ class PhotoboothPreview extends StatelessWidget {
               '''photoboothPreview_${character.asset.name}_draggableResizableAsset''',
             ),
             asset: character.asset,
+            canTransform: character.id == state.selectedAssetId,
             onUpdate: (update) {
               context.read<PhotoboothBloc>().add(
                     PhotoCharacterDragged(character: character, update: update),

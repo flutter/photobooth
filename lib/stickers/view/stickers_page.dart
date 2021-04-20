@@ -53,12 +53,7 @@ class StickersView extends StatelessWidget {
                     ),
                   ),
                   const CharactersLayer(),
-                  BlocBuilder<PhotoboothBloc, PhotoboothState>(
-                    builder: (context, state) {
-                      if (state.stickers.isEmpty) return const SizedBox();
-                      return _DraggableStickers(stickers: state.stickers);
-                    },
-                  ),
+                  const _DraggableStickers(),
                   Positioned(
                     left: 15,
                     top: 15,
@@ -121,21 +116,28 @@ class StickersView extends StatelessWidget {
 }
 
 class _DraggableStickers extends StatelessWidget {
-  const _DraggableStickers({
-    Key? key,
-    required this.stickers,
-  }) : super(key: key);
-
-  final List<PhotoAsset> stickers;
+  const _DraggableStickers({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PhotoboothBloc>().state;
+    if (state.stickers.isEmpty) return const SizedBox();
     return Stack(
       fit: StackFit.expand,
       children: [
-        for (final sticker in stickers)
+        Positioned.fill(
+          child: GestureDetector(
+            key: const Key('stickersView_background_gestureDetector'),
+            onTap: () {
+              context.read<PhotoboothBloc>().add(const PhotoTapped());
+            },
+          ),
+        ),
+        for (final sticker in state.stickers)
           DraggableResizableAsset(
+            key: Key('stickerPage_${sticker.id}_draggableResizable_asset'),
             asset: sticker.asset,
+            canTransform: sticker.id == state.selectedAssetId,
             onUpdate: (update) => context
                 .read<PhotoboothBloc>()
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),
