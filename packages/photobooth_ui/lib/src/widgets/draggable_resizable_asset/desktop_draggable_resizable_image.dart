@@ -77,6 +77,7 @@ class _DesktopDraggableResizableImageState
           DragUpdate(
             position: Offset(normalizedLeft, normalizedTop),
             size: Size(normalizedWidth, normalizedHeight),
+            constraints: constraints,
           ),
         );
 
@@ -97,6 +98,7 @@ class _DesktopDraggableResizableImageState
                     DragUpdate(
                       position: Offset(normalizedLeft, normalizedTop),
                       size: Size(normalizedWidth, normalizedHeight),
+                      constraints: constraints,
                     ),
                   );
                 },
@@ -139,6 +141,7 @@ class _DesktopDraggableResizableImageState
                     DragUpdate(
                       position: Offset(normalizedLeft, normalizedTop),
                       size: Size(normalizedWidth, normalizedHeight),
+                      constraints: constraints,
                     ),
                   );
                 },
@@ -172,6 +175,7 @@ class _DesktopDraggableResizableImageState
                     DragUpdate(
                       position: Offset(normalizedLeft, normalizedTop),
                       size: Size(normalizedWidth, normalizedHeight),
+                      constraints: constraints,
                     ),
                   );
                 },
@@ -207,6 +211,7 @@ class _DesktopDraggableResizableImageState
                     DragUpdate(
                       position: Offset(normalizedLeft, normalizedTop),
                       size: Size(normalizedWidth, normalizedHeight),
+                      constraints: constraints,
                     ),
                   );
                 },
@@ -242,6 +247,7 @@ class _DesktopDraggableResizableImageState
                     DragUpdate(
                       position: Offset(normalizedLeft, normalizedTop),
                       size: Size(normalizedWidth, normalizedHeight),
+                      constraints: constraints,
                     ),
                   );
                 },

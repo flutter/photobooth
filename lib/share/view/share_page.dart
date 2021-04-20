@@ -6,6 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,47 +34,53 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return SafeArea(
-      child: Stack(
+    final scale = context.select(
+        (PhotoboothBloc bloc) => 500 / bloc.state.constraints.maxHeight);
+    return Scaffold(
+      body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/backgrounds/share_background.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Image.asset(
+              'assets/backgrounds/share_background.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+            ),
           ),
           Center(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _Photo(image: image.data),
-                    const SizedBox(height: 24),
-                    Text(
-                      l10n.previewPageHeading,
-                      style: theme.textTheme.headline1
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.previewPageSubheading,
-                      style: theme.textTheme.headline2
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 40),
-                    ResponsiveLayoutBuilder(
-                      mobile: (_) => MobileButtonsLayout(image: image),
-                      desktop: (_) => DesktopButtonsLayout(image: image),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 500,
+                    child: _Photo(image: image.data, scale: scale),
+                  ),
+                  const SizedBox(height: 80),
+                  Text(
+                    l10n.previewPageHeading,
+                    style: theme.textTheme.headline1
+                        ?.copyWith(color: PhotoboothColors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.previewPageSubheading,
+                    style: theme.textTheme.headline2
+                        ?.copyWith(color: PhotoboothColors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  ResponsiveLayoutBuilder(
+                    mobile: (_) => MobileButtonsLayout(image: image),
+                    desktop: (_) => DesktopButtonsLayout(image: image),
+                  ),
+                ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -121,29 +128,37 @@ class MobileButtonsLayout extends StatelessWidget {
 }
 
 class _Photo extends StatelessWidget {
-  const _Photo({Key? key, required this.image}) : super(key: key);
+  const _Photo({
+    Key? key,
+    required this.image,
+    required this.scale,
+  }) : super(key: key);
 
   final Uint8List image;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
-    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
-    return FractionallySizedBox(
-      widthFactor: 0.4,
-      child: AspectRatio(
-        aspectRatio: targetRatio,
-        child: Transform.rotate(
-          angle: -11 * (math.pi / 180),
-          child: Material(
-            elevation: 4,
-            color: PhotoboothColors.white,
-            child: AspectRatio(
-              aspectRatio: targetRatio,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: PreviewImage(data: image),
-              ),
-            ),
+    return Transform(
+      alignment: const Alignment(0, -3 / 4),
+      transform: Matrix4.identity()..rotateZ(-11 * (math.pi / 180)),
+      child: Center(
+        child: AspectRatio(
+          aspectRatio: isMobile ? 3 / 4 : 4 / 3,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              PreviewImage(data: image),
+              CharactersLayer(scale: scale),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: PhotoboothColors.white,
+                    width: 8,
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),

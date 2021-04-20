@@ -8,7 +8,12 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 void main() {
   const size = Size(42, 42);
   const position = Offset(42, 42);
-  const update = DragUpdate(position: position, size: size);
+  const constraints = BoxConstraints.expand();
+  const update = DragUpdate(
+    position: position,
+    size: size,
+    constraints: constraints,
+  );
 
   group('PhotoboothBloc', () {
     test('initial state is PhotoboothState', () {

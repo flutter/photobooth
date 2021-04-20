@@ -50,24 +50,28 @@ class PhotoboothState extends Equatable {
     this.android = const CharacterAsset(),
     this.dash = const CharacterAsset(),
     this.sparky = const CharacterAsset(),
+    this.constraints = const BoxConstraints.expand(),
   });
 
   final CharacterAsset android;
   final CharacterAsset dash;
   final CharacterAsset sparky;
+  final BoxConstraints constraints;
 
   @override
-  List<Object> get props => [android, dash, sparky];
+  List<Object> get props => [android, dash, sparky, constraints];
 
   PhotoboothState copyWith({
     CharacterAsset? android,
     CharacterAsset? dash,
     CharacterAsset? sparky,
+    BoxConstraints? constraints,
   }) {
     return PhotoboothState(
       android: android ?? this.android,
       dash: dash ?? this.dash,
       sparky: sparky ?? this.sparky,
+      constraints: constraints ?? this.constraints,
     );
   }
 }

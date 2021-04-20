@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 part 'photobooth_event.dart';
@@ -36,6 +37,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
             height: event.update.size.height,
           ),
         ),
+        constraints: event.update.constraints,
       );
     } else if (event is PhotoboothDashUpdated) {
       yield state.copyWith(
@@ -49,6 +51,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
             height: event.update.size.height,
           ),
         ),
+        constraints: event.update.constraints,
       );
     } else if (event is PhotoboothSparkyUpdated) {
       yield state.copyWith(
@@ -62,6 +65,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
             height: event.update.size.height,
           ),
         ),
+        constraints: event.update.constraints,
       );
     } else if (event is PhotoboothCharactersCleared) {
       yield const PhotoboothState();

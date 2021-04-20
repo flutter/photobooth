@@ -126,7 +126,9 @@ class StickersView extends StatelessWidget {
 }
 
 class CharactersLayer extends StatefulWidget {
-  const CharactersLayer({Key? key}) : super(key: key);
+  const CharactersLayer({Key? key, this.scale = 1}) : super(key: key);
+
+  final double scale;
 
   @override
   _CharactersLayerState createState() => _CharactersLayerState();
@@ -150,34 +152,36 @@ class _CharactersLayerState extends State<CharactersLayer> {
             if (state.android.isSelected)
               Positioned(
                 key: const Key('stickersView_android_positioned'),
-                top: state.android.position.dy * heightFactor,
-                left: state.android.position.dx * widthFactor,
+                top: state.android.position.dy * heightFactor * widget.scale,
+                left: state.android.position.dx * widthFactor * widget.scale,
                 child: Image.memory(
                   Assets.android.bytes,
-                  height: state.android.size.height * heightFactor,
-                  width: state.android.size.width * widthFactor,
+                  height:
+                      state.android.size.height * heightFactor * widget.scale,
+                  width: state.android.size.width * widthFactor * widget.scale,
                 ),
               ),
             if (state.dash.isSelected)
               Positioned(
                 key: const Key('stickersView_dash_positioned'),
-                top: state.dash.position.dy * heightFactor,
-                left: state.dash.position.dx * widthFactor,
+                top: state.dash.position.dy * heightFactor * widget.scale,
+                left: state.dash.position.dx * widthFactor * widget.scale,
                 child: Image.memory(
                   Assets.dash.bytes,
-                  height: state.dash.size.height * heightFactor,
-                  width: state.dash.size.width * widthFactor,
+                  height: state.dash.size.height * heightFactor * widget.scale,
+                  width: state.dash.size.width * widthFactor * widget.scale,
                 ),
               ),
             if (state.sparky.isSelected)
               Positioned(
                 key: const Key('stickersView_sparky_positioned'),
-                top: state.sparky.position.dy * heightFactor,
-                left: state.sparky.position.dx * widthFactor,
+                top: state.sparky.position.dy * heightFactor * widget.scale,
+                left: state.sparky.position.dx * widthFactor * widget.scale,
                 child: Image.memory(
                   Assets.sparky.bytes,
-                  height: state.sparky.size.height * heightFactor,
-                  width: state.sparky.size.width * widthFactor,
+                  height:
+                      state.sparky.size.height * heightFactor * widget.scale,
+                  width: state.sparky.size.width * widthFactor * widget.scale,
                 ),
               ),
           ],

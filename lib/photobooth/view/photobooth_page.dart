@@ -90,12 +90,20 @@ class _PhotoboothViewState extends State<PhotoboothView> {
               controller: _controller,
               placeholder: (_) => const PhotoboothPlaceholder(),
               preview: (context, preview) {
-                final targetAspectRatio = isMobile ? 3 / 4 : 4 / 3;
-                return AspectRatio(
-                  aspectRatio: targetAspectRatio,
-                  child: PhotoboothPreview(
-                    preview: preview,
-                    onSnapPressed: _onSnapPressed,
+                return ResponsiveLayoutBuilder(
+                  mobile: (_) => AspectRatio(
+                    aspectRatio: 3 / 4,
+                    child: PhotoboothPreview(
+                      preview: preview,
+                      onSnapPressed: _onSnapPressed,
+                    ),
+                  ),
+                  desktop: (_) => AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: PhotoboothPreview(
+                      preview: preview,
+                      onSnapPressed: _onSnapPressed,
+                    ),
                   ),
                 );
               },

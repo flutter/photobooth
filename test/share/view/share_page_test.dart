@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -18,7 +20,10 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-void main() {
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await Assets.load();
+
   const width = 1;
   const height = 1;
   final data = Uint8List.fromList([]);
@@ -69,6 +74,22 @@ void main() {
       await tester.pumpApp(SharePage(image: image));
       expect(
         find.byKey(const Key('sharePage_download_elevatedButton')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays selected character assets', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(android: CharacterAsset(isSelected: true)),
+      );
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: SharePage(image: image),
+        ),
+      );
+      expect(
+        find.byKey(const Key('stickersView_android_positioned')),
         findsOneWidget,
       );
     });
