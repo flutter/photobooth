@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -141,7 +142,7 @@ void main() async {
 
     testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.binding.window.physicalSizeTestValue = const Size(200, 200);
+      tester.binding.window.physicalSizeTestValue = const Size(300, 500);
 
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
@@ -211,6 +212,36 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
+    });
+
+    testWidgets('renders FlutterIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FlutterIconLink), findsOneWidget);
+    });
+
+    testWidgets('renders FirebaseIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
     testWidgets('renders only android when only android is selected',

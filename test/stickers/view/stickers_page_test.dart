@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
 import '../../helpers/helpers.dart';
 
 class FakeStickersEvent extends Fake implements StickersEvent {}
@@ -176,6 +178,32 @@ void main() async {
         ),
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
+    });
+
+    testWidgets('renders FlutterIconLink', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(FlutterIconLink), findsOneWidget);
+    });
+
+    testWidgets('renders FirebaseIconLink', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
     testWidgets('does not render StickersDrawer when mode is inactive',
