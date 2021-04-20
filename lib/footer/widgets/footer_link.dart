@@ -18,9 +18,7 @@ class FooterLink extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
 
     return Clickable(
-      onPressed: () {
-        openLink(link);
-      },
+      onPressed: () => openLink(link),
       child: Text(
         text,
         overflow: TextOverflow.fade,
