@@ -31,8 +31,8 @@ class LandingView extends StatelessWidget {
             children: [
               Container(
                 key: const Key('landingPage_background'),
-                width: double.infinity,
-                height: double.infinity,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 50,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
