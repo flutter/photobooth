@@ -95,7 +95,7 @@ void main() async {
     testWidgets('displays selected character assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
           image: image,
         ),
       );
@@ -109,14 +109,41 @@ void main() async {
     testWidgets('displays selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
           image: image,
         ),
       );
       await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
-        find.byKey(const Key('stickersLayer_banana_positioned')),
+        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays multiple selected sticker assets', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          stickers: [
+            PhotoAsset(id: 0, asset: Assets.banana),
+            PhotoAsset(id: 1, asset: Assets.banana),
+            PhotoAsset(id: 2, asset: Assets.beret),
+          ],
+          image: image,
+        ),
+      );
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key('stickersLayer_banana_1_positioned')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key('stickersLayer_beret_2_positioned')),
         findsOneWidget,
       );
     });

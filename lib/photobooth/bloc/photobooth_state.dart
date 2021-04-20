@@ -32,19 +32,21 @@ class PhotoAssetPosition extends Equatable {
 
 class PhotoAsset extends Equatable {
   const PhotoAsset({
+    required this.id,
     required this.asset,
     this.constraint = const PhotoConstraint(),
     this.position = const PhotoAssetPosition(),
     this.size = const PhotoAssetSize(),
   });
 
+  final int id;
   final Asset asset;
   final PhotoAssetPosition position;
   final PhotoAssetSize size;
   final PhotoConstraint constraint;
 
   @override
-  List<Object> get props => [asset.name, constraint, position, size];
+  List<Object> get props => [id, asset.name, constraint, position, size];
 
   PhotoAsset copyWith({
     Asset? asset,
@@ -53,6 +55,7 @@ class PhotoAsset extends Equatable {
     PhotoAssetSize? size,
   }) {
     return PhotoAsset(
+      id: id,
       asset: asset ?? this.asset,
       constraint: constraint ?? this.constraint,
       position: position ?? this.position,

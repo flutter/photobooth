@@ -20,7 +20,9 @@ class StickersLayer extends StatelessWidget {
                   final heightFactor =
                       constraints.maxHeight / sticker.constraint.height;
                   return Positioned(
-                    key: Key('stickersLayer_${sticker.asset.name}_positioned'),
+                    key: Key(
+                      '''stickersLayer_${sticker.asset.name}_${sticker.id}_positioned''',
+                    ),
                     top: sticker.position.dy * heightFactor,
                     left: sticker.position.dx * widthFactor,
                     child: Image.memory(
