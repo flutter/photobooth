@@ -251,6 +251,34 @@ void main() async {
       expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
     });
 
+    testWidgets('adds PhotoStickerDragged when sticker dragged',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(asset: Assets.banana)],
+          image: image,
+        ),
+      );
+
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+
+      tester
+          .widget<DraggableResizableAsset>(find.byType(DraggableResizableAsset))
+          .onUpdate
+          ?.call(FakeDragUpdate());
+      verify(
+        () => photoboothBloc.add(any(that: isA<PhotoStickerDragged>())),
+      ).called(1);
+    });
+
     testWidgets('tapping on back button pops route', (tester) async {
       const initialPage = Key('__target__');
       await tester.pumpApp(Builder(
