@@ -24,55 +24,51 @@ class LandingView extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Stack(
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(
+          key: const Key('landingPage_background'),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                PhotoboothColors.gray,
+                PhotoboothColors.white,
+              ],
+            ),
+          ),
+        ),
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                key: const Key('landingPage_background'),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - 50,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      PhotoboothColors.gray,
-                      PhotoboothColors.white,
-                    ],
-                  ),
-                ),
+              Text(
+                l10n.landingPageHeading,
+                key: const Key('landingPage_heading_text'),
+                style: theme.textTheme.headline1,
+                textAlign: TextAlign.center,
               ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 108),
-                  child: Column(
-                    children: [
-                      Text(
-                        l10n.landingPageHeading,
-                        key: const Key('landingPage_heading_text'),
-                        style: theme.textTheme.headline1,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        l10n.landingPageSubheading,
-                        key: const Key('landingPage_subheading_text'),
-                        style: theme.textTheme.headline2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      const TakePhotoButton(),
-                    ],
-                  ),
-                ),
+              const SizedBox(height: 24),
+              Text(
+                l10n.landingPageSubheading,
+                key: const Key('landingPage_subheading_text'),
+                style: theme.textTheme.headline2,
+                textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 24),
+              const TakePhotoButton(),
             ],
           ),
-          const BlackFooter(),
-        ],
-      ),
+        ),
+        const Align(
+          alignment: Alignment.bottomCenter,
+          child: BlackFooter(),
+        ),
+      ],
     );
   }
 }

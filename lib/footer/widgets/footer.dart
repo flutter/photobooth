@@ -51,6 +51,7 @@ class _ColumnFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     const gap = SizedBox(height: 8);
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const FooterMadeWithLink(),
         const SizedBox(height: 32),
