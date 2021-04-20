@@ -5,37 +5,29 @@ import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/photo/photo.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
 
+const _photoImageHeight = 500.0;
+
 class SharePage extends StatelessWidget {
-  const SharePage({Key? key, required this.image}) : super(key: key);
+  const SharePage({Key? key}) : super(key: key);
 
-  final CameraImage image;
-
-  static Route route({
-    required CameraImage image,
-    required PhotoboothBloc photoboothBloc,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => BlocProvider.value(
-        value: photoboothBloc,
-        child: SharePage(image: image),
-      ),
-    );
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => const SharePage());
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final scale = context.select(
-        (PhotoboothBloc bloc) => 500 / bloc.state.constraints.maxHeight);
+    final image = context.select((PhotoBloc bloc) => bloc.state.image);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -54,10 +46,11 @@ class SharePage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    height: 500,
-                    child: _Photo(image: image.data, scale: scale),
-                  ),
+                  if (image != null)
+                    Container(
+                      height: _photoImageHeight,
+                      child: _Photo(image: image.data),
+                    ),
                   const SizedBox(height: 80),
                   Text(
                     l10n.previewPageHeading,
@@ -73,10 +66,11 @@ class SharePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  ResponsiveLayoutBuilder(
-                    mobile: (_) => MobileButtonsLayout(image: image),
-                    desktop: (_) => DesktopButtonsLayout(image: image),
-                  ),
+                  if (image != null)
+                    ResponsiveLayoutBuilder(
+                      mobile: (_) => MobileButtonsLayout(image: image),
+                      desktop: (_) => DesktopButtonsLayout(image: image),
+                    ),
                 ],
               ),
             ),
@@ -131,11 +125,9 @@ class _Photo extends StatelessWidget {
   const _Photo({
     Key? key,
     required this.image,
-    required this.scale,
   }) : super(key: key);
 
   final Uint8List image;
-  final double scale;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +141,8 @@ class _Photo extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               PreviewImage(data: image),
-              CharactersLayer(scale: scale),
+              const CharactersLayer(),
+              const StickersLayer(),
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -175,7 +168,7 @@ class _RetakeButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_retake_elevatedButton'),
       onPressed: () {
-        context.read<PhotoboothBloc>().add(const PhotoboothCharactersCleared());
+        context.read<PhotoBloc>().add(const PhotoClearAllTapped());
         Navigator.of(context).popUntil(
           (route) => route.settings.name == PhotoboothPage.name,
         );

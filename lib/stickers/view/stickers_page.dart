@@ -1,49 +1,33 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/photo/photo.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class StickersPage extends StatelessWidget {
-  const StickersPage({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
+  const StickersPage({Key? key}) : super(key: key);
 
-  static Route route({
-    required CameraImage image,
-    required PhotoboothBloc photoboothBloc,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => BlocProvider.value(
-        value: photoboothBloc,
-        child: StickersPage(image: image),
-      ),
-    );
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => const StickersPage());
   }
-
-  final CameraImage image;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => StickersBloc(),
-      child: StickersView(image: image),
+      child: const StickersView(),
     );
   }
 }
 
 class StickersView extends StatelessWidget {
-  const StickersView({Key? key, required this.image}) : super(key: key);
-
-  final CameraImage image;
+  const StickersView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final image = context.select((PhotoBloc bloc) => bloc.state.image);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -59,12 +43,25 @@ class StickersView extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  PreviewImage(data: image.data),
+                  if (image != null)
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        context.read<PhotoBloc>().add(
+                              PhotoConstraintsChanged(
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                              ),
+                            );
+                        return PreviewImage(data: image.data);
+                      },
+                    ),
                   const CharactersLayer(),
-                  BlocBuilder<StickersBloc, StickersState>(
+                  BlocBuilder<PhotoBloc, PhotoState>(
                     builder: (context, state) {
                       if (state.stickers.isEmpty) return const SizedBox();
-                      return _DraggableStickers(stickers: state.stickers);
+                      return _DraggableStickers(
+                        stickers: state.stickers.map((s) => s.asset).toList(),
+                      );
                     },
                   ),
                   Positioned(
@@ -87,37 +84,22 @@ class StickersView extends StatelessWidget {
                       onPressed: () {
                         context
                             .read<StickersBloc>()
-                            .add(const StickersModeToggled());
+                            .add(const StickersDrawerToggled());
                       },
                     ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: NextButton(
-                      onPressed: () => Navigator.of(context).push(
-                        SharePage.route(
-                          image: image,
-                          photoboothBloc: context.read<PhotoboothBloc>(),
-                        ),
-                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(SharePage.route());
+                      },
                     ),
                   ),
+                  _StickersDrawer(),
                 ],
               ),
             ),
-          ),
-          BlocBuilder<StickersBloc, StickersState>(
-            buildWhen: (previous, current) => previous.mode != current.mode,
-            builder: (context, state) {
-              return state.mode.isActive
-                  ? const Positioned(
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: StickersDrawer(),
-                    )
-                  : const SizedBox();
-            },
           ),
         ],
       ),
@@ -125,69 +107,20 @@ class StickersView extends StatelessWidget {
   }
 }
 
-class CharactersLayer extends StatefulWidget {
-  const CharactersLayer({Key? key, this.scale = 1}) : super(key: key);
-
-  final double scale;
-
-  @override
-  _CharactersLayerState createState() => _CharactersLayerState();
-}
-
-class _CharactersLayerState extends State<CharactersLayer> {
-  Size? initialSize;
-
+class _StickersDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<PhotoboothBloc>().state;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
-
-        final widthFactor = constraints.maxWidth / initialSize!.width;
-        final heightFactor = constraints.maxHeight / initialSize!.height;
-
-        return Stack(
-          children: [
-            if (state.android.isSelected)
-              Positioned(
-                key: const Key('stickersView_android_positioned'),
-                top: state.android.position.dy * heightFactor * widget.scale,
-                left: state.android.position.dx * widthFactor * widget.scale,
-                child: Image.memory(
-                  Assets.android.bytes,
-                  height:
-                      state.android.size.height * heightFactor * widget.scale,
-                  width: state.android.size.width * widthFactor * widget.scale,
-                ),
-              ),
-            if (state.dash.isSelected)
-              Positioned(
-                key: const Key('stickersView_dash_positioned'),
-                top: state.dash.position.dy * heightFactor * widget.scale,
-                left: state.dash.position.dx * widthFactor * widget.scale,
-                child: Image.memory(
-                  Assets.dash.bytes,
-                  height: state.dash.size.height * heightFactor * widget.scale,
-                  width: state.dash.size.width * widthFactor * widget.scale,
-                ),
-              ),
-            if (state.sparky.isSelected)
-              Positioned(
-                key: const Key('stickersView_sparky_positioned'),
-                top: state.sparky.position.dy * heightFactor * widget.scale,
-                left: state.sparky.position.dx * widthFactor * widget.scale,
-                child: Image.memory(
-                  Assets.sparky.bytes,
-                  height:
-                      state.sparky.size.height * heightFactor * widget.scale,
-                  width: state.sparky.size.width * widthFactor * widget.scale,
-                ),
-              ),
-          ],
-        );
-      },
+    final isDrawerActive = context.select(
+      (StickersBloc bloc) => bloc.state.isDrawerActive,
     );
+    return isDrawerActive
+        ? const Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: StickersDrawer(),
+          )
+        : const SizedBox();
   }
 }
 
@@ -204,7 +137,13 @@ class _DraggableStickers extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        for (final sticker in stickers) DraggableResizableAsset(asset: sticker),
+        for (final sticker in stickers)
+          DraggableResizableAsset(
+            asset: sticker,
+            onUpdate: (update) => context
+                .read<PhotoBloc>()
+                .add(PhotoStickerDragged(sticker: sticker, update: update)),
+          ),
       ],
     );
   }
@@ -241,13 +180,13 @@ class _ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isHidden = context.select(
-      (StickersBloc bloc) => bloc.state.stickers.isEmpty,
+      (PhotoBloc bloc) => bloc.state.stickers.isEmpty,
     );
 
     if (isHidden) return const SizedBox();
     return ClearStickersButton(
       onPressed: () {
-        context.read<StickersBloc>().add(const StickersCleared());
+        context.read<PhotoBloc>().add(const PhotoClearStickersTapped());
       },
     );
   }

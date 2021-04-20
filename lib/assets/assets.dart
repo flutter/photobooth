@@ -1,8 +1,37 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
+enum Character { android, dash, sparky }
+enum Sticker {
+  banana,
+  beret,
+  birthdayCake,
+  bowTie,
+  catEyeGlasses,
+  coffeeMug,
+  dumbell,
+  genericMug,
+  genericGlasses,
+  graphMug,
+  guitar,
+  headband,
+  headphones,
+  megaphone,
+  ovalGlasses,
+  partyHat,
+  pencil,
+  pizza,
+  roundGlasses,
+  roundGlasses1,
+  soda,
+  squareGlasses,
+  star,
+  sunglasses,
+}
 
 abstract class Assets {
   // Characters
@@ -41,35 +70,48 @@ abstract class Assets {
   static Future<void> load() async {
     if (_initialized) return;
     final assets = await Future.wait([
-      //characters
-      _loadAsset('assets/images/android.png'),
-      _loadAsset('assets/images/dash.png'),
-      _loadAsset('assets/images/sparky.png'),
-      //props
-      _loadAsset('assets/images/banana.png'),
-      _loadAsset('assets/images/beret.png'),
-      _loadAsset('assets/images/birthday_cake.png'),
-      _loadAsset('assets/images/bow_tie.png'),
-      _loadAsset('assets/images/cat_eye_glasses.png'),
-      _loadAsset('assets/images/coffee_mug.png'),
-      _loadAsset('assets/images/dumbell.png'),
-      _loadAsset('assets/images/generic_mug.png'),
-      _loadAsset('assets/images/generic_glasses.png'),
-      _loadAsset('assets/images/graph_mug.png'),
-      _loadAsset('assets/images/guitar.png'),
-      _loadAsset('assets/images/headband.png'),
-      _loadAsset('assets/images/headphones.png'),
-      _loadAsset('assets/images/megaphone.png'),
-      _loadAsset('assets/images/oval_glasses.png'),
-      _loadAsset('assets/images/party_hat.png'),
-      _loadAsset('assets/images/pencil.png'),
-      _loadAsset('assets/images/pizza.png'),
-      _loadAsset('assets/images/round_glasses.png'),
-      _loadAsset('assets/images/round_glasses1.png'),
-      _loadAsset('assets/images/soda.png'),
-      _loadAsset('assets/images/square_glasses.png'),
-      _loadAsset('assets/images/star.png'),
-      _loadAsset('assets/images/sunglasses.png'),
+      // Characters
+      _loadAsset(describeEnum(Character.android), 'assets/images/android.png'),
+      _loadAsset(describeEnum(Character.dash), 'assets/images/dash.png'),
+      _loadAsset(describeEnum(Character.sparky), 'assets/images/sparky.png'),
+
+      // Stickers
+      _loadAsset(describeEnum(Sticker.banana), 'assets/images/banana.png'),
+      _loadAsset(describeEnum(Sticker.beret), 'assets/images/beret.png'),
+      _loadAsset(describeEnum(Sticker.birthdayCake),
+          'assets/images/birthday_cake.png'),
+      _loadAsset(describeEnum(Sticker.bowTie), 'assets/images/bow_tie.png'),
+      _loadAsset(describeEnum(Sticker.catEyeGlasses),
+          'assets/images/cat_eye_glasses.png'),
+      _loadAsset(
+          describeEnum(Sticker.coffeeMug), 'assets/images/coffee_mug.png'),
+      _loadAsset(describeEnum(Sticker.dumbell), 'assets/images/dumbell.png'),
+      _loadAsset(
+          describeEnum(Sticker.genericMug), 'assets/images/generic_mug.png'),
+      _loadAsset(describeEnum(Sticker.genericGlasses),
+          'assets/images/generic_glasses.png'),
+      _loadAsset(describeEnum(Sticker.graphMug), 'assets/images/graph_mug.png'),
+      _loadAsset(describeEnum(Sticker.guitar), 'assets/images/guitar.png'),
+      _loadAsset(describeEnum(Sticker.headband), 'assets/images/headband.png'),
+      _loadAsset(
+          describeEnum(Sticker.headphones), 'assets/images/headphones.png'),
+      _loadAsset(
+          describeEnum(Sticker.megaphone), 'assets/images/megaphone.png'),
+      _loadAsset(
+          describeEnum(Sticker.ovalGlasses), 'assets/images/oval_glasses.png'),
+      _loadAsset(describeEnum(Sticker.partyHat), 'assets/images/party_hat.png'),
+      _loadAsset(describeEnum(Sticker.pencil), 'assets/images/pencil.png'),
+      _loadAsset(describeEnum(Sticker.pizza), 'assets/images/pizza.png'),
+      _loadAsset(describeEnum(Sticker.roundGlasses),
+          'assets/images/round_glasses.png'),
+      _loadAsset(describeEnum(Sticker.roundGlasses1),
+          'assets/images/round_glasses1.png'),
+      _loadAsset(describeEnum(Sticker.soda), 'assets/images/soda.png'),
+      _loadAsset(describeEnum(Sticker.squareGlasses),
+          'assets/images/square_glasses.png'),
+      _loadAsset(describeEnum(Sticker.star), 'assets/images/star.png'),
+      _loadAsset(
+          describeEnum(Sticker.sunglasses), 'assets/images/sunglasses.png'),
     ]);
     android = assets[0];
     dash = assets[1];
@@ -104,11 +146,16 @@ abstract class Assets {
   }
 }
 
-Future<Asset> _loadAsset(String path) async {
+Future<Asset> _loadAsset(String name, String path) async {
   final data = await rootBundle.load(path);
   final bytes = Uint8List.view(data.buffer);
   final image = await decodeImageFromList(bytes);
   final imageBytes = await image.toByteData();
 
-  return Asset(image: image, buffer: imageBytes!.buffer, bytes: bytes);
+  return Asset(
+    name: name,
+    image: image,
+    buffer: imageBytes!.buffer,
+    bytes: bytes,
+  );
 }

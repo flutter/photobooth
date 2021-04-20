@@ -13,10 +13,21 @@ void main() {
   group('Asset', () {
     test('does not support value equality', () {
       final image = MockImage();
+      final name = 'name';
       final buffer = MockByteBuffer();
       final bytes = Uint8List.fromList([]);
-      final assetA = Asset(image: image, buffer: buffer, bytes: bytes);
-      final assetB = Asset(image: image, buffer: buffer, bytes: bytes);
+      final assetA = Asset(
+        name: name,
+        image: image,
+        buffer: buffer,
+        bytes: bytes,
+      );
+      final assetB = Asset(
+        name: name,
+        image: image,
+        buffer: buffer,
+        bytes: bytes,
+      );
       expect(assetA, isNot(equals(assetB)));
     });
   });

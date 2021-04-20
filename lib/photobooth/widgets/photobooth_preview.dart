@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/photo/photo.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import 'package:io_photobooth/assets/assets.dart';
@@ -17,18 +18,21 @@ class PhotoboothPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<PhotoboothBloc>().state;
+    final state = context.watch<PhotoBloc>().state;
+    final isAndroidSelected =
+        state.characters.containsCharacter(Character.android);
+    final isDashSelected = state.characters.containsCharacter(Character.dash);
+    final isSparkySelected =
+        state.characters.containsCharacter(Character.sparky);
     final children = <Widget>[
       Flexible(
         child: CharacterIconButton(
-          key: const Key(
-            'photoboothView_dash_characterIconButton',
-          ),
-          icon: state.dash.isSelected
+          key: const Key('photoboothView_dash_characterIconButton'),
+          icon: isDashSelected
               ? const AssetImage('assets/icons/dash_icon_disabled.png')
               : const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
-            context.read<PhotoboothBloc>().add(const PhotoboothDashToggled());
+            context.read<PhotoBloc>().add(const PhotoCharacterToggled.dash());
           },
         ),
       ),
@@ -38,11 +42,11 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_sparky_characterIconButton',
           ),
-          icon: state.sparky.isSelected
+          icon: isSparkySelected
               ? const AssetImage('assets/icons/sparky_icon_disabled.png')
               : const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
-            context.read<PhotoboothBloc>().add(const PhotoboothSparkyToggled());
+            context.read<PhotoBloc>().add(const PhotoCharacterToggled.sparky());
           },
         ),
       ),
@@ -52,13 +56,13 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_android_characterIconButton',
           ),
-          icon: state.android.isSelected
+          icon: isAndroidSelected
               ? const AssetImage('assets/icons/android_icon_disabled.png')
               : const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
             context
-                .read<PhotoboothBloc>()
-                .add(const PhotoboothAndroidToggled());
+                .read<PhotoBloc>()
+                .add(const PhotoCharacterToggled.android());
           },
         ),
       ),
@@ -66,41 +70,27 @@ class PhotoboothPreview extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        preview,
-        if (state.android.isSelected)
+        LayoutBuilder(
+          builder: (context, constraints) {
+            context.read<PhotoBloc>().add(
+                  PhotoConstraintsChanged(
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                  ),
+                );
+            return preview;
+          },
+        ),
+        for (final character in state.characters)
           DraggableResizableAsset(
-            key: const Key(
-              'photoboothPreview_android_draggableResizableAsset',
+            key: Key(
+              '''photoboothPreview_${character.asset.name}_draggableResizableAsset''',
             ),
-            asset: Assets.android,
+            asset: character.asset,
             onUpdate: (update) {
-              context
-                  .read<PhotoboothBloc>()
-                  .add(PhotoboothAndroidUpdated(update: update));
-            },
-          ),
-        if (state.dash.isSelected)
-          DraggableResizableAsset(
-            key: const Key(
-              'photoboothPreview_dash_draggableResizableAsset',
-            ),
-            asset: Assets.dash,
-            onUpdate: (update) {
-              context
-                  .read<PhotoboothBloc>()
-                  .add(PhotoboothDashUpdated(update: update));
-            },
-          ),
-        if (state.sparky.isSelected)
-          DraggableResizableAsset(
-            key: const Key(
-              'photoboothPreview_sparky_draggableResizableAsset',
-            ),
-            asset: Assets.sparky,
-            onUpdate: (update) {
-              context
-                  .read<PhotoboothBloc>()
-                  .add(PhotoboothSparkyUpdated(update: update));
+              context.read<PhotoBloc>().add(
+                    PhotoCharacterDragged(character: character, update: update),
+                  );
             },
           ),
         ResponsiveLayoutBuilder(

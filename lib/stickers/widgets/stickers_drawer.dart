@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/photo/photo.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +65,7 @@ class StickersDrawer extends StatelessWidget {
                   key: const Key('stickersDrawer_close_iconButton'),
                   onPressed: () => context
                       .read<StickersBloc>()
-                      .add(const StickersModeToggled()),
+                      .add(const StickersDrawerToggled()),
                   icon: const Icon(Icons.clear),
                 ),
               ],
@@ -84,8 +85,8 @@ class StickersDrawer extends StatelessWidget {
                 asset: _stickers[index],
                 onPressed: () {
                   context
-                      .read<StickersBloc>()
-                      .add(StickerSelected(sticker: _stickers[index]));
+                      .read<PhotoBloc>()
+                      .add(PhotoStickerTapped(sticker: _stickers[index]));
                 },
               ),
             ),

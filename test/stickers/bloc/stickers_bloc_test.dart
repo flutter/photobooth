@@ -19,7 +19,7 @@ void main() {
         'emits mode: active when inactive',
         build: () => StickersBloc(),
         seed: () => StickersState(mode: StickersMode.inactive),
-        act: (bloc) => bloc.add(StickersModeToggled()),
+        act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(mode: StickersMode.active),
         ],
@@ -29,7 +29,7 @@ void main() {
         'emits mode: inactive when active',
         build: () => StickersBloc(),
         seed: () => StickersState(mode: StickersMode.active),
-        act: (bloc) => bloc.add(StickersModeToggled()),
+        act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(mode: StickersMode.inactive),
         ],

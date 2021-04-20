@@ -215,7 +215,7 @@ void main() async {
           .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
       await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
       await tester.pumpAndSettle();
-      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
+      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
 
     testWidgets('adds StickersModeToggled when OpenStickersButton tapped',
@@ -232,7 +232,7 @@ void main() async {
       tester
           .widget<OpenStickersButton>(find.byType(OpenStickersButton))
           .onPressed();
-      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
+      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
 
     testWidgets(

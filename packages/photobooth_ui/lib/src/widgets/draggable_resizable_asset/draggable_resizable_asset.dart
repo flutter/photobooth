@@ -25,7 +25,7 @@ class DragUpdate {
   final Size size;
 
   /// The constraints of the parent view.
-  final BoxConstraints constraints;
+  final Size constraints;
 }
 
 /// {@template draggable_resizable_asset}

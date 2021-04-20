@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/photo/bloc/photo_bloc.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import 'package:io_photobooth/stickers/stickers.dart';
@@ -12,10 +13,7 @@ class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(
-      builder: (_) => const PhotoboothPage(),
-      settings: const RouteSettings(name: name),
-    );
+    return MaterialPageRoute(builder: (_) => const PhotoboothPage());
   }
 
   static const String name = 'PhotoboothPage';
@@ -23,8 +21,13 @@ class PhotoboothPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PhotoboothBloc(),
-      child: const PhotoboothView(),
+      create: (_) => PhotoBloc(),
+      child: Navigator(
+        onGenerateRoute: (_) => MaterialPageRoute(
+          builder: (_) => const PhotoboothView(),
+          settings: const RouteSettings(name: name),
+        ),
+      ),
     );
   }
 }
@@ -65,10 +68,8 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final stickersPage = StickersPage.route(
-      image: picture,
-      photoboothBloc: context.read<PhotoboothBloc>(),
-    );
+    context.read<PhotoBloc>().add(PhotoCaptured(image: picture));
+    final stickersPage = StickersPage.route();
     await _controller.stop();
     await Navigator.of(context).push(stickersPage);
     await _controller.play();
