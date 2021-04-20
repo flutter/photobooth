@@ -27,15 +27,19 @@ class LandingView extends StatelessWidget {
         Container(
           width: double.infinity,
           height: double.infinity,
-          child: Image.asset(
-            'assets/backgrounds/landing_background.jpg',
-            key: const Key('landingPage_background'),
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                PhotoboothColors.grayBackground,
+                PhotoboothColors.white,
+              ],
+            ),
           ),
         ),
         Align(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 108),

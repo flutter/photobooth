@@ -8,6 +8,9 @@ abstract class PhotoboothColors {
   /// Gray
   static const Color gray = Color(0xFFCFCFCF);
 
+  /// GrayBackground
+  static const Color grayBackground = Color(0xFFCFCFCF);
+
   /// White
   static const Color white = Color(0xFFFFFFFF);
 
