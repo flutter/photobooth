@@ -74,6 +74,15 @@ void main() async {
       );
     });
 
+    testWidgets('displays a social media share clarification note',
+        (tester) async {
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byKey(const Key('sharePage_socialMediaShareClarification_text')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('displays selected character assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
