@@ -77,21 +77,6 @@ void main() async {
   });
 
   group('DesktopStickersDrawer', () {
-    testWidgets('renders', (tester) async {
-      when(() => stickersBloc.state).thenReturn(StickersState());
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: Scaffold(
-            body: DesktopStickersDrawer(),
-          ),
-        ),
-      );
-      expect(find.byType(DesktopStickersDrawer), findsOneWidget);
-    });
-
     testWidgets('adds StickerSelected when StickerChoice tapped',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
