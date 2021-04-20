@@ -22,16 +22,20 @@ class LandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return SingleChildScrollView(
-      child: Stack(
-        children: [
-          Image.asset(
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Image.asset(
             'assets/backgrounds/landing_background.jpg',
-            key: const Key('landingPage_background'),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           ),
-          Center(
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 108),
               child: Column(
@@ -55,8 +59,8 @@ class LandingView extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
