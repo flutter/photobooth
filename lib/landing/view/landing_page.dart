@@ -29,6 +29,7 @@ class LandingView extends StatelessWidget {
           height: double.infinity,
           child: Image.asset(
             'assets/backgrounds/landing_background.jpg',
+            key: const Key('landingPage_background'),
             fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           ),
