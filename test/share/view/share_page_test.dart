@@ -76,7 +76,7 @@ void main() async {
     });
 
     testWidgets('displays white footer', (tester) async {
-      await tester.pumpApp(SharePage());
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
         find.byType(WhiteFooter),
         findsOneWidget,
