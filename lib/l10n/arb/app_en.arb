@@ -79,5 +79,9 @@
     "clearStickersButtonTooltip": "Clear Props",
     "@clearStickersButtonTooltip": {
         "description": "Text displayed on the tooltip for the clear stickers button"
+    },
+    "stickerSelectedSnackBarMessage": "Sticker Selected",
+    "@stickerSelectedSnackBarMessage": {
+        "description": "Text displayed on the snackbar when sticker is selected"
     }
 }
