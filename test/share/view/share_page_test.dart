@@ -4,7 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/app/app.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';

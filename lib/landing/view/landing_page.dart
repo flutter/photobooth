@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/app/app.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
