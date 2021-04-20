@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
@@ -44,6 +45,7 @@ class StickersView extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (image != null) PreviewImage(data: image.data),
+                  const MadeWithIconLinks(),
                   const CharactersLayer(),
                   BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {

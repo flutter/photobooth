@@ -141,7 +141,7 @@ void main() async {
 
     testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.binding.window.physicalSizeTestValue = const Size(200, 200);
+      tester.binding.window.physicalSizeTestValue = const Size(300, 500);
 
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();

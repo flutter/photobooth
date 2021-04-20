@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/assets/assets.dart';
@@ -73,6 +74,7 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
+        const MadeWithIconLinks(),
         for (final character in state.characters)
           DraggableResizableAsset(
             key: Key(
