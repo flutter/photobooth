@@ -7,19 +7,6 @@ abstract class StickersEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class StickersModeToggled extends StickersEvent {
-  const StickersModeToggled();
-}
-
-class StickerSelected extends StickersEvent {
-  const StickerSelected({required this.sticker});
-
-  final Asset sticker;
-
-  @override
-  List<Object> get props => [sticker];
-}
-
-class StickersCleared extends StickersEvent {
-  const StickersCleared();
+class StickersDrawerToggled extends StickersEvent {
+  const StickersDrawerToggled();
 }
