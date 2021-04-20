@@ -43,25 +43,27 @@ class LandingView extends StatelessWidget {
           ),
         ),
         Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                l10n.landingPageHeading,
-                key: const Key('landingPage_heading_text'),
-                style: theme.textTheme.headline1,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Text(
-                l10n.landingPageSubheading,
-                key: const Key('landingPage_subheading_text'),
-                style: theme.textTheme.headline2,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              const TakePhotoButton(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  l10n.landingPageHeading,
+                  key: const Key('landingPage_heading_text'),
+                  style: theme.textTheme.headline1,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  l10n.landingPageSubheading,
+                  key: const Key('landingPage_subheading_text'),
+                  style: theme.textTheme.headline2,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                const TakePhotoButton(),
+              ],
+            ),
           ),
         ),
         const Align(
