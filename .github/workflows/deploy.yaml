@@ -16,7 +16,7 @@ jobs:
           flutter-version: 2.2.0-10.1.pre
           channel: beta
       - run: flutter packages get
-      - run: flutter build web --web-renderer html
+      - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
