@@ -32,6 +32,8 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
         characters: const <PhotoAsset>[],
         stickers: const <PhotoAsset>[],
       );
+    } else if (event is PhotoStickerRemoved) {
+      yield _mapPhotoStickerRemovedToState(event, state);
     }
   }
 
@@ -114,6 +116,26 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
           ),
         )
         .toList();
+    return state.copyWith(stickers: stickers);
+  }
+
+  PhotoboothState _mapPhotoStickerRemovedToState(
+    PhotoStickerRemoved event,
+    PhotoboothState state,
+  ) {
+    final asset = event.sticker;
+    final stickers = List.of(state.stickers);
+
+    final index = stickers.indexWhere((c) =>
+        c.asset.name == asset.name &&
+        c.position.dx == event.update.position.dx &&
+        c.position.dy == event.update.position.dy);
+    final stickerExists = index != -1;
+
+    if (stickerExists) {
+      stickers.removeAt(index);
+    }
+
     return state.copyWith(stickers: stickers);
   }
 }

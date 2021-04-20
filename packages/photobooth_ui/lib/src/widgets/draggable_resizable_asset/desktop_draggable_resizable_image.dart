@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _cornerDiameter = 15.0;
+const _trashIconDiameter = 60.0;
 
 /// {@template desktop_draggable_resizable_image}
 /// A widget which allows a user to drag and resize the provided [image].
@@ -14,6 +15,7 @@ class DesktopDraggableResizableImage extends StatefulWidget {
     required this.image,
     required this.height,
     this.onUpdate,
+    this.onDelete,
   }) : super(key: key);
 
   /// Image that will be draggable and resizable
@@ -24,6 +26,9 @@ class DesktopDraggableResizableImage extends StatefulWidget {
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
+
+  /// Delete callback
+  final ValueSetter<DragUpdate>? onDelete;
 
   @override
   _DesktopDraggableResizableImageState createState() =>
@@ -190,6 +195,40 @@ class _DesktopDraggableResizableImageState
                 },
               ),
             ),
+            //Delete button
+            if (widget.onDelete != null)
+              Positioned(
+                top: normalizedTop +
+                    normalizedHeight / 2 -
+                    _trashIconDiameter / 2,
+                left: normalizedLeft +
+                    normalizedWidth -
+                    _trashIconDiameter / 2 +
+                    30,
+                child: Material(
+                  color: PhotoboothColors.transparent,
+                  clipBehavior: Clip.hardEdge,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    onTap: () => widget.onDelete?.call(
+                      DragUpdate(
+                        position: Offset(normalizedLeft, normalizedTop),
+                        size: Size(normalizedWidth, normalizedHeight),
+                        constraints: Size(
+                          constraints.maxWidth,
+                          constraints.maxHeight,
+                        ),
+                      ),
+                    ),
+                    child: Image.asset(
+                      'assets/images/delete_circle_icon.png',
+                      package: 'photobooth_ui',
+                      width: _trashIconDiameter,
+                      height: _trashIconDiameter,
+                    ),
+                  ),
+                ),
+              ),
 
             // Bottom right corner
             Positioned(

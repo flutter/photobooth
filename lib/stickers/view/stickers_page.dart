@@ -132,6 +132,9 @@ class _DraggableStickers extends StatelessWidget {
             onUpdate: (update) => context
                 .read<PhotoboothBloc>()
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),
+            onDelete: (update) => context
+                .read<PhotoboothBloc>()
+                .add(PhotoStickerRemoved(sticker: sticker, update: update)),
           ),
       ],
     );

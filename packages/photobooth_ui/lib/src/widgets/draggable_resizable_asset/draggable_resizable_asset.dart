@@ -37,6 +37,7 @@ class DraggableResizableAsset extends StatelessWidget {
     Key? key,
     required this.asset,
     this.onUpdate,
+    this.onDelete,
   }) : super(key: key);
 
   /// The asset which will be rendered and will be draggable and resizable.
@@ -44,6 +45,9 @@ class DraggableResizableAsset extends StatelessWidget {
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
+
+  /// Delete callback
+  final ValueSetter<DragUpdate>? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,7 @@ class DraggableResizableAsset extends StatelessWidget {
         image: asset.bytes,
         height: asset.image.height.toDouble(),
         onUpdate: onUpdate,
+        onDelete: onDelete,
       ),
     );
   }
