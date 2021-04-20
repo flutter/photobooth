@@ -42,7 +42,9 @@ void main() async {
           PhotoCharacterToggled(character: Assets.android),
         ),
         expect: () => [
-          PhotoboothState(characters: [PhotoAsset(asset: Assets.android)])
+          PhotoboothState(
+            characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          )
         ],
       );
 
@@ -54,7 +56,7 @@ void main() async {
           PhotoCharacterToggled(character: Assets.dash),
         ),
         expect: () => [
-          PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)])
+          PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)])
         ],
       );
 
@@ -66,7 +68,7 @@ void main() async {
           PhotoCharacterToggled(character: Assets.sparky),
         ),
         expect: () => [
-          PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)])
+          PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)])
         ],
       );
 
@@ -75,7 +77,7 @@ void main() async {
         'when character did exist (android)',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.android),
@@ -88,7 +90,7 @@ void main() async {
         'when character did exist (dash)',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.dash)],
+          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.dash),
@@ -101,7 +103,7 @@ void main() async {
         'when character did exist (sparky)',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.sparky)],
+          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.sparky),
@@ -115,11 +117,11 @@ void main() async {
         'emits updated state',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.sparky)],
+          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterDragged(
-            character: Assets.sparky,
+            character: PhotoAsset(id: 0, asset: Assets.sparky),
             update: DragUpdate(
               position: Offset(42, 42),
               constraints: Size(42, 42),
@@ -131,6 +133,7 @@ void main() async {
           PhotoboothState(
             characters: [
               PhotoAsset(
+                id: 0,
                 asset: Assets.sparky,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
                 constraint: PhotoConstraint(width: 42, height: 42),
@@ -150,7 +153,7 @@ void main() async {
           PhotoStickerTapped(sticker: Assets.banana),
         ),
         expect: () => [
-          PhotoboothState(stickers: [PhotoAsset(asset: Assets.banana)])
+          PhotoboothState(stickers: [PhotoAsset(id: 0, asset: Assets.banana)])
         ],
       );
     });
@@ -160,11 +163,11 @@ void main() async {
         'emits updated state',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(
           PhotoStickerDragged(
-            sticker: Assets.banana,
+            sticker: PhotoAsset(id: 0, asset: Assets.banana),
             update: DragUpdate(
               position: Offset(42, 42),
               constraints: Size(42, 42),
@@ -176,6 +179,7 @@ void main() async {
           PhotoboothState(
             stickers: [
               PhotoAsset(
+                id: 0,
                 asset: Assets.banana,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
                 constraint: PhotoConstraint(width: 42, height: 42),
@@ -192,7 +196,7 @@ void main() async {
         'emits updated state with no stickers',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(PhotoClearStickersTapped()),
         expect: () => [PhotoboothState()],
@@ -204,8 +208,8 @@ void main() async {
         'emits updated state with no characters or stickers',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.dash)],
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(PhotoClearAllTapped()),
         expect: () => [PhotoboothState()],

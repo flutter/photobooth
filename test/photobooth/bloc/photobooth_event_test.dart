@@ -8,6 +8,8 @@ class MockCameraImage extends Mock implements CameraImage {}
 
 class MockAsset extends Mock implements Asset {}
 
+class MockPhotoAsset extends Mock implements PhotoAsset {}
+
 class MockDragUpdate extends Mock implements DragUpdate {}
 
 void main() {
@@ -32,7 +34,7 @@ void main() {
 
     group('PhotoCharacterDragged', () {
       test('support value equality', () {
-        final character = MockAsset();
+        final character = MockPhotoAsset();
         final update = MockDragUpdate();
         final instanceA = PhotoCharacterDragged(
           character: character,
@@ -57,7 +59,7 @@ void main() {
 
     group('PhotoStickerDragged', () {
       test('support value equality', () {
-        final sticker = MockAsset();
+        final sticker = MockPhotoAsset();
         final update = MockDragUpdate();
         final instanceA = PhotoStickerDragged(
           sticker: sticker,

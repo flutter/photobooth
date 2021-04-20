@@ -89,10 +89,7 @@ class PhotoboothPreview extends StatelessWidget {
             asset: character.asset,
             onUpdate: (update) {
               context.read<PhotoboothBloc>().add(
-                    PhotoCharacterDragged(
-                      character: character.asset,
-                      update: update,
-                    ),
+                    PhotoCharacterDragged(character: character, update: update),
                   );
             },
           ),
