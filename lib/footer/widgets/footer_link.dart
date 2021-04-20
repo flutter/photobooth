@@ -35,18 +35,14 @@ class FooterMadeWithLink extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: l10n.footerMadeWithText,
-        style: theme.textTheme.bodyText1
-            ?.copyWith(
-              fontWeight: PhotoboothFontWeight.regular,
-            )
-            .merge(DefaultTextStyle.of(context).style),
+        style: theme.textTheme.bodyText1?.copyWith(
+          fontWeight: PhotoboothFontWeight.regular,
+        ),
         children: <TextSpan>[
           TextSpan(
             text: l10n.footerMadeWithFlutterLinkText,
             recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                openLink('https://flutter.dev');
-              },
+              ..onTap = () => openLink('https://flutter.dev'),
             style: const TextStyle(
               decoration: TextDecoration.underline,
             ),
@@ -57,9 +53,7 @@ class FooterMadeWithLink extends StatelessWidget {
           TextSpan(
             text: l10n.footerMadeWithFirebaseLinkText,
             recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                openLink('https://firebase.google.com');
-              },
+              ..onTap = () => openLink('https://firebase.google.com'),
             style: const TextStyle(
               decoration: TextDecoration.underline,
             ),
