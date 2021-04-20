@@ -25,6 +25,7 @@ class LandingView extends StatelessWidget {
     return Stack(
       children: [
         Container(
+          key: const Key('landingPage_background'),
           width: double.infinity,
           height: double.infinity,
           decoration: const BoxDecoration(

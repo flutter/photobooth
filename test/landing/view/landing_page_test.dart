@@ -15,7 +15,7 @@ void main() {
   });
 
   group('LandingView', () {
-    testWidgets('renders image background', (tester) async {
+    testWidgets('renders background', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byKey(Key('landingPage_background')), findsOneWidget);
     });
