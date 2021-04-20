@@ -47,7 +47,7 @@ class DraggableResizableAsset extends StatelessWidget {
   final ValueSetter<DragUpdate>? onUpdate;
 
   /// Delete callback
-  final ValueSetter<DragUpdate>? onDelete;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {

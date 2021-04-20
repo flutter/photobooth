@@ -28,7 +28,7 @@ class DesktopDraggableResizableImage extends StatefulWidget {
   final ValueSetter<DragUpdate>? onUpdate;
 
   /// Delete callback
-  final ValueSetter<DragUpdate>? onDelete;
+  final VoidCallback? onDelete;
 
   @override
   _DesktopDraggableResizableImageState createState() =>
@@ -210,16 +210,7 @@ class _DesktopDraggableResizableImageState
                   clipBehavior: Clip.hardEdge,
                   shape: const CircleBorder(),
                   child: InkWell(
-                    onTap: () => widget.onDelete?.call(
-                      DragUpdate(
-                        position: Offset(normalizedLeft, normalizedTop),
-                        size: Size(normalizedWidth, normalizedHeight),
-                        constraints: Size(
-                          constraints.maxWidth,
-                          constraints.maxHeight,
-                        ),
-                      ),
-                    ),
+                    onTap: widget.onDelete,
                     child: Image.asset(
                       'assets/images/delete_circle_icon.png',
                       package: 'photobooth_ui',

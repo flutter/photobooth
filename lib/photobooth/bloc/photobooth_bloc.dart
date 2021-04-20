@@ -124,10 +124,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoStickerRemoved event,
     PhotoboothState state,
   ) {
-    final asset = event.sticker;
+    final id = event.stickerId;
     final stickers = List.of(state.stickers);
 
-    final index = stickers.indexWhere((c) => c.id == asset.id);
+    final index = stickers.indexWhere((c) => c.id == id);
     final stickerExists = index != -1;
 
     if (stickerExists) {
