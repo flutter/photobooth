@@ -74,7 +74,20 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
-        const MadeWithIconLinks(),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 24),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const FlutterIconLink(),
+                const SizedBox(width: 8),
+                const FirebaseIconLink(),
+              ],
+            ),
+          ),
+        ),
         for (final character in state.characters)
           DraggableResizableAsset(
             key: Key(

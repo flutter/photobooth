@@ -8,6 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -211,6 +212,36 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
+    });
+
+    testWidgets('renders FlutterIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FlutterIconLink), findsOneWidget);
+    });
+
+    testWidgets('renders FirebaseIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
     testWidgets('renders only android when only android is selected',

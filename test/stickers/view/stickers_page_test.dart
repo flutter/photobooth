@@ -7,6 +7,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -176,6 +177,32 @@ void main() async {
         ),
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
+    });
+
+    testWidgets('renders FlutterIconLink', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(FlutterIconLink), findsOneWidget);
+    });
+
+    testWidgets('renders FirebaseIconLink', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
     testWidgets('does not render StickersDrawer when mode is inactive',

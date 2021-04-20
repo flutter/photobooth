@@ -66,16 +66,4 @@ void main() {
       expect(widget.link, equals('https://firebase.google.com'));
     });
   });
-
-  group('MadeWithIconLinks', () {
-    testWidgets('renders FlutterIconLink', (tester) async {
-      await tester.pumpApp(MadeWithIconLinks());
-      expect(find.byType(FlutterIconLink), findsOneWidget);
-    });
-
-    testWidgets('renders FirebaseIconLink', (tester) async {
-      await tester.pumpApp(MadeWithIconLinks());
-      expect(find.byType(FirebaseIconLink), findsOneWidget);
-    });
-  });
 }

@@ -45,7 +45,20 @@ class StickersView extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (image != null) PreviewImage(data: image.data),
-                  const MadeWithIconLinks(),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16, bottom: 24),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const FlutterIconLink(),
+                          const SizedBox(width: 8),
+                          const FirebaseIconLink(),
+                        ],
+                      ),
+                    ),
+                  ),
                   const CharactersLayer(),
                   BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {
