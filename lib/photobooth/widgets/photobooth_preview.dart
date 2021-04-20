@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
@@ -73,6 +74,13 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
+        const Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 16, bottom: 24),
+            child: MadeWithIconLinks(),
+          ),
+        ),
         for (final character in state.characters)
           DraggableResizableAsset(
             key: Key(
@@ -81,10 +89,7 @@ class PhotoboothPreview extends StatelessWidget {
             asset: character.asset,
             onUpdate: (update) {
               context.read<PhotoboothBloc>().add(
-                    PhotoCharacterDragged(
-                      character: character.asset,
-                      update: update,
-                    ),
+                    PhotoCharacterDragged(character: character, update: update),
                   );
             },
           ),

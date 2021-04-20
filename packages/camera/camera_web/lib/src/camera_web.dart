@@ -84,6 +84,7 @@ class Camera {
   }) : window = window ?? html.window;
 
   late html.VideoElement videoElement;
+  late html.DivElement divElement;
   final CameraOptions options;
   final int textureId;
   final html.Window window;
@@ -95,10 +96,13 @@ class Camera {
     }
 
     videoElement = html.VideoElement();
+    divElement = html.DivElement()
+      ..append(videoElement)
+      ..style.setProperty('object-fit', 'cover');
     // ignore: avoid_dynamic_calls
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
-      (_) => videoElement,
+      (_) => divElement,
     );
 
     final stream = await _getMediaStream();
@@ -186,6 +190,8 @@ extension on html.VideoElement {
   void mirror() {
     style
       ..removeProperty('transform-origin')
+      ..setProperty('width', '100%')
+      ..setProperty('height', '100%')
       ..setProperty('transform', 'scaleX(-1)')
       ..setProperty('object-fit', 'cover')
       ..setProperty('-webkit-transform', 'scaleX(-1)')

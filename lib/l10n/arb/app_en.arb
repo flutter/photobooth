@@ -12,29 +12,65 @@
     "@landingPageTakePhotoButtonText": {
         "description": "Button text shown on the landing page which navigates to the photo booth."
     },
-    "previewPageHeading": "Nice shot!",
-    "@previewPageHeading": {
-        "description": "Heading shown on the preview page."
+    "footerMadeWithText": "Made with ",
+    "@footerMadeWithText": {
+        "description": "Text shown on the footer which mentiones technologies used to build the app."
     },
-    "previewPageSubheading": "Share your photo with the community and download the image",
-    "@previewPageSubheading": {
-        "description": "Subheading shown on the preview page."
+    "footerMadeWithFlutterLinkText": "Flutter",
+    "@footerMadeWithFlutterLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Flutter page"
     },
-    "previewPageRetakeButtonText": "Retake",
-    "@previewPageRetakeButtonText": {
-        "description": "Button text shown on the retake page which navigates back to the photo booth."
+    "footerMadeWithFirebaseLinkText": "Firebase",
+    "@footerMadeWithFirebaseLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Firebase page"
     },
-    "previewPageShareButtonText": "Share",
-    "@previewPageShareButtonText": {
-        "description": "Button text shown on the retake page which opens a dialog to share the taken photo."
+    "footerGoogleIOLinkText": "Google IO",
+    "@footerGoogleIOLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Google IO page."
     },
-    "previewPageDownloadButtonText": "Download",
-    "@previewPageDownloadButtonText": {
-        "description": "Button text shown on the retake page which downloads the taken photo."
+    "footerCodelabLinkText": "Codelab",
+    "@footerCodelabLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Codelab page."
+    },
+    "footerHowItsMadeLinkText": "How It's Made",
+    "@footerHowItsMadeLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the How It's Made page."
+    },
+    "footerTermsOfServiceLinkText": "Terms of Service",
+    "@footerTermsOfServiceLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Terms of Service page."
+    },
+    "footerPrivacyPolicyLinkText": "Privacy Policy",
+    "@footerPrivacyPolicyLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
+    },
+    "sharePageHeading": "Nice shot!",
+    "@sharePageHeading": {
+        "description": "Heading shown on the share page."
+    },
+    "sharePageSubheading": "Share your photo with the community!",
+    "@sharePageSubheading": {
+        "description": "Subheading shown on the share page."
+    },
+    "sharePageRetakeButtonText": "Take new photo",
+    "@sharePageRetakeButtonText": {
+        "description": "Button text shown on the share page which navigates back to the photo booth."
+    },
+    "sharePageShareButtonText": "Share",
+    "@sharePageShareButtonText": {
+        "description": "Button text shown on the share page which opens a dialog to share the taken photo."
+    },
+    "sharePageDownloadButtonText": "Download",
+    "@sharePageDownloadButtonText": {
+        "description": "Button text shown on the share page which downloads the taken photo."
     },
     "previewPageCameraNotAllowedText": "You have denied camera permissions. Please grant access in order to use app.",
     "@previewPageCameraNotAllowedText": {
         "description": "Text shown when user denies camera permission"
+    },
+    "sharePageSocialMediaShareClarification": "If you choose to share on social media, your photo will be available for 30 days, then it will be deleted from Firebase. Photos that are not shared will not be stored. If you would like your photo deleted prior, please contact flutter-photo-booth@google.com.",
+    "@sharePageSocialMediaShareClarification": {
+        "description": "Text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
     },
     "shareDialogHeading": "Share",
     "@shareDialogHeading": {

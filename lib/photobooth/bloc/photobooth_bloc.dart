@@ -49,7 +49,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     if (characterExists) {
       characters.removeAt(index);
     } else {
-      characters.add(PhotoAsset(asset: asset));
+      characters.add(PhotoAsset(id: characters.length, asset: asset));
     }
 
     return state.copyWith(characters: characters);
@@ -62,7 +62,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     final asset = event.character;
     final characters = List.of(state.characters)
         .replaceWhere(
-          (c) => c.asset.name == asset.name,
+          (c) => c.id == asset.id,
           (c) => c.copyWith(
             position: PhotoAssetPosition(
               dx: event.update.position.dx,
@@ -88,7 +88,8 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   ) {
     final asset = event.sticker;
     return state.copyWith(
-      stickers: List.of(state.stickers)..add(PhotoAsset(asset: asset)),
+      stickers: List.of(state.stickers)
+        ..add(PhotoAsset(id: state.stickers.length, asset: asset)),
     );
   }
 
@@ -99,7 +100,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     final asset = event.sticker;
     final stickers = List.of(state.stickers)
         .replaceWhere(
-          (c) => c.asset.name == asset.name,
+          (c) => c.id == asset.id,
           (c) => c.copyWith(
             position: PhotoAssetPosition(
               dx: event.update.position.dx,

@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -141,7 +142,7 @@ void main() async {
 
     testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.binding.window.physicalSizeTestValue = const Size(200, 200);
+      tester.binding.window.physicalSizeTestValue = const Size(300, 500);
 
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
@@ -213,10 +214,40 @@ void main() async {
       expect(find.byType(CharacterIconButton), findsNWidgets(3));
     });
 
+    testWidgets('renders FlutterIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FlutterIconLink), findsOneWidget);
+    });
+
+    testWidgets('renders FirebaseIconLink', (tester) async {
+      const key = Key('__target__');
+      const preview = SizedBox(key: key);
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FirebaseIconLink), findsOneWidget);
+    });
+
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -238,7 +269,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -264,7 +295,7 @@ void main() async {
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -284,7 +315,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -309,7 +340,7 @@ void main() async {
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -331,7 +362,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -359,9 +390,9 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(characters: [
-          PhotoAsset(asset: Assets.android),
-          PhotoAsset(asset: Assets.dash),
-          PhotoAsset(asset: Assets.sparky),
+          PhotoAsset(id: 0, asset: Assets.android),
+          PhotoAsset(id: 1, asset: Assets.dash),
+          PhotoAsset(id: 2, asset: Assets.sparky),
         ]),
       );
       const preview = SizedBox();

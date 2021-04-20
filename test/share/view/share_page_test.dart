@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -74,10 +75,27 @@ void main() async {
       );
     });
 
+    testWidgets('displays white footer', (tester) async {
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byType(WhiteFooter),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays a social media share clarification note',
+        (tester) async {
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byKey(const Key('sharePage_socialMediaShareClarification_text')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('displays selected character assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
           image: image,
         ),
       );
@@ -91,14 +109,41 @@ void main() async {
     testWidgets('displays selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
           image: image,
         ),
       );
       await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
-        find.byKey(const Key('stickersLayer_banana_positioned')),
+        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays multiple selected sticker assets', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          stickers: [
+            PhotoAsset(id: 0, asset: Assets.banana),
+            PhotoAsset(id: 1, asset: Assets.banana),
+            PhotoAsset(id: 2, asset: Assets.beret),
+          ],
+          image: image,
+        ),
+      );
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key('stickersLayer_banana_1_positioned')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const Key('stickersLayer_beret_2_positioned')),
         findsOneWidget,
       );
     });

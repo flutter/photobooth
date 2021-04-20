@@ -21,7 +21,8 @@ class CharactersLayer extends StatelessWidget {
                       constraints.maxHeight / character.constraint.height;
                   return Positioned(
                     key: Key(
-                        'charactersLayer_${character.asset.name}_positioned'),
+                      'charactersLayer_${character.asset.name}_positioned',
+                    ),
                     top: character.position.dy * heightFactor,
                     left: character.position.dx * widthFactor,
                     child: Image.memory(
