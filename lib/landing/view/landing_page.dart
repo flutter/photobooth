@@ -38,7 +38,7 @@ class LandingView extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      PhotoboothColors.grayBackground,
+                      PhotoboothColors.gray,
                       PhotoboothColors.white,
                     ],
                   ),
