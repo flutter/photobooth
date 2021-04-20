@@ -31,7 +31,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
       yield state.copyWith(
         characters: const <PhotoAsset>[],
         stickers: const <PhotoAsset>[],
+        selectedAssetId: emptyAssetId,
       );
+    } else if (event is PhotoTapped) {
+      yield state.copyWith(selectedAssetId: emptyAssetId);
     }
   }
 
@@ -46,11 +49,15 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
     if (characterExists) {
       characters.removeAt(index);
-    } else {
-      characters.add(PhotoAsset(id: characters.length, asset: asset));
+      return state.copyWith(characters: characters);
     }
 
-    return state.copyWith(characters: characters);
+    final newCharacter = PhotoAsset(id: characters.length, asset: asset);
+    characters.add(newCharacter);
+    return state.copyWith(
+      characters: characters,
+      selectedAssetId: newCharacter.id,
+    );
   }
 
   PhotoboothState _mapCharacterDraggedToState(
@@ -58,26 +65,26 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoboothState state,
   ) {
     final asset = event.character;
-    final characters = List.of(state.characters)
-        .replaceWhere(
-          (c) => c.id == asset.id,
-          (c) => c.copyWith(
-            position: PhotoAssetPosition(
-              dx: event.update.position.dx,
-              dy: event.update.position.dy,
-            ),
-            size: PhotoAssetSize(
-              width: event.update.size.width,
-              height: event.update.size.height,
-            ),
-            constraint: PhotoConstraint(
-              width: event.update.constraints.width,
-              height: event.update.constraints.height,
-            ),
-          ),
-        )
-        .toList();
-    return state.copyWith(characters: characters);
+    final characters = List.of(state.characters);
+    final index = characters.indexWhere((element) => element.id == asset.id);
+    final character = characters.removeAt(index);
+    characters.add(
+      character.copyWith(
+        position: PhotoAssetPosition(
+          dx: event.update.position.dx,
+          dy: event.update.position.dy,
+        ),
+        size: PhotoAssetSize(
+          width: event.update.size.width,
+          height: event.update.size.height,
+        ),
+        constraint: PhotoConstraint(
+          width: event.update.constraints.width,
+          height: event.update.constraints.height,
+        ),
+      ),
+    );
+    return state.copyWith(characters: characters, selectedAssetId: asset.id);
   }
 
   PhotoboothState _mapStickerTappedToState(
@@ -85,9 +92,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoboothState state,
   ) {
     final asset = event.sticker;
+    final newSticker = PhotoAsset(id: state.stickers.length, asset: asset);
     return state.copyWith(
-      stickers: List.of(state.stickers)
-        ..add(PhotoAsset(id: state.stickers.length, asset: asset)),
+      stickers: List.of(state.stickers)..add(newSticker),
+      selectedAssetId: newSticker.id,
     );
   }
 
@@ -96,34 +104,25 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoboothState state,
   ) {
     final asset = event.sticker;
-    final stickers = List.of(state.stickers)
-        .replaceWhere(
-          (c) => c.id == asset.id,
-          (c) => c.copyWith(
-            position: PhotoAssetPosition(
-              dx: event.update.position.dx,
-              dy: event.update.position.dy,
-            ),
-            size: PhotoAssetSize(
-              width: event.update.size.width,
-              height: event.update.size.height,
-            ),
-            constraint: PhotoConstraint(
-              width: event.update.constraints.width,
-              height: event.update.constraints.height,
-            ),
-          ),
-        )
-        .toList();
-    return state.copyWith(stickers: stickers);
-  }
-}
-
-extension IterableExtensions<T> on Iterable<T> {
-  Iterable<T> replaceWhere(
-      bool Function(T element) predicate, T Function(T value) replace) {
-    return map(
-      (element) => predicate(element) ? replace(element) : element,
+    final stickers = List.of(state.stickers);
+    final index = stickers.indexWhere((element) => element.id == asset.id);
+    final sticker = stickers.removeAt(index);
+    stickers.add(
+      sticker.copyWith(
+        position: PhotoAssetPosition(
+          dx: event.update.position.dx,
+          dy: event.update.position.dy,
+        ),
+        size: PhotoAssetSize(
+          width: event.update.size.width,
+          height: event.update.size.height,
+        ),
+        constraint: PhotoConstraint(
+          width: event.update.constraints.width,
+          height: event.update.constraints.height,
+        ),
+      ),
     );
+    return state.copyWith(stickers: stickers, selectedAssetId: asset.id);
   }
 }
