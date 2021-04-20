@@ -25,42 +25,34 @@ class MobileStickersDrawer extends StatelessWidget {
           topRight: Radius.circular(25.0),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 24, right: 22),
-                child: IconButton(
-                  key: const Key('stickersDrawer_close_iconButton'),
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.clear),
-                ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24, right: 22),
+              child: IconButton(
+                key: const Key('stickersDrawer_close_iconButton'),
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.clear),
               ),
             ),
-            Text(
-              l10n.stickersDrawerTitle,
-              style:
-                  Theme.of(context).textTheme.headline3?.copyWith(fontSize: 24),
+          ),
+          Text(
+            l10n.stickersDrawerTitle,
+            style:
+                Theme.of(context).textTheme.headline3?.copyWith(fontSize: 24),
+          ),
+          const SizedBox(height: 15),
+          Flexible(
+            child: StickersGrid(
+              onStickerSelected: (sticker) {
+                onStickerSelected(sticker);
+                Navigator.of(context).pop();
+              },
             ),
-            const SizedBox(height: 15),
-            Flexible(
-              child: StickersGrid(
-                onStickerSelected: (sticker) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.stickerSelectedSnackBarMessage),
-                      duration: const Duration(milliseconds: 700),
-                    ),
-                  );
-                  onStickerSelected(sticker);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

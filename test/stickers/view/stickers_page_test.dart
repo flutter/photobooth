@@ -440,6 +440,7 @@ void main() async {
       final stickerChoice =
           tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
       stickerChoice.onPressed();
+      await tester.pumpAndSettle();
       verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
           .called(1);
     });
