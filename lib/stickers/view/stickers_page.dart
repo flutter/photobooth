@@ -93,31 +93,32 @@ class StickersView extends StatelessWidget {
                       },
                     ),
                   ),
-                  _StickersDrawer(),
                 ],
               ),
             ),
           ),
+          BlocListener<StickersBloc, StickersState>(
+            listenWhen: (previous, current) =>
+                isMobile && current.isDrawerActive && current != previous,
+            listener: (context, state) async {
+              await showModalBottomSheet(
+                context: context,
+                barrierColor: PhotoboothColors.black.withOpacity(0.75),
+                backgroundColor: PhotoboothColors.transparent,
+                isScrollControlled: true,
+                builder: (_) => MobileStickersDrawer(
+                  onStickerSelected: (sticker) => context
+                      .read<PhotoboothBloc>()
+                      .add(PhotoStickerTapped(sticker: sticker)),
+                ),
+              );
+              context.read<StickersBloc>().add(const StickersDrawerToggled());
+            },
+            child: const StickersDrawerLayer(),
+          ),
         ],
       ),
     );
-  }
-}
-
-class _StickersDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final isDrawerActive = context.select(
-      (StickersBloc bloc) => bloc.state.isDrawerActive,
-    );
-    return isDrawerActive
-        ? const Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: StickersDrawer(),
-          )
-        : const SizedBox();
   }
 }
 
