@@ -73,10 +73,6 @@ void main() async {
       expect(PhotoboothPage.route(), isA<MaterialPageRoute>());
     });
 
-    test('route name is PhotoboothPage', () {
-      expect(PhotoboothPage.route().settings.name, 'PhotoboothPage');
-    });
-
     testWidgets('displays a PhotoboothView', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
       await tester.pumpApp(PhotoboothPage());
@@ -94,16 +90,12 @@ void main() async {
     });
 
     testWidgets('renders Camera', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
-      );
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       expect(find.byType(Camera), findsOneWidget);
     });
 
     testWidgets('renders placholder when initializing', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
-      );
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
     });
 
@@ -111,9 +103,7 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraUnknownException());
-      await tester.pumpApp(
-        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
-      );
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -122,9 +112,7 @@ void main() async {
       when(
         () => cameraPlatform.create(any()),
       ).thenThrow(const CameraNotAllowedException());
-      await tester.pumpApp(
-        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
-      );
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
@@ -134,13 +122,33 @@ void main() async {
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
 
-      await tester.pumpApp(
-        BlocProvider.value(value: photoboothBloc, child: PhotoboothView()),
-      );
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
 
       expect(find.byType(PhotoboothPreview), findsOneWidget);
       expect(find.byKey(key), findsOneWidget);
+    });
+
+    testWidgets('renders 4/3 aspect ratio on desktop', (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
+      expect(aspectRatio.aspectRatio, equals(4 / 3));
+    });
+
+    testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+      tester.binding.window.physicalSizeTestValue = const Size(200, 200);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
+      expect(aspectRatio.aspectRatio, equals(3 / 4));
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('navigates to StickersPage when photo is taken',
@@ -156,25 +164,18 @@ void main() async {
       when(
         () => cameraPlatform.takePicture(cameraId),
       ).thenAnswer((_) async => image);
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(image: image),
+      );
 
       await tester.runAsync(() async {
-        await tester.pumpApp(
-          BlocProvider.value(
-            value: photoboothBloc,
-            child: PhotoboothView(),
-          ),
-        );
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
         await tester.pump();
 
         await tester.tap(find.byType(CameraButton));
         await tester.pumpAndSettle();
-        expect(find.byType(StickersPage), findsOneWidget);
 
-        final stickersPage = tester.widget<StickersPage>(
-          find.byType(StickersPage),
-        );
-        expect(stickersPage.image, isNotNull);
         expect(find.byType(StickersPage), findsOneWidget);
 
         final retakeButton = tester.widget<RetakeButton>(
@@ -215,9 +216,7 @@ void main() async {
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          android: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -237,9 +236,9 @@ void main() async {
       );
     });
 
-    testWidgets('adds PhotoboothAndroidUpdated when dragged', (tester) async {
+    testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(android: CharacterAsset(isSelected: true)),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -259,15 +258,13 @@ void main() async {
       );
 
       verify(
-        () => photoboothBloc.add(any(that: isA<PhotoboothAndroidUpdated>())),
+        () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
       ).called(1);
     });
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          dash: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -285,11 +282,9 @@ void main() async {
       );
     });
 
-    testWidgets('adds PhotoboothDashUpdated when dragged', (tester) async {
+    testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          dash: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -307,16 +302,14 @@ void main() async {
       );
 
       verify(
-        () => photoboothBloc.add(any(that: isA<PhotoboothDashUpdated>())),
+        () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
       ).called(1);
     });
 
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          sparky: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -336,11 +329,9 @@ void main() async {
       );
     });
 
-    testWidgets('adds PhotoboothSparkyUpdated when dragged', (tester) async {
+    testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          sparky: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -360,18 +351,18 @@ void main() async {
       );
 
       verify(
-        () => photoboothBloc.add(any(that: isA<PhotoboothSparkyUpdated>())),
+        () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
       ).called(1);
     });
 
     testWidgets('renders dash, sparky, and android when all are selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          android: CharacterAsset(isSelected: true),
-          dash: CharacterAsset(isSelected: true),
-          sparky: CharacterAsset(isSelected: true),
-        ),
+        PhotoboothState(characters: [
+          PhotoAsset(asset: Assets.android),
+          PhotoAsset(asset: Assets.dash),
+          PhotoAsset(asset: Assets.sparky),
+        ]),
       );
       const preview = SizedBox();
 
@@ -421,7 +412,8 @@ void main() async {
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('tapping on dash button adds DashToggled', (tester) async {
+    testWidgets('tapping on dash button adds PhotoCharacterToggled',
+        (tester) async {
       const preview = SizedBox();
 
       await tester.pumpApp(
@@ -436,10 +428,15 @@ void main() async {
         const Key('photoboothView_dash_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
-      verify(() => photoboothBloc.add(PhotoboothDashToggled())).called(1);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCharacterToggled(character: Assets.dash),
+        ),
+      ).called(1);
     });
 
-    testWidgets('tapping on sparky button adds SparkyToggled', (tester) async {
+    testWidgets('tapping on sparky button adds PhotoCharacterToggled',
+        (tester) async {
       const preview = SizedBox();
 
       await tester.pumpApp(
@@ -454,10 +451,14 @@ void main() async {
         const Key('photoboothView_sparky_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
-      verify(() => photoboothBloc.add(PhotoboothSparkyToggled())).called(1);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCharacterToggled(character: Assets.sparky),
+        ),
+      ).called(1);
     });
 
-    testWidgets('tapping on android button adds AndroidToggled',
+    testWidgets('tapping on android button adds PhotoCharacterToggled',
         (tester) async {
       const preview = SizedBox();
 
@@ -473,7 +474,11 @@ void main() async {
         const Key('photoboothView_android_characterIconButton'),
       ));
       expect(tester.takeException(), isNull);
-      verify(() => photoboothBloc.add(PhotoboothAndroidToggled())).called(1);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCharacterToggled(character: Assets.android),
+        ),
+      ).called(1);
     });
   });
 }

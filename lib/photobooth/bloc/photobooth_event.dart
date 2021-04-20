@@ -7,41 +7,57 @@ abstract class PhotoboothEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PhotoboothCharactersCleared extends PhotoboothEvent {
-  const PhotoboothCharactersCleared();
+class PhotoCaptured extends PhotoboothEvent {
+  const PhotoCaptured({required this.image});
+
+  final CameraImage image;
+
+  @override
+  List<Object> get props => [image];
 }
 
-abstract class PhotoboothCharacterUpdated extends PhotoboothEvent {
-  const PhotoboothCharacterUpdated({required this.update});
+class PhotoCharacterToggled extends PhotoboothEvent {
+  const PhotoCharacterToggled({required this.character});
+
+  final Asset character;
+
+  @override
+  List<Object> get props => [character];
+}
+
+class PhotoCharacterDragged extends PhotoboothEvent {
+  const PhotoCharacterDragged({required this.character, required this.update});
+
+  final Asset character;
   final DragUpdate update;
 
   @override
-  List<Object> get props => [update];
+  List<Object> get props => [character, update];
 }
 
-class PhotoboothAndroidUpdated extends PhotoboothCharacterUpdated {
-  const PhotoboothAndroidUpdated({required DragUpdate update})
-      : super(update: update);
+class PhotoStickerTapped extends PhotoboothEvent {
+  const PhotoStickerTapped({required this.sticker});
+
+  final Asset sticker;
+
+  @override
+  List<Object> get props => [sticker];
 }
 
-class PhotoboothAndroidToggled extends PhotoboothEvent {
-  const PhotoboothAndroidToggled();
+class PhotoStickerDragged extends PhotoboothEvent {
+  const PhotoStickerDragged({required this.sticker, required this.update});
+
+  final Asset sticker;
+  final DragUpdate update;
+
+  @override
+  List<Object> get props => [sticker, update];
 }
 
-class PhotoboothDashUpdated extends PhotoboothCharacterUpdated {
-  const PhotoboothDashUpdated({required DragUpdate update})
-      : super(update: update);
+class PhotoClearStickersTapped extends PhotoboothEvent {
+  const PhotoClearStickersTapped();
 }
 
-class PhotoboothDashToggled extends PhotoboothEvent {
-  const PhotoboothDashToggled();
-}
-
-class PhotoboothSparkyUpdated extends PhotoboothCharacterUpdated {
-  const PhotoboothSparkyUpdated({required DragUpdate update})
-      : super(update: update);
-}
-
-class PhotoboothSparkyToggled extends PhotoboothEvent {
-  const PhotoboothSparkyToggled();
+class PhotoClearAllTapped extends PhotoboothEvent {
+  const PhotoClearAllTapped();
 }

@@ -92,6 +92,7 @@ class _MobileDraggableResizableImageState
                     DragUpdate(
                       position: Offset(left, top),
                       size: Size(_width, _height),
+                      constraints: Size.zero,
                     ),
                   );
                 } else {
@@ -103,6 +104,7 @@ class _MobileDraggableResizableImageState
                     DragUpdate(
                       position: Offset(left, top),
                       size: Size(_width, _height),
+                      constraints: Size.zero,
                     ),
                   );
                 }

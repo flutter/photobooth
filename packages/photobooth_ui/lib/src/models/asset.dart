@@ -6,10 +6,18 @@ import 'dart:ui' as ui;
 /// {@endtemplate}
 class Asset {
   /// {@macro asset}
-  const Asset({required this.image, required this.buffer, required this.bytes});
+  const Asset({
+    required this.name,
+    required this.image,
+    required this.buffer,
+    required this.bytes,
+  });
 
   /// The [ui.Image] instance.
   final ui.Image image;
+
+  /// The name of the image.
+  final String name;
 
   /// The image buffer.
   final ByteBuffer buffer;

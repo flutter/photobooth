@@ -12,10 +12,7 @@ class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(
-      builder: (_) => const PhotoboothPage(),
-      settings: const RouteSettings(name: name),
-    );
+    return MaterialPageRoute(builder: (_) => const PhotoboothPage());
   }
 
   static const String name = 'PhotoboothPage';
@@ -24,7 +21,12 @@ class PhotoboothPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PhotoboothBloc(),
-      child: const PhotoboothView(),
+      child: Navigator(
+        onGenerateRoute: (_) => MaterialPageRoute(
+          builder: (_) => const PhotoboothView(),
+          settings: const RouteSettings(name: name),
+        ),
+      ),
     );
   }
 }
@@ -65,10 +67,8 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    final stickersPage = StickersPage.route(
-      image: picture,
-      photoboothBloc: context.read<PhotoboothBloc>(),
-    );
+    context.read<PhotoboothBloc>().add(PhotoCaptured(image: picture));
+    final stickersPage = StickersPage.route();
     await _controller.stop();
     await Navigator.of(context).push(stickersPage);
     await _controller.play();
@@ -90,12 +90,20 @@ class _PhotoboothViewState extends State<PhotoboothView> {
               controller: _controller,
               placeholder: (_) => const PhotoboothPlaceholder(),
               preview: (context, preview) {
-                final targetAspectRatio = isMobile ? 3 / 4 : 4 / 3;
-                return AspectRatio(
-                  aspectRatio: targetAspectRatio,
-                  child: PhotoboothPreview(
-                    preview: preview,
-                    onSnapPressed: _onSnapPressed,
+                return ResponsiveLayoutBuilder(
+                  mobile: (_) => AspectRatio(
+                    aspectRatio: 3 / 4,
+                    child: PhotoboothPreview(
+                      preview: preview,
+                      onSnapPressed: _onSnapPressed,
+                    ),
+                  ),
+                  desktop: (_) => AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: PhotoboothPreview(
+                      preview: preview,
+                      onSnapPressed: _onSnapPressed,
+                    ),
                   ),
                 );
               },

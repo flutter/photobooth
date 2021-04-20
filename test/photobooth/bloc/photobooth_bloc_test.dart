@@ -1,148 +1,213 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:bloc_test/bloc_test.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-void main() {
-  const size = Size(42, 42);
-  const position = Offset(42, 42);
-  const update = DragUpdate(position: position, size: size);
+class MockCameraImage extends Mock implements CameraImage {}
 
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await Assets.load();
   group('PhotoboothBloc', () {
+    late CameraImage image;
+
+    setUp(() {
+      image = MockCameraImage();
+    });
+
     test('initial state is PhotoboothState', () {
       expect(PhotoboothBloc().state, equals(PhotoboothState()));
     });
 
-    group('PhotoboothCharactersCleared', () {
+    group('PhotoCaptured', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits PhotoboothState',
+        'emits updated state with image',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothCharactersCleared()),
+        act: (bloc) => bloc.add(PhotoCaptured(image: image)),
+        expect: () => [PhotoboothState(image: image)],
+      );
+    });
+
+    group('PhotoCharacterToggled', () {
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did not exist (android)',
+        build: () => PhotoboothBloc(),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.android),
+        ),
+        expect: () => [
+          PhotoboothState(characters: [PhotoAsset(asset: Assets.android)])
+        ],
+      );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did not exist (dash)',
+        build: () => PhotoboothBloc(),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.dash),
+        ),
+        expect: () => [
+          PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)])
+        ],
+      );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did not exist (sparky)',
+        build: () => PhotoboothBloc(),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.sparky),
+        ),
+        expect: () => [
+          PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)])
+        ],
+      );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did exist (android)',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.android)],
+        ),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.android),
+        ),
+        expect: () => [PhotoboothState()],
+      );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did exist (dash)',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.dash)],
+        ),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.dash),
+        ),
+        expect: () => [PhotoboothState()],
+      );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with character '
+        'when character did exist (sparky)',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.sparky)],
+        ),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.sparky),
+        ),
         expect: () => [PhotoboothState()],
       );
     });
 
-    group('PhotoboothAndroidUpdated', () {
+    group('PhotoCharacterDragged', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits updated android position and size',
+        'emits updated state',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothAndroidUpdated(update: update)),
-        expect: () => [
-          PhotoboothState(
-            android: CharacterAsset(
-              position: CharacterAssetPosition(
-                dx: position.dx,
-                dy: position.dy,
-              ),
-              size: CharacterAssetSize(
-                width: size.width,
-                height: size.height,
-              ),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.sparky)],
+        ),
+        act: (bloc) => bloc.add(
+          PhotoCharacterDragged(
+            character: Assets.sparky,
+            update: DragUpdate(
+              position: Offset(42, 42),
+              constraints: Size(42, 42),
+              size: Size(42, 42),
             ),
           ),
+        ),
+        expect: () => [
+          PhotoboothState(
+            characters: [
+              PhotoAsset(
+                asset: Assets.sparky,
+                position: PhotoAssetPosition(dx: 42, dy: 42),
+                constraint: PhotoConstraint(width: 42, height: 42),
+                size: PhotoAssetSize(width: 42, height: 42),
+              ),
+            ],
+          )
         ],
       );
     });
 
-    group('PhotoboothAndroidToggled', () {
+    group('PhotoStickerTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: true when isSelected is false',
+        'emits updated state with sticker',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothAndroidToggled()),
+        act: (bloc) => bloc.add(
+          PhotoStickerTapped(sticker: Assets.banana),
+        ),
         expect: () => [
-          PhotoboothState(android: CharacterAsset(isSelected: true)),
+          PhotoboothState(stickers: [PhotoAsset(asset: Assets.banana)])
         ],
       );
+    });
 
+    group('PhotoStickerDragged', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: false when isSelected is true',
+        'emits updated state',
         build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(android: CharacterAsset(isSelected: true)),
-        act: (bloc) => bloc.add(PhotoboothAndroidToggled()),
+        seed: () => PhotoboothState(
+          stickers: [PhotoAsset(asset: Assets.banana)],
+        ),
+        act: (bloc) => bloc.add(
+          PhotoStickerDragged(
+            sticker: Assets.banana,
+            update: DragUpdate(
+              position: Offset(42, 42),
+              constraints: Size(42, 42),
+              size: Size(42, 42),
+            ),
+          ),
+        ),
+        expect: () => [
+          PhotoboothState(
+            stickers: [
+              PhotoAsset(
+                asset: Assets.banana,
+                position: PhotoAssetPosition(dx: 42, dy: 42),
+                constraint: PhotoConstraint(width: 42, height: 42),
+                size: PhotoAssetSize(width: 42, height: 42),
+              ),
+            ],
+          )
+        ],
+      );
+    });
+
+    group('PhotoClearStickersTapped', () {
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with no stickers',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          stickers: [PhotoAsset(asset: Assets.banana)],
+        ),
+        act: (bloc) => bloc.add(PhotoClearStickersTapped()),
         expect: () => [PhotoboothState()],
       );
     });
 
-    group('PhotoboothDashUpdated', () {
+    group('PhotoClearAllTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits updated dash position and size',
+        'emits updated state with no characters or stickers',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothDashUpdated(update: update)),
-        expect: () => [
-          PhotoboothState(
-            dash: CharacterAsset(
-              position: CharacterAssetPosition(
-                dx: position.dx,
-                dy: position.dy,
-              ),
-              size: CharacterAssetSize(
-                width: size.width,
-                height: size.height,
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-
-    group('PhotoboothDashToggled', () {
-      blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: true when isSelected is false',
-        build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothDashToggled()),
-        expect: () => [
-          PhotoboothState(dash: CharacterAsset(isSelected: true)),
-        ],
-      );
-
-      blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: false when isSelected is true',
-        build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(dash: CharacterAsset(isSelected: true)),
-        act: (bloc) => bloc.add(PhotoboothDashToggled()),
-        expect: () => [PhotoboothState()],
-      );
-    });
-
-    group('PhotoboothSparkyUpdated', () {
-      blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits updated sparky position and size',
-        build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothSparkyUpdated(update: update)),
-        expect: () => [
-          PhotoboothState(
-            sparky: CharacterAsset(
-              position: CharacterAssetPosition(
-                dx: position.dx,
-                dy: position.dy,
-              ),
-              size: CharacterAssetSize(
-                width: size.width,
-                height: size.height,
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-
-    group('PhotoboothSparkyToggled', () {
-      blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: true when isSelected is false',
-        build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(PhotoboothSparkyToggled()),
-        expect: () => [
-          PhotoboothState(sparky: CharacterAsset(isSelected: true)),
-        ],
-      );
-
-      blocTest<PhotoboothBloc, PhotoboothState>(
-        'emits isSelected: false when isSelected is true',
-        build: () => PhotoboothBloc(),
-        seed: () => PhotoboothState(sparky: CharacterAsset(isSelected: true)),
-        act: (bloc) => bloc.add(PhotoboothSparkyToggled()),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.dash)],
+          stickers: [PhotoAsset(asset: Assets.banana)],
+        ),
+        act: (bloc) => bloc.add(PhotoClearAllTapped()),
         expect: () => [PhotoboothState()],
       );
     });
