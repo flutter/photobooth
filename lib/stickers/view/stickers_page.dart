@@ -56,9 +56,7 @@ class StickersView extends StatelessWidget {
                   BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {
                       if (state.stickers.isEmpty) return const SizedBox();
-                      return _DraggableStickers(
-                        stickers: state.stickers.map((s) => s.asset).toList(),
-                      );
+                      return _DraggableStickers(stickers: state.stickers);
                     },
                   ),
                   Positioned(
@@ -128,7 +126,7 @@ class _DraggableStickers extends StatelessWidget {
     required this.stickers,
   }) : super(key: key);
 
-  final List<Asset> stickers;
+  final List<PhotoAsset> stickers;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +135,7 @@ class _DraggableStickers extends StatelessWidget {
       children: [
         for (final sticker in stickers)
           DraggableResizableAsset(
-            asset: sticker,
+            asset: sticker.asset,
             onUpdate: (update) => context
                 .read<PhotoboothBloc>()
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),

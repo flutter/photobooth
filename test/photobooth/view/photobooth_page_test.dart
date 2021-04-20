@@ -247,7 +247,7 @@ void main() async {
     testWidgets('renders only android when only android is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -269,7 +269,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.android)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.android)]),
       );
       const preview = SizedBox();
 
@@ -295,7 +295,7 @@ void main() async {
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -315,7 +315,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.dash)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)]),
       );
       const preview = SizedBox();
 
@@ -340,7 +340,7 @@ void main() async {
     testWidgets('renders only sparky when only sparky is selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -362,7 +362,7 @@ void main() async {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(asset: Assets.sparky)]),
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)]),
       );
       const preview = SizedBox();
 
@@ -390,9 +390,9 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(characters: [
-          PhotoAsset(asset: Assets.android),
-          PhotoAsset(asset: Assets.dash),
-          PhotoAsset(asset: Assets.sparky),
+          PhotoAsset(id: 0, asset: Assets.android),
+          PhotoAsset(id: 1, asset: Assets.dash),
+          PhotoAsset(id: 2, asset: Assets.sparky),
         ]),
       );
       const preview = SizedBox();

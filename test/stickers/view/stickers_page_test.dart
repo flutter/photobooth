@@ -76,7 +76,7 @@ void main() async {
     testWidgets('renders Android character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.android)],
+          characters: [PhotoAsset(id: 0, asset: Assets.android)],
           image: image,
         ),
       );
@@ -95,7 +95,7 @@ void main() async {
     testWidgets('renders Dash character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.dash)],
+          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
           image: image,
         ),
       );
@@ -114,7 +114,7 @@ void main() async {
     testWidgets('renders Sparky character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(asset: Assets.sparky)],
+          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
           image: image,
         ),
       );
@@ -258,8 +258,8 @@ void main() async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [
-            PhotoAsset(asset: Assets.banana),
-            PhotoAsset(asset: Assets.beret)
+            PhotoAsset(id: 0, asset: Assets.banana),
+            PhotoAsset(id: 1, asset: Assets.beret)
           ],
           image: image,
         ),
@@ -281,7 +281,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
           image: image,
         ),
       );
@@ -376,7 +376,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
           image: image,
         ),
       );
@@ -400,7 +400,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(asset: Assets.banana)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
           image: image,
         ),
       );

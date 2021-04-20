@@ -28,7 +28,7 @@ class PhotoCharacterToggled extends PhotoboothEvent {
 class PhotoCharacterDragged extends PhotoboothEvent {
   const PhotoCharacterDragged({required this.character, required this.update});
 
-  final Asset character;
+  final PhotoAsset character;
   final DragUpdate update;
 
   @override
@@ -47,7 +47,7 @@ class PhotoStickerTapped extends PhotoboothEvent {
 class PhotoStickerDragged extends PhotoboothEvent {
   const PhotoStickerDragged({required this.sticker, required this.update});
 
-  final Asset sticker;
+  final PhotoAsset sticker;
   final DragUpdate update;
 
   @override
