@@ -520,5 +520,34 @@ void main() async {
       background.onTap?.call();
       verify(() => photoboothBloc.add(PhotoTapped())).called(1);
     });
+
+    testWidgets('adds PhotoStickerRemoved when sticker selected is removed',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          image: image,
+        ),
+      );
+
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+
+      tester
+          .widget<DraggableResizableAsset>(find.byType(DraggableResizableAsset))
+          .onDelete
+          ?.call();
+
+      verify(
+        () => photoboothBloc.add(any(that: isA<PhotoStickerRemoved>())),
+      ).called(1);
+    });
   });
 }
