@@ -93,11 +93,11 @@ class StickersView extends StatelessWidget {
                       },
                     ),
                   ),
-                  _StickersDrawer(),
                 ],
               ),
             ),
           ),
+          _StickersDrawer(),
         ],
       ),
     );
