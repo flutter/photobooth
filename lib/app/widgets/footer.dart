@@ -35,13 +35,9 @@ class Footer extends StatelessWidget {
       style: TextStyle(color: textColor),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
-        child: AdaptiveBuilder(
-          builder: (context, breakpoint) {
-            if (breakpoint == WindowBreakpoint.small) {
-              return _ColumnFooter(key: const Key('footer_column'));
-            }
-            return _RowFooter(key: const Key('footer_row'));
-          },
+        child: ResponsiveLayoutBuilder(
+          mobile: (_) => _ColumnFooter(key: const Key('footer_column')),
+          desktop: (_) => _RowFooter(key: const Key('footer_row')),
         ),
       ),
     );
@@ -77,9 +73,7 @@ class _RowFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const gap = SizedBox(
-      width: 32,
-    );
+    const gap = SizedBox(width: 32);
     return Row(
       children: [
         const FooterMadeWithLink(),

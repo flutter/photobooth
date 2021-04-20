@@ -1,7 +1,6 @@
 library photobooth_ui;
 
 export 'src/colors.dart';
-export 'src/extensions/extensions.dart';
 export 'src/helpers/helpers.dart';
 export 'src/layout/layout.dart';
 export 'src/models/models.dart';
