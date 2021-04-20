@@ -51,14 +51,14 @@ class SharePage extends StatelessWidget {
                     ),
                   const SizedBox(height: 80),
                   Text(
-                    l10n.previewPageHeading,
+                    l10n.sharePageHeading,
                     style: theme.textTheme.headline1
                         ?.copyWith(color: PhotoboothColors.white),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    l10n.previewPageSubheading,
+                    l10n.sharePageSubheading,
                     style: theme.textTheme.headline2
                         ?.copyWith(color: PhotoboothColors.white),
                     textAlign: TextAlign.center,
@@ -171,7 +171,7 @@ class _RetakeButton extends StatelessWidget {
           (route) => route.settings.name == PhotoboothPage.name,
         );
       },
-      child: Text(l10n.previewPageRetakeButtonText),
+      child: Text(l10n.sharePageRetakeButtonText),
     );
   }
 }
@@ -193,7 +193,7 @@ class _ShareButton extends StatelessWidget {
           builder: (_) => ShareDialog(image: image),
         );
       },
-      child: Text(l10n.previewPageShareButtonText),
+      child: Text(l10n.sharePageShareButtonText),
     );
   }
 }
@@ -209,7 +209,7 @@ class _DownloadButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_download_elevatedButton'),
       onPressed: () => file.saveTo(''),
-      child: Text(l10n.previewPageDownloadButtonText),
+      child: Text(l10n.sharePageDownloadButtonText),
     );
   }
 }
