@@ -30,7 +30,7 @@ void main() async {
       when(() => asset.bytes).thenReturn(Uint8List.fromList(transparentImage));
     });
 
-    testWidgets('image as draggable point renders', (tester) async {
+    testWidgets('renders image as draggable point', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: DesktopDraggableResizableImage(
@@ -68,18 +68,39 @@ void main() async {
       expect(onUpdateCalls, isNotEmpty);
     });
 
-    testWidgets('top left corner as draggable point renders', (tester) async {
+    testWidgets(
+        'top left corner as draggable point renders '
+        'when canTransform is true', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: DesktopDraggableResizableImage(
             image: asset.bytes,
             height: asset.image.height.toDouble(),
+            canTransform: true,
           ),
         ),
       );
       expect(
         find.byKey(Key('draggableResizableAsset_topLeft_resizePoint')),
         findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'top left corner as draggable point does not render '
+        'when canTransform is false', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+            canTransform: false,
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_topLeft_resizePoint')),
+        findsNothing,
       );
     });
 
@@ -95,6 +116,7 @@ void main() async {
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
                   onUpdate: onUpdateCalls.add,
+                  canTransform: true,
                 ),
               ),
             ],
@@ -117,7 +139,9 @@ void main() async {
       expect(onUpdateCalls, isNotEmpty);
     });
 
-    testWidgets('top right corner as draggable point renders', (tester) async {
+    testWidgets(
+        'top right corner as draggable point renders '
+        'when canTransform is true', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -127,6 +151,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  canTransform: true,
                 ),
               ),
             ],
@@ -136,6 +161,31 @@ void main() async {
       expect(
         find.byKey(Key('draggableResizableAsset_topRight_resizePoint')),
         findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'top right corner as draggable point does not render '
+        'when canTransform is false', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  canTransform: false,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_topRight_resizePoint')),
+        findsNothing,
       );
     });
 
@@ -151,6 +201,7 @@ void main() async {
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
                   onUpdate: onUpdateCalls.add,
+                  canTransform: true,
                 ),
               ),
             ],
@@ -173,8 +224,9 @@ void main() async {
       expect(onUpdateCalls, isNotEmpty);
     });
 
-    testWidgets('bottom right corner as draggable point renders',
-        (tester) async {
+    testWidgets(
+        'bottom right corner as draggable point renders '
+        'when canTransform is true', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -184,6 +236,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  canTransform: true,
                 ),
               ),
             ],
@@ -193,6 +246,31 @@ void main() async {
       expect(
         find.byKey(Key('draggableResizableAsset_bottomRight_resizePoint')),
         findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'bottom right corner as draggable point does not render '
+        'when canTransform is false', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  canTransform: false,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_bottomRight_resizePoint')),
+        findsNothing,
       );
     });
 
@@ -208,6 +286,7 @@ void main() async {
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
                   onUpdate: onUpdateCalls.add,
+                  canTransform: true,
                 ),
               ),
             ],
@@ -230,8 +309,9 @@ void main() async {
       expect(onUpdateCalls, isNotEmpty);
     });
 
-    testWidgets('bottom left corner as draggable point renders',
-        (tester) async {
+    testWidgets(
+        'bottom left corner as draggable point renders '
+        'when canTransform is true', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Stack(
@@ -241,6 +321,7 @@ void main() async {
                 child: DesktopDraggableResizableImage(
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
+                  canTransform: true,
                 ),
               ),
             ],
@@ -250,6 +331,31 @@ void main() async {
       expect(
         find.byKey(Key('draggableResizableAsset_bottomLeft_resizePoint')),
         findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'bottom left corner as draggable point does not render '
+        'when canTransform is false', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: DesktopDraggableResizableImage(
+                  image: asset.bytes,
+                  height: asset.image.height.toDouble(),
+                  canTransform: false,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_bottomLeft_resizePoint')),
+        findsNothing,
       );
     });
 
@@ -265,6 +371,7 @@ void main() async {
                   image: asset.bytes,
                   height: asset.image.height.toDouble(),
                   onUpdate: onUpdateCalls.add,
+                  canTransform: true,
                 ),
               ),
             ],
