@@ -32,7 +32,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: TextStyle(color: textColor),
+      style: Theme.of(context).textTheme.caption!.copyWith(color: textColor),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
