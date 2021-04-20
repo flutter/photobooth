@@ -9,7 +9,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: PhotoboothColors.white,
+      backgroundColor: PhotoboothColors.green,
       body: LandingView(),
     );
   }

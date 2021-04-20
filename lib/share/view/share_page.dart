@@ -163,7 +163,7 @@ class _RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ElevatedButton(
+    return OutlinedButton(
       key: const Key('sharePage_retake_elevatedButton'),
       onPressed: () {
         context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
@@ -206,10 +206,19 @@ class _DownloadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     return ElevatedButton(
       key: const Key('sharePage_download_elevatedButton'),
+      style: ElevatedButton.styleFrom(
+        primary: PhotoboothColors.white,
+      ),
       onPressed: () => file.saveTo(''),
-      child: Text(l10n.sharePageDownloadButtonText),
+      child: Text(
+        l10n.sharePageDownloadButtonText,
+        style: theme.textTheme.button?.copyWith(
+          color: PhotoboothColors.black,
+        ),
+      ),
     );
   }
 }

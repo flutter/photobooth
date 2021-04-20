@@ -10,6 +10,7 @@ class PhotoboothTheme {
       accentColor: PhotoboothColors.lightBlue,
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
+      outlinedButtonTheme: _outlinedButtonTheme,
       textTheme: _textTheme,
       dialogBackgroundColor: PhotoboothColors.whiteBackground,
       tooltipTheme: _tooltipTheme,
@@ -45,6 +46,21 @@ class PhotoboothTheme {
         padding: const EdgeInsets.all(24),
         textStyle: _textTheme.button,
         primary: PhotoboothColors.blue,
+        minimumSize: const Size(208, 54),
+      ),
+    );
+  }
+
+  static OutlinedButtonThemeData get _outlinedButtonTheme {
+    return OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        side: const BorderSide(color: PhotoboothColors.white, width: 2),
+        padding: const EdgeInsets.all(24),
+        textStyle: _textTheme.button,
+        primary: PhotoboothColors.white,
         minimumSize: const Size(208, 54),
       ),
     );
