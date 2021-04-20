@@ -219,6 +219,7 @@ class _DesktopDraggableResizableImageState
                     onTap: widget.onDelete,
                     child: Image.asset(
                       'assets/images/delete_circle_icon.png',
+                      key: const Key('draggableResizableAsset_delete_image'),
                       package: 'photobooth_ui',
                       width: _trashIconDiameter,
                       height: _trashIconDiameter,
