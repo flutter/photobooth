@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,9 @@ class DesktopStickersDrawerLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StickersBloc, StickersState>(
-      buildWhen: (previous, current) => previous.mode != current.mode,
+      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        return state.mode.isActive
+        return state.isDrawerActive
             ? const Positioned(
                 right: 0,
                 top: 0,
@@ -61,7 +62,7 @@ class DesktopStickersDrawer extends StatelessWidget {
                   key: const Key('stickersDrawer_close_iconButton'),
                   onPressed: () => context
                       .read<StickersBloc>()
-                      .add(const StickersModeToggled()),
+                      .add(const StickersDrawerToggled()),
                   icon: const Icon(Icons.clear),
                 ),
               ],
@@ -71,8 +72,8 @@ class DesktopStickersDrawer extends StatelessWidget {
           Flexible(
             child: StickersGrid(
               onStickerSelected: (sticker) => context
-                  .read<StickersBloc>()
-                  .add(StickerSelected(sticker: sticker)),
+                  .read<PhotoboothBloc>()
+                  .add(PhotoStickerTapped(sticker: sticker)),
             ),
           ),
         ],

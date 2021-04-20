@@ -15,6 +15,7 @@ class DragUpdate {
   const DragUpdate({
     required this.position,
     required this.size,
+    required this.constraints,
   });
 
   /// The position of the draggable asset.
@@ -22,6 +23,9 @@ class DragUpdate {
 
   /// The size of the draggable asset.
   final Size size;
+
+  /// The constraints of the parent view.
+  final Size constraints;
 }
 
 /// {@template draggable_resizable_asset}

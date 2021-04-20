@@ -1,39 +1,74 @@
-// ignore_for_file: prefer_const_constructors
-import 'package:flutter/widgets.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:camera/camera.dart';
 import 'package:test/test.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
+
+class MockCameraImage extends Mock implements CameraImage {}
+
+class MockAsset extends Mock implements Asset {}
+
+class MockDragUpdate extends Mock implements DragUpdate {}
 
 void main() {
   group('PhotoboothEvent', () {
-    const update = DragUpdate(position: Offset(0, 0), size: Size(0, 0));
-
-    test('PhotoboothCharactersCleared supports value equality', () {
-      final instanceA = PhotoboothCharactersCleared();
-      final instanceB = PhotoboothCharactersCleared();
-
-      expect(instanceA, equals(instanceB));
+    group('PhotoCaptured', () {
+      test('support value equality', () {
+        final image = MockCameraImage();
+        final instanceA = PhotoCaptured(image: image);
+        final instanceB = PhotoCaptured(image: image);
+        expect(instanceA, equals(instanceB));
+      });
     });
 
-    test('PhotoboothAndroidUpdated supports value equality', () {
-      final instanceA = PhotoboothAndroidUpdated(update: update);
-      final instanceB = PhotoboothAndroidUpdated(update: update);
-
-      expect(instanceA, equals(instanceB));
+    group('PhotoCharacterToggled', () {
+      test('support value equality', () {
+        final character = MockAsset();
+        final instanceA = PhotoCharacterToggled(character: character);
+        final instanceB = PhotoCharacterToggled(character: character);
+        expect(instanceA, equals(instanceB));
+      });
     });
 
-    test('PhotoboothDashUpdated supports value equality', () {
-      final instanceA = PhotoboothDashUpdated(update: update);
-      final instanceB = PhotoboothDashUpdated(update: update);
-
-      expect(instanceA, equals(instanceB));
+    group('PhotoCharacterDragged', () {
+      test('support value equality', () {
+        final character = MockAsset();
+        final update = MockDragUpdate();
+        final instanceA = PhotoCharacterDragged(
+          character: character,
+          update: update,
+        );
+        final instanceB = PhotoCharacterDragged(
+          character: character,
+          update: update,
+        );
+        expect(instanceA, equals(instanceB));
+      });
     });
 
-    test('PhotoboothSparkyUpdated supports value equality', () {
-      final instanceA = PhotoboothSparkyUpdated(update: update);
-      final instanceB = PhotoboothSparkyUpdated(update: update);
+    group('PhotoStickerTapped', () {
+      test('support value equality', () {
+        final sticker = MockAsset();
+        final instanceA = PhotoStickerTapped(sticker: sticker);
+        final instanceB = PhotoStickerTapped(sticker: sticker);
+        expect(instanceA, equals(instanceB));
+      });
+    });
 
-      expect(instanceA, equals(instanceB));
+    group('PhotoStickerDragged', () {
+      test('support value equality', () {
+        final sticker = MockAsset();
+        final update = MockDragUpdate();
+        final instanceA = PhotoStickerDragged(
+          sticker: sticker,
+          update: update,
+        );
+        final instanceB = PhotoStickerDragged(
+          sticker: sticker,
+          update: update,
+        );
+        expect(instanceA, equals(instanceB));
+      });
     });
   });
 }

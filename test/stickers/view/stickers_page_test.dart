@@ -26,6 +26,8 @@ class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
+class FakeDragUpdate extends Fake implements DragUpdate {}
+
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -50,21 +52,20 @@ void main() async {
 
     setUp(() {
       photoboothBloc = MockPhotoboothBloc();
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+      when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+        image: image,
+      ));
     });
 
     test('is routable', () {
-      expect(
-        StickersPage.route(image: image, photoboothBloc: photoboothBloc),
-        isA<MaterialPageRoute>(),
-      );
+      expect(StickersPage.route(), isA<MaterialPageRoute>());
     });
 
     testWidgets('renders PreviewImage', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: StickersPage(image: image),
+          child: StickersPage(),
         ),
       );
       expect(find.byType(PreviewImage), findsOneWidget);
@@ -72,48 +73,57 @@ void main() async {
 
     testWidgets('renders Android character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(android: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.android)],
+          image: image,
+        ),
       );
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: StickersPage(image: image),
+          child: StickersPage(),
         ),
       );
       expect(
-        find.byKey(const Key('stickersView_android_positioned')),
+        find.byKey(const Key('charactersLayer_android_positioned')),
         findsOneWidget,
       );
     });
 
     testWidgets('renders Dash character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(dash: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.dash)],
+          image: image,
+        ),
       );
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: StickersPage(image: image),
+          child: StickersPage(),
         ),
       );
       expect(
-        find.byKey(const Key('stickersView_dash_positioned')),
+        find.byKey(const Key('charactersLayer_dash_positioned')),
         findsOneWidget,
       );
     });
 
     testWidgets('renders Sparky character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(sparky: CharacterAsset(isSelected: true)),
+        PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.sparky)],
+          image: image,
+        ),
       );
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: StickersPage(image: image),
+          child: StickersPage(),
         ),
       );
       expect(
-        find.byKey(const Key('stickersView_sparky_positioned')),
+        find.byKey(const Key('charactersLayer_sparky_positioned')),
         findsOneWidget,
       );
     });
@@ -122,7 +132,7 @@ void main() async {
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: StickersPage(image: image),
+          child: StickersPage(),
         ),
       );
       expect(find.byType(StickersView), findsOneWidget);
@@ -135,7 +145,9 @@ void main() async {
 
     setUp(() {
       photoboothBloc = MockPhotoboothBloc();
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(image: image),
+      );
       stickersBloc = MockStickersBloc();
       when(() => stickersBloc.state).thenReturn(StickersState());
     });
@@ -147,7 +159,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(PreviewImage), findsOneWidget);
@@ -160,7 +172,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
@@ -169,7 +181,7 @@ void main() async {
     testWidgets('renders StickersDrawerLayer when mode is active',
         (tester) async {
       when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active),
+        StickersState(isDrawerActive: true),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -177,13 +189,13 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(StickersDrawerLayer), findsOneWidget);
     });
 
-    testWidgets('adds StickersModeToggled when OpenStickersButton tapped',
+    testWidgets('adds StickersDrawerToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
@@ -191,28 +203,25 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       tester
           .widget<OpenStickersButton>(find.byType(OpenStickersButton))
           .onPressed();
-      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
+      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
 
     testWidgets(
         'does not display DraggableResizableAsset when stickers is empty',
         (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active, stickers: []),
-      );
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(DraggableResizableAsset), findsNothing);
@@ -220,14 +229,14 @@ void main() async {
 
     testWidgets('displays DraggableResizableAsset when stickers is populated',
         (tester) async {
-      final state = StickersState(
-        mode: StickersMode.active,
-        stickers: [Assets.dash, Assets.dash],
-      );
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([state]),
-        initialState: state,
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [
+            PhotoAsset(asset: Assets.banana),
+            PhotoAsset(asset: Assets.beret)
+          ],
+          image: image,
+        ),
       );
 
       await tester.pumpApp(
@@ -236,7 +245,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
@@ -249,7 +258,15 @@ void main() async {
           return ElevatedButton(
             key: initialPage,
             onPressed: () => Navigator.of(context).push(
-              StickersPage.route(image: image, photoboothBloc: photoboothBloc),
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: photoboothBloc),
+                    BlocProvider.value(value: stickersBloc),
+                  ],
+                  child: StickersView(),
+                ),
+              ),
             ),
             child: const SizedBox(),
           );
@@ -258,22 +275,22 @@ void main() async {
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
-      expect(find.byType(StickersPage), findsOneWidget);
+      expect(find.byType(StickersView), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
       final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
       backButton.onPressed();
       await tester.pumpAndSettle();
 
-      expect(find.byType(StickersPage), findsNothing);
+      expect(find.byType(StickersView), findsNothing);
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
     testWidgets('tapping preview button routes to SharePage', (tester) async {
-      await tester.pumpApp(BlocProvider.value(
-        value: photoboothBloc,
-        child: StickersPage(image: image),
-      ));
+      await tester.pumpApp(
+        StickersPage(),
+        photoboothBloc: photoboothBloc,
+      );
 
       final goToPreviewButton =
           tester.widget<NextButton>(find.byType(NextButton));
@@ -287,7 +304,7 @@ void main() async {
     testWidgets('does not display ClearStickersButton when stickers is empty',
         (tester) async {
       when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active, stickers: []),
+        StickersState(isDrawerActive: true),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -295,7 +312,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(ClearStickersButton), findsNothing);
@@ -303,8 +320,14 @@ void main() async {
 
     testWidgets('displays ClearStickersButton when stickers is not empty',
         (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(asset: Assets.banana)],
+          image: image,
+        ),
+      );
       when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active, stickers: [Assets.banana]),
+        StickersState(isDrawerActive: true),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -312,16 +335,23 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       expect(find.byType(ClearStickersButton), findsOneWidget);
     });
 
-    testWidgets('adds StickersCleared when ClearStickersButton is tapped',
+    testWidgets(
+        'adds PhotoClearStickersTapped when ClearStickersButton is tapped',
         (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(asset: Assets.banana)],
+          image: image,
+        ),
+      );
       when(() => stickersBloc.state).thenReturn(
-        StickersState(mode: StickersMode.active, stickers: [Assets.banana]),
+        StickersState(isDrawerActive: true),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -329,22 +359,22 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       final clearStickersButton = tester.widget<ClearStickersButton>(
         find.byType(ClearStickersButton),
       );
       clearStickersButton.onPressed();
-      verify(() => stickersBloc.add(StickersCleared())).called(1);
+      verify(() => photoboothBloc.add(PhotoClearStickersTapped())).called(1);
     });
 
     testWidgets('opens MobileStickersDrawer when is mobile and is active',
         (tester) async {
       whenListen(
         stickersBloc,
-        Stream.fromIterable([StickersState(mode: StickersMode.active)]),
-        initialState: StickersState(mode: StickersMode.inactive),
+        Stream.fromIterable([StickersState(isDrawerActive: true)]),
+        initialState: StickersState(isDrawerActive: false),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -352,7 +382,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       await tester.pumpAndSettle();
@@ -364,9 +394,9 @@ void main() async {
       whenListen(
         stickersBloc,
         Stream.fromIterable([
-          StickersState(mode: StickersMode.active),
+          StickersState(isDrawerActive: true),
         ]),
-        initialState: StickersState(mode: StickersMode.inactive),
+        initialState: StickersState(isDrawerActive: false),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -374,7 +404,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       await tester.pumpAndSettle();
@@ -382,7 +412,7 @@ void main() async {
       final stickerChoice =
           tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
       stickerChoice.onPressed();
-      verify(() => stickersBloc.add(StickerSelected(sticker: sticker)))
+      verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
           .called(1);
     });
 
@@ -390,9 +420,9 @@ void main() async {
       whenListen(
         stickersBloc,
         Stream.fromIterable([
-          StickersState(mode: StickersMode.active),
+          StickersState(isDrawerActive: true),
         ]),
-        initialState: StickersState(mode: StickersMode.inactive),
+        initialState: StickersState(isDrawerActive: false),
       );
       await tester.pumpApp(
         MultiBlocProvider(
@@ -400,7 +430,7 @@ void main() async {
             BlocProvider.value(value: photoboothBloc),
             BlocProvider.value(value: stickersBloc),
           ],
-          child: StickersView(image: image),
+          child: StickersView(),
         ),
       );
       await tester.pumpAndSettle();
@@ -409,7 +439,7 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byType(MobileStickersDrawer), findsNothing);
 
-      verify(() => stickersBloc.add(StickersModeToggled())).called(1);
+      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
   });
 }

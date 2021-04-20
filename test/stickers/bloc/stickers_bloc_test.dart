@@ -14,47 +14,24 @@ void main() {
       expect(StickersBloc().state, equals(StickersState()));
     });
 
-    group('StickersModeToggled', () {
+    group('StickersDrawerToggled', () {
       blocTest<StickersBloc, StickersState>(
-        'emits mode: active when inactive',
+        'emits isDrawerActive: true when isDrawerActive: false',
         build: () => StickersBloc(),
-        seed: () => StickersState(mode: StickersMode.inactive),
-        act: (bloc) => bloc.add(StickersModeToggled()),
+        seed: () => StickersState(isDrawerActive: false),
+        act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
-          StickersState(mode: StickersMode.active),
+          StickersState(isDrawerActive: true),
         ],
       );
 
       blocTest<StickersBloc, StickersState>(
-        'emits mode: inactive when active',
+        'emits isDrawerActive: false when isDrawerActive: true',
         build: () => StickersBloc(),
-        seed: () => StickersState(mode: StickersMode.active),
-        act: (bloc) => bloc.add(StickersModeToggled()),
+        seed: () => StickersState(isDrawerActive: true),
+        act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
-          StickersState(mode: StickersMode.inactive),
-        ],
-      );
-    });
-
-    group('StickerSelected', () {
-      final sticker = MockAsset();
-      blocTest<StickersBloc, StickersState>(
-        'emits state with appended sticker',
-        build: () => StickersBloc(),
-        act: (bloc) => bloc.add(StickerSelected(sticker: sticker)),
-        expect: () => [
-          StickersState(stickers: [sticker]),
-        ],
-      );
-    });
-
-    group('StickersCleared', () {
-      blocTest<StickersBloc, StickersState>(
-        'emits state with empty stickers',
-        build: () => StickersBloc(),
-        act: (bloc) => bloc.add(StickersCleared()),
-        expect: () => [
-          StickersState(stickers: []),
+          StickersState(isDrawerActive: false),
         ],
       );
     });

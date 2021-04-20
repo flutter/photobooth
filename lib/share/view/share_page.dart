@@ -8,72 +8,71 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
-
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
 
+const _photoImageHeight = 500.0;
+
 class SharePage extends StatelessWidget {
-  const SharePage({Key? key, required this.image}) : super(key: key);
+  const SharePage({Key? key}) : super(key: key);
 
-  final CameraImage image;
-
-  static Route route({
-    required CameraImage image,
-    required PhotoboothBloc photoboothBloc,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => BlocProvider.value(
-        value: photoboothBloc,
-        child: SharePage(image: image),
-      ),
-    );
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => const SharePage());
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return SafeArea(
-      child: Stack(
+    final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
+
+    return Scaffold(
+      body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/backgrounds/share_background.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Image.asset(
+              'assets/backgrounds/share_background.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+            ),
           ),
           Center(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _Photo(image: image.data),
-                    const SizedBox(height: 24),
-                    Text(
-                      l10n.previewPageHeading,
-                      style: theme.textTheme.headline1
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (image != null)
+                    Container(
+                      height: _photoImageHeight,
+                      child: _Photo(image: image.data),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.previewPageSubheading,
-                      style: theme.textTheme.headline2
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 40),
+                  const SizedBox(height: 80),
+                  Text(
+                    l10n.previewPageHeading,
+                    style: theme.textTheme.headline1
+                        ?.copyWith(color: PhotoboothColors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.previewPageSubheading,
+                    style: theme.textTheme.headline2
+                        ?.copyWith(color: PhotoboothColors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  if (image != null)
                     ResponsiveLayoutBuilder(
                       mobile: (_) => MobileButtonsLayout(image: image),
                       desktop: (_) => DesktopButtonsLayout(image: image),
                     ),
-                  ],
-                ),
+                ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -121,29 +120,36 @@ class MobileButtonsLayout extends StatelessWidget {
 }
 
 class _Photo extends StatelessWidget {
-  const _Photo({Key? key, required this.image}) : super(key: key);
+  const _Photo({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
 
   final Uint8List image;
 
   @override
   Widget build(BuildContext context) {
-    final targetRatio = isMobile ? 3 / 4 : 4 / 3;
-    return FractionallySizedBox(
-      widthFactor: 0.4,
-      child: AspectRatio(
-        aspectRatio: targetRatio,
-        child: Transform.rotate(
-          angle: -11 * (math.pi / 180),
-          child: Material(
-            elevation: 4,
-            color: PhotoboothColors.white,
-            child: AspectRatio(
-              aspectRatio: targetRatio,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: PreviewImage(data: image),
-              ),
-            ),
+    return Transform(
+      alignment: const Alignment(0, -3 / 4),
+      transform: Matrix4.identity()..rotateZ(-11 * (math.pi / 180)),
+      child: Center(
+        child: AspectRatio(
+          aspectRatio: isMobile ? 3 / 4 : 4 / 3,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              PreviewImage(data: image),
+              const CharactersLayer(),
+              const StickersLayer(),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: PhotoboothColors.white,
+                    width: 8,
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -160,7 +166,7 @@ class _RetakeButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_retake_elevatedButton'),
       onPressed: () {
-        context.read<PhotoboothBloc>().add(const PhotoboothCharactersCleared());
+        context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
         Navigator.of(context).popUntil(
           (route) => route.settings.name == PhotoboothPage.name,
         );

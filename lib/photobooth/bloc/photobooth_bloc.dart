@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 part 'photobooth_event.dart';
@@ -12,59 +15,114 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   @override
   Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
-    if (event is PhotoboothAndroidToggled) {
+    if (event is PhotoCaptured) {
+      yield state.copyWith(image: event.image);
+    } else if (event is PhotoCharacterToggled) {
+      yield _mapCharacterToggledToState(event, state);
+    } else if (event is PhotoCharacterDragged) {
+      yield _mapCharacterDraggedToState(event, state);
+    } else if (event is PhotoStickerTapped) {
+      yield _mapStickerTappedToState(event, state);
+    } else if (event is PhotoStickerDragged) {
+      yield _mapStickerDraggedToState(event, state);
+    } else if (event is PhotoClearStickersTapped) {
+      yield state.copyWith(stickers: const <PhotoAsset>[]);
+    } else if (event is PhotoClearAllTapped) {
       yield state.copyWith(
-        android: state.android.copyWith(isSelected: !state.android.isSelected),
+        characters: const <PhotoAsset>[],
+        stickers: const <PhotoAsset>[],
       );
-    } else if (event is PhotoboothDashToggled) {
-      yield state.copyWith(
-        dash: state.dash.copyWith(isSelected: !state.dash.isSelected),
-      );
-    } else if (event is PhotoboothSparkyToggled) {
-      yield state.copyWith(
-        sparky: state.sparky.copyWith(isSelected: !state.sparky.isSelected),
-      );
-    } else if (event is PhotoboothAndroidUpdated) {
-      yield state.copyWith(
-        android: state.android.copyWith(
-          position: CharacterAssetPosition(
-            dx: event.update.position.dx,
-            dy: event.update.position.dy,
-          ),
-          size: CharacterAssetSize(
-            width: event.update.size.width,
-            height: event.update.size.height,
-          ),
-        ),
-      );
-    } else if (event is PhotoboothDashUpdated) {
-      yield state.copyWith(
-        dash: state.dash.copyWith(
-          position: CharacterAssetPosition(
-            dx: event.update.position.dx,
-            dy: event.update.position.dy,
-          ),
-          size: CharacterAssetSize(
-            width: event.update.size.width,
-            height: event.update.size.height,
-          ),
-        ),
-      );
-    } else if (event is PhotoboothSparkyUpdated) {
-      yield state.copyWith(
-        sparky: state.sparky.copyWith(
-          position: CharacterAssetPosition(
-            dx: event.update.position.dx,
-            dy: event.update.position.dy,
-          ),
-          size: CharacterAssetSize(
-            width: event.update.size.width,
-            height: event.update.size.height,
-          ),
-        ),
-      );
-    } else if (event is PhotoboothCharactersCleared) {
-      yield const PhotoboothState();
     }
+  }
+
+  PhotoboothState _mapCharacterToggledToState(
+    PhotoCharacterToggled event,
+    PhotoboothState state,
+  ) {
+    final asset = event.character;
+    final characters = List.of(state.characters);
+    final index = characters.indexWhere((c) => c.asset.name == asset.name);
+    final characterExists = index != -1;
+
+    if (characterExists) {
+      characters.removeAt(index);
+    } else {
+      characters.add(PhotoAsset(asset: asset));
+    }
+
+    return state.copyWith(characters: characters);
+  }
+
+  PhotoboothState _mapCharacterDraggedToState(
+    PhotoCharacterDragged event,
+    PhotoboothState state,
+  ) {
+    final asset = event.character;
+    final characters = List.of(state.characters)
+        .replaceWhere(
+          (c) => c.asset.name == asset.name,
+          (c) => c.copyWith(
+            position: PhotoAssetPosition(
+              dx: event.update.position.dx,
+              dy: event.update.position.dy,
+            ),
+            size: PhotoAssetSize(
+              width: event.update.size.width,
+              height: event.update.size.height,
+            ),
+            constraint: PhotoConstraint(
+              width: event.update.constraints.width,
+              height: event.update.constraints.height,
+            ),
+          ),
+        )
+        .toList();
+    return state.copyWith(characters: characters);
+  }
+
+  PhotoboothState _mapStickerTappedToState(
+    PhotoStickerTapped event,
+    PhotoboothState state,
+  ) {
+    final asset = event.sticker;
+    return state.copyWith(
+      stickers: List.of(state.stickers)..add(PhotoAsset(asset: asset)),
+    );
+  }
+
+  PhotoboothState _mapStickerDraggedToState(
+    PhotoStickerDragged event,
+    PhotoboothState state,
+  ) {
+    final asset = event.sticker;
+    final stickers = List.of(state.stickers)
+        .replaceWhere(
+          (c) => c.asset.name == asset.name,
+          (c) => c.copyWith(
+            position: PhotoAssetPosition(
+              dx: event.update.position.dx,
+              dy: event.update.position.dy,
+            ),
+            size: PhotoAssetSize(
+              width: event.update.size.width,
+              height: event.update.size.height,
+            ),
+            constraint: PhotoConstraint(
+              width: event.update.constraints.width,
+              height: event.update.constraints.height,
+            ),
+          ),
+        )
+        .toList();
+    return state.copyWith(stickers: stickers);
+  }
+}
+
+extension IterableExtensions<T> on Iterable<T> {
+  Iterable<T> replaceWhere(
+      bool Function(T element) predicate, T Function(T value) replace) {
+    return map(
+      (element) => predicate(element) ? replace(element) : element,
+    );
   }
 }

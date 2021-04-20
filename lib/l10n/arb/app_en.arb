@@ -67,5 +67,17 @@
     "stickersDrawerTitle": "Add Props",
     "@stickersDrawerTitle": {
         "description": "Text displayed on the stickers drawer as title"
+    },
+    "openStickersTooltip": "Add Props",
+    "@openStickersTooltip": {
+        "description": "Text displayed on the tooltip for the open stickers button"
+    },
+    "retakeButtonTooltip": "Retake",
+    "@retakeButtonTooltip": {
+        "description": "Text displayed on the tooltip for the retake button"
+    },
+    "clearStickersButtonTooltip": "Clear Props",
+    "@clearStickersButtonTooltip": {
+        "description": "Text displayed on the tooltip for the clear stickers button"
     }
 }
