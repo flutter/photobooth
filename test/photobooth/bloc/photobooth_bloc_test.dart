@@ -223,18 +223,19 @@ void main() async {
         seed: () => PhotoboothState(
           stickers: [
             PhotoAsset(
+              id: 0,
               asset: Assets.banana,
-              position: PhotoAssetPosition(
-                dx: 100,
-                dy: 100,
-              ),
             ),
           ],
         ),
-        act: (bloc) => bloc.add(PhotoStickerRemoved(
-            sticker: Assets.banana,
-            update: DragUpdate(
-                position: position, size: size, constraints: constraints))),
+        act: (bloc) => bloc.add(
+          PhotoStickerRemoved(
+            sticker: PhotoAsset(
+              id: 0,
+              asset: Assets.banana,
+            ),
+          ),
+        ),
         expect: () => [PhotoboothState()],
       );
     });

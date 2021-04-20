@@ -65,12 +65,10 @@ class PhotoClearAllTapped extends PhotoboothEvent {
 class PhotoStickerRemoved extends PhotoboothEvent {
   const PhotoStickerRemoved({
     required this.sticker,
-    required this.update,
   });
 
-  final Asset sticker;
-  final DragUpdate update;
+  final PhotoAsset sticker;
 
   @override
-  List<Object> get props => [sticker, update];
+  List<Object> get props => [sticker];
 }
