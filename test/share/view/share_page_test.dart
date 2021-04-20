@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -38,24 +37,21 @@ void main() async {
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
-    when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+    when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 
   group('SharePage', () {
     test('is routable', () {
-      expect(
-        SharePage.route(image: image, photoboothBloc: photoboothBloc),
-        isA<MaterialPageRoute>(),
-      );
+      expect(SharePage.route(), isA<MaterialPageRoute>());
     });
 
     testWidgets('displays a PreviewImage', (tester) async {
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
         find.byKey(const Key('sharePage_retake_elevatedButton')),
         findsOneWidget,
@@ -63,7 +59,7 @@ void main() async {
     });
 
     testWidgets('displays a ShareButton', (tester) async {
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
         find.byKey(const Key('sharePage_share_elevatedButton')),
         findsOneWidget,
@@ -71,7 +67,7 @@ void main() async {
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
         find.byKey(const Key('sharePage_download_elevatedButton')),
         findsOneWidget,
@@ -80,16 +76,14 @@ void main() async {
 
     testWidgets('displays selected character assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(android: CharacterAsset(isSelected: true)),
-      );
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: photoboothBloc,
-          child: SharePage(image: image),
+        PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.android)],
+          image: image,
         ),
       );
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(
-        find.byKey(const Key('stickersView_android_positioned')),
+        find.byKey(const Key('charactersLayer_android_positioned')),
         findsOneWidget,
       );
     });
@@ -101,7 +95,7 @@ void main() async {
       final shareButtonFinder = find.byKey(
         const Key('sharePage_share_elevatedButton'),
       );
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
 
       await tester.ensureVisible(shareButtonFinder);
       await tester.tap(shareButtonFinder);
@@ -116,7 +110,7 @@ void main() async {
       final downloadButtonFinder = find.byKey(
         const Key('sharePage_download_elevatedButton'),
       );
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
 
       await tester.ensureVisible(downloadButtonFinder);
       await tester.tap(downloadButtonFinder);
@@ -129,33 +123,33 @@ void main() async {
     testWidgets('tapping on retake button goes back to PhotoboothPage',
         (tester) async {
       const photoboothPage = Key('photoboothPage');
-      await tester.pumpApp(Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const SizedBox(key: photoboothPage),
-                  settings: RouteSettings(name: PhotoboothPage.name),
-                ),
-              );
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const SizedBox(key: photoboothPage),
+                    settings: RouteSettings(name: PhotoboothPage.name),
+                  ),
+                );
 
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const SizedBox(),
-                  settings: RouteSettings(name: 'IntermediatePage'),
-                ),
-              );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const SizedBox(),
+                    settings: RouteSettings(name: 'IntermediatePage'),
+                  ),
+                );
 
-              Navigator.of(context).push(SharePage.route(
-                image: image,
-                photoboothBloc: photoboothBloc,
-              ));
-            },
-            child: const SizedBox(),
-          );
-        },
-      ));
+                Navigator.of(context).push(SharePage.route());
+              },
+              child: const SizedBox(),
+            );
+          },
+        ),
+        photoboothBloc: photoboothBloc,
+      );
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
@@ -171,13 +165,13 @@ void main() async {
       expect(find.byType(SharePage), findsNothing);
       expect(find.byKey(photoboothPage), findsOneWidget);
 
-      verify(() => photoboothBloc.add(PhotoboothCharactersCleared())).called(1);
+      verify(() => photoboothBloc.add(PhotoClearAllTapped())).called(1);
     });
   });
 
   group('ResponsiveLayout', () {
     testWidgets('displays a DesktopButtonsLayout', (tester) async {
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(find.byType(DesktopButtonsLayout), findsOneWidget);
     });
 
@@ -186,7 +180,7 @@ void main() async {
         PhotoboothBreakpoints.mobile,
         1000,
       );
-      await tester.pumpApp(SharePage(image: image));
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
       expect(find.byType(MobileButtonsLayout), findsOneWidget);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });

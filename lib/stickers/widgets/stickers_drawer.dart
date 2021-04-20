@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/photo/photo.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +85,7 @@ class StickersDrawer extends StatelessWidget {
                 asset: _stickers[index],
                 onPressed: () {
                   context
-                      .read<PhotoBloc>()
+                      .read<PhotoboothBloc>()
                       .add(PhotoStickerTapped(sticker: _stickers[index]));
                 },
               ),

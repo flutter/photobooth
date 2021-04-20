@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photo/photo.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -27,7 +27,7 @@ class StickersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = context.select((PhotoBloc bloc) => bloc.state.image);
+    final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -43,20 +43,9 @@ class StickersView extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  if (image != null)
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        context.read<PhotoBloc>().add(
-                              PhotoConstraintsChanged(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                              ),
-                            );
-                        return PreviewImage(data: image.data);
-                      },
-                    ),
+                  if (image != null) PreviewImage(data: image.data),
                   const CharactersLayer(),
-                  BlocBuilder<PhotoBloc, PhotoState>(
+                  BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {
                       if (state.stickers.isEmpty) return const SizedBox();
                       return _DraggableStickers(
@@ -141,7 +130,7 @@ class _DraggableStickers extends StatelessWidget {
           DraggableResizableAsset(
             asset: sticker,
             onUpdate: (update) => context
-                .read<PhotoBloc>()
+                .read<PhotoboothBloc>()
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),
           ),
       ],
@@ -180,13 +169,13 @@ class _ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isHidden = context.select(
-      (PhotoBloc bloc) => bloc.state.stickers.isEmpty,
+      (PhotoboothBloc bloc) => bloc.state.stickers.isEmpty,
     );
 
     if (isHidden) return const SizedBox();
     return ClearStickersButton(
       onPressed: () {
-        context.read<PhotoBloc>().add(const PhotoClearStickersTapped());
+        context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
       },
     );
   }

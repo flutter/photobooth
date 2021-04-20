@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photo/photo.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/assets/assets.dart';
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
@@ -18,7 +16,7 @@ class PhotoboothPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<PhotoBloc>().state;
+    final state = context.watch<PhotoboothBloc>().state;
     final isAndroidSelected =
         state.characters.containsCharacter(Character.android);
     final isDashSelected = state.characters.containsCharacter(Character.dash);
@@ -32,7 +30,9 @@ class PhotoboothPreview extends StatelessWidget {
               ? const AssetImage('assets/icons/dash_icon_disabled.png')
               : const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
-            context.read<PhotoBloc>().add(const PhotoCharacterToggled.dash());
+            context
+                .read<PhotoboothBloc>()
+                .add(const PhotoCharacterToggled(character: Character.dash));
           },
         ),
       ),
@@ -46,7 +46,9 @@ class PhotoboothPreview extends StatelessWidget {
               ? const AssetImage('assets/icons/sparky_icon_disabled.png')
               : const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
-            context.read<PhotoBloc>().add(const PhotoCharacterToggled.sparky());
+            context
+                .read<PhotoboothBloc>()
+                .add(const PhotoCharacterToggled(character: Character.sparky));
           },
         ),
       ),
@@ -61,8 +63,8 @@ class PhotoboothPreview extends StatelessWidget {
               : const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
             context
-                .read<PhotoBloc>()
-                .add(const PhotoCharacterToggled.android());
+                .read<PhotoboothBloc>()
+                .add(const PhotoCharacterToggled(character: Character.android));
           },
         ),
       ),
@@ -70,17 +72,18 @@ class PhotoboothPreview extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            context.read<PhotoBloc>().add(
-                  PhotoConstraintsChanged(
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                  ),
-                );
-            return preview;
-          },
-        ),
+        preview,
+        // LayoutBuilder(
+        //   builder: (context, constraints) {
+        //     context.read<PhotoBloc>().add(
+        //           PhotoConstraintsChanged(
+        //             width: constraints.maxWidth,
+        //             height: constraints.maxHeight,
+        //           ),
+        //         );
+        //     return preview;
+        //   },
+        // ),
         for (final character in state.characters)
           DraggableResizableAsset(
             key: Key(
@@ -88,7 +91,7 @@ class PhotoboothPreview extends StatelessWidget {
             ),
             asset: character.asset,
             onUpdate: (update) {
-              context.read<PhotoBloc>().add(
+              context.read<PhotoboothBloc>().add(
                     PhotoCharacterDragged(character: character, update: update),
                   );
             },

@@ -1,7 +1,7 @@
-part of 'photo_bloc.dart';
+part of 'photobooth_bloc.dart';
 
 class PhotoConstraint extends Equatable {
-  const PhotoConstraint({this.width = 0, this.height = 0});
+  const PhotoConstraint({this.width = 1, this.height = 1});
 
   final double width;
   final double height;
@@ -11,7 +11,7 @@ class PhotoConstraint extends Equatable {
 }
 
 class PhotoAssetSize extends Equatable {
-  const PhotoAssetSize({this.width = 0, this.height = 0});
+  const PhotoAssetSize({this.width = 1, this.height = 1});
 
   final double width;
   final double height;
@@ -21,7 +21,7 @@ class PhotoAssetSize extends Equatable {
 }
 
 class PhotoAssetPosition extends Equatable {
-  const PhotoAssetPosition({required this.dx, required this.dy});
+  const PhotoAssetPosition({this.dx = 0, this.dy = 0});
 
   final double dx;
   final double dy;
@@ -33,9 +33,9 @@ class PhotoAssetPosition extends Equatable {
 class PhotoAsset extends Equatable {
   const PhotoAsset({
     required this.asset,
-    required this.constraint,
-    required this.position,
-    required this.size,
+    this.constraint = const PhotoConstraint(),
+    this.position = const PhotoAssetPosition(),
+    this.size = const PhotoAssetSize(),
   });
 
   final Asset asset;
@@ -61,32 +61,28 @@ class PhotoAsset extends Equatable {
   }
 }
 
-class PhotoState extends Equatable {
-  const PhotoState({
+class PhotoboothState extends Equatable {
+  const PhotoboothState({
     this.characters = const <PhotoAsset>[],
-    this.constraint = const PhotoConstraint(),
     this.stickers = const <PhotoAsset>[],
     this.image,
   });
 
   final CameraImage? image;
   final List<PhotoAsset> characters;
-  final PhotoConstraint constraint;
   final List<PhotoAsset> stickers;
 
   @override
-  List<Object?> get props => [image, characters, constraint, stickers];
+  List<Object?> get props => [image, characters, stickers];
 
-  PhotoState copyWith({
+  PhotoboothState copyWith({
     CameraImage? image,
     List<PhotoAsset>? characters,
     List<PhotoAsset>? stickers,
-    PhotoConstraint? constraint,
   }) {
-    return PhotoState(
+    return PhotoboothState(
       image: image ?? this.image,
       characters: characters ?? this.characters,
-      constraint: constraint ?? this.constraint,
       stickers: stickers ?? this.stickers,
     );
   }

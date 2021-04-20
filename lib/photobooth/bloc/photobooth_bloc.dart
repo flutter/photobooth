@@ -7,23 +7,16 @@ import 'package:flutter/foundation.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-part 'photo_event.dart';
-part 'photo_state.dart';
+part 'photobooth_event.dart';
+part 'photobooth_state.dart';
 
-const _defaultCharacterScale = 0.5;
-const _defaultStickerScale = 0.5;
-
-class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
-  PhotoBloc() : super(const PhotoState());
+class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
+  PhotoboothBloc() : super(const PhotoboothState());
 
   @override
-  Stream<PhotoState> mapEventToState(PhotoEvent event) async* {
+  Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
     if (event is PhotoCaptured) {
       yield state.copyWith(image: event.image);
-    } else if (event is PhotoConstraintsChanged) {
-      yield state.copyWith(
-        constraint: PhotoConstraint(width: event.width, height: event.height),
-      );
     } else if (event is PhotoCharacterToggled) {
       yield _mapCharacterToggledToState(event, state);
     } else if (event is PhotoCharacterDragged) {
@@ -42,9 +35,9 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     }
   }
 
-  PhotoState _mapCharacterToggledToState(
+  PhotoboothState _mapCharacterToggledToState(
     PhotoCharacterToggled event,
-    PhotoState state,
+    PhotoboothState state,
   ) {
     final asset = event.character.toAsset();
     final characters = List.of(state.characters);
@@ -54,28 +47,15 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     if (characterExists) {
       characters.removeAt(index);
     } else {
-      characters.add(
-        PhotoAsset(
-          asset: asset,
-          position: PhotoAssetPosition(
-            dx: state.constraint.width / 2 - (asset.image.width / 2),
-            dy: state.constraint.height / 2 - (asset.image.height / 2),
-          ),
-          size: PhotoAssetSize(
-            width: asset.image.width * _defaultCharacterScale,
-            height: asset.image.height * _defaultCharacterScale,
-          ),
-          constraint: state.constraint,
-        ),
-      );
+      characters.add(PhotoAsset(asset: asset));
     }
 
     return state.copyWith(characters: characters);
   }
 
-  PhotoState _mapCharacterDraggedToState(
+  PhotoboothState _mapCharacterDraggedToState(
     PhotoCharacterDragged event,
-    PhotoState state,
+    PhotoboothState state,
   ) {
     final asset = event.character.asset;
     final characters = List.of(state.characters)
@@ -100,33 +80,19 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     return state.copyWith(characters: characters);
   }
 
-  PhotoState _mapStickerTappedToState(
+  PhotoboothState _mapStickerTappedToState(
     PhotoStickerTapped event,
-    PhotoState state,
+    PhotoboothState state,
   ) {
     final asset = event.sticker;
     return state.copyWith(
-      stickers: List.of(state.stickers)
-        ..add(
-          PhotoAsset(
-            asset: asset,
-            position: PhotoAssetPosition(
-              dx: state.constraint.width / 2 - (asset.image.width / 2),
-              dy: state.constraint.height / 2 - (asset.image.height / 2),
-            ),
-            size: PhotoAssetSize(
-              width: asset.image.width * _defaultStickerScale,
-              height: asset.image.height * _defaultStickerScale,
-            ),
-            constraint: state.constraint,
-          ),
-        ),
+      stickers: List.of(state.stickers)..add(PhotoAsset(asset: asset)),
     );
   }
 
-  PhotoState _mapStickerDraggedToState(
+  PhotoboothState _mapStickerDraggedToState(
     PhotoStickerDragged event,
-    PhotoState state,
+    PhotoboothState state,
   ) {
     final asset = event.sticker;
     final stickers = List.of(state.stickers)

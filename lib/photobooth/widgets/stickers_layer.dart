@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photo/photo.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class StickersLayer extends StatelessWidget {
   const StickersLayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<PhotoBloc>().state;
+    final state = context.watch<PhotoboothBloc>().state;
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(

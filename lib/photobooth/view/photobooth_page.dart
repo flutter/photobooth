@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photo/bloc/photo_bloc.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import 'package:io_photobooth/stickers/stickers.dart';
@@ -21,7 +20,7 @@ class PhotoboothPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PhotoBloc(),
+      create: (_) => PhotoboothBloc(),
       child: Navigator(
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => const PhotoboothView(),
@@ -68,7 +67,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
-    context.read<PhotoBloc>().add(PhotoCaptured(image: picture));
+    context.read<PhotoboothBloc>().add(PhotoCaptured(image: picture));
     final stickersPage = StickersPage.route();
     await _controller.stop();
     await Navigator.of(context).push(stickersPage);
