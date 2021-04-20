@@ -19,7 +19,7 @@ class PhotoCaptured extends PhotoboothEvent {
 class PhotoCharacterToggled extends PhotoboothEvent {
   const PhotoCharacterToggled({required this.character});
 
-  final Character character;
+  final Asset character;
 
   @override
   List<Object> get props => [character];
@@ -28,7 +28,7 @@ class PhotoCharacterToggled extends PhotoboothEvent {
 class PhotoCharacterDragged extends PhotoboothEvent {
   const PhotoCharacterDragged({required this.character, required this.update});
 
-  final PhotoAsset character;
+  final Asset character;
   final DragUpdate update;
 
   @override

@@ -39,7 +39,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoCharacterToggled event,
     PhotoboothState state,
   ) {
-    final asset = event.character.toAsset();
+    final asset = event.character;
     final characters = List.of(state.characters);
     final index = characters.indexWhere((c) => c.asset.name == asset.name);
     final characterExists = index != -1;
@@ -57,7 +57,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoCharacterDragged event,
     PhotoboothState state,
   ) {
-    final asset = event.character.asset;
+    final asset = event.character;
     final characters = List.of(state.characters)
         .replaceWhere(
           (c) => c.asset.name == asset.name,
@@ -115,19 +115,6 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
         )
         .toList();
     return state.copyWith(stickers: stickers);
-  }
-}
-
-extension on Character {
-  Asset toAsset() {
-    switch (this) {
-      case Character.android:
-        return Assets.android;
-      case Character.dash:
-        return Assets.dash;
-      case Character.sparky:
-        return Assets.sparky;
-    }
   }
 }
 

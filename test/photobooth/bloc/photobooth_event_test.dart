@@ -1,0 +1,74 @@
+import 'package:camera/camera.dart';
+import 'package:test/test.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
+
+class MockCameraImage extends Mock implements CameraImage {}
+
+class MockAsset extends Mock implements Asset {}
+
+class MockDragUpdate extends Mock implements DragUpdate {}
+
+void main() {
+  group('PhotoboothEvent', () {
+    group('PhotoCaptured', () {
+      test('support value equality', () {
+        final image = MockCameraImage();
+        final instanceA = PhotoCaptured(image: image);
+        final instanceB = PhotoCaptured(image: image);
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
+    group('PhotoCharacterToggled', () {
+      test('support value equality', () {
+        final character = MockAsset();
+        final instanceA = PhotoCharacterToggled(character: character);
+        final instanceB = PhotoCharacterToggled(character: character);
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
+    group('PhotoCharacterDragged', () {
+      test('support value equality', () {
+        final character = MockAsset();
+        final update = MockDragUpdate();
+        final instanceA = PhotoCharacterDragged(
+          character: character,
+          update: update,
+        );
+        final instanceB = PhotoCharacterDragged(
+          character: character,
+          update: update,
+        );
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
+    group('PhotoStickerTapped', () {
+      test('support value equality', () {
+        final sticker = MockAsset();
+        final instanceA = PhotoStickerTapped(sticker: sticker);
+        final instanceB = PhotoStickerTapped(sticker: sticker);
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
+    group('PhotoStickerDragged', () {
+      test('support value equality', () {
+        final sticker = MockAsset();
+        final update = MockDragUpdate();
+        final instanceA = PhotoStickerDragged(
+          sticker: sticker,
+          update: update,
+        );
+        final instanceB = PhotoStickerDragged(
+          sticker: sticker,
+          update: update,
+        );
+        expect(instanceA, equals(instanceB));
+      });
+    });
+  });
+}

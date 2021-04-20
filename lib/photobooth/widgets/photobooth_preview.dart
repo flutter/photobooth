@@ -32,7 +32,7 @@ class PhotoboothPreview extends StatelessWidget {
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
-                .add(const PhotoCharacterToggled(character: Character.dash));
+                .add(PhotoCharacterToggled(character: Assets.dash));
           },
         ),
       ),
@@ -48,7 +48,7 @@ class PhotoboothPreview extends StatelessWidget {
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
-                .add(const PhotoCharacterToggled(character: Character.sparky));
+                .add(PhotoCharacterToggled(character: Assets.sparky));
           },
         ),
       ),
@@ -64,7 +64,7 @@ class PhotoboothPreview extends StatelessWidget {
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
-                .add(const PhotoCharacterToggled(character: Character.android));
+                .add(PhotoCharacterToggled(character: Assets.android));
           },
         ),
       ),
@@ -73,17 +73,6 @@ class PhotoboothPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         preview,
-        // LayoutBuilder(
-        //   builder: (context, constraints) {
-        //     context.read<PhotoBloc>().add(
-        //           PhotoConstraintsChanged(
-        //             width: constraints.maxWidth,
-        //             height: constraints.maxHeight,
-        //           ),
-        //         );
-        //     return preview;
-        //   },
-        // ),
         for (final character in state.characters)
           DraggableResizableAsset(
             key: Key(
@@ -92,7 +81,10 @@ class PhotoboothPreview extends StatelessWidget {
             asset: character.asset,
             onUpdate: (update) {
               context.read<PhotoboothBloc>().add(
-                    PhotoCharacterDragged(character: character, update: update),
+                    PhotoCharacterDragged(
+                      character: character.asset,
+                      update: update,
+                    ),
                   );
             },
           ),

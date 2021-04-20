@@ -92,8 +92,4 @@ extension PhotoAssetsX on List<PhotoAsset> {
   bool containsCharacter(Character character) {
     return indexWhere((e) => e.asset.name == describeEnum(character)) != -1;
   }
-
-  bool containsSticker(Sticker sticker) {
-    return indexWhere((e) => e.asset.name == describeEnum(sticker)) != -1;
-  }
 }

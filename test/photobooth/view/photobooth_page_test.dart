@@ -129,6 +129,28 @@ void main() async {
       expect(find.byKey(key), findsOneWidget);
     });
 
+    testWidgets('renders 4/3 aspect ratio on desktop', (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
+      expect(aspectRatio.aspectRatio, equals(4 / 3));
+    });
+
+    testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+      tester.binding.window.physicalSizeTestValue = const Size(200, 200);
+
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
+      expect(aspectRatio.aspectRatio, equals(3 / 4));
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    });
+
     testWidgets('navigates to StickersPage when photo is taken',
         (tester) async {
       const preview = SizedBox();
@@ -408,7 +430,7 @@ void main() async {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Character.dash),
+          PhotoCharacterToggled(character: Assets.dash),
         ),
       ).called(1);
     });
@@ -431,7 +453,7 @@ void main() async {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Character.sparky),
+          PhotoCharacterToggled(character: Assets.sparky),
         ),
       ).called(1);
     });
@@ -454,7 +476,7 @@ void main() async {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Character.android),
+          PhotoCharacterToggled(character: Assets.android),
         ),
       ).called(1);
     });

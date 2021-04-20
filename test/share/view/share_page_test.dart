@@ -87,6 +87,21 @@ void main() async {
         findsOneWidget,
       );
     });
+
+    testWidgets('displays selected sticker assets', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          characters: [PhotoAsset(asset: Assets.android)],
+          stickers: [PhotoAsset(asset: Assets.banana)],
+          image: image,
+        ),
+      );
+      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      expect(
+        find.byKey(const Key('stickersLayer_banana_positioned')),
+        findsOneWidget,
+      );
+    });
   });
 
   group('ShareButton', () {
