@@ -44,6 +44,7 @@ void main() async {
         expect: () => [
           PhotoboothState(
             characters: [PhotoAsset(id: 0, asset: Assets.android)],
+            selectedAssetId: 0,
           )
         ],
       );
@@ -52,11 +53,12 @@ void main() async {
         'emits updated state with character '
         'when character did not exist (dash)',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(
-          PhotoCharacterToggled(character: Assets.dash),
-        ),
+        act: (bloc) => bloc.add(PhotoCharacterToggled(character: Assets.dash)),
         expect: () => [
-          PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dash)])
+          PhotoboothState(
+            characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+            selectedAssetId: 0,
+          )
         ],
       );
 
@@ -64,11 +66,13 @@ void main() async {
         'emits updated state with character '
         'when character did not exist (sparky)',
         build: () => PhotoboothBloc(),
-        act: (bloc) => bloc.add(
-          PhotoCharacterToggled(character: Assets.sparky),
-        ),
+        act: (bloc) =>
+            bloc.add(PhotoCharacterToggled(character: Assets.sparky)),
         expect: () => [
-          PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)])
+          PhotoboothState(
+            characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
+            selectedAssetId: 0,
+          )
         ],
       );
 
@@ -140,6 +144,7 @@ void main() async {
                 size: PhotoAssetSize(width: 42, height: 42),
               ),
             ],
+            selectedAssetId: 0,
           )
         ],
       );
@@ -153,7 +158,10 @@ void main() async {
           PhotoStickerTapped(sticker: Assets.banana),
         ),
         expect: () => [
-          PhotoboothState(stickers: [PhotoAsset(id: 0, asset: Assets.banana)])
+          PhotoboothState(
+            stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+            selectedAssetId: 0,
+          )
         ],
       );
     });
@@ -186,6 +194,7 @@ void main() async {
                 size: PhotoAssetSize(width: 42, height: 42),
               ),
             ],
+            selectedAssetId: 0,
           )
         ],
       );
@@ -213,6 +222,25 @@ void main() async {
         ),
         act: (bloc) => bloc.add(PhotoClearAllTapped()),
         expect: () => [PhotoboothState()],
+      );
+    });
+
+    group('PhotoTapped', () {
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with no selectedAssetId',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          selectedAssetId: 0,
+        ),
+        act: (bloc) => bloc.add(PhotoTapped()),
+        expect: () => [
+          PhotoboothState(
+            characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+            stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          ),
+        ],
       );
     });
   });
