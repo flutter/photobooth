@@ -21,7 +21,6 @@ class FooterLink extends StatelessWidget {
       onPressed: () => openLink(link),
       child: Text(
         text,
-        overflow: TextOverflow.fade,
         style: theme.caption
             ?.copyWith(
               fontWeight: PhotoboothFontWeight.regular,
