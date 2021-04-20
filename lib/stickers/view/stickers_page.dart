@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersPage extends StatelessWidget {
   const StickersPage({Key? key}) : super(key: key);
@@ -44,6 +45,13 @@ class StickersView extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (image != null) PreviewImage(data: image.data),
+                  const Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16, bottom: 24),
+                      child: MadeWithIconLinks(),
+                    ),
+                  ),
                   const CharactersLayer(),
                   BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {
