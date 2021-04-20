@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersPage extends StatelessWidget {
   const StickersPage({Key? key}) : super(key: key);
@@ -44,6 +45,13 @@ class StickersView extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (image != null) PreviewImage(data: image.data),
+                  const Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16, bottom: 24),
+                      child: MadeWithIconLinks(),
+                    ),
+                  ),
                   const CharactersLayer(),
                   BlocBuilder<PhotoboothBloc, PhotoboothState>(
                     builder: (context, state) {
@@ -85,31 +93,32 @@ class StickersView extends StatelessWidget {
                       },
                     ),
                   ),
-                  _StickersDrawer(),
                 ],
               ),
             ),
           ),
+          BlocListener<StickersBloc, StickersState>(
+            listenWhen: (previous, current) =>
+                isMobile && current.isDrawerActive && current != previous,
+            listener: (context, state) async {
+              await showModalBottomSheet(
+                context: context,
+                barrierColor: PhotoboothColors.black.withOpacity(0.75),
+                backgroundColor: PhotoboothColors.transparent,
+                isScrollControlled: true,
+                builder: (_) => MobileStickersDrawer(
+                  onStickerSelected: (sticker) => context
+                      .read<PhotoboothBloc>()
+                      .add(PhotoStickerTapped(sticker: sticker)),
+                ),
+              );
+              context.read<StickersBloc>().add(const StickersDrawerToggled());
+            },
+            child: const StickersDrawerLayer(),
+          ),
         ],
       ),
     );
-  }
-}
-
-class _StickersDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final isDrawerActive = context.select(
-      (StickersBloc bloc) => bloc.state.isDrawerActive,
-    );
-    return isDrawerActive
-        ? const Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: StickersDrawer(),
-          )
-        : const SizedBox();
   }
 }
 
