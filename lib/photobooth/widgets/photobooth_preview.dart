@@ -155,22 +155,23 @@ class MobileCharactersIconLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: children,
-            ),
-            BlocBuilder<PhotoboothBloc, PhotoboothState>(
-              builder: (context, state) {
-                if (state.anyCharacterSelected()) return const SizedBox();
-                return const CharactersCaption();
-              },
-            )
-          ],
-        ));
+      alignment: Alignment.topCenter,
+      child: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+          BlocBuilder<PhotoboothBloc, PhotoboothState>(
+            builder: (context, state) {
+              if (state.anyCharacterSelected) return const SizedBox();
+              return const CharactersCaption();
+            },
+          )
+        ],
+      ),
+    );
   }
 }
 

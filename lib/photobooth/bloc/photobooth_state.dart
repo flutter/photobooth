@@ -74,6 +74,15 @@ class PhotoboothState extends Equatable {
     this.image,
   });
 
+  bool get isDashSelected => characters.containsCharacter(Character.dash);
+
+  bool get isAndroidSelected => characters.containsCharacter(Character.android);
+
+  bool get isSparkySelected => characters.containsCharacter(Character.sparky);
+
+  bool get anyCharacterSelected =>
+      isDashSelected || isAndroidSelected || isSparkySelected;
+
   final CameraImage? image;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;
@@ -103,13 +112,4 @@ extension PhotoAssetsX on List<PhotoAsset> {
   }
 }
 
-extension PhotoboothStateX on PhotoboothState {
-  bool get isDashSelected => characters.containsCharacter(Character.dash);
-
-  bool get isAndroidSelected => characters.containsCharacter(Character.android);
-
-  bool get isSparkySelected => characters.containsCharacter(Character.sparky);
-
-  bool anyCharacterSelected() =>
-      isDashSelected || isAndroidSelected || isSparkySelected;
-}
+extension PhotoboothStateX on PhotoboothState {}
