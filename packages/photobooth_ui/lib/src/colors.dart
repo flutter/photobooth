@@ -17,9 +17,6 @@ abstract class PhotoboothColors {
   /// Transparent
   static const Color transparent = Color(0x00000000);
 
-  /// Light Blue
-  static const Color lightBlue = Color(0xFF428EFF);
-
   /// Blue
   static const Color blue = Color(0xFF428EFF);
 

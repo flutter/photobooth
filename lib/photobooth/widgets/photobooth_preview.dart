@@ -4,7 +4,6 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
@@ -19,16 +18,12 @@ class PhotoboothPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PhotoboothBloc>().state;
-    final isAndroidSelected =
-        state.characters.containsCharacter(Character.android);
-    final isDashSelected = state.characters.containsCharacter(Character.dash);
-    final isSparkySelected =
-        state.characters.containsCharacter(Character.sparky);
+
     final children = <Widget>[
       Flexible(
         child: CharacterIconButton(
           key: const Key('photoboothView_dash_characterIconButton'),
-          icon: isDashSelected
+          icon: state.isDashSelected
               ? const AssetImage('assets/icons/dash_icon_disabled.png')
               : const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
@@ -44,7 +39,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_sparky_characterIconButton',
           ),
-          icon: isSparkySelected
+          icon: state.isSparkySelected
               ? const AssetImage('assets/icons/sparky_icon_disabled.png')
               : const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
@@ -60,7 +55,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_android_characterIconButton',
           ),
-          icon: isAndroidSelected
+          icon: state.isAndroidSelected
               ? const AssetImage('assets/icons/android_icon_disabled.png')
               : const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
@@ -132,7 +127,6 @@ class DesktopCharactersIconLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
@@ -140,20 +134,7 @@ class DesktopCharactersIconLayout extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                  color: PhotoboothColors.lightBlue,
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                l10n.charactersCaptionText,
-                style: const TextStyle(
-                  color: PhotoboothColors.white,
-                  fontWeight: PhotoboothFontWeight.regular,
-                  fontSize: 15,
-                ),
-              ),
-            ),
+            const CharactersCaption(),
             const SizedBox(height: 5),
             ...children,
           ],
@@ -174,13 +155,22 @@ class MobileCharactersIconLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.topCenter,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
-      ),
-    );
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: children,
+            ),
+            BlocBuilder<PhotoboothBloc, PhotoboothState>(
+              builder: (context, state) {
+                if (state.anyCharacterSelected()) return const SizedBox();
+                return const CharactersCaption();
+              },
+            )
+          ],
+        ));
   }
 }
 

@@ -102,3 +102,14 @@ extension PhotoAssetsX on List<PhotoAsset> {
     return indexWhere((e) => e.asset.name == describeEnum(character)) != -1;
   }
 }
+
+extension PhotoboothStateX on PhotoboothState {
+  bool get isDashSelected => characters.containsCharacter(Character.dash);
+
+  bool get isAndroidSelected => characters.containsCharacter(Character.android);
+
+  bool get isSparkySelected => characters.containsCharacter(Character.sparky);
+
+  bool anyCharacterSelected() =>
+      isDashSelected || isAndroidSelected || isSparkySelected;
+}
