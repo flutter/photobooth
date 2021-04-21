@@ -578,6 +578,7 @@ void main() async {
       );
       await tester.pumpAndSettle();
       expect(find.byType(CharactersCaption), findsOneWidget);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets(
@@ -599,6 +600,7 @@ void main() async {
       );
       await tester.pumpAndSettle();
       expect(find.byType(CharactersCaption), findsNothing);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
   });
 }
