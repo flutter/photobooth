@@ -1,6 +1,3 @@
-import 'dart:math' as math;
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +45,7 @@ class SharePage extends StatelessWidget {
                   if (image != null)
                     Container(
                       height: _photoImageHeight,
-                      child: _Photo(image: image.data),
+                      child: PhotoboothPhoto(image: image.data),
                     ),
                   const SizedBox(height: 80),
                   Text(
@@ -74,16 +71,11 @@ class SharePage extends StatelessWidget {
                   _SocialMediaShareClarificationNote(
                     key: const Key('sharePage_socialMediaShareClarification'),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 80),
+                  const WhiteFooter()
                 ],
               ),
             ),
-          ),
-          const Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: WhiteFooter(),
           ),
         ],
       ),
@@ -164,44 +156,6 @@ class MobileButtonsLayout extends StatelessWidget {
   }
 }
 
-class _Photo extends StatelessWidget {
-  const _Photo({
-    Key? key,
-    required this.image,
-  }) : super(key: key);
-
-  final Uint8List image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform(
-      alignment: const Alignment(0, -3 / 4),
-      transform: Matrix4.identity()..rotateZ(-11 * (math.pi / 180)),
-      child: Center(
-        child: AspectRatio(
-          aspectRatio: isMobile ? 3 / 4 : 4 / 3,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              PreviewImage(data: image),
-              const CharactersLayer(),
-              const StickersLayer(),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: PhotoboothColors.white,
-                    width: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _RetakeButton extends StatelessWidget {
   const _RetakeButton({Key? key}) : super(key: key);
 
@@ -233,9 +187,12 @@ class _ShareButton extends StatelessWidget {
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
         showDialog(
-          barrierColor: PhotoboothColors.gray.withOpacity(0.75),
+          barrierColor: PhotoboothColors.black.withOpacity(0.75),
           context: context,
-          builder: (_) => ShareDialog(image: image),
+          builder: (_) => BlocProvider.value(
+            value: context.read<PhotoboothBloc>(),
+            child: ShareDialog(image: image),
+          ),
         );
       },
       child: Text(l10n.sharePageShareButtonText),

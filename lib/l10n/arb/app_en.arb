@@ -72,11 +72,11 @@
     "@sharePageSocialMediaShareClarification": {
         "description": "Text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
     },
-    "shareDialogHeading": "Share",
+    "shareDialogHeading": "Share your photo!",
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
     },
-    "shareDialogSubheading": "Your photo will be available for 30 days, then it will be deleted.",
+    "shareDialogSubheading": "Let everyone know you're at Google I/O by sharing your photo & updating your profile picture during the event!",
     "@shareDialogSubheading": {
         "description": "Subheading shown on the share dialog."
     },

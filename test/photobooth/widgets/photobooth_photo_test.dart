@@ -2,11 +2,10 @@
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -32,48 +31,31 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 
-  group('ShareDialog', () {
-    const width = 1;
-    const height = 1;
+  group('PhotoboothPhoto', () {
     final data = Uint8List.fromList([]);
-    final image = CameraImage(width: width, height: height, data: data);
 
-    testWidgets('displays a TwitterButton', (tester) async {
+    testWidgets('displays PreviewImage', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        PhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(TwitterButton), findsOneWidget);
+      expect(find.byType(PreviewImage), findsOneWidget);
     });
 
-    testWidgets('tapping on TwitterButton does nothing', (tester) async {
-      await tester.pumpApp(TwitterButton());
-      await tester.tap(find.byType(TwitterButton));
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('displays a FacebookButton', (tester) async {
+    testWidgets('displays CharactersLayer', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        PhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(FacebookButton), findsOneWidget);
+      expect(find.byType(CharactersLayer), findsOneWidget);
     });
 
-    testWidgets('tapping on FacebookButton does nothing', (tester) async {
-      await tester.pumpApp(FacebookButton());
-      await tester.tap(find.byType(FacebookButton));
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('taps on close will dismiss the popup', (tester) async {
+    testWidgets('displays StickersLayer', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        PhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      await tester.tap(find.byIcon(Icons.clear));
-      await tester.pumpAndSettle();
-      expect(find.byType(ShareDialog), findsNothing);
+      expect(find.byType(StickersLayer), findsOneWidget);
     });
   });
 }
