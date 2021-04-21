@@ -25,10 +25,13 @@ class CharactersLayer extends StatelessWidget {
                     ),
                     top: character.position.dy * heightFactor,
                     left: character.position.dx * widthFactor,
-                    child: Image.memory(
-                      character.asset.bytes,
-                      height: character.size.height * heightFactor,
-                      width: character.size.width * widthFactor,
+                    child: Transform.rotate(
+                      angle: character.angle,
+                      child: Image.memory(
+                        character.asset.bytes,
+                        height: character.size.height * heightFactor,
+                        width: character.size.width * widthFactor,
+                      ),
                     ),
                   );
                 },

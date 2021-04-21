@@ -127,6 +127,7 @@ void main() async {
           PhotoCharacterDragged(
             character: PhotoAsset(id: 0, asset: Assets.sparky),
             update: DragUpdate(
+              angle: 42,
               position: Offset(42, 42),
               constraints: Size(42, 42),
               size: Size(42, 42),
@@ -139,6 +140,7 @@ void main() async {
               PhotoAsset(
                 id: 0,
                 asset: Assets.sparky,
+                angle: 42,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
                 constraint: PhotoConstraint(width: 42, height: 42),
                 size: PhotoAssetSize(width: 42, height: 42),
@@ -177,6 +179,7 @@ void main() async {
           PhotoStickerDragged(
             sticker: PhotoAsset(id: 0, asset: Assets.banana),
             update: DragUpdate(
+              angle: 42,
               position: Offset(42, 42),
               constraints: Size(42, 42),
               size: Size(42, 42),
@@ -189,6 +192,7 @@ void main() async {
               PhotoAsset(
                 id: 0,
                 asset: Assets.banana,
+                angle: 42,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
                 constraint: PhotoConstraint(width: 42, height: 42),
                 size: PhotoAssetSize(width: 42, height: 42),

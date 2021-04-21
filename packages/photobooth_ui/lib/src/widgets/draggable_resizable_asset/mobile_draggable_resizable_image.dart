@@ -93,6 +93,7 @@ class _MobileDraggableResizableImageState
                       position: Offset(left, top),
                       size: Size(_width, _height),
                       constraints: Size.zero,
+                      angle: 0.0,
                     ),
                   );
                 } else {
@@ -105,6 +106,7 @@ class _MobileDraggableResizableImageState
                       position: Offset(left, top),
                       size: Size(_width, _height),
                       constraints: Size.zero,
+                      angle: 0.0,
                     ),
                   );
                 }

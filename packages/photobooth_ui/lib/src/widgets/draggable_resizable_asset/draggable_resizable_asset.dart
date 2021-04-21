@@ -14,10 +14,14 @@ export 'mobile_draggable_resizable_image.dart';
 class DragUpdate {
   /// {@macro drag_update}
   const DragUpdate({
+    required this.angle,
     required this.position,
     required this.size,
     required this.constraints,
   });
+
+  /// The angle of the draggable asset.
+  final double angle;
 
   /// The position of the draggable asset.
   final Offset position;
