@@ -31,12 +31,14 @@ class FooterMadeWithLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final defaultTextStyle = DefaultTextStyle.of(context);
 
     return RichText(
       text: TextSpan(
         text: l10n.footerMadeWithText,
         style: theme.textTheme.bodyText1?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
+          color: defaultTextStyle.style.color,
         ),
         children: <TextSpan>[
           TextSpan(
