@@ -16,11 +16,10 @@ class CharactersCaption extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Text(
         l10n.charactersCaptionText,
-        style: const TextStyle(
-          color: PhotoboothColors.white,
-          fontWeight: PhotoboothFontWeight.regular,
-          fontSize: 15,
-        ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            ?.copyWith(color: PhotoboothColors.white),
       ),
     );
   }
