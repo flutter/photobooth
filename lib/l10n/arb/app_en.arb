@@ -115,5 +115,9 @@
     "clearStickersButtonTooltip": "Clear Props",
     "@clearStickersButtonTooltip": {
         "description": "Text displayed on the tooltip for the clear stickers button"
+    },
+    "charactersCaptionText": "Add Friends",
+    "@charactersCaptionText": {
+        "description": "Text displayed as a caption on the characters layout"
     }
 }
