@@ -243,5 +243,19 @@ void main() async {
         ],
       );
     });
+
+    group('PhotoDeleteStickerTapped', () {
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state without the sticker',
+        build: () => PhotoboothBloc(),
+        seed: () => PhotoboothState(
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+        ),
+        act: (bloc) => bloc.add(PhotoDeleteStickerTapped(
+          sticker: PhotoAsset(id: 0, asset: Assets.banana),
+        )),
+        expect: () => [PhotoboothState()],
+      );
+    });
   });
 }

@@ -393,5 +393,42 @@ void main() async {
       expect(originalSize == newSize, false);
       expect(onUpdateCalls, isNotEmpty);
     });
+
+    testWidgets(
+        'delete button does not render when canTransform is false'
+        'and there is not delete callback', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+            canTransform: false,
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_delete_image')),
+        findsNothing,
+      );
+    });
+
+    testWidgets(
+        'delete button renders when canTransform is true and '
+        'has delete callback', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: DesktopDraggableResizableImage(
+            image: asset.bytes,
+            height: asset.image.height.toDouble(),
+            canTransform: true,
+            onDelete: () {},
+          ),
+        ),
+      );
+      expect(
+        find.byKey(Key('draggableResizableAsset_delete_image')),
+        findsOneWidget,
+      );
+    });
   });
 }

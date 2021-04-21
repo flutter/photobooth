@@ -62,6 +62,15 @@ class PhotoClearAllTapped extends PhotoboothEvent {
   const PhotoClearAllTapped();
 }
 
+class PhotoDeleteStickerTapped extends PhotoboothEvent {
+  const PhotoDeleteStickerTapped({required this.sticker});
+
+  final PhotoAsset sticker;
+
+  @override
+  List<Object> get props => [sticker];
+}
+
 class PhotoTapped extends PhotoboothEvent {
   const PhotoTapped();
 }
