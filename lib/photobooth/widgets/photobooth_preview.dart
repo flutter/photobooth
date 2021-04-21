@@ -165,7 +165,7 @@ class MobileCharactersIconLayout extends StatelessWidget {
           ),
           BlocBuilder<PhotoboothBloc, PhotoboothState>(
             builder: (context, state) {
-              if (state.anyCharacterSelected) return const SizedBox();
+              if (state.isAnyCharacterSelected) return const SizedBox();
               return const CharactersCaption();
             },
           )

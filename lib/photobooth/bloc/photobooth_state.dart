@@ -80,7 +80,7 @@ class PhotoboothState extends Equatable {
 
   bool get isSparkySelected => characters.containsCharacter(Character.sparky);
 
-  bool get anyCharacterSelected =>
+  bool get isAnyCharacterSelected =>
       isDashSelected || isAndroidSelected || isSparkySelected;
 
   final CameraImage? image;
