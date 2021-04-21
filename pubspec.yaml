@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^1.0.4
+  firebase_auth: ^1.1.1
   bloc: ^7.0.0
   camera:
     path: packages/camera/camera
