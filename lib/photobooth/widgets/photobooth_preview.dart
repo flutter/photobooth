@@ -140,13 +140,25 @@ class DesktopCharactersIconLayout extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              l10n.charactersCaptionText,
-              style: const TextStyle(
-                color: PhotoboothColors.white,
-                fontWeight: PhotoboothFontWeight.regular,
-                fontSize: 20,
+            Container(
+              decoration: const BoxDecoration(
+                color: PhotoboothColors.lightBlue,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
               ),
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                l10n.charactersCaptionText,
+                style: const TextStyle(
+                  color: PhotoboothColors.white,
+                  fontWeight: PhotoboothFontWeight.regular,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
             ),
             ...children,
           ],
