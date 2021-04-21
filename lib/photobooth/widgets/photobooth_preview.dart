@@ -142,11 +142,8 @@ class DesktopCharactersIconLayout extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: PhotoboothColors.lightBlue,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
+                  color: PhotoboothColors.lightBlue,
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
               padding: const EdgeInsets.all(10),
               child: Text(
                 l10n.charactersCaptionText,
@@ -157,9 +154,7 @@ class DesktopCharactersIconLayout extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5),
             ...children,
           ],
         ),
