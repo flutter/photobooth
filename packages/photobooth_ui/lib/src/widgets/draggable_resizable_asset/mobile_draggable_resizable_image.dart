@@ -73,8 +73,7 @@ class _MobileDraggableResizableImageState
         final normalizedLeft = left! * widthFactor;
         final normalizedTop = top! * heightFactor;
 
-        if (this.constraints != constraints) {
-          this.constraints = constraints;
+        void onUpdate() {
           widget.onUpdate?.call(
             DragUpdate(
               position: Offset(normalizedLeft, normalizedTop),
@@ -84,14 +83,9 @@ class _MobileDraggableResizableImageState
           );
         }
 
-        void onUpdate() {
-          widget.onUpdate?.call(
-            DragUpdate(
-              position: Offset(normalizedLeft, normalizedTop),
-              size: Size(normalizedWidth, normalizedHeight),
-              constraints: Size(constraints.maxWidth, constraints.maxHeight),
-            ),
-          );
+        if (this.constraints != constraints) {
+          this.constraints = constraints;
+          onUpdate();
         }
 
         return Stack(
