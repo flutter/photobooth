@@ -150,7 +150,7 @@ void main() async {
   });
 
   group('ShareButton', () {
-    testWidgets('tapping on share photo button opens ShareDialog',
+    testWidgets('tapping on share photo button opens ShareBottomSheet',
         (tester) async {
       final shareButtonFinder = find.byKey(
         const Key('sharePage_share_elevatedButton'),
@@ -161,7 +161,7 @@ void main() async {
       await tester.tap(shareButtonFinder);
       await tester.pumpAndSettle();
 
-      expect(find.byType(ShareDialog), findsOneWidget);
+      expect(find.byType(ShareBottomSheet), findsOneWidget);
     });
   });
 

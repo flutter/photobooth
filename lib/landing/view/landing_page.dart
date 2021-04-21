@@ -54,6 +54,7 @@ class LandingView extends StatelessWidget {
                       ),
                       const SizedBox(height: 24),
                       const TakePhotoButton(),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),

@@ -186,14 +186,25 @@ class _ShareButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
-        showDialog(
-          barrierColor: PhotoboothColors.dialogBarrierColor,
-          context: context,
-          builder: (_) => BlocProvider.value(
-            value: context.read<PhotoboothBloc>(),
-            child: ShareDialog(image: image),
-          ),
-        );
+        if (isMobile) {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => BlocProvider.value(
+              value: context.read<PhotoboothBloc>(),
+              child: ShareBottomSheet(image: image),
+            ),
+          );
+        } else {
+          showDialog(
+            barrierColor: PhotoboothColors.dialogBarrierColor,
+            context: context,
+            builder: (_) => BlocProvider.value(
+              value: context.read<PhotoboothBloc>(),
+              child: ShareDialog(image: image),
+            ),
+          );
+        }
       },
       child: Text(l10n.sharePageShareButtonText),
     );

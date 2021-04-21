@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
@@ -50,12 +51,14 @@ class ShareDialog extends StatelessWidget {
                       const SizedBox(height: 60),
                       Text(
                         l10n.shareDialogHeading,
+                        key: const Key('shareDialog_heading'),
                         style: theme.textTheme.headline1,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 24),
                       Text(
                         l10n.shareDialogSubheading,
+                        key: const Key('shareDialog_subheading'),
                         style: theme.textTheme.headline2,
                         textAlign: TextAlign.center,
                       ),
@@ -78,9 +81,9 @@ class ShareDialog extends StatelessWidget {
               left: 24,
               top: 24,
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.clear,
-                  color: PhotoboothColors.black.withOpacity(0.54),
+                  color: PhotoboothColors.blackInactive,
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -88,32 +91,6 @@ class ShareDialog extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class TwitterButton extends StatelessWidget {
-  const TwitterButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(l10n.shareDialogTwitterButtonText),
-    );
-  }
-}
-
-class FacebookButton extends StatelessWidget {
-  const FacebookButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(l10n.shareDialogFacebookButtonText),
     );
   }
 }
