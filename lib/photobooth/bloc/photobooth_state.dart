@@ -111,5 +111,3 @@ extension PhotoAssetsX on List<PhotoAsset> {
     return indexWhere((e) => e.asset.name == describeEnum(character)) != -1;
   }
 }
-
-extension PhotoboothStateX on PhotoboothState {}
