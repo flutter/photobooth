@@ -92,13 +92,33 @@
     "@shareDialogDeleteText": {
         "description": "Text displayed on the share dialog to inform about the delete of the photo"
     },
-    "photoBoothPlaceholderHeadline": "Allow IO to access your camera",
+    "photoBoothPlaceholderHeadline": "Allow I/O to access your camera",
     "@photoBoothPlaceholderHeadline": {
         "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
     },
-    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them.",
+    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them to social media.",
     "@photoBoothPlaceholderSubheadline": {
         "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
+    },
+    "photoBoothCameraAccessDeniedHeadline": "Camera access denied",
+    "@photoBoothCameraAccessDeniedHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
+    },
+    "photoBoothCameraAccessDeniedSubheadline": "To take a photo, you must allow browser access to your camera.",
+    "@photoBoothCameraAccessDeniedSubheadline": {
+        "description": "Text displayed on subheadline on the photobooth page when camera permissions is not granted"
+    },
+    "photoBoothCameraErrorHeadline": "Oops! Something went wrong",
+    "@photoBoothCameraErrorHeadline": {
+        "description": "Text displayed on headline on the photobooth page when unknown error occurs"
+    },
+    "photoBoothCameraErrorSubheadline1": "Please refresh your browser and try again.",
+    "@photoBoothCameraErrorSubheadline": {
+        "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
+    },
+    "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact photobooth@google.com",
+    "@photoBoothCameraErrorSubheadline": {
+        "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
     "stickersDrawerTitle": "Add Props",
     "@stickersDrawerTitle": {
