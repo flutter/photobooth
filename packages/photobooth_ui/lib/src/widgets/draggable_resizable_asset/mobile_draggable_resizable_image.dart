@@ -32,98 +32,122 @@ class MobileDraggableResizableImage extends StatefulWidget {
 
 class _MobileDraggableResizableImageState
     extends State<MobileDraggableResizableImage> {
-  late double _width;
-  late double _height;
-
+  late double height;
+  late double width;
+  late double minHeight;
+  late double maxHeight;
+  late BoxConstraints constraints;
+  late double initX;
+  late double initY;
   double _baseScaleFactor = 1.0;
   double _scaleFactor = 1.0;
 
-  late double initX;
-  late double initY;
-
-  late double top;
-  late double left;
+  double? top;
+  double? left;
+  Size? initialSize;
 
   @override
   void initState() {
     super.initState();
-    _height = widget.height * 0.1;
-    _width = _height;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    left = MediaQuery.of(context).size.width / 2 - (_width / 2);
-    top = MediaQuery.of(context).size.height / 2 - (_height / 2);
+    maxHeight = widget.height.toDouble();
+    minHeight = maxHeight * 0.05;
+    height = maxHeight * 0.25;
+    width = height;
+    constraints = const BoxConstraints.expand(width: 1, height: 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: top,
-          left: left,
-          child: Transform.scale(
-            scale: _scaleFactor,
-            alignment: Alignment.center,
-            child: GestureDetector(
-              onScaleStart: (details) {
-                if (details.pointerCount == 1) {
-                  initX = details.focalPoint.dx;
-                  initY = details.focalPoint.dy;
-                } else {
-                  _baseScaleFactor = _scaleFactor;
-                }
-              },
-              onScaleUpdate: (details) {
-                if (details.pointerCount == 1) {
-                  final dx = details.focalPoint.dx - initX;
-                  final dy = details.focalPoint.dy - initY;
-                  initX = details.focalPoint.dx;
-                  initY = details.focalPoint.dy;
-                  setState(() {
-                    top = top + dy;
-                    left = left + dx;
-                  });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
+        left = left ??= constraints.maxWidth / 2 - (width / 2);
+        top = top ??= constraints.maxHeight / 2 - (height / 2);
 
-                  widget.onUpdate?.call(
-                    DragUpdate(
-                      position: Offset(left, top),
-                      size: Size(_width, _height),
-                      constraints: Size.zero,
-                    ),
-                  );
-                } else {
-                  setState(() {
-                    _scaleFactor = _baseScaleFactor * details.scale;
-                  });
+        final widthFactor = constraints.maxWidth / initialSize!.width;
+        final heightFactor = constraints.maxHeight / initialSize!.height;
 
-                  widget.onUpdate?.call(
-                    DragUpdate(
-                      position: Offset(left, top),
-                      size: Size(_width, _height),
-                      constraints: Size.zero,
+        final normalizedWidth = width * widthFactor;
+        final normalizedHeight = height * heightFactor;
+
+        final normalizedLeft = left! * widthFactor;
+        final normalizedTop = top! * heightFactor;
+
+        if (this.constraints != constraints) {
+          this.constraints = constraints;
+          widget.onUpdate?.call(
+            DragUpdate(
+              position: Offset(normalizedLeft, normalizedTop),
+              size: Size(normalizedWidth, normalizedHeight),
+              constraints: Size(constraints.maxWidth, constraints.maxHeight),
+            ),
+          );
+        }
+
+        void onUpdate() {
+          widget.onUpdate?.call(
+            DragUpdate(
+              position: Offset(normalizedLeft, normalizedTop),
+              size: Size(normalizedWidth, normalizedHeight),
+              constraints: Size(constraints.maxWidth, constraints.maxHeight),
+            ),
+          );
+        }
+
+        return Stack(
+          children: [
+            Positioned(
+              top: normalizedTop,
+              left: normalizedLeft,
+              child: Transform.scale(
+                scale: _scaleFactor,
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  onScaleStart: (details) {
+                    if (details.pointerCount == 1) {
+                      initX = details.focalPoint.dx;
+                      initY = details.focalPoint.dy;
+                    } else {
+                      _baseScaleFactor = _scaleFactor;
+                    }
+                  },
+                  onScaleUpdate: (details) {
+                    if (details.pointerCount == 1) {
+                      final dx = details.focalPoint.dx - initX;
+                      final dy = details.focalPoint.dy - initY;
+                      initX = details.focalPoint.dx;
+                      initY = details.focalPoint.dy;
+                      setState(() {
+                        top = top! + (dy / heightFactor);
+                        left = left! + (dx / widthFactor);
+                      });
+
+                      onUpdate();
+                    } else {
+                      setState(() {
+                        _scaleFactor = _baseScaleFactor * details.scale;
+                      });
+
+                      onUpdate();
+                    }
+                  },
+                  child: Container(
+                    height: normalizedHeight,
+                    width: normalizedWidth,
+                    child: Image.memory(
+                      widget.image,
+                      key: const Key('mobileDraggableResizableImage_image'),
+                      height: normalizedHeight,
+                      width: normalizedWidth,
+                      gaplessPlayback: true,
                     ),
-                  );
-                }
-              },
-              child: Container(
-                height: _height,
-                width: _width,
-                child: Image.memory(
-                  widget.image,
-                  key: const Key('mobileDraggableResizableImage_image'),
-                  height: _height,
-                  width: _width,
-                  gaplessPlayback: true,
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
