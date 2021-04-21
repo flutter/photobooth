@@ -4,6 +4,7 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
@@ -108,9 +109,12 @@ class PhotoboothPreview extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: ShutterButton(
-            key: const Key('photoboothPreview_photo_shutterButton'),
-            onCountdownComplete: onSnapPressed,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: ShutterButton(
+              key: const Key('photoboothPreview_photo_shutterButton'),
+              onCountdownComplete: onSnapPressed,
+            ),
           ),
         ),
       ],
@@ -128,12 +132,32 @@ class DesktopCharactersIconLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Align(
       alignment: Alignment.centerRight,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: children,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  color: PhotoboothColors.lightBlue,
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                l10n.charactersCaptionText,
+                style: const TextStyle(
+                  color: PhotoboothColors.white,
+                  fontWeight: PhotoboothFontWeight.regular,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            ...children,
+          ],
+        ),
       ),
     );
   }
