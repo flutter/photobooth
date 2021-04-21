@@ -1,12 +1,14 @@
 {
   "hosting": {
     "public": "build/web",
+    "site": "io-photobooth-dev",
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": [
       "firebase.json",
       "functions/node_modules",
-      "functions/src"
+      "functions/src",
+      "__/**"
     ],
     "rewrites": [
       { "source": "/share/**",
