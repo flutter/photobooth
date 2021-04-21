@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _cornerDiameter = 15.0;
+const _trashIconDiameter = 60.0;
 
 /// {@template desktop_draggable_resizable_image}
 /// A widget which allows a user to drag and resize the provided [image].
@@ -14,6 +15,7 @@ class DesktopDraggableResizableImage extends StatefulWidget {
     required this.image,
     required this.height,
     this.onUpdate,
+    this.onDelete,
     this.canTransform = false,
   }) : super(key: key);
 
@@ -25,6 +27,9 @@ class DesktopDraggableResizableImage extends StatefulWidget {
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
+
+  /// Delete callback
+  final VoidCallback? onDelete;
 
   /// Whether or not the asset can be dragged or resized.
   /// Defaults to false.
@@ -193,6 +198,33 @@ class _DesktopDraggableResizableImageState
 
                     onUpdate();
                   },
+                ),
+              ),
+
+            //Delete button
+            if (widget.onDelete != null && widget.canTransform)
+              Positioned(
+                top: normalizedTop +
+                    normalizedHeight / 2 -
+                    _trashIconDiameter / 2,
+                left: normalizedLeft +
+                    normalizedWidth -
+                    _trashIconDiameter / 2 +
+                    30,
+                child: Material(
+                  color: PhotoboothColors.transparent,
+                  clipBehavior: Clip.hardEdge,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    onTap: widget.onDelete,
+                    child: Image.asset(
+                      'assets/images/delete_circle_icon.png',
+                      key: const Key('draggableResizableAsset_delete_image'),
+                      package: 'photobooth_ui',
+                      width: _trashIconDiameter,
+                      height: _trashIconDiameter,
+                    ),
+                  ),
                 ),
               ),
 

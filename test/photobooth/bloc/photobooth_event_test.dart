@@ -57,6 +57,15 @@ void main() {
       });
     });
 
+    group('PhotoDeleteStickerTapped', () {
+      test('support value equality', () {
+        final sticker = MockPhotoAsset();
+        final instanceA = PhotoDeleteStickerTapped(sticker: sticker);
+        final instanceB = PhotoDeleteStickerTapped(sticker: sticker);
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
     group('PhotoStickerDragged', () {
       test('support value equality', () {
         final sticker = MockPhotoAsset();

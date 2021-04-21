@@ -52,6 +52,11 @@ void main() {
       registerFallbackValue<Rect>(RectFake());
     });
 
+    test('verifies should not repaint', () async {
+      final timePainter = TimerPainter(animation: animation);
+      expect(timePainter.shouldRepaint(timePainter), false);
+    });
+
     test('calculate correct colors', () async {
       final timePainter = TimerPainter(animation: animation);
       final blue = timePainter.calculateColor(2);

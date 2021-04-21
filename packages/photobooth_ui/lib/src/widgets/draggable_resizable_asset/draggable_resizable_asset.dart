@@ -38,6 +38,7 @@ class DraggableResizableAsset extends StatelessWidget {
     Key? key,
     required this.asset,
     this.onUpdate,
+    this.onDelete,
     this.canTransform = false,
     this.platformHelper,
   }) : super(key: key);
@@ -47,6 +48,9 @@ class DraggableResizableAsset extends StatelessWidget {
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
+
+  /// Delete callback
+  final VoidCallback? onDelete;
 
   /// Whether or not the asset can be dragged or resized.
   /// Defaults to false.
@@ -69,6 +73,7 @@ class DraggableResizableAsset extends StatelessWidget {
         height: asset.image.height.toDouble(),
         canTransform: canTransform,
         onUpdate: onUpdate,
+        onDelete: onDelete,
       ),
     );
   }
