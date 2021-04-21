@@ -521,8 +521,9 @@ void main() async {
       verify(() => photoboothBloc.add(PhotoTapped())).called(1);
     });
 
-    testWidgets('adds PhotoStickerRemoved when sticker selected is removed',
-        (tester) async {
+    testWidgets(
+        'adds PhotoDeleteStickerTapped '
+        'when sticker selected is removed', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
