@@ -13,6 +13,7 @@ class PhotoboothTheme {
       outlinedButtonTheme: _outlinedButtonTheme,
       textTheme: _textTheme,
       dialogBackgroundColor: PhotoboothColors.whiteBackground,
+      dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
     );
   }
@@ -70,6 +71,14 @@ class PhotoboothTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
         color: PhotoboothColors.blue,
+      ),
+    );
+  }
+
+  static DialogTheme get _dialogTheme {
+    return DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
     );
   }
