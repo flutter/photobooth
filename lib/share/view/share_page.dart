@@ -187,7 +187,7 @@ class _ShareButton extends StatelessWidget {
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
         showDialog(
-          barrierColor: PhotoboothColors.black.withOpacity(0.75),
+          barrierColor: PhotoboothColors.dialogBarrierColor,
           context: context,
           builder: (_) => BlocProvider.value(
             value: context.read<PhotoboothBloc>(),
