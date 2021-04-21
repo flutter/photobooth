@@ -7,7 +7,7 @@ class PhotoboothTheme {
   /// Default `ThemeData` for Photobooth UI.
   static ThemeData get themeData {
     return ThemeData(
-      accentColor: PhotoboothColors.lightBlue,
+      accentColor: PhotoboothColors.blue,
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
@@ -35,7 +35,7 @@ class PhotoboothTheme {
       );
 
   static AppBarTheme get _appBarTheme {
-    return const AppBarTheme(color: PhotoboothColors.lightBlue);
+    return const AppBarTheme(color: PhotoboothColors.blue);
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
@@ -70,7 +70,7 @@ class PhotoboothTheme {
   static TooltipThemeData get _tooltipTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
-        color: PhotoboothColors.lightBlue,
+        color: PhotoboothColors.blue,
       ),
     );
   }
