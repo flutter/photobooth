@@ -244,23 +244,16 @@ void main() async {
       );
     });
 
-    group('PhotoStickerRemoved', () {
+    group('PhotoDeleteStickerTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state without the sticker',
         build: () => PhotoboothBloc(),
         seed: () => PhotoboothState(
-          stickers: [
-            PhotoAsset(
-              id: 0,
-              asset: Assets.banana,
-            ),
-          ],
+          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
         ),
-        act: (bloc) => bloc.add(
-          PhotoStickerRemoved(
-            stickerId: 0,
-          ),
-        ),
+        act: (bloc) => bloc.add(PhotoDeleteStickerTapped(
+          sticker: PhotoAsset(id: 0, asset: Assets.banana),
+        )),
         expect: () => [PhotoboothState()],
       );
     });

@@ -546,7 +546,7 @@ void main() async {
           ?.call();
 
       verify(
-        () => photoboothBloc.add(PhotoStickerRemoved(stickerId: 0)),
+        () => photoboothBloc.add(any(that: isA<PhotoDeleteStickerTapped>())),
       ).called(1);
     });
   });
