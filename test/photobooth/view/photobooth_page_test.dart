@@ -109,6 +109,36 @@ void main() async {
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
 
+    testWidgets(
+        'renders camera access denied error '
+        'when cameraPlatform throws CameraNotAllowed exception',
+        (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraNotAllowedException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_cameraAccessDenied')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'renders unknown error '
+        'when cameraPlatform throws CameraUnknownException exception',
+        (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraUnknownException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_unknown')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('renders error when not allowed', (tester) async {
       when(
         () => cameraPlatform.create(any()),
