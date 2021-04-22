@@ -224,7 +224,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2,
-                color: widget.canTransform && !isTouchInputSupported
+                color: widget.canTransform
                     ? PhotoboothColors.blue
                     : PhotoboothColors.transparent,
               ),
