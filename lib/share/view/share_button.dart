@@ -32,8 +32,15 @@ class ShareButton extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (_) => BlocProvider.value(
-              value: context.read<PhotoboothBloc>(),
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: context.read<PhotoboothBloc>(),
+                ),
+                BlocProvider.value(
+                  value: context.read<ShareBloc>(),
+                ),
+              ],
               child: ShareBottomSheet(image: image),
             ),
           );
@@ -41,8 +48,15 @@ class ShareButton extends StatelessWidget {
           showDialog(
             barrierColor: PhotoboothColors.dialogBarrierColor,
             context: context,
-            builder: (_) => BlocProvider.value(
-              value: context.read<PhotoboothBloc>(),
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: context.read<PhotoboothBloc>(),
+                ),
+                BlocProvider.value(
+                  value: context.read<ShareBloc>(),
+                ),
+              ],
               child: ShareDialog(image: image),
             ),
           );
