@@ -34,6 +34,7 @@ class FooterMadeWithLink extends StatelessWidget {
     final defaultTextStyle = DefaultTextStyle.of(context);
 
     return RichText(
+      textAlign: TextAlign.center,
       text: TextSpan(
         text: l10n.footerMadeWithText,
         style: theme.textTheme.bodyText1?.copyWith(
