@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -80,13 +79,13 @@ class StickersView extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.bottomCenter,
-                    child: _NextButton(),
+                    child: NextButtonLayer(),
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.bottomCenter,
-                    child: _RemoveSelectedStickerButton(),
+                    child: RemoveSelectedStickerButtonLayer(),
                   ),
                 ],
               ),
@@ -148,97 +147,6 @@ class _DraggableStickers extends StatelessWidget {
                 .add(const PhotoDeleteSelectedStickerTapped()),
           ),
       ],
-    );
-  }
-}
-
-class _NextButton extends StatelessWidget {
-  const _NextButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final nextButton = NextButton(
-      onPressed: () {
-        Navigator.of(context).push(SharePage.route());
-      },
-    );
-
-    if (!isMobile) return nextButton;
-
-    final isHidden = context.select(
-      (PhotoboothBloc bloc) => bloc.state.selectedAssetId != emptyAssetId,
-    );
-    return isHidden ? const SizedBox() : nextButton;
-  }
-}
-
-class NextButton extends StatelessWidget {
-  const NextButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/go_next_button_icon.png',
-          height: 100,
-        ),
-      ),
-    );
-  }
-}
-
-class _RemoveSelectedStickerButton extends StatelessWidget {
-  const _RemoveSelectedStickerButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (!isMobile) return const SizedBox();
-    final isHidden = context.select(
-      (PhotoboothBloc bloc) => bloc.state.selectedAssetId == emptyAssetId,
-    );
-
-    if (isHidden) return const SizedBox();
-    return RemoveSelectedStickerButton(
-      onPressed: () {
-        context
-            .read<PhotoboothBloc>()
-            .add(const PhotoDeleteSelectedStickerTapped());
-      },
-    );
-  }
-}
-
-class RemoveSelectedStickerButton extends StatelessWidget {
-  const RemoveSelectedStickerButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/trash_icon.png',
-          height: 100,
-        ),
-      ),
     );
   }
 }
