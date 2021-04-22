@@ -302,7 +302,7 @@ void main() async {
           ?.call(FakeDragUpdate());
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoStickerDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('tapping on back button pops route', (tester) async {

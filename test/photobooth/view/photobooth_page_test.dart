@@ -320,7 +320,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
@@ -364,7 +364,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders only sparky when only sparky is selected',
@@ -413,7 +413,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders dash, sparky, and android when all are selected',

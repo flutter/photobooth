@@ -1,31 +1,57 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
+
+/// {@template drag_update}
+/// Drag update model which includes the position and size.
+/// {@endtemplate}
+class DragUpdate {
+  /// {@macro drag_update}
+  const DragUpdate({
+    required this.scale,
+    required this.angle,
+    required this.position,
+    required this.size,
+    required this.constraints,
+  });
+
+  /// The scale of the draggable asset.
+  final double scale;
+
+  /// The angle of the draggable asset.
+  final double angle;
+
+  /// The position of the draggable asset.
+  final Offset position;
+
+  /// The size of the draggable asset.
+  final Size size;
+
+  /// The constraints of the parent view.
+  final Size constraints;
+}
 
 const _cornerDiameter = 15.0;
 const _floatingActionDiameter = 45.0;
 const _floatingActionPadding = 100.0;
 
-/// {@template desktop_draggable_resizable_image}
-/// A widget which allows a user to drag and resize the provided [image].
+/// {@template draggable_resizable_image}
+/// A widget which allows a user to drag and resize the provided [asset].
 /// {@endtemplate}
-class DesktopDraggableResizableImage extends StatefulWidget {
+class DraggableResizableAsset extends StatefulWidget {
   /// {@macro draggable_resizable_asset}
-  DesktopDraggableResizableImage({
+  DraggableResizableAsset({
     Key? key,
-    required this.image,
-    required this.height,
+    required this.asset,
     this.onUpdate,
     this.onDelete,
     this.canTransform = false,
-  }) : super(key: key);
+    PlatformHelper? platformHelper,
+  })  : platformHelper = platformHelper ?? PlatformHelper(),
+        super(key: key);
 
   /// Image that will be draggable and resizable
-  final Uint8List image;
-
-  /// Height image
-  final double height;
+  final Asset asset;
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
@@ -37,18 +63,23 @@ class DesktopDraggableResizableImage extends StatefulWidget {
   /// Defaults to false.
   final bool canTransform;
 
+  /// Optional [PlatformHelper] instance.
+  final PlatformHelper platformHelper;
+
   @override
-  _DesktopDraggableResizableImageState createState() =>
-      _DesktopDraggableResizableImageState();
+  _DraggableResizableAssetState createState() =>
+      _DraggableResizableAssetState();
 }
 
-class _DesktopDraggableResizableImageState
-    extends State<DesktopDraggableResizableImage> {
+class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   late Size size;
   late double minHeight;
   late double maxHeight;
   late BoxConstraints constraints;
   late double angle;
+  late double scale;
+
+  bool get isTouchInputSupported => widget.platformHelper.isMobile;
 
   Offset position = Offset.zero;
   Size? initialSize;
@@ -56,11 +87,12 @@ class _DesktopDraggableResizableImageState
   @override
   void initState() {
     super.initState();
-    maxHeight = widget.height.toDouble();
+    maxHeight = widget.asset.image.height.toDouble();
     minHeight = maxHeight * 0.05;
     size = Size(maxHeight * 0.25, maxHeight * 0.25);
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
+    scale = 1;
   }
 
   double clampHeight(double value) {
@@ -105,25 +137,21 @@ class _DesktopDraggableResizableImageState
               size: Size(normalizedWidth, normalizedHeight),
               constraints: Size(constraints.maxWidth, constraints.maxHeight),
               angle: angle,
+              scale: scale,
             ),
           );
         }
 
-        void onDragTopLeft(double dx, double dy) {
-          final mid = (dx + dy) / 2;
+        void onDragTopLeft(Offset details) {
+          final mid = (details.dx + details.dy) / 2;
           final newHeight = (size.height - 2 * mid).abs();
           final newWidth = (size.width - 2 * mid).abs();
 
           if (newHeight >= maxHeight || newHeight <= minHeight) return;
 
-          final updatedSize = Size(
-            newWidth,
-            clampHeight(newHeight),
-          );
-          final updatedPosition = Offset(
-            position.dx + mid,
-            position.dy + mid,
-          );
+          final updatedSize = Size(newWidth, clampHeight(newHeight));
+          final updatedPosition = Offset(position.dx + mid, position.dy + mid);
+
           setState(() {
             size = updatedSize;
             position = updatedPosition;
@@ -132,21 +160,15 @@ class _DesktopDraggableResizableImageState
           onUpdate();
         }
 
-        void onDragTopRight(double dx, double dy) {
-          final mid = (dx + (dy * -1)) / 2;
+        void onDragTopRight(Offset details) {
+          final mid = (details.dx + (details.dy * -1)) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
 
           if (newHeight >= maxHeight || newHeight <= minHeight) return;
 
-          final updatedSize = Size(
-            newWidth,
-            clampHeight(newHeight),
-          );
-          final updatedPosition = Offset(
-            position.dx - mid,
-            position.dy - mid,
-          );
+          final updatedSize = Size(newWidth, clampHeight(newHeight));
+          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
             size = updatedSize;
@@ -156,21 +178,15 @@ class _DesktopDraggableResizableImageState
           onUpdate();
         }
 
-        void onDragBottomLeft(double dx, double dy) {
-          final mid = ((dx * -1) + dy) / 2;
+        void onDragBottomLeft(Offset details) {
+          final mid = ((details.dx * -1) + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
 
           if (newHeight >= maxHeight || newHeight <= minHeight) return;
 
-          final updatedSize = Size(
-            newWidth,
-            clampHeight(newHeight),
-          );
-          final updatedPosition = Offset(
-            position.dx - mid,
-            position.dy - mid,
-          );
+          final updatedSize = Size(newWidth, clampHeight(newHeight));
+          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
             size = updatedSize;
@@ -180,21 +196,15 @@ class _DesktopDraggableResizableImageState
           onUpdate();
         }
 
-        void onDragBottomRight(double dx, double dy) {
-          final mid = (dx + dy) / 2;
+        void onDragBottomRight(Offset details) {
+          final mid = (details.dx + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
 
           if (newHeight >= maxHeight || newHeight <= minHeight) return;
 
-          final updatedSize = Size(
-            newWidth,
-            clampHeight(newHeight),
-          );
-          final updatedPosition = Offset(
-            position.dx - mid,
-            position.dy - mid,
-          );
+          final updatedSize = Size(newWidth, clampHeight(newHeight));
+          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
             size = updatedSize;
@@ -203,6 +213,31 @@ class _DesktopDraggableResizableImageState
 
           onUpdate();
         }
+
+        final decoratedImage = Container(
+          alignment: Alignment.center,
+          height: normalizedHeight + _cornerDiameter + _floatingActionPadding,
+          width: normalizedWidth + _cornerDiameter + _floatingActionPadding,
+          child: Container(
+            height: normalizedHeight,
+            width: normalizedWidth,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: widget.canTransform && !isTouchInputSupported
+                    ? PhotoboothColors.blue
+                    : PhotoboothColors.transparent,
+              ),
+            ),
+            child: Image.memory(
+              widget.asset.bytes,
+              key: const Key('draggableResizableAsset_asset_image'),
+              height: normalizedHeight,
+              width: normalizedWidth,
+              gaplessPlayback: true,
+            ),
+          ),
+        );
 
         final topLeftCorner = _ResizePoint(
           key: const Key('draggableResizableAsset_topLeft_resizePoint'),
@@ -224,6 +259,43 @@ class _DesktopDraggableResizableImageState
           onDrag: onDragBottomRight,
         );
 
+        final deleteButton = Material(
+          color: PhotoboothColors.transparent,
+          clipBehavior: Clip.hardEdge,
+          shape: const CircleBorder(),
+          child: InkWell(
+            onTap: widget.onDelete,
+            child: Image.asset(
+              'assets/images/delete_circle_icon.png',
+              package: 'photobooth_ui',
+              key: const Key('draggableResizableAsset_delete_image'),
+              width: _floatingActionDiameter,
+              height: _floatingActionDiameter,
+            ),
+          ),
+        );
+
+        final rotateAnchor = GestureDetector(
+          key: const Key('draggableResizableAsset_rotate_gestureDetector'),
+          onScaleUpdate: (d) => setState(
+            () => angle = d.localFocalPoint.direction,
+          ),
+          child: Material(
+            color: PhotoboothColors.transparent,
+            clipBehavior: Clip.hardEdge,
+            shape: const CircleBorder(),
+            child: InkWell(
+              child: Image.asset(
+                'assets/images/rotate_circle_icon.png',
+                package: 'photobooth_ui',
+                key: const Key('draggableResizableAsset_rotate_image'),
+                width: _floatingActionDiameter,
+                height: _floatingActionDiameter,
+              ),
+            ),
+          ),
+        );
+
         if (this.constraints != constraints) {
           this.constraints = constraints;
           onUpdate();
@@ -231,57 +303,40 @@ class _DesktopDraggableResizableImageState
 
         return Stack(
           children: <Widget>[
-            // Image
             Positioned(
               top: normalizedTop,
               left: normalizedLeft,
-              child: Transform.rotate(
-                angle: angle,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..scale(scale)
+                  ..rotateZ(angle),
                 child: _DraggablePoint(
                   key: const Key(
                     'draggableResizableAsset_image_draggablePoint',
                   ),
                   onTap: onUpdate,
-                  onDrag: (dx, dy) {
+                  onDrag: (d) {
                     setState(() {
                       position = Offset(
-                        position.dx + (dx / widthFactor),
-                        position.dy + (dy / heightFactor),
+                        position.dx + (d.dx / widthFactor),
+                        position.dy + (d.dy / heightFactor),
                       );
                     });
                     onUpdate();
                   },
+                  onScale: (s) {
+                    setState(() => scale = s);
+                    onUpdate();
+                  },
+                  onRotate: (a) {
+                    setState(() => angle = a);
+                    onUpdate();
+                  },
                   child: Stack(
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: normalizedHeight +
-                            _cornerDiameter +
-                            _floatingActionPadding,
-                        width: normalizedWidth +
-                            _cornerDiameter +
-                            _floatingActionPadding,
-                        child: Container(
-                          height: normalizedHeight,
-                          width: normalizedWidth,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: widget.canTransform
-                                  ? PhotoboothColors.blue
-                                  : PhotoboothColors.transparent,
-                              width: 2,
-                            ),
-                          ),
-                          child: Image.memory(
-                            widget.image,
-                            height: normalizedHeight,
-                            width: normalizedWidth,
-                            gaplessPlayback: true,
-                          ),
-                        ),
-                      ),
-
-                      if (widget.canTransform) ...[
+                      decoratedImage,
+                      if (widget.canTransform && !isTouchInputSupported) ...[
                         Positioned(
                           top: _floatingActionPadding / 2,
                           left: _floatingActionPadding / 2,
@@ -302,67 +357,27 @@ class _DesktopDraggableResizableImageState
                           left: normalizedWidth + _floatingActionPadding / 2,
                           child: bottomRightCorner,
                         ),
-                      ],
-
-                      // Delete button
-                      if (widget.onDelete != null && widget.canTransform)
-                        Positioned(
-                          top: (normalizedHeight / 2) -
-                              (_floatingActionDiameter / 2) +
-                              (_cornerDiameter / 2) +
-                              (_floatingActionPadding / 2),
-                          left: normalizedWidth +
-                              (_floatingActionDiameter / 2) +
-                              (_floatingActionPadding / 2) -
-                              (_cornerDiameter / 2),
-                          child: Material(
-                            color: PhotoboothColors.transparent,
-                            clipBehavior: Clip.hardEdge,
-                            shape: const CircleBorder(),
-                            child: InkWell(
-                              onTap: widget.onDelete,
-                              child: Image.asset(
-                                'assets/images/delete_circle_icon.png',
-                                key: const Key(
-                                  'draggableResizableAsset_delete_image',
-                                ),
-                                package: 'photobooth_ui',
-                                width: _floatingActionDiameter,
-                                height: _floatingActionDiameter,
-                              ),
-                            ),
+                        if (widget.onDelete != null)
+                          Positioned(
+                            top: (normalizedHeight / 2) -
+                                (_floatingActionDiameter / 2) +
+                                (_cornerDiameter / 2) +
+                                (_floatingActionPadding / 2),
+                            left: normalizedWidth +
+                                (_floatingActionDiameter / 2) +
+                                (_floatingActionPadding / 2) -
+                                (_cornerDiameter / 2),
+                            child: deleteButton,
                           ),
-                        ),
-
-                      // Rotate button
-                      if (widget.canTransform)
                         Positioned(
                           top: 0,
                           left: (normalizedWidth / 2) -
                               (_floatingActionDiameter / 2) +
                               (_cornerDiameter / 2) +
                               (_floatingActionPadding / 2),
-                          child: GestureDetector(
-                            onPanUpdate: (d) {
-                              setState(() => angle = d.localPosition.direction);
-                            },
-                            child: Material(
-                              color: PhotoboothColors.transparent,
-                              clipBehavior: Clip.hardEdge,
-                              shape: const CircleBorder(),
-                              child: InkWell(
-                                child: Image.asset(
-                                  'assets/images/rotate_circle_icon.png',
-                                  key: const Key(
-                                      'draggableResizableAsset_rotate_image'),
-                                  package: 'photobooth_ui',
-                                  width: _floatingActionDiameter,
-                                  height: _floatingActionDiameter,
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: rotateAnchor,
                         ),
+                      ],
                     ],
                   ),
                 ),
@@ -376,15 +391,21 @@ class _DesktopDraggableResizableImageState
 }
 
 class _ResizePoint extends StatelessWidget {
-  const _ResizePoint({Key? key, required this.onDrag}) : super(key: key);
+  const _ResizePoint({
+    Key? key,
+    required this.onDrag,
+    this.onScale,
+  }) : super(key: key);
 
-  final void Function(double, double) onDrag;
+  final ValueSetter<Offset> onDrag;
+  final ValueSetter<double>? onScale;
 
   @override
   Widget build(BuildContext context) {
     return _DraggablePoint(
       mode: _PositionMode.local,
       onDrag: onDrag,
+      onScale: onScale,
       child: Container(
         width: _cornerDiameter,
         height: _cornerDiameter,
@@ -410,13 +431,17 @@ class _DraggablePoint extends StatefulWidget {
     Key? key,
     required this.child,
     required this.onDrag,
+    this.onScale,
+    this.onRotate,
     this.onTap,
     this.mode = _PositionMode.global,
   }) : super(key: key);
 
   final Widget child;
   final _PositionMode mode;
-  final void Function(double, double) onDrag;
+  final ValueSetter<Offset> onDrag;
+  final ValueSetter<double>? onScale;
+  final ValueSetter<double>? onRotate;
   final VoidCallback? onTap;
 
   @override
@@ -424,41 +449,48 @@ class _DraggablePoint extends StatefulWidget {
 }
 
 class _DraggablePointState extends State<_DraggablePoint> {
-  late double initX;
-  late double initY;
+  late Offset initPoint;
+  var baseScaleFactor = 1.0;
+  var scaleFactor = 1.0;
+  var angle = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      onPanStart: (details) {
+      onScaleStart: (details) {
         switch (widget.mode) {
           case _PositionMode.global:
-            initX = details.globalPosition.dx;
-            initY = details.globalPosition.dy;
+            initPoint = details.focalPoint;
             break;
           case _PositionMode.local:
-            initX = details.localPosition.dx;
-            initY = details.localPosition.dy;
+            initPoint = details.localFocalPoint;
             break;
         }
+        if (details.pointerCount > 1) {
+          baseScaleFactor = scaleFactor;
+          widget.onScale?.call(baseScaleFactor);
+        }
       },
-      onPanUpdate: (details) {
+      onScaleUpdate: (details) {
         switch (widget.mode) {
           case _PositionMode.global:
-            final dx = details.globalPosition.dx - initX;
-            final dy = details.globalPosition.dy - initY;
-            initX = details.globalPosition.dx;
-            initY = details.globalPosition.dy;
-            widget.onDrag(dx, dy);
+            final dx = details.focalPoint.dx - initPoint.dx;
+            final dy = details.focalPoint.dy - initPoint.dy;
+            initPoint = details.focalPoint;
+            widget.onDrag(Offset(dx, dy));
             break;
           case _PositionMode.local:
-            final dx = details.localPosition.dx - initX;
-            final dy = details.localPosition.dy - initY;
-            initX = details.localPosition.dx;
-            initY = details.localPosition.dy;
-            widget.onDrag(dx, dy);
+            final dx = details.localFocalPoint.dx - initPoint.dx;
+            final dy = details.localFocalPoint.dy - initPoint.dy;
+            initPoint = details.localFocalPoint;
+            widget.onDrag(Offset(dx, dy));
             break;
+        }
+        if (details.pointerCount > 1) {
+          scaleFactor = baseScaleFactor * details.scale;
+          widget.onScale?.call(scaleFactor);
+          widget.onRotate?.call(details.rotation);
         }
       },
       child: widget.child,

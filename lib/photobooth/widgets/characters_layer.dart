@@ -25,8 +25,11 @@ class CharactersLayer extends StatelessWidget {
                     ),
                     top: character.position.dy * heightFactor,
                     left: character.position.dx * widthFactor,
-                    child: Transform.rotate(
-                      angle: character.angle,
+                    child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..scale(character.scale)
+                        ..rotateZ(character.angle),
                       child: Image.memory(
                         character.asset.bytes,
                         height: character.size.height * heightFactor,
