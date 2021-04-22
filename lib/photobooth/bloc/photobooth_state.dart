@@ -91,6 +91,8 @@ class PhotoboothState extends Equatable {
 
   bool get isAnyCharacterSelected => characters.isNotEmpty;
 
+  List<PhotoAsset> get assets => characters + stickers;
+
   final CameraImage? image;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;

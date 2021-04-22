@@ -62,24 +62,12 @@ void main() {
       expect(find.byType(TwitterButton), findsOneWidget);
     });
 
-    testWidgets('tapping on TwitterButton does nothing', (tester) async {
-      await tester.pumpApp(TwitterButton());
-      await tester.tap(find.byType(TwitterButton));
-      expect(tester.takeException(), isNull);
-    });
-
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(
         Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(FacebookButton), findsOneWidget);
-    });
-
-    testWidgets('tapping on FacebookButton does nothing', (tester) async {
-      await tester.pumpApp(FacebookButton());
-      await tester.tap(find.byType(FacebookButton));
-      expect(tester.takeException(), isNull);
     });
 
     testWidgets('taps on close will dismiss the popup', (tester) async {

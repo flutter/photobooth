@@ -16,7 +16,14 @@ class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => SharePage());
+    return MaterialPageRoute(
+      builder: (_) => BlocProvider(
+        create: (context) => ShareBloc(
+          delay: const Duration(seconds: 2),
+        ),
+        child: SharePage(),
+      ),
+    );
   }
 
   @override
@@ -78,6 +85,7 @@ class SharePage extends StatelessWidget {
               ),
             ),
           ),
+          ShareProgressOverlay()
         ],
       ),
     );
