@@ -6,14 +6,15 @@ class SharePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformBuilder(
-      desktop: Image.asset(
+    return ResponsiveLayoutBuilder(
+      desktop: (_) => Image.asset(
         'assets/images/photo_placeholder_desktop.jpeg',
         filterQuality: FilterQuality.high,
       ),
-      mobile: Image.asset(
+      mobile: (_) => Image.asset(
         'assets/images/photo_placeholder_mobile.jpeg',
         filterQuality: FilterQuality.high,
+        height: 300,
       ),
     );
   }

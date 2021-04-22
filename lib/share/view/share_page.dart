@@ -31,7 +31,6 @@ class SharePage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
-
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -39,30 +38,34 @@ class SharePage extends StatelessWidget {
           const ShareBackground(),
           Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SharePhoto(),
-                  const SizedBox(height: 80),
-                  Text(
-                    l10n.sharePageHeading,
-                    style: theme.textTheme.headline1
-                        ?.copyWith(color: PhotoboothColors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-                  if (image != null)
-                    ResponsiveLayoutBuilder(
-                      mobile: (_) => MobileButtonsLayout(image: image),
-                      desktop: (_) => DesktopButtonsLayout(image: image),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SharePhoto(),
+                    const SizedBox(height: 40),
+                    Text(
+                      l10n.sharePageHeading,
+                      style: theme.textTheme.headline1?.copyWith(
+                        color: PhotoboothColors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  const SizedBox(height: 42),
-                  _SocialMediaShareClarificationNote(
-                    key: const Key('sharePage_socialMediaShareClarification'),
-                  ),
-                  const SizedBox(height: 80),
-                  const WhiteFooter()
-                ],
+                    const SizedBox(height: 40),
+                    if (image != null)
+                      ResponsiveLayoutBuilder(
+                        mobile: (_) => MobileButtonsLayout(image: image),
+                        desktop: (_) => DesktopButtonsLayout(image: image),
+                      ),
+                    const SizedBox(height: 42),
+                    _SocialMediaShareClarificationNote(
+                      key: const Key('sharePage_socialMediaShareClarification'),
+                    ),
+                    const SizedBox(height: 80),
+                    const WhiteFooter()
+                  ],
+                ),
               ),
             ),
           ),
