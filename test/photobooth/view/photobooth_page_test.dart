@@ -230,7 +230,8 @@ void main() async {
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
     });
 
-    testWidgets('renders dash, sparky, and android buttons', (tester) async {
+    testWidgets('renders dash, sparky, dino, and android buttons',
+        (tester) async {
       const key = Key('__target__');
       const preview = SizedBox(key: key);
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
@@ -243,7 +244,7 @@ void main() async {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(CharacterIconButton), findsNWidgets(3));
+      expect(find.byType(CharacterIconButton), findsNWidgets(4));
     });
 
     testWidgets('renders FlutterIconLink', (tester) async {
@@ -392,6 +393,28 @@ void main() async {
       );
     });
 
+    testWidgets('renders only dino when only dino is selected', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.dino)]),
+      );
+      const preview = SizedBox();
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(
+          const Key('photoboothPreview_dino_draggableResizableAsset'),
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(characters: [PhotoAsset(id: 0, asset: Assets.sparky)]),
@@ -418,13 +441,14 @@ void main() async {
       );
     });
 
-    testWidgets('renders dash, sparky, and android when all are selected',
+    testWidgets('renders dash, sparky, dino, and android when all are selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(characters: [
           PhotoAsset(id: 0, asset: Assets.android),
           PhotoAsset(id: 1, asset: Assets.dash),
           PhotoAsset(id: 2, asset: Assets.sparky),
+          PhotoAsset(id: 3, asset: Assets.dino),
         ]),
       );
       const preview = SizedBox();
@@ -437,7 +461,7 @@ void main() async {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(DraggableResizableAsset), findsNWidgets(3));
+      expect(find.byType(DraggableResizableAsset), findsNWidgets(4));
     });
 
     testWidgets('displays a DesktopCharactersIconLayout', (tester) async {
@@ -540,6 +564,29 @@ void main() async {
       verify(
         () => photoboothBloc.add(
           PhotoCharacterToggled(character: Assets.android),
+        ),
+      ).called(1);
+    });
+
+    testWidgets('tapping on dino button adds PhotoCharacterToggled',
+        (tester) async {
+      const preview = SizedBox();
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(
+        const Key('photoboothView_dino_characterIconButton'),
+      ));
+      expect(tester.takeException(), isNull);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCharacterToggled(character: Assets.dino),
         ),
       ).called(1);
     });

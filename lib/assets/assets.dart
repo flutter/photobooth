@@ -1,43 +1,15 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-
-enum Character { android, dash, sparky }
-enum Sticker {
-  banana,
-  beret,
-  birthdayCake,
-  bowTie,
-  catEyeGlasses,
-  coffeeMug,
-  dumbell,
-  genericMug,
-  genericGlasses,
-  graphMug,
-  guitar,
-  headband,
-  headphones,
-  megaphone,
-  ovalGlasses,
-  partyHat,
-  pencil,
-  pizza,
-  roundGlasses,
-  roundGlasses1,
-  soda,
-  squareGlasses,
-  star,
-  sunglasses,
-}
 
 abstract class Assets {
   // Characters
   static late final Asset android;
   static late final Asset dash;
   static late final Asset sparky;
+  static late final Asset dino;
 
   // Props
   static late final Asset banana;
@@ -71,76 +43,66 @@ abstract class Assets {
     if (_initialized) return;
     final assets = await Future.wait([
       // Characters
-      _loadAsset(describeEnum(Character.android), 'assets/images/android.png'),
-      _loadAsset(describeEnum(Character.dash), 'assets/images/dash.png'),
-      _loadAsset(describeEnum(Character.sparky), 'assets/images/sparky.png'),
+      _loadAsset('android', 'assets/images/android.png'),
+      _loadAsset('dash', 'assets/images/dash.png'),
+      _loadAsset('sparky', 'assets/images/sparky.png'),
+      _loadAsset('dino', 'assets/images/dino.png'),
 
       // Stickers
-      _loadAsset(describeEnum(Sticker.banana), 'assets/images/banana.png'),
-      _loadAsset(describeEnum(Sticker.beret), 'assets/images/beret.png'),
-      _loadAsset(describeEnum(Sticker.birthdayCake),
-          'assets/images/birthday_cake.png'),
-      _loadAsset(describeEnum(Sticker.bowTie), 'assets/images/bow_tie.png'),
-      _loadAsset(describeEnum(Sticker.catEyeGlasses),
-          'assets/images/cat_eye_glasses.png'),
-      _loadAsset(
-          describeEnum(Sticker.coffeeMug), 'assets/images/coffee_mug.png'),
-      _loadAsset(describeEnum(Sticker.dumbell), 'assets/images/dumbell.png'),
-      _loadAsset(
-          describeEnum(Sticker.genericMug), 'assets/images/generic_mug.png'),
-      _loadAsset(describeEnum(Sticker.genericGlasses),
-          'assets/images/generic_glasses.png'),
-      _loadAsset(describeEnum(Sticker.graphMug), 'assets/images/graph_mug.png'),
-      _loadAsset(describeEnum(Sticker.guitar), 'assets/images/guitar.png'),
-      _loadAsset(describeEnum(Sticker.headband), 'assets/images/headband.png'),
-      _loadAsset(
-          describeEnum(Sticker.headphones), 'assets/images/headphones.png'),
-      _loadAsset(
-          describeEnum(Sticker.megaphone), 'assets/images/megaphone.png'),
-      _loadAsset(
-          describeEnum(Sticker.ovalGlasses), 'assets/images/oval_glasses.png'),
-      _loadAsset(describeEnum(Sticker.partyHat), 'assets/images/party_hat.png'),
-      _loadAsset(describeEnum(Sticker.pencil), 'assets/images/pencil.png'),
-      _loadAsset(describeEnum(Sticker.pizza), 'assets/images/pizza.png'),
-      _loadAsset(describeEnum(Sticker.roundGlasses),
-          'assets/images/round_glasses.png'),
-      _loadAsset(describeEnum(Sticker.roundGlasses1),
-          'assets/images/round_glasses1.png'),
-      _loadAsset(describeEnum(Sticker.soda), 'assets/images/soda.png'),
-      _loadAsset(describeEnum(Sticker.squareGlasses),
-          'assets/images/square_glasses.png'),
-      _loadAsset(describeEnum(Sticker.star), 'assets/images/star.png'),
-      _loadAsset(
-          describeEnum(Sticker.sunglasses), 'assets/images/sunglasses.png'),
+      _loadAsset('banana', 'assets/images/banana.png'),
+      _loadAsset('beret', 'assets/images/beret.png'),
+      _loadAsset('birthdayCake', 'assets/images/birthday_cake.png'),
+      _loadAsset('bowTie', 'assets/images/bow_tie.png'),
+      _loadAsset('catEyeGlasses', 'assets/images/cat_eye_glasses.png'),
+      _loadAsset('coffeeMug', 'assets/images/coffee_mug.png'),
+      _loadAsset('dumbell', 'assets/images/dumbell.png'),
+      _loadAsset('genericMug', 'assets/images/generic_mug.png'),
+      _loadAsset('genericGlasses', 'assets/images/generic_glasses.png'),
+      _loadAsset('graphMug', 'assets/images/graph_mug.png'),
+      _loadAsset('guitar', 'assets/images/guitar.png'),
+      _loadAsset('headband', 'assets/images/headband.png'),
+      _loadAsset('headphones', 'assets/images/headphones.png'),
+      _loadAsset('megaphone', 'assets/images/megaphone.png'),
+      _loadAsset('ovalGlasses', 'assets/images/oval_glasses.png'),
+      _loadAsset('partyHat', 'assets/images/party_hat.png'),
+      _loadAsset('pencil', 'assets/images/pencil.png'),
+      _loadAsset('pizza', 'assets/images/pizza.png'),
+      _loadAsset('roundGlasses', 'assets/images/round_glasses.png'),
+      _loadAsset('roundGlasses1', 'assets/images/round_glasses1.png'),
+      _loadAsset('soda', 'assets/images/soda.png'),
+      _loadAsset('squareGlasses', 'assets/images/square_glasses.png'),
+      _loadAsset('star', 'assets/images/star.png'),
+      _loadAsset('sunglasses', 'assets/images/sunglasses.png'),
     ]);
     android = assets[0];
     dash = assets[1];
     sparky = assets[2];
+    dino = assets[3];
 
-    banana = assets[3];
-    beret = assets[4];
-    birthdayCake = assets[5];
-    bowTie = assets[6];
-    catEyeGlasses = assets[7];
-    coffeeMug = assets[8];
-    dumbell = assets[9];
-    genericMug = assets[10];
-    genericGlasses = assets[11];
-    graphMug = assets[12];
-    guitar = assets[13];
-    headband = assets[14];
-    headphones = assets[15];
-    megaphone = assets[16];
-    ovalGlasses = assets[17];
-    partyHat = assets[18];
-    pencil = assets[19];
-    pizza = assets[20];
-    roundGlasses = assets[21];
-    roundGlasses1 = assets[22];
-    soda = assets[23];
-    squareGlasses = assets[24];
-    star = assets[25];
-    sunglasses = assets[26];
+    banana = assets[4];
+    beret = assets[5];
+    birthdayCake = assets[6];
+    bowTie = assets[7];
+    catEyeGlasses = assets[8];
+    coffeeMug = assets[9];
+    dumbell = assets[10];
+    genericMug = assets[11];
+    genericGlasses = assets[12];
+    graphMug = assets[13];
+    guitar = assets[14];
+    headband = assets[15];
+    headphones = assets[16];
+    megaphone = assets[17];
+    ovalGlasses = assets[18];
+    partyHat = assets[19];
+    pencil = assets[20];
+    pizza = assets[21];
+    roundGlasses = assets[22];
+    roundGlasses1 = assets[23];
+    soda = assets[24];
+    squareGlasses = assets[25];
+    star = assets[26];
+    sunglasses = assets[27];
 
     _initialized = true;
   }
