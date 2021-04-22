@@ -32,7 +32,7 @@ bool tapTextSpan(RichText richText, String text) {
 }
 
 void main() {
-  group('LinkText', () {
+  group('FooterLink', () {
     testWidgets('opens link when tapped', (tester) async {
       final mock = MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
@@ -135,7 +135,7 @@ void main() {
     });
 
     group('Google IO', () {
-      testWidgets('renders LinkText with a proper link', (tester) async {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
         await tester.pumpApp(FooterGoogleIOLink());
 
         final widget = tester.widget<FooterLink>(
@@ -152,7 +152,7 @@ void main() {
     });
 
     group('Codelab', () {
-      testWidgets('renders LinkText with a proper link', (tester) async {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
         await tester.pumpApp(FooterCodelabLink());
 
         final widget = tester.widget<FooterLink>(
@@ -169,7 +169,7 @@ void main() {
     });
 
     group('How Its Made', () {
-      testWidgets('renders LinkText with a proper link', (tester) async {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
         await tester.pumpApp(FooterHowItsMadeLink());
 
         final widget = tester.widget<FooterLink>(
@@ -186,7 +186,7 @@ void main() {
     });
 
     group('Terms of Service', () {
-      testWidgets('renders LinkText with a proper link', (tester) async {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
         await tester.pumpApp(FooterTermsOfServiceLink());
 
         final widget = tester.widget<FooterLink>(
@@ -203,7 +203,7 @@ void main() {
     });
 
     group('Privacy Policy', () {
-      testWidgets('renders LinkText with a proper link', (tester) async {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
         await tester.pumpApp(FooterPrivacyPolicyLink());
 
         final widget = tester.widget<FooterLink>(
