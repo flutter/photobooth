@@ -53,6 +53,7 @@ class SharePage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 40),
+                    const LearnMoreAboutText(),
                     if (image != null)
                       ResponsiveLayoutBuilder(
                         mobile: (_) => MobileButtonsLayout(image: image),
