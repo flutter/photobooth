@@ -7,8 +7,6 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
-import 'package:io_photobooth/share/view/share_background.dart';
-import 'package:io_photobooth/share/view/share_photo.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
