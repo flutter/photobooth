@@ -651,7 +651,7 @@ void main() async {
 
     testWidgets(
       'does not render RemoveSelectedStickerButton in mobile '
-      'and not any sticker selected',
+      'and no sticker is selected',
       (tester) async {
         when(() => platformHelper.isMobile).thenReturn(true);
         when(() => photoboothBloc.state).thenReturn(PhotoboothState());
@@ -668,7 +668,7 @@ void main() async {
 
     testWidgets(
         'renders RemoveSelectedStickerButton when mobile '
-        'and any sticker selected ', (tester) async {
+        'and any sticker is selected ', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(true);
       when(() => photoboothBloc.state)
           .thenReturn(PhotoboothState(selectedAssetId: 0));
