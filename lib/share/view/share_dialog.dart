@@ -83,7 +83,7 @@ class ShareDialog extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(
                   Icons.clear,
-                  color: PhotoboothColors.blackInactive,
+                  color: PhotoboothColors.black54,
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),

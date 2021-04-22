@@ -85,10 +85,10 @@ class PhotoboothTheme {
   }
 
   static BottomSheetThemeData get _bottomSheetTheme {
-    return BottomSheetThemeData(
+    return const BottomSheetThemeData(
       backgroundColor: PhotoboothColors.whiteBackground,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
     );
   }

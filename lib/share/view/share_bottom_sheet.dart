@@ -29,8 +29,9 @@ class ShareBottomSheet extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 200,
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 58.0),
                   child: PhotoboothPhoto(image: image.data),
                 ),
                 const SizedBox(height: 60),
@@ -66,7 +67,7 @@ class ShareBottomSheet extends StatelessWidget {
           child: IconButton(
             icon: const Icon(
               Icons.clear,
-              color: PhotoboothColors.blackInactive,
+              color: PhotoboothColors.black54,
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
