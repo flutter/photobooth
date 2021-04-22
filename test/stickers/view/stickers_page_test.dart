@@ -340,7 +340,24 @@ void main() async {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping preview button routes to SharePage', (tester) async {
+    testWidgets(
+        'does not display NextButton when any sticker selected on mobile',
+        (tester) async {
+      await tester.pumpApp(
+        StickersPage(),
+        photoboothBloc: photoboothBloc,
+      );
+
+      final goToPreviewButton =
+          tester.widget<NextButton>(find.byType(NextButton));
+      goToPreviewButton.onPressed();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersPage), findsNothing);
+      expect(find.byType(SharePage), findsOneWidget);
+    });
+
+    testWidgets('tapping NextButton routes to SharePage', (tester) async {
       await tester.pumpApp(
         StickersPage(),
         photoboothBloc: photoboothBloc,
@@ -522,7 +539,7 @@ void main() async {
     });
 
     testWidgets(
-        'adds PhotoDeleteStickerTapped '
+        'adds PhotoDeleteSelectedStickerTapped '
         'when sticker selected is removed', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
@@ -547,7 +564,8 @@ void main() async {
           ?.call();
 
       verify(
-        () => photoboothBloc.add(any(that: isA<PhotoDeleteStickerTapped>())),
+        () => photoboothBloc
+            .add(any(that: isA<PhotoDeleteSelectedStickerTapped>())),
       ).called(1);
     });
   });
