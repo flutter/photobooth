@@ -3,6 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
+class LinkText extends StatelessWidget {
+  const LinkText({
+    Key? key,
+    required this.text,
+    required this.link,
+  }) : super(key: key);
+
+  final String text;
+  final String link;
+
+  @override
+  Widget build(BuildContext context) {
+    return Clickable(
+      onPressed: () => openLink(link),
+      child: Text(text),
+    );
+  }
+}
+
 class FooterMadeWithLink extends StatelessWidget {
   const FooterMadeWithLink({
     Key? key,

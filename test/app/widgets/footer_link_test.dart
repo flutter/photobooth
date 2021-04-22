@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
@@ -32,7 +33,7 @@ bool tapTextSpan(RichText richText, String text) {
 }
 
 void main() {
-  group('FooterLink', () {
+  group('LinkText', () {
     testWidgets('opens link when tapped', (tester) async {
       final mock = MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
@@ -46,12 +47,12 @@ void main() {
             universalLinksOnly: false,
             headers: const {},
           )).thenAnswer((_) async => true);
-      await tester.pumpApp(FooterLink(
+      await tester.pumpApp(LinkText(
         link: 'https://example.com',
         text: 'Link',
       ));
 
-      await tester.tap(find.byType(FooterLink));
+      await tester.tap(find.byType(LinkText));
       await tester.pumpAndSettle();
 
       verify(() => mock.launch(
@@ -135,11 +136,11 @@ void main() {
     });
 
     group('Google IO', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+      testWidgets('renders LinkText with a proper link', (tester) async {
         await tester.pumpApp(FooterGoogleIOLink());
 
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
+        final widget = tester.widget<LinkText>(
+          find.byType(LinkText),
         );
 
         expect(
@@ -152,11 +153,11 @@ void main() {
     });
 
     group('Codelab', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+      testWidgets('renders LinkText with a proper link', (tester) async {
         await tester.pumpApp(FooterCodelabLink());
 
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
+        final widget = tester.widget<LinkText>(
+          find.byType(LinkText),
         );
 
         expect(
@@ -169,11 +170,11 @@ void main() {
     });
 
     group('How Its Made', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+      testWidgets('renders LinkText with a proper link', (tester) async {
         await tester.pumpApp(FooterHowItsMadeLink());
 
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
+        final widget = tester.widget<LinkText>(
+          find.byType(LinkText),
         );
 
         expect(
@@ -186,11 +187,11 @@ void main() {
     });
 
     group('Terms of Service', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+      testWidgets('renders LinkText with a proper link', (tester) async {
         await tester.pumpApp(FooterTermsOfServiceLink());
 
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
+        final widget = tester.widget<LinkText>(
+          find.byType(LinkText),
         );
 
         expect(
@@ -203,11 +204,11 @@ void main() {
     });
 
     group('Privacy Policy', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+      testWidgets('renders LinkText with a proper link', (tester) async {
         await tester.pumpApp(FooterPrivacyPolicyLink());
 
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
+        final widget = tester.widget<LinkText>(
+          find.byType(LinkText),
         );
 
         expect(
