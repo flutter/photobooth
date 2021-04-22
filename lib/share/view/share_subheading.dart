@@ -4,9 +4,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class LearnMoreAboutText extends StatelessWidget {
-  const LearnMoreAboutText({
-    Key? key,
-  }) : super(key: key);
+  const LearnMoreAboutText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

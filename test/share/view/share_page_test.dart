@@ -136,75 +136,6 @@ void main() async {
         findsOneWidget,
       );
     });
-    /*
-    THESE TESTS WILL BE NEEDED AS SOON WE ADD THE PHOTO WITHING THE ASSET
-    testWidgets('displays selected character assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        SharePage(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-      expect(
-        find.byKey(const Key('charactersLayer_android_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('displays selected sticker assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        SharePage(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('displays multiple selected sticker assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
-          stickers: [
-            PhotoAsset(id: '0', asset: Assets.banana),
-            PhotoAsset(id: '1', asset: Assets.banana),
-            PhotoAsset(id: '2', asset: Assets.beret),
-          ],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        SharePage(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_banana_1_positioned')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_beret_2_positioned')),
-        findsOneWidget,
-      );
-    });*/
   });
 
   group('DownloadButton', () {
@@ -220,6 +151,24 @@ void main() async {
 
       await tester.ensureVisible(downloadButtonFinder);
       await tester.tap(downloadButtonFinder);
+
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('GoToGoogleIOButton', () {
+    testWidgets('tapping on GoToGoogleIOButton does nothing', (tester) async {
+      final googleIOButton = find.byKey(
+        const Key('sharePage_goToGoogleIO_elevatedButton'),
+      );
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      await tester.ensureVisible(googleIOButton);
+      await tester.tap(googleIOButton);
 
       expect(tester.takeException(), isNull);
     });
