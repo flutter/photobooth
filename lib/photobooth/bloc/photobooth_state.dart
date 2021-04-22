@@ -83,11 +83,13 @@ class PhotoboothState extends Equatable {
     this.image,
   });
 
-  bool get isDashSelected => characters.containsCharacter(Character.dash);
+  bool get isDashSelected => characters.containsAsset(Assets.dash);
 
-  bool get isAndroidSelected => characters.containsCharacter(Character.android);
+  bool get isAndroidSelected => characters.containsAsset(Assets.android);
 
-  bool get isSparkySelected => characters.containsCharacter(Character.sparky);
+  bool get isSparkySelected => characters.containsAsset(Assets.sparky);
+
+  bool get isDinoSelected => characters.containsAsset(Assets.dino);
 
   bool get isAnyCharacterSelected => characters.isNotEmpty;
 
@@ -117,7 +119,7 @@ class PhotoboothState extends Equatable {
 }
 
 extension PhotoAssetsX on List<PhotoAsset> {
-  bool containsCharacter(Character character) {
-    return indexWhere((e) => e.asset.name == describeEnum(character)) != -1;
+  bool containsAsset(Asset asset) {
+    return indexWhere((e) => e.asset.name == asset.name) != -1;
   }
 }
