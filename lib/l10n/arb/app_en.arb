@@ -76,6 +76,14 @@
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
     },
+    "sharePageProgressOverlayHeading": "We're making your photo pixel perfect with Flutter! ",
+    "@sharePageProgressOverlayHeading": {
+        "description": "Heading shown on the share page progress overlay."
+    },
+    "sharePageProgressOverlaySubheading": "Please do not close this tab.",
+    "@sharePageProgressOverlaySubheading": {
+        "description": "Subheading shown on the share page progress overlay."
+    },
     "shareDialogSubheading": "Let everyone know you're at Google I/O by sharing your photo & updating your profile picture during the event!",
     "@shareDialogSubheading": {
         "description": "Subheading shown on the share dialog."
