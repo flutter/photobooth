@@ -430,7 +430,7 @@ class _DraggablePoint extends StatefulWidget {
   const _DraggablePoint({
     Key? key,
     required this.child,
-    required this.onDrag,
+    this.onDrag,
     this.onScale,
     this.onRotate,
     this.onTap,
@@ -439,7 +439,7 @@ class _DraggablePoint extends StatefulWidget {
 
   final Widget child;
   final _PositionMode mode;
-  final ValueSetter<Offset> onDrag;
+  final ValueSetter<Offset>? onDrag;
   final ValueSetter<double>? onScale;
   final ValueSetter<double>? onRotate;
   final VoidCallback? onTap;
@@ -452,6 +452,7 @@ class _DraggablePointState extends State<_DraggablePoint> {
   late Offset initPoint;
   var baseScaleFactor = 1.0;
   var scaleFactor = 1.0;
+  var baseAngle = 0.0;
   var angle = 0.0;
 
   @override
@@ -468,7 +469,9 @@ class _DraggablePointState extends State<_DraggablePoint> {
             break;
         }
         if (details.pointerCount > 1) {
+          baseAngle = angle;
           baseScaleFactor = scaleFactor;
+          widget.onRotate?.call(baseAngle);
           widget.onScale?.call(baseScaleFactor);
         }
       },
@@ -478,19 +481,20 @@ class _DraggablePointState extends State<_DraggablePoint> {
             final dx = details.focalPoint.dx - initPoint.dx;
             final dy = details.focalPoint.dy - initPoint.dy;
             initPoint = details.focalPoint;
-            widget.onDrag(Offset(dx, dy));
+            widget.onDrag?.call(Offset(dx, dy));
             break;
           case _PositionMode.local:
             final dx = details.localFocalPoint.dx - initPoint.dx;
             final dy = details.localFocalPoint.dy - initPoint.dy;
             initPoint = details.localFocalPoint;
-            widget.onDrag(Offset(dx, dy));
+            widget.onDrag?.call(Offset(dx, dy));
             break;
         }
         if (details.pointerCount > 1) {
           scaleFactor = baseScaleFactor * details.scale;
           widget.onScale?.call(scaleFactor);
-          widget.onRotate?.call(details.rotation);
+          angle = baseAngle + details.rotation;
+          widget.onRotate?.call(angle);
         }
       },
       child: widget.child,
