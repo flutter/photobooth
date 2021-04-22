@@ -10,8 +10,11 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
+
+class MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
@@ -150,18 +153,40 @@ void main() async {
   });
 
   group('ShareButton', () {
-    testWidgets('tapping on share photo button opens ShareBottomSheet',
-        (tester) async {
+    testWidgets(
+        'tapping on share photo button opens ShareBottomSheet '
+        'when platform is mobile', (tester) async {
+      final platformHelper = MockPlatformHelper();
+      when(() => platformHelper.isMobile).thenReturn(true);
       final shareButtonFinder = find.byKey(
         const Key('sharePage_share_elevatedButton'),
       );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(SharePage(platformHelper: platformHelper),
+          photoboothBloc: photoboothBloc);
 
       await tester.ensureVisible(shareButtonFinder);
       await tester.tap(shareButtonFinder);
       await tester.pumpAndSettle();
 
       expect(find.byType(ShareBottomSheet), findsOneWidget);
+    });
+
+    testWidgets(
+        'tapping on share photo button opens ShareDialog '
+        'when platform is not mobile', (tester) async {
+      final platformHelper = MockPlatformHelper();
+      when(() => platformHelper.isMobile).thenReturn(false);
+      final shareButtonFinder = find.byKey(
+        const Key('sharePage_share_elevatedButton'),
+      );
+      await tester.pumpApp(SharePage(platformHelper: platformHelper),
+          photoboothBloc: photoboothBloc);
+
+      await tester.ensureVisible(shareButtonFinder);
+      await tester.tap(shareButtonFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ShareDialog), findsOneWidget);
     });
   });
 

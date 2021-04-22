@@ -8,14 +8,23 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:uuid/uuid.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:platform_helper/platform_helper.dart';
+import 'package:provider/provider.dart';
 
 const _photoImageHeight = 500.0;
 
 class SharePage extends StatelessWidget {
-  const SharePage({Key? key}) : super(key: key);
+  SharePage({
+    Key? key,
+    PlatformHelper? platformHelper,
+  })  : platformHelper = platformHelper ?? PlatformHelper(),
+        super(key: key);
+
+  /// Optional [PlatformHelper] instance.
+  final PlatformHelper platformHelper;
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const SharePage());
+    return MaterialPageRoute(builder: (_) => SharePage());
   }
 
   @override
@@ -24,60 +33,63 @@ class SharePage extends StatelessWidget {
     final l10n = context.l10n;
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
 
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.asset(
-              'assets/backgrounds/share_background.png',
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            ),
-          ),
-          Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (image != null)
-                    Container(
-                      height: _photoImageHeight,
-                      child: PhotoboothPhoto(image: image.data),
-                    ),
-                  const SizedBox(height: 80),
-                  Text(
-                    l10n.sharePageHeading,
-                    style: theme.textTheme.headline1
-                        ?.copyWith(color: PhotoboothColors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.sharePageSubheading,
-                    style: theme.textTheme.headline2
-                        ?.copyWith(color: PhotoboothColors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-                  if (image != null)
-                    ResponsiveLayoutBuilder(
-                      mobile: (_) => MobileButtonsLayout(image: image),
-                      desktop: (_) => DesktopButtonsLayout(image: image),
-                    ),
-                  const SizedBox(height: 42),
-                  _SocialMediaShareClarificationNote(
-                    key: const Key('sharePage_socialMediaShareClarification'),
-                  ),
-                  const SizedBox(height: 80),
-                  const WhiteFooter()
-                ],
+    return Provider.value(
+      value: platformHelper,
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset(
+                'assets/backgrounds/share_background.png',
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
               ),
             ),
-          ),
-        ],
+            Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (image != null)
+                      Container(
+                        height: _photoImageHeight,
+                        child: PhotoboothPhoto(image: image.data),
+                      ),
+                    const SizedBox(height: 80),
+                    Text(
+                      l10n.sharePageHeading,
+                      style: theme.textTheme.headline1
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.sharePageSubheading,
+                      style: theme.textTheme.headline2
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+                    if (image != null)
+                      ResponsiveLayoutBuilder(
+                        mobile: (_) => MobileButtonsLayout(image: image),
+                        desktop: (_) => DesktopButtonsLayout(image: image),
+                      ),
+                    const SizedBox(height: 42),
+                    _SocialMediaShareClarificationNote(
+                      key: const Key('sharePage_socialMediaShareClarification'),
+                    ),
+                    const SizedBox(height: 80),
+                    const WhiteFooter()
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -186,7 +198,8 @@ class _ShareButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
-        if (isMobile) {
+        final platform = context.read<PlatformHelper>();
+        if (platform.isMobile) {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
