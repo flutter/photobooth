@@ -17,62 +17,75 @@ class ShareBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 32,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 58.0),
-                  child: PhotoboothPhoto(image: image.data),
-                ),
-                const SizedBox(height: 60),
-                Text(
-                  l10n.shareDialogHeading,
-                  key: const Key('shareBottomSheet_heading'),
-                  style: theme.textTheme.headline1?.copyWith(fontSize: 32),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  l10n.shareDialogSubheading,
-                  key: const Key('shareBottomSheet_subheading'),
-                  style: theme.textTheme.headline2?.copyWith(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 42),
-                Column(
-                  children: [
-                    const TwitterButton(),
-                    const SizedBox(height: 18),
-                    const FacebookButton(),
-                  ],
-                ),
-                const SizedBox(height: 16),
-              ],
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      height: size.height * 0.95,
+      width: size.width,
+      decoration: const BoxDecoration(
+        color: PhotoboothColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+      ),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 32,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 58.0),
+                    child: PhotoboothPhoto(image: image.data),
+                  ),
+                  const SizedBox(height: 60),
+                  Text(
+                    l10n.shareDialogHeading,
+                    key: const Key('shareBottomSheet_heading'),
+                    style: theme.textTheme.headline1?.copyWith(fontSize: 32),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.shareDialogSubheading,
+                    key: const Key('shareBottomSheet_subheading'),
+                    style: theme.textTheme.headline2?.copyWith(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 42),
+                  Column(
+                    children: [
+                      const TwitterButton(),
+                      const SizedBox(height: 18),
+                      const FacebookButton(),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
-        ),
-        Positioned(
-          right: 24,
-          top: 24,
-          child: IconButton(
-            icon: const Icon(
-              Icons.clear,
-              color: PhotoboothColors.black54,
+          Positioned(
+            right: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: PhotoboothColors.black54,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            onPressed: () => Navigator.of(context).pop(),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

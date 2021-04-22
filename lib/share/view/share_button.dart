@@ -32,6 +32,7 @@ class ShareButton extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
+            backgroundColor: PhotoboothColors.transparent,
             builder: (_) => MultiBlocProvider(
               providers: [
                 BlocProvider.value(
