@@ -19,41 +19,45 @@ class PhotoboothPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<PhotoboothBloc>().state;
     final children = <Widget>[
-      Flexible(
-        child: CharacterIconButton(
-          key: const Key('photoboothView_dash_characterIconButton'),
-          icon: const AssetImage('assets/icons/dash_icon.png'),
-          isSelected: state.isDashSelected,
-          onPressed: () {
-            context
-                .read<PhotoboothBloc>()
-                .add(PhotoCharacterToggled(character: Assets.dash));
-          },
-        ),
+      CharacterIconButton(
+        key: const Key('photoboothView_dash_characterIconButton'),
+        icon: const AssetImage('assets/icons/dash_icon.png'),
+        isSelected: state.isDashSelected,
+        onPressed: () {
+          context
+              .read<PhotoboothBloc>()
+              .add(PhotoCharacterToggled(character: Assets.dash));
+        },
       ),
-      Flexible(
-        child: CharacterIconButton(
-          key: const Key('photoboothView_sparky_characterIconButton'),
-          icon: const AssetImage('assets/icons/sparky_icon.png'),
-          isSelected: state.isSparkySelected,
-          onPressed: () {
-            context
-                .read<PhotoboothBloc>()
-                .add(PhotoCharacterToggled(character: Assets.sparky));
-          },
-        ),
+      CharacterIconButton(
+        key: const Key('photoboothView_sparky_characterIconButton'),
+        icon: const AssetImage('assets/icons/sparky_icon.png'),
+        isSelected: state.isSparkySelected,
+        onPressed: () {
+          context
+              .read<PhotoboothBloc>()
+              .add(PhotoCharacterToggled(character: Assets.sparky));
+        },
       ),
-      Flexible(
-        child: CharacterIconButton(
-          key: const Key('photoboothView_android_characterIconButton'),
-          icon: const AssetImage('assets/icons/android_icon.png'),
-          isSelected: state.isAndroidSelected,
-          onPressed: () {
-            context
-                .read<PhotoboothBloc>()
-                .add(PhotoCharacterToggled(character: Assets.android));
-          },
-        ),
+      CharacterIconButton(
+        key: const Key('photoboothView_android_characterIconButton'),
+        icon: const AssetImage('assets/icons/android_icon.png'),
+        isSelected: state.isAndroidSelected,
+        onPressed: () {
+          context
+              .read<PhotoboothBloc>()
+              .add(PhotoCharacterToggled(character: Assets.android));
+        },
+      ),
+      CharacterIconButton(
+        key: const Key('photoboothView_dino_characterIconButton'),
+        icon: const AssetImage('assets/icons/dino_icon.png'),
+        isSelected: state.isDinoSelected,
+        onPressed: () {
+          context
+              .read<PhotoboothBloc>()
+              .add(PhotoCharacterToggled(character: Assets.dino));
+        },
       ),
     ];
     return Stack(
@@ -125,7 +129,14 @@ class DesktopCharactersIconLayout extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CharactersCaption(),
-            ...children,
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: children,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -146,11 +157,17 @@ class MobileCharactersIconLayout extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
+          Flexible(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: children,
+              ),
+            ),
           ),
           BlocBuilder<PhotoboothBloc, PhotoboothState>(
             builder: (context, state) {
@@ -183,7 +200,7 @@ class CharacterIconButton extends StatelessWidget {
       BlendMode.saturation,
     );
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(12),
       child: Material(
         color: PhotoboothColors.transparent,
         shape: const CircleBorder(),
