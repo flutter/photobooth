@@ -17,8 +17,8 @@ class ShareProgressOverlay extends StatelessWidget {
           ? _ShareProgressOverlay(
               key: const Key('shareProgressOverlay_loading'),
             )
-          : _Nothing(
-              key: const Key('shareProgressOverlay_nothing'),
+          : const SizedBox(
+              key: Key('shareProgressOverlay_nothing'),
             ),
     );
   }
@@ -37,16 +37,5 @@ class _ShareProgressOverlay extends StatelessWidget {
         child: CircularProgressIndicator(),
       ),
     );
-  }
-}
-
-class _Nothing extends StatelessWidget {
-  _Nothing({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
