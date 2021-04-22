@@ -195,27 +195,21 @@ class CharacterIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const disabledColorFilter = ColorFilter.matrix(
-      <double>[
-        0.2126, 0.7152, 0.0722, 0, 0, //
-        0.2126, 0.7152, 0.0722, 0, 0, //
-        0.2126, 0.7152, 0.0722, 0, 0, //
-        0, 0, 0, 1, 0, //
-      ],
-    );
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Material(
-        color: PhotoboothColors.transparent,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.hardEdge,
-        child: Ink.image(
-          colorFilter: isSelected ? disabledColorFilter : null,
-          fit: BoxFit.cover,
-          image: icon,
-          width: 90,
-          height: 90,
-          child: InkWell(onTap: onPressed),
+    return Opacity(
+      opacity: isSelected ? 0.6 : 1,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Material(
+          color: PhotoboothColors.transparent,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          child: Ink.image(
+            fit: BoxFit.cover,
+            image: icon,
+            width: 90,
+            height: 90,
+            child: InkWell(onTap: onPressed),
+          ),
         ),
       ),
     );
