@@ -32,7 +32,7 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 
-  group('ShareDialog', () {
+  group('ShareBottomSheet', () {
     const width = 1;
     const height = 1;
     final data = Uint8List.fromList([]);
@@ -40,23 +40,23 @@ void main() {
 
     testWidgets('displays heading', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byKey(Key('shareDialog_heading')), findsOneWidget);
+      expect(find.byKey(Key('shareBottomSheet_heading')), findsOneWidget);
     });
 
     testWidgets('displays subheading', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byKey(Key('shareDialog_subheading')), findsOneWidget);
+      expect(find.byKey(Key('shareBottomSheet_subheading')), findsOneWidget);
     });
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(TwitterButton), findsOneWidget);
@@ -70,7 +70,7 @@ void main() {
 
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(FacebookButton), findsOneWidget);
@@ -84,12 +84,12 @@ void main() {
 
     testWidgets('taps on close will dismiss the popup', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Scaffold(body: ShareBottomSheet(image: image)),
         photoboothBloc: photoboothBloc,
       );
       await tester.tap(find.byIcon(Icons.clear));
       await tester.pumpAndSettle();
-      expect(find.byType(ShareDialog), findsNothing);
+      expect(find.byType(ShareBottomSheet), findsNothing);
     });
   });
 }
