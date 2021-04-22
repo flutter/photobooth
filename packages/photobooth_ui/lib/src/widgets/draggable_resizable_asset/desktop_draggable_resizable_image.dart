@@ -44,15 +44,13 @@ class DesktopDraggableResizableImage extends StatefulWidget {
 
 class _DesktopDraggableResizableImageState
     extends State<DesktopDraggableResizableImage> {
-  late double height;
-  late double width;
+  late Size size;
   late double minHeight;
   late double maxHeight;
   late BoxConstraints constraints;
   late double angle;
 
-  double? top;
-  double? left;
+  Offset position = Offset.zero;
   Size? initialSize;
 
   @override
@@ -60,13 +58,12 @@ class _DesktopDraggableResizableImageState
     super.initState();
     maxHeight = widget.height.toDouble();
     minHeight = maxHeight * 0.05;
-    height = maxHeight * 0.25;
-    width = height;
+    size = Size(maxHeight * 0.25, maxHeight * 0.25);
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
   }
 
-  double _getNewHeight(double value) {
+  double clampHeight(double value) {
     if (value >= maxHeight) return maxHeight;
     if (value <= minHeight) return minHeight;
     return value;
@@ -77,35 +74,155 @@ class _DesktopDraggableResizableImageState
     return LayoutBuilder(
       builder: (context, constraints) {
         initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
-        left = left ??= constraints.maxWidth / 2 - (width / 2);
-        top = top ??= constraints.maxHeight / 2 - (height / 2);
+        position = position == Offset.zero
+            ? Offset(
+                constraints.maxWidth / 2 - (size.width / 2),
+                constraints.maxHeight / 2 - (size.height / 2),
+              )
+            : position;
 
         final widthFactor = constraints.maxWidth / initialSize!.width;
         final heightFactor = constraints.maxHeight / initialSize!.height;
 
-        final normalizedWidth = width * widthFactor;
-        final normalizedHeight = height * heightFactor;
+        final normalizedWidth = size.width * widthFactor;
+        final normalizedHeight = size.height * heightFactor;
 
-        final normalizedLeft = left! * widthFactor;
-        final normalizedTop = top! * heightFactor;
+        final normalizedLeft = position.dx * widthFactor;
+        final normalizedTop = position.dy * heightFactor;
 
         void onUpdate() {
+          final normalizedPosition = Offset(
+            normalizedLeft +
+                (_floatingActionPadding / 2) +
+                (_cornerDiameter / 2),
+            normalizedTop +
+                (_floatingActionPadding / 2) +
+                (_cornerDiameter / 2),
+          );
           widget.onUpdate?.call(
             DragUpdate(
-              position: Offset(
-                normalizedLeft +
-                    (_floatingActionPadding / 2) +
-                    (_cornerDiameter / 2),
-                normalizedTop +
-                    (_floatingActionPadding / 2) +
-                    (_cornerDiameter / 2),
-              ),
+              position: normalizedPosition,
               size: Size(normalizedWidth, normalizedHeight),
               constraints: Size(constraints.maxWidth, constraints.maxHeight),
               angle: angle,
             ),
           );
         }
+
+        void onDragTopLeft(double dx, double dy) {
+          final mid = (dx + dy) / 2;
+          final newHeight = (size.height - 2 * mid).abs();
+          final newWidth = (size.width - 2 * mid).abs();
+
+          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+
+          final updatedSize = Size(
+            newWidth,
+            clampHeight(newHeight),
+          );
+          final updatedPosition = Offset(
+            position.dx + mid,
+            position.dy + mid,
+          );
+          setState(() {
+            size = updatedSize;
+            position = updatedPosition;
+          });
+
+          onUpdate();
+        }
+
+        void onDragTopRight(double dx, double dy) {
+          final mid = (dx + (dy * -1)) / 2;
+          final newHeight = size.height + 2 * mid;
+          final newWidth = size.width + 2 * mid;
+
+          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+
+          final updatedSize = Size(
+            newWidth,
+            clampHeight(newHeight),
+          );
+          final updatedPosition = Offset(
+            position.dx - mid,
+            position.dy - mid,
+          );
+
+          setState(() {
+            size = updatedSize;
+            position = updatedPosition;
+          });
+
+          onUpdate();
+        }
+
+        void onDragBottomLeft(double dx, double dy) {
+          final mid = ((dx * -1) + dy) / 2;
+          final newHeight = size.height + 2 * mid;
+          final newWidth = size.width + 2 * mid;
+
+          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+
+          final updatedSize = Size(
+            newWidth,
+            clampHeight(newHeight),
+          );
+          final updatedPosition = Offset(
+            position.dx - mid,
+            position.dy - mid,
+          );
+
+          setState(() {
+            size = updatedSize;
+            position = updatedPosition;
+          });
+
+          onUpdate();
+        }
+
+        void onDragBottomRight(double dx, double dy) {
+          final mid = (dx + dy) / 2;
+          final newHeight = size.height + 2 * mid;
+          final newWidth = size.width + 2 * mid;
+
+          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+
+          final updatedSize = Size(
+            newWidth,
+            clampHeight(newHeight),
+          );
+          final updatedPosition = Offset(
+            position.dx - mid,
+            position.dy - mid,
+          );
+
+          setState(() {
+            size = updatedSize;
+            position = updatedPosition;
+          });
+
+          onUpdate();
+        }
+
+        final topLeftCorner = _ResizePoint(
+          key: const Key('draggableResizableAsset_topLeft_resizePoint'),
+          onDrag: onDragTopLeft,
+        );
+
+        final topRightCorner = _ResizePoint(
+          key: const Key('draggableResizableAsset_topRight_resizePoint'),
+          onDrag: onDragTopRight,
+        );
+
+        final bottomLeftCorner = _ResizePoint(
+          key: const Key('draggableResizableAsset_bottomLeft_resizePoint'),
+          onDrag: onDragBottomLeft,
+        );
+
+        final bottomRightCorner = _ResizePoint(
+          key: const Key('draggableResizableAsset_bottomRight_resizePoint'),
+          onDrag: onDragBottomRight,
+        );
 
         if (this.constraints != constraints) {
           this.constraints = constraints;
@@ -127,8 +244,10 @@ class _DesktopDraggableResizableImageState
                   onTap: onUpdate,
                   onDrag: (dx, dy) {
                     setState(() {
-                      top = top! + (dy / heightFactor);
-                      left = left! + (dx / widthFactor);
+                      position = Offset(
+                        position.dx + (dx / widthFactor),
+                        position.dy + (dy / heightFactor),
+                      );
                     });
                     onUpdate();
                   },
@@ -162,131 +281,28 @@ class _DesktopDraggableResizableImageState
                         ),
                       ),
 
-                      // Top Left Corner
-                      if (widget.canTransform)
+                      if (widget.canTransform) ...[
                         Positioned(
                           top: _floatingActionPadding / 2,
                           left: _floatingActionPadding / 2,
-                          child: Center(
-                            child: _ResizePoint(
-                              key: const Key(
-                                'draggableResizableAsset_topLeft_resizePoint',
-                              ),
-                              onDrag: (dx, dy) {
-                                final mid = (dx + dy) / 2;
-                                final tempNewHeight = (height - 2 * mid).abs();
-                                final tempNewWidth = (width - 2 * mid).abs();
-
-                                if (tempNewHeight >= maxHeight ||
-                                    tempNewHeight <= minHeight) {
-                                  return;
-                                }
-
-                                setState(() {
-                                  height = _getNewHeight(tempNewHeight);
-                                  width = tempNewWidth;
-                                  top = top! + mid;
-                                  left = left! + mid;
-                                });
-
-                                onUpdate();
-                              },
-                            ),
-                          ),
+                          child: topLeftCorner,
                         ),
-
-                      // Top Right corner
-                      if (widget.canTransform)
                         Positioned(
                           top: _floatingActionPadding / 2,
                           left: normalizedWidth + _floatingActionPadding / 2,
-                          child: _ResizePoint(
-                            key: const Key(
-                              'draggableResizableAsset_topRight_resizePoint',
-                            ),
-                            onDrag: (dx, dy) {
-                              final mid = (dx + (dy * -1)) / 2;
-                              final tempNewHeight = height + 2 * mid;
-                              final tempNewWidth = width + 2 * mid;
-
-                              if (tempNewHeight >= maxHeight ||
-                                  tempNewHeight <= minHeight) {
-                                return;
-                              }
-
-                              setState(() {
-                                height = _getNewHeight(tempNewHeight);
-                                width = tempNewWidth;
-                                top = top! - mid;
-                                left = left! - mid;
-                              });
-
-                              onUpdate();
-                            },
-                          ),
+                          child: topRightCorner,
                         ),
-
-                      // Bottom right corner
-                      if (widget.canTransform)
+                        Positioned(
+                          top: normalizedHeight + _floatingActionPadding / 2,
+                          left: _floatingActionPadding / 2,
+                          child: bottomLeftCorner,
+                        ),
                         Positioned(
                           top: normalizedHeight + _floatingActionPadding / 2,
                           left: normalizedWidth + _floatingActionPadding / 2,
-                          child: _ResizePoint(
-                            key: const Key(
-                              'draggableResizableAsset_bottomRight_resizePoint',
-                            ),
-                            onDrag: (dx, dy) {
-                              final mid = (dx + dy) / 2;
-                              final tempNewHeight = height + 2 * mid;
-                              final tempNewWidth = width + 2 * mid;
-
-                              if (tempNewHeight >= maxHeight ||
-                                  tempNewHeight <= minHeight) {
-                                return;
-                              }
-
-                              setState(() {
-                                height = _getNewHeight(tempNewHeight);
-                                width = tempNewWidth;
-                                top = top! - mid;
-                                left = left! - mid;
-                              });
-
-                              onUpdate();
-                            },
-                          ),
+                          child: bottomRightCorner,
                         ),
-
-                      // Bottom left corner
-                      if (widget.canTransform)
-                        Positioned(
-                          top: normalizedHeight + _floatingActionPadding / 2,
-                          left: 0 + _floatingActionPadding / 2,
-                          child: _ResizePoint(
-                            key: const Key(
-                              'draggableResizableAsset_bottomLeft_resizePoint',
-                            ),
-                            onDrag: (dx, dy) {
-                              final mid = ((dx * -1) + dy) / 2;
-                              final tempNewHeight = height + 2 * mid;
-                              final tempNewWidth = width + 2 * mid;
-
-                              if (tempNewHeight >= maxHeight ||
-                                  tempNewHeight <= minHeight) {
-                                return;
-                              }
-
-                              setState(() {
-                                height = _getNewHeight(tempNewHeight);
-                                width = tempNewWidth;
-                                top = top! - mid;
-                                left = left! - mid;
-                              });
-
-                              onUpdate();
-                            },
-                          ),
-                        ),
+                      ],
 
                       // Delete button
                       if (widget.onDelete != null && widget.canTransform)
@@ -308,7 +324,8 @@ class _DesktopDraggableResizableImageState
                               child: Image.asset(
                                 'assets/images/delete_circle_icon.png',
                                 key: const Key(
-                                    'draggableResizableAsset_delete_image'),
+                                  'draggableResizableAsset_delete_image',
+                                ),
                                 package: 'photobooth_ui',
                                 width: _floatingActionDiameter,
                                 height: _floatingActionDiameter,
