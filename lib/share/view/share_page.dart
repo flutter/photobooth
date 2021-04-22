@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -66,6 +67,18 @@ class SharePage extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            left: 15,
+            top: 15,
+            child: RetakeButton(
+              onPressed: () {
+                context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+                Navigator.of(context).popUntil(
+                  (route) => route.settings.name == PhotoboothPage.name,
+                );
+              },
             ),
           ),
           ShareProgressOverlay()
