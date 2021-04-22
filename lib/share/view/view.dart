@@ -4,5 +4,6 @@ export 'share_button.dart';
 export 'share_dialog.dart';
 export 'share_page.dart';
 export 'share_progress_overlay.dart';
+export 'share_social_media_clarification.dart';
 export 'share_subheading.dart';
 export 'twitter_button.dart';

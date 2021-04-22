@@ -61,9 +61,6 @@ class SharePage extends StatelessWidget {
                         desktop: (_) => DesktopButtonsLayout(image: image),
                       ),
                     const SizedBox(height: 42),
-                    _SocialMediaShareClarificationNote(
-                      key: const Key('sharePage_socialMediaShareClarification'),
-                    ),
                     const SizedBox(height: 80),
                     const WhiteFooter()
                   ],
@@ -73,39 +70,6 @@ class SharePage extends StatelessWidget {
           ),
           ShareProgressOverlay()
         ],
-      ),
-    );
-  }
-}
-
-class _SocialMediaShareClarificationNote extends StatelessWidget {
-  _SocialMediaShareClarificationNote({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    final text = Text(
-      l10n.sharePageSocialMediaShareClarification,
-      key: const Key(
-        'sharePage_socialMediaShareClarification_text',
-      ),
-      textAlign: TextAlign.center,
-      style: theme.textTheme.caption?.copyWith(
-        color: PhotoboothColors.white,
-        fontWeight: PhotoboothFontWeight.regular,
-      ),
-    );
-
-    return ResponsiveLayoutBuilder(
-      mobile: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: text,
-      ),
-      desktop: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 234),
-        child: text,
       ),
     );
   }

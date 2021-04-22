@@ -8,11 +8,11 @@ class SharePhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
       desktop: (_) => Image.asset(
-        'assets/images/photo_placeholder_desktop.jpeg',
+        'assets/images/photo_placeholder_desktop.png',
         filterQuality: FilterQuality.high,
       ),
       mobile: (_) => Image.asset(
-        'assets/images/photo_placeholder_mobile.jpeg',
+        'assets/images/photo_placeholder_mobile.png',
         filterQuality: FilterQuality.high,
         height: 300,
       ),

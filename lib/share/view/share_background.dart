@@ -17,25 +17,25 @@ class ShareBackground extends StatelessWidget {
             filterQuality: FilterQuality.high,
           ),
         ),
-        PlatformBuilder(
-          desktop: Align(
+        ResponsiveLayoutBuilder(
+          desktop: (_) => Align(
             alignment: Alignment.bottomLeft,
             child: Image.asset(
               'assets/backgrounds/yellow_bar.png',
               filterQuality: FilterQuality.high,
             ),
           ),
-          mobile: const SizedBox(),
+          mobile: (_) => const SizedBox(),
         ),
-        PlatformBuilder(
-          desktop: Align(
+        ResponsiveLayoutBuilder(
+          desktop: (_) => Align(
             alignment: Alignment.topRight,
             child: Image.asset(
               'assets/backgrounds/circle_object.png',
               filterQuality: FilterQuality.high,
             ),
           ),
-          mobile: const SizedBox(),
+          mobile: (_) => const SizedBox(),
         ),
       ],
     );

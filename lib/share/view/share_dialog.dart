@@ -62,7 +62,7 @@ class ShareDialog extends StatelessWidget {
                         style: theme.textTheme.headline2,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 42),
+                      const SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -71,7 +71,8 @@ class ShareDialog extends StatelessWidget {
                           const FacebookButton(),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 30),
+                      const SocialMediaShareClarificationNote(),
                     ],
                   ),
                 ),
