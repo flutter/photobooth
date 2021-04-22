@@ -11,7 +11,6 @@ class FooterLink extends StatelessWidget {
   }) : super(key: key);
 
   final String text;
-
   final String link;
 
   @override
