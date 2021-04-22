@@ -121,11 +121,11 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Flexible(child: _RetakeButton()),
+        Flexible(child: _DownloadButton(file: image.toFile())),
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
-        Flexible(child: _DownloadButton(file: image.toFile())),
+        const _GoToGoogleIOButton(),
       ],
     );
   }
@@ -138,55 +138,55 @@ class MobileButtonsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gap = const SizedBox(height: 20);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const _RetakeButton(),
-        const SizedBox(height: 15),
-        ShareButton(image: image),
-        const SizedBox(height: 20),
         _DownloadButton(file: image.toFile()),
+        gap,
+        ShareButton(image: image),
+        gap,
+        const _GoToGoogleIOButton(),
       ],
     );
   }
 }
 
-class _RetakeButton extends StatelessWidget {
-  const _RetakeButton({Key? key}) : super(key: key);
+class _DownloadButton extends StatelessWidget {
+  const _DownloadButton({
+    Key? key,
+    required this.file,
+  }) : super(key: key);
+  final XFile file;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return OutlinedButton(
-      key: const Key('sharePage_retake_elevatedButton'),
-      onPressed: () {
-        context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-        Navigator.of(context).popUntil(
-          (route) => route.settings.name == PhotoboothPage.name,
-        );
-      },
-      child: Text(l10n.sharePageRetakeButtonText),
+      key: const Key('sharePage_download_outlinedButton'),
+      onPressed: () => file.saveTo(''),
+      child: Text(
+        l10n.sharePageDownloadButtonText,
+      ),
     );
   }
 }
 
-class _DownloadButton extends StatelessWidget {
-  const _DownloadButton({Key? key, required this.file}) : super(key: key);
-
-  final XFile file;
+class _GoToGoogleIOButton extends StatelessWidget {
+  const _GoToGoogleIOButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      key: const Key('sharePage_download_elevatedButton'),
+      key: const Key('sharePage_goToGoogleIO_elevatedButton'),
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),
-      onPressed: () => file.saveTo(''),
+      onPressed: () => '',
       child: Text(
-        l10n.sharePageDownloadButtonText,
+        l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(
           color: PhotoboothColors.black,
         ),

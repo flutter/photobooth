@@ -97,7 +97,7 @@ void main() async {
         shareBloc: shareBloc,
       );
       expect(
-        find.byKey(const Key('sharePage_download_elevatedButton')),
+        find.byKey(const Key('sharePage_download_outlinedButton')),
         findsOneWidget,
       );
     });
@@ -199,7 +199,7 @@ void main() async {
   group('DownloadButton', () {
     testWidgets('tapping on download photo button completes', (tester) async {
       final downloadButtonFinder = find.byKey(
-        const Key('sharePage_download_elevatedButton'),
+        const Key('sharePage_download_outlinedButton'),
       );
       await tester.pumpApp(
         SharePage(),

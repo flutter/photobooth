@@ -151,5 +151,9 @@
     "sharePageLearnMoreAboutTextPart4": " open source code",
     "@sharePageLearnMoreAboutTextPart4": {
         "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "goToGoogleIOButtonText": "Go to Google I/O",
+    "@goToGoogleIOButtonText": {
+        "description": "Text displayed on the button to navigate to Google I/O"
     }
 }
