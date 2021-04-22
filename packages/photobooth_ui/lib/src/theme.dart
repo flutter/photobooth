@@ -15,6 +15,7 @@ class PhotoboothTheme {
       dialogBackgroundColor: PhotoboothColors.whiteBackground,
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
+      bottomSheetTheme: _bottomSheetTheme,
     );
   }
 
@@ -79,6 +80,15 @@ class PhotoboothTheme {
     return DialogTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  static BottomSheetThemeData get _bottomSheetTheme {
+    return const BottomSheetThemeData(
+      backgroundColor: PhotoboothColors.whiteBackground,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
     );
   }

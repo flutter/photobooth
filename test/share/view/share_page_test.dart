@@ -149,22 +149,6 @@ void main() async {
     });
   });
 
-  group('ShareButton', () {
-    testWidgets('tapping on share photo button opens ShareDialog',
-        (tester) async {
-      final shareButtonFinder = find.byKey(
-        const Key('sharePage_share_elevatedButton'),
-      );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-
-      await tester.ensureVisible(shareButtonFinder);
-      await tester.tap(shareButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ShareDialog), findsOneWidget);
-    });
-  });
-
   group('DownloadButton', () {
     testWidgets('tapping on download photo button completes', (tester) async {
       final downloadButtonFinder = find.byKey(
