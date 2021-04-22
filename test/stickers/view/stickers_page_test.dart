@@ -79,7 +79,7 @@ void main() async {
     testWidgets('renders Android character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          characters: [PhotoAsset(id: '0', asset: Assets.android)],
           image: image,
         ),
       );
@@ -98,7 +98,7 @@ void main() async {
     testWidgets('renders Dash character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
           image: image,
         ),
       );
@@ -117,7 +117,7 @@ void main() async {
     testWidgets('renders Sparky character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
+          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
           image: image,
         ),
       );
@@ -261,8 +261,8 @@ void main() async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [
-            PhotoAsset(id: 0, asset: Assets.banana),
-            PhotoAsset(id: 1, asset: Assets.beret)
+            PhotoAsset(id: '0', asset: Assets.banana),
+            PhotoAsset(id: '1', asset: Assets.beret)
           ],
           image: image,
         ),
@@ -284,7 +284,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -396,7 +396,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -420,7 +420,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -521,7 +521,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -546,7 +546,7 @@ void main() async {
         'when sticker selected is removed', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -616,7 +616,7 @@ void main() async {
         'is character selected', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(true);
       when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: 0));
+          .thenReturn(PhotoboothState(selectedAssetId: '0'));
       await tester.pumpApp(
         NextButtonLayer(
           platformHelper: platformHelper,
@@ -671,7 +671,7 @@ void main() async {
         'and any sticker is selected ', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(true);
       when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: 0));
+          .thenReturn(PhotoboothState(selectedAssetId: '0'));
       await tester.pumpApp(
         RemoveSelectedStickerButtonLayer(
           platformHelper: platformHelper,
@@ -686,7 +686,7 @@ void main() async {
         'when RemoveSelectedStickerButton is tapped', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(true);
       when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: 0));
+          .thenReturn(PhotoboothState(selectedAssetId: '0'));
       await tester.pumpApp(
         RemoveSelectedStickerButtonLayer(
           platformHelper: platformHelper,

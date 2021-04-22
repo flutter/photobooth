@@ -13,21 +13,26 @@ class MockCameraImage extends Mock implements CameraImage {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
+
   group('PhotoboothBloc', () {
     late CameraImage image;
+    late String id;
+
+    String uuid() => id;
 
     setUp(() {
+      id = '0';
       image = MockCameraImage();
     });
 
     test('initial state is PhotoboothState', () {
-      expect(PhotoboothBloc().state, equals(PhotoboothState()));
+      expect(PhotoboothBloc(uuid).state, equals(PhotoboothState()));
     });
 
     group('PhotoCaptured', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with image',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         act: (bloc) => bloc.add(PhotoCaptured(image: image)),
         expect: () => [PhotoboothState(image: image)],
       );
@@ -37,14 +42,14 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did not exist (android)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.android),
         ),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: 0, asset: Assets.android)],
-            selectedAssetId: 0,
+            characters: [PhotoAsset(id: '0', asset: Assets.android)],
+            selectedAssetId: '0',
           )
         ],
       );
@@ -52,12 +57,12 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did not exist (dash)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         act: (bloc) => bloc.add(PhotoCharacterToggled(character: Assets.dash)),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: 0, asset: Assets.dash)],
-            selectedAssetId: 0,
+            characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+            selectedAssetId: '0',
           )
         ],
       );
@@ -65,13 +70,13 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did not exist (sparky)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         act: (bloc) =>
             bloc.add(PhotoCharacterToggled(character: Assets.sparky)),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
-            selectedAssetId: 0,
+            characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+            selectedAssetId: '0',
           )
         ],
       );
@@ -79,9 +84,9 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did exist (android)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          characters: [PhotoAsset(id: '0', asset: Assets.android)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.android),
@@ -92,9 +97,9 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did exist (dash)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
+          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.dash),
@@ -105,9 +110,9 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with character '
         'when character did exist (sparky)',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
+          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.sparky),
@@ -119,13 +124,13 @@ void main() async {
     group('PhotoCharacterDragged', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.sparky)],
+          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterDragged(
-            character: PhotoAsset(id: 0, asset: Assets.sparky),
+            character: PhotoAsset(id: '0', asset: Assets.sparky),
             update: DragUpdate(
               scale: 0.42,
               angle: 42,
@@ -139,7 +144,7 @@ void main() async {
           PhotoboothState(
             characters: [
               PhotoAsset(
-                id: 0,
+                id: '0',
                 asset: Assets.sparky,
                 angle: 42,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
@@ -148,7 +153,7 @@ void main() async {
                 size: PhotoAssetSize(width: 42, height: 42),
               ),
             ],
-            selectedAssetId: 0,
+            selectedAssetId: '0',
           )
         ],
       );
@@ -157,14 +162,14 @@ void main() async {
     group('PhotoStickerTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with sticker',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         act: (bloc) => bloc.add(
           PhotoStickerTapped(sticker: Assets.banana),
         ),
         expect: () => [
           PhotoboothState(
-            stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
-            selectedAssetId: 0,
+            stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+            selectedAssetId: '0',
           )
         ],
       );
@@ -173,13 +178,13 @@ void main() async {
     group('PhotoStickerDragged', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(
           PhotoStickerDragged(
-            sticker: PhotoAsset(id: 0, asset: Assets.banana),
+            sticker: PhotoAsset(id: '0', asset: Assets.banana),
             update: DragUpdate(
               angle: 42,
               position: Offset(42, 42),
@@ -193,7 +198,7 @@ void main() async {
           PhotoboothState(
             stickers: [
               PhotoAsset(
-                id: 0,
+                id: '0',
                 asset: Assets.banana,
                 angle: 42,
                 position: PhotoAssetPosition(dx: 42, dy: 42),
@@ -202,7 +207,7 @@ void main() async {
                 size: PhotoAssetSize(width: 42, height: 42),
               ),
             ],
-            selectedAssetId: 0,
+            selectedAssetId: '0',
           )
         ],
       );
@@ -211,9 +216,9 @@ void main() async {
     group('PhotoClearStickersTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with no stickers',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(PhotoClearStickersTapped()),
         expect: () => [PhotoboothState()],
@@ -223,10 +228,10 @@ void main() async {
     group('PhotoClearAllTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with no characters or stickers',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
         ),
         act: (bloc) => bloc.add(PhotoClearAllTapped()),
         expect: () => [PhotoboothState()],
@@ -236,17 +241,17 @@ void main() async {
     group('PhotoTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with no selectedAssetId',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.dash)],
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
-          selectedAssetId: 0,
+          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          selectedAssetId: '0',
         ),
         act: (bloc) => bloc.add(PhotoTapped()),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: 0, asset: Assets.dash)],
-            stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+            characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+            stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           ),
         ],
       );
@@ -255,15 +260,10 @@ void main() async {
     group('PhotoDeleteSelectedStickerTapped', () {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state without the sticker',
-        build: () => PhotoboothBloc(),
+        build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          stickers: [
-            PhotoAsset(
-              id: 0,
-              asset: Assets.banana,
-            ),
-          ],
-          selectedAssetId: 0,
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          selectedAssetId: '0',
         ),
         act: (bloc) => bloc.add(PhotoDeleteSelectedStickerTapped()),
         expect: () => [PhotoboothState()],
