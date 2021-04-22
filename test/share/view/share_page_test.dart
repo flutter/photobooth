@@ -212,9 +212,8 @@ void main() async {
 
       expect(find.byType(SharePage), findsOneWidget);
 
-      final retakeButtonFinder = find.byType(RetakeButton);
-      await tester.ensureVisible(retakeButtonFinder);
-      await tester.tap(retakeButtonFinder);
+      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
+      backButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(SharePage), findsNothing);
