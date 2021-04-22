@@ -31,7 +31,6 @@ class PhotoboothPreview extends StatelessWidget {
           },
         ),
       ),
-      const SizedBox(height: 16),
       Flexible(
         child: CharacterIconButton(
           key: const Key('photoboothView_sparky_characterIconButton'),
@@ -44,7 +43,6 @@ class PhotoboothPreview extends StatelessWidget {
           },
         ),
       ),
-      const SizedBox(height: 16),
       Flexible(
         child: CharacterIconButton(
           key: const Key('photoboothView_android_characterIconButton'),
@@ -127,7 +125,6 @@ class DesktopCharactersIconLayout extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CharactersCaption(),
-            const SizedBox(height: 5),
             ...children,
           ],
         ),
@@ -185,17 +182,20 @@ class CharacterIconButton extends StatelessWidget {
       PhotoboothColors.gray,
       BlendMode.saturation,
     );
-    return Material(
-      color: PhotoboothColors.transparent,
-      shape: const CircleBorder(),
-      clipBehavior: Clip.hardEdge,
-      child: Ink.image(
-        colorFilter: isSelected ? disabledColorFilter : null,
-        fit: BoxFit.cover,
-        image: icon,
-        width: 120,
-        height: 120,
-        child: InkWell(onTap: onPressed),
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Material(
+        color: PhotoboothColors.transparent,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        child: Ink.image(
+          colorFilter: isSelected ? disabledColorFilter : null,
+          fit: BoxFit.cover,
+          image: icon,
+          width: 90,
+          height: 90,
+          child: InkWell(onTap: onPressed),
+        ),
       ),
     );
   }
