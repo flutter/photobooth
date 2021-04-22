@@ -109,6 +109,36 @@ void main() async {
       expect(find.byType(PhotoboothError), findsOneWidget);
     });
 
+    testWidgets(
+        'renders camera access denied error '
+        'when cameraPlatform throws CameraNotAllowed exception',
+        (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraNotAllowedException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_cameraAccessDenied')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'renders unknown error '
+        'when cameraPlatform throws CameraUnknownException exception',
+        (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraUnknownException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_unknown')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('renders error when not allowed', (tester) async {
       when(
         () => cameraPlatform.create(any()),
@@ -142,8 +172,10 @@ void main() async {
 
     testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.binding.window.physicalSizeTestValue = const Size(300, 500);
-
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
 
@@ -290,7 +322,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders only dash when only dash is selected', (tester) async {
@@ -334,7 +366,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders only sparky when only sparky is selected',
@@ -383,7 +415,7 @@ void main() async {
 
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoCharacterDragged>())),
-      ).called(1);
+      );
     });
 
     testWidgets('renders dash, sparky, and android when all are selected',
@@ -527,6 +559,48 @@ void main() async {
       ));
       expect(tester.takeException(), isNull);
       verify(() => photoboothBloc.add(PhotoTapped())).called(1);
+    });
+
+    testWidgets(
+        'renders CharactersCaption on mobile when no character is selected',
+        (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+      const preview = SizedBox();
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(CharactersCaption), findsOneWidget);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    });
+
+    testWidgets(
+        'does not render CharactersCaption on mobile when '
+        'any character is selected', (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+        characters: [PhotoAsset(id: 0, asset: Assets.android)],
+      ));
+      const preview = SizedBox();
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: photoboothBloc,
+          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(CharactersCaption), findsNothing);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
   });
 }

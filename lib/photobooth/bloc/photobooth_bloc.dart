@@ -72,10 +72,12 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     final character = characters.removeAt(index);
     characters.add(
       character.copyWith(
+        angle: event.update.angle,
         position: PhotoAssetPosition(
           dx: event.update.position.dx,
           dy: event.update.position.dy,
         ),
+        scale: event.update.scale,
         size: PhotoAssetSize(
           width: event.update.size.width,
           height: event.update.size.height,
@@ -111,10 +113,12 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     final sticker = stickers.removeAt(index);
     stickers.add(
       sticker.copyWith(
+        angle: event.update.angle,
         position: PhotoAssetPosition(
           dx: event.update.position.dx,
           dy: event.update.position.dy,
         ),
+        scale: event.update.scale,
         size: PhotoAssetSize(
           width: event.update.size.width,
           height: event.update.size.height,

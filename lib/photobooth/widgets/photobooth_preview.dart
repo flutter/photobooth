@@ -18,16 +18,12 @@ class PhotoboothPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PhotoboothBloc>().state;
-    final isAndroidSelected =
-        state.characters.containsCharacter(Character.android);
-    final isDashSelected = state.characters.containsCharacter(Character.dash);
-    final isSparkySelected =
-        state.characters.containsCharacter(Character.sparky);
+
     final children = <Widget>[
       Flexible(
         child: CharacterIconButton(
           key: const Key('photoboothView_dash_characterIconButton'),
-          icon: isDashSelected
+          icon: state.isDashSelected
               ? const AssetImage('assets/icons/dash_icon_disabled.png')
               : const AssetImage('assets/icons/dash_icon.png'),
           onPressed: () {
@@ -43,7 +39,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_sparky_characterIconButton',
           ),
-          icon: isSparkySelected
+          icon: state.isSparkySelected
               ? const AssetImage('assets/icons/sparky_icon_disabled.png')
               : const AssetImage('assets/icons/sparky_icon.png'),
           onPressed: () {
@@ -59,7 +55,7 @@ class PhotoboothPreview extends StatelessWidget {
           key: const Key(
             'photoboothView_android_characterIconButton',
           ),
-          icon: isAndroidSelected
+          icon: state.isAndroidSelected
               ? const AssetImage('assets/icons/android_icon_disabled.png')
               : const AssetImage('assets/icons/android_icon.png'),
           onPressed: () {
@@ -108,9 +104,12 @@ class PhotoboothPreview extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: ShutterButton(
-            key: const Key('photoboothPreview_photo_shutterButton'),
-            onCountdownComplete: onSnapPressed,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: ShutterButton(
+              key: const Key('photoboothPreview_photo_shutterButton'),
+              onCountdownComplete: onSnapPressed,
+            ),
           ),
         ),
       ],
@@ -130,10 +129,16 @@ class DesktopCharactersIconLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: children,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CharactersCaption(),
+            const SizedBox(height: 5),
+            ...children,
+          ],
+        ),
       ),
     );
   }
@@ -151,10 +156,20 @@ class MobileCharactersIconLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
+      child: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+          BlocBuilder<PhotoboothBloc, PhotoboothState>(
+            builder: (context, state) {
+              if (state.isAnyCharacterSelected) return const SizedBox();
+              return const CharactersCaption();
+            },
+          )
+        ],
       ),
     );
   }
