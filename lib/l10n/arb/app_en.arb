@@ -44,13 +44,9 @@
     "@footerPrivacyPolicyLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
     },
-    "sharePageHeading": "Nice shot!",
+    "sharePageHeading": "Share your photo with the community!",
     "@sharePageHeading": {
         "description": "Heading shown on the share page."
-    },
-    "sharePageSubheading": "Share your photo with the community!",
-    "@sharePageSubheading": {
-        "description": "Subheading shown on the share page."
     },
     "sharePageRetakeButtonText": "Take new photo",
     "@sharePageRetakeButtonText": {

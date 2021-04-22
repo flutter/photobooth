@@ -6,11 +6,11 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:io_photobooth/share/view/share_background.dart';
+import 'package:io_photobooth/share/view/share_photo.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
-const _photoImageHeight = 500.0;
 
 class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
@@ -36,36 +36,17 @@ class SharePage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.asset(
-              'assets/backgrounds/share_background.png',
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            ),
-          ),
+          const ShareBackground(),
           Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (image != null)
-                    Container(
-                      height: _photoImageHeight,
-                      child: PhotoboothPhoto(image: image.data),
-                    ),
+                  const SharePhoto(),
                   const SizedBox(height: 80),
                   Text(
                     l10n.sharePageHeading,
                     style: theme.textTheme.headline1
-                        ?.copyWith(color: PhotoboothColors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.sharePageSubheading,
-                    style: theme.textTheme.headline2
                         ?.copyWith(color: PhotoboothColors.white),
                     textAlign: TextAlign.center,
                   ),
