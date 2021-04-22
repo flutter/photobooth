@@ -83,7 +83,7 @@ void main() async {
       final sticker = Assets.banana;
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: 0, asset: sticker)],
+          stickers: [PhotoAsset(id: '0', asset: sticker)],
           image: image,
         ),
       );

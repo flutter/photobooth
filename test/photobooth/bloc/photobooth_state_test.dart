@@ -19,7 +19,7 @@ void main() {
         final assetA = MockAsset();
         final assetB = MockAsset();
         expect(
-          PhotoAsset(id: 0, asset: assetA).copyWith(asset: assetB).asset,
+          PhotoAsset(id: '0', asset: assetA).copyWith(asset: assetB).asset,
           equals(assetB),
         );
       });
