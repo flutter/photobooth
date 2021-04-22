@@ -3,15 +3,21 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:uuid/uuid.dart';
 
 part 'photobooth_event.dart';
 part 'photobooth_state.dart';
 
+typedef UuidGetter = String Function();
+
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
-  PhotoboothBloc() : super(const PhotoboothState());
+  PhotoboothBloc([UuidGetter? uuid])
+      : uuid = uuid ?? const Uuid().v4,
+        super(const PhotoboothState());
+
+  final UuidGetter uuid;
 
   @override
   Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
@@ -26,15 +32,21 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     } else if (event is PhotoStickerDragged) {
       yield _mapStickerDraggedToState(event, state);
     } else if (event is PhotoClearStickersTapped) {
-      yield state.copyWith(stickers: const <PhotoAsset>[]);
+      yield state.copyWith(
+        stickers: const <PhotoAsset>[],
+        selectedAssetId: emptyAssetId,
+      );
     } else if (event is PhotoClearAllTapped) {
       yield state.copyWith(
         characters: const <PhotoAsset>[],
         stickers: const <PhotoAsset>[],
         selectedAssetId: emptyAssetId,
       );
-    } else if (event is PhotoDeleteStickerTapped) {
-      yield _mapDeleteStickerTappedToState(event, state);
+    } else if (event is PhotoDeleteSelectedStickerTapped) {
+      yield _mapDeleteSelectedStickerTappedToState(
+        event,
+        state,
+      );
     } else if (event is PhotoTapped) {
       yield state.copyWith(selectedAssetId: emptyAssetId);
     }
@@ -54,7 +66,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
       return state.copyWith(characters: characters);
     }
 
-    final newCharacter = PhotoAsset(id: characters.length, asset: asset);
+    final newCharacter = PhotoAsset(id: uuid(), asset: asset);
     characters.add(newCharacter);
     return state.copyWith(
       characters: characters,
@@ -96,7 +108,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     PhotoboothState state,
   ) {
     final asset = event.sticker;
-    final newSticker = PhotoAsset(id: state.stickers.length, asset: asset);
+    final newSticker = PhotoAsset(id: uuid(), asset: asset);
     return state.copyWith(
       stickers: List.of(state.stickers)..add(newSticker),
       selectedAssetId: newSticker.id,
@@ -132,18 +144,23 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     return state.copyWith(stickers: stickers, selectedAssetId: asset.id);
   }
 
-  PhotoboothState _mapDeleteStickerTappedToState(
-    PhotoDeleteStickerTapped event,
+  PhotoboothState _mapDeleteSelectedStickerTappedToState(
+    PhotoDeleteSelectedStickerTapped event,
     PhotoboothState state,
   ) {
     final stickers = List.of(state.stickers);
-    final index = stickers.indexWhere((c) => c.id == event.sticker.id);
+    final index = stickers.indexWhere(
+      (element) => element.id == state.selectedAssetId,
+    );
     final stickerExists = index != -1;
 
     if (stickerExists) {
       stickers.removeAt(index);
     }
 
-    return state.copyWith(stickers: stickers);
+    return state.copyWith(
+      stickers: stickers,
+      selectedAssetId: emptyAssetId,
+    );
   }
 }

@@ -33,56 +33,60 @@ class SharePage extends StatelessWidget {
     final l10n = context.l10n;
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          const ShareBackground(),
-          Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SharePhoto(),
-                    const SizedBox(height: 40),
-                    Text(
-                      l10n.sharePageHeading,
-                      style: theme.textTheme.headline1?.copyWith(
-                        color: PhotoboothColors.white,
+      body: ShareErrorListener(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            const ShareBackground(),
+            Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SharePhoto(),
+                      const SizedBox(height: 40),
+                      Text(
+                        l10n.sharePageHeading,
+                        style: theme.textTheme.headline1?.copyWith(
+                          color: PhotoboothColors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    const LearnMoreAboutText(),
-                    const SizedBox(height: 30),
-                    if (image != null)
-                      ResponsiveLayoutBuilder(
-                        mobile: (_) => MobileButtonsLayout(image: image),
-                        desktop: (_) => DesktopButtonsLayout(image: image),
-                      ),
-                    const SizedBox(height: 42),
-                    const SizedBox(height: 80),
-                    const WhiteFooter()
-                  ],
+                      const SizedBox(height: 20),
+                      const LearnMoreAboutText(),
+                      const SizedBox(height: 30),
+                      if (image != null)
+                        ResponsiveLayoutBuilder(
+                          mobile: (_) => MobileButtonsLayout(image: image),
+                          desktop: (_) => DesktopButtonsLayout(image: image),
+                        ),
+                      const SizedBox(height: 42),
+                      const SizedBox(height: 80),
+                      const WhiteFooter()
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            left: 15,
-            top: 15,
-            child: RetakeButton(
-              onPressed: () {
-                context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-                Navigator.of(context).popUntil(
-                  (route) => route.settings.name == PhotoboothPage.name,
-                );
-              },
+            Positioned(
+              left: 15,
+              top: 15,
+              child: RetakeButton(
+                onPressed: () {
+                  context
+                      .read<PhotoboothBloc>()
+                      .add(const PhotoClearAllTapped());
+                  Navigator.of(context).popUntil(
+                    (route) => route.settings.name == PhotoboothPage.name,
+                  );
+                },
+              ),
             ),
-          ),
-          ShareProgressOverlay()
-        ],
+            ShareProgressOverlay()
+          ],
+        ),
       ),
     );
   }

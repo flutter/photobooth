@@ -567,7 +567,7 @@ void main() {
             tester.widget<GestureDetector>(gestureDetectorFinder);
         gestureDetector.onScaleStart!(ScaleStartDetails(pointerCount: 2));
         gestureDetector.onScaleUpdate!(
-          ScaleUpdateDetails(scale: 2, rotation: 2, pointerCount: 2),
+          ScaleUpdateDetails(scale: 2, pointerCount: 2),
         );
 
         await tester.pumpAndSettle();
@@ -582,6 +582,102 @@ void main() {
           isNot(equals(Matrix4.diagonal3Values(1, 1, 1))),
         );
         expect(onUpdateCalls, isNotEmpty);
+      });
+
+      testWidgets('is rotatable', (tester) async {
+        final onUpdateCalls = <DragUpdate>[];
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Stack(
+              children: [
+                DraggableResizableAsset(
+                  asset: asset,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  platformHelper: platformHelper,
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final imageFinder = find.byKey(
+          Key('draggableResizableAsset_image_draggablePoint'),
+        );
+        final gestureDetectorFinder = find.descendant(
+          of: imageFinder,
+          matching: find.byType(GestureDetector),
+        );
+        final gestureDetector =
+            tester.widget<GestureDetector>(gestureDetectorFinder);
+        gestureDetector.onScaleStart!(ScaleStartDetails(pointerCount: 2));
+        gestureDetector.onScaleUpdate!(
+          ScaleUpdateDetails(rotation: 2, pointerCount: 2),
+        );
+
+        await tester.pumpAndSettle();
+
+        final transformFinder = find.ancestor(
+          of: imageFinder,
+          matching: find.byType(Transform),
+        );
+        final transformWidget = tester.widget<Transform>(transformFinder);
+        expect(
+          transformWidget.transform,
+          isNot(equals(Matrix4.diagonal3Values(1, 1, 1))),
+        );
+        expect(onUpdateCalls, isNotEmpty);
+      });
+
+      testWidgets('rotation is continuous', (tester) async {
+        final onUpdateCalls = <DragUpdate>[];
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Stack(
+              children: [
+                DraggableResizableAsset(
+                  asset: asset,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  platformHelper: platformHelper,
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final imageFinder = find.byKey(
+          Key('draggableResizableAsset_image_draggablePoint'),
+        );
+        final gestureDetectorFinder = find.descendant(
+          of: imageFinder,
+          matching: find.byType(GestureDetector),
+        );
+        final gestureDetector =
+            tester.widget<GestureDetector>(gestureDetectorFinder);
+        gestureDetector.onScaleStart!(ScaleStartDetails(pointerCount: 2));
+        gestureDetector.onScaleUpdate!(
+          ScaleUpdateDetails(rotation: 2, pointerCount: 2),
+        );
+
+        await tester.pumpAndSettle();
+
+        final transformFinder = find.ancestor(
+          of: imageFinder,
+          matching: find.byType(Transform),
+        );
+        final transformA = tester.widget<Transform>(transformFinder).transform;
+
+        gestureDetector.onScaleStart!(ScaleStartDetails(pointerCount: 2));
+        gestureDetector.onScaleUpdate!(
+          ScaleUpdateDetails(rotation: 2, pointerCount: 2),
+        );
+
+        await tester.pumpAndSettle();
+
+        final transformB = tester.widget<Transform>(transformFinder).transform;
+
+        expect(transformA, isNot(equals(transformB)));
       });
     });
   });

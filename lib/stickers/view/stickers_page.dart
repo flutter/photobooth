@@ -4,12 +4,13 @@ import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersPage extends StatelessWidget {
-  const StickersPage({Key? key}) : super(key: key);
+  const StickersPage({
+    Key? key,
+  }) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute(builder: (_) => const StickersPage());
@@ -81,11 +82,11 @@ class StickersView extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: NextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(SharePage.route());
-                      },
-                    ),
+                    child: NextButtonLayer(),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RemoveSelectedStickerButtonLayer(),
                   ),
                 ],
               ),
@@ -144,34 +145,9 @@ class _DraggableStickers extends StatelessWidget {
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),
             onDelete: () => context
                 .read<PhotoboothBloc>()
-                .add(PhotoDeleteStickerTapped(sticker: sticker)),
+                .add(const PhotoDeleteSelectedStickerTapped()),
           ),
       ],
-    );
-  }
-}
-
-class NextButton extends StatelessWidget {
-  const NextButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/go_next_button_icon.png',
-          height: 100,
-        ),
-      ),
     );
   }
 }

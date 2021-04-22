@@ -1,6 +1,6 @@
 part of 'photobooth_bloc.dart';
 
-const emptyAssetId = -1;
+const emptyAssetId = '';
 
 class PhotoConstraint extends Equatable {
   const PhotoConstraint({this.width = 1, this.height = 1});
@@ -43,7 +43,7 @@ class PhotoAsset extends Equatable {
     this.size = const PhotoAssetSize(),
   });
 
-  final int id;
+  final String id;
   final Asset asset;
   final double angle;
   final PhotoConstraint constraint;
@@ -83,11 +83,13 @@ class PhotoboothState extends Equatable {
     this.image,
   });
 
-  bool get isDashSelected => characters.containsCharacter(Character.dash);
+  bool get isDashSelected => characters.containsAsset(Assets.dash);
 
-  bool get isAndroidSelected => characters.containsCharacter(Character.android);
+  bool get isAndroidSelected => characters.containsAsset(Assets.android);
 
-  bool get isSparkySelected => characters.containsCharacter(Character.sparky);
+  bool get isSparkySelected => characters.containsAsset(Assets.sparky);
+
+  bool get isDinoSelected => characters.containsAsset(Assets.dino);
 
   bool get isAnyCharacterSelected => characters.isNotEmpty;
 
@@ -96,7 +98,7 @@ class PhotoboothState extends Equatable {
   final CameraImage? image;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;
-  final int selectedAssetId;
+  final String selectedAssetId;
 
   @override
   List<Object?> get props => [image, characters, stickers, selectedAssetId];
@@ -105,7 +107,7 @@ class PhotoboothState extends Equatable {
     CameraImage? image,
     List<PhotoAsset>? characters,
     List<PhotoAsset>? stickers,
-    int? selectedAssetId,
+    String? selectedAssetId,
   }) {
     return PhotoboothState(
       image: image ?? this.image,
@@ -117,7 +119,7 @@ class PhotoboothState extends Equatable {
 }
 
 extension PhotoAssetsX on List<PhotoAsset> {
-  bool containsCharacter(Character character) {
-    return indexWhere((e) => e.asset.name == describeEnum(character)) != -1;
+  bool containsAsset(Asset asset) {
+    return indexWhere((e) => e.asset.name == asset.name) != -1;
   }
 }

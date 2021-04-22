@@ -140,7 +140,7 @@ void main() async {
     testWidgets('displays selected character assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          characters: [PhotoAsset(id: '0', asset: Assets.android)],
           image: image,
         ),
       );
@@ -158,8 +158,8 @@ void main() async {
     testWidgets('displays selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
+          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
           image: image,
         ),
       );
@@ -177,11 +177,11 @@ void main() async {
     testWidgets('displays multiple selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
+          characters: [PhotoAsset(id: '0', asset: Assets.android)],
           stickers: [
-            PhotoAsset(id: 0, asset: Assets.banana),
-            PhotoAsset(id: 1, asset: Assets.banana),
-            PhotoAsset(id: 2, asset: Assets.beret),
+            PhotoAsset(id: '0', asset: Assets.banana),
+            PhotoAsset(id: '1', asset: Assets.banana),
+            PhotoAsset(id: '2', asset: Assets.beret),
           ],
           image: image,
         ),

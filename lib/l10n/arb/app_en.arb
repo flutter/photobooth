@@ -24,9 +24,9 @@
     "@footerMadeWithFirebaseLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Firebase page"
     },
-    "footerGoogleIOLinkText": "Google IO",
+    "footerGoogleIOLinkText": "Google I/O",
     "@footerGoogleIOLinkText": {
-        "description": "Text on the link shown on the footer which navigates to the Google IO page."
+        "description": "Text on the link shown on the footer which navigates to the Google I/O page."
     },
     "footerCodelabLinkText": "Codelab",
     "@footerCodelabLinkText": {
@@ -75,6 +75,26 @@
     "shareDialogSubheading": "Let everyone know you're at Google I/O by sharing your photo & updating your profile picture during the event!",
     "@shareDialogSubheading": {
         "description": "Subheading shown on the share dialog."
+    },
+    "shareErrorDialogHeading": "Oops!",
+    "@shareErrorDialogHeading": {
+        "description": "Heading shown on the share error dialog."
+    },
+    "shareErrorDialogTryAgainButton": "Try again",
+    "@shareErrorDialogTryAgainButton": {
+        "description": "Title of the button displayed on the share error dialog used to retry the upload operation."
+    },
+    "shareErrorDialogSubheading": "Something went wrong and we couldn't load your photo.",
+    "@shareErrorDialogSubheading": {
+        "description": "Subheading shown on the share error dialog."
+    },
+    "sharePageProgressOverlayHeading": "We're making your photo pixel perfect with Flutter! ",
+    "@sharePageProgressOverlayHeading": {
+        "description": "Heading shown on the share page progress overlay."
+    },
+    "sharePageProgressOverlaySubheading": "Please do not close this tab.",
+    "@sharePageProgressOverlaySubheading": {
+        "description": "Subheading shown on the share page progress overlay."
     },
     "shareDialogTwitterButtonText": "Twitter",
     "@shareDialogTwitterButtonText": {
