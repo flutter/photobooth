@@ -23,14 +23,11 @@ class LandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-
+    final size = MediaQuery.of(context).size;
     return Stack(
-      fit: StackFit.expand,
       children: [
         Container(
           key: const Key('landingPage_background'),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -44,31 +41,45 @@ class LandingView extends StatelessWidget {
         ),
         Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  l10n.landingPageHeading,
-                  key: const Key('landingPage_heading_text'),
-                  style: theme.textTheme.headline1,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  l10n.landingPageSubheading,
-                  key: const Key('landingPage_subheading_text'),
-                  style: theme.textTheme.headline2,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                const TakePhotoButton(),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.landingPageHeading,
+                    key: const Key('landingPage_heading_text'),
+                    style: theme.textTheme.headline1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.landingPageSubheading,
+                    key: const Key('landingPage_subheading_text'),
+                    style: theme.textTheme.headline2,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  const TakePhotoButton(),
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48),
+                    child: Image.asset(
+                      'assets/backgrounds/landing_background.png',
+                      height: size.width > PhotoboothBreakpoints.mobile
+                          ? size.height * 0.6
+                          : size.height * 0.4,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const BlackFooter(),
+                ],
+              ),
             ),
           ),
-        ),
-        const Align(
-          alignment: Alignment.bottomCenter,
-          child: BlackFooter(),
         ),
       ],
     );
