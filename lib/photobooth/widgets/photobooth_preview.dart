@@ -18,14 +18,12 @@ class PhotoboothPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PhotoboothBloc>().state;
-
     final children = <Widget>[
       Flexible(
         child: CharacterIconButton(
           key: const Key('photoboothView_dash_characterIconButton'),
-          icon: state.isDashSelected
-              ? const AssetImage('assets/icons/dash_icon_disabled.png')
-              : const AssetImage('assets/icons/dash_icon.png'),
+          icon: const AssetImage('assets/icons/dash_icon.png'),
+          isSelected: state.isDashSelected,
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
@@ -36,12 +34,9 @@ class PhotoboothPreview extends StatelessWidget {
       const SizedBox(height: 16),
       Flexible(
         child: CharacterIconButton(
-          key: const Key(
-            'photoboothView_sparky_characterIconButton',
-          ),
-          icon: state.isSparkySelected
-              ? const AssetImage('assets/icons/sparky_icon_disabled.png')
-              : const AssetImage('assets/icons/sparky_icon.png'),
+          key: const Key('photoboothView_sparky_characterIconButton'),
+          icon: const AssetImage('assets/icons/sparky_icon.png'),
+          isSelected: state.isSparkySelected,
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
@@ -52,12 +47,9 @@ class PhotoboothPreview extends StatelessWidget {
       const SizedBox(height: 16),
       Flexible(
         child: CharacterIconButton(
-          key: const Key(
-            'photoboothView_android_characterIconButton',
-          ),
-          icon: state.isAndroidSelected
-              ? const AssetImage('assets/icons/android_icon_disabled.png')
-              : const AssetImage('assets/icons/android_icon.png'),
+          key: const Key('photoboothView_android_characterIconButton'),
+          icon: const AssetImage('assets/icons/android_icon.png'),
+          isSelected: state.isAndroidSelected,
           onPressed: () {
             context
                 .read<PhotoboothBloc>()
@@ -179,19 +171,26 @@ class CharacterIconButton extends StatelessWidget {
   const CharacterIconButton({
     Key? key,
     required this.icon,
+    required this.isSelected,
     this.onPressed,
   }) : super(key: key);
 
   final AssetImage icon;
   final VoidCallback? onPressed;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
+    const disabledColorFilter = ColorFilter.mode(
+      PhotoboothColors.gray,
+      BlendMode.saturation,
+    );
     return Material(
       color: PhotoboothColors.transparent,
       shape: const CircleBorder(),
       clipBehavior: Clip.hardEdge,
       child: Ink.image(
+        colorFilter: isSelected ? disabledColorFilter : null,
         fit: BoxFit.cover,
         image: icon,
         width: 120,
