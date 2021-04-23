@@ -43,9 +43,8 @@ class LearnMoreAboutText extends StatelessWidget {
             text: l10n.sharePageLearnMoreAboutTextPart3,
           ),
           TextSpan(
-            text: l10n.footerMadeWithFirebaseLinkText,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink('https://firebase.google.com'),
+            text: l10n.sharePageLearnMoreAboutTextPart4,
+            recognizer: TapGestureRecognizer()..onTap = () => openLink(''),
             style: const TextStyle(
               decoration: TextDecoration.underline,
             ),

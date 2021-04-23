@@ -129,11 +129,11 @@
         "description": "Text displayed on headline on the photobooth page when unknown error occurs"
     },
     "photoBoothCameraErrorSubheadline1": "Please refresh your browser and try again.",
-    "@photoBoothCameraErrorSubheadline": {
+    "@photoBoothCameraErrorSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
     },
     "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact photobooth@google.com",
-    "@photoBoothCameraErrorSubheadline": {
+    "@photoBoothCameraErrorSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
     "stickersDrawerTitle": "Add Props",
