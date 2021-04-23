@@ -180,7 +180,7 @@ class _GoToGoogleIOButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),
-      onPressed: () {},
+      onPressed: () => openLink('https://events.google.com/io/adventure/'),
       child: Text(
         l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(

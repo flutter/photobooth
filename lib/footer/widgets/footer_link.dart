@@ -77,7 +77,7 @@ class FooterGoogleIOLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: '',
+      link: 'https://events.google.com/io/adventure/',
       text: l10n.footerGoogleIOLinkText,
     );
   }

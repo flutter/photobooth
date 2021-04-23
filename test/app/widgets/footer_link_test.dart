@@ -145,7 +145,7 @@ void main() {
         expect(
           widget.link,
           equals(
-            '',
+            'https://events.google.com/io/adventure/',
           ),
         );
       });
