@@ -27,7 +27,7 @@ class SharePhoto extends StatelessWidget {
         child: image != null
             ? PhotoboothPhoto(
                 image: image!.data,
-                shouldTransform: false,
+                isTilted: false,
               )
             : const SizedBox(),
       ),
@@ -44,7 +44,7 @@ class SharePhoto extends StatelessWidget {
         child: image != null
             ? PhotoboothPhoto(
                 image: image!.data,
-                shouldTransform: false,
+                isTilted: false,
               )
             : const SizedBox(),
       ),

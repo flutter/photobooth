@@ -13,11 +13,11 @@ class PhotoboothPhoto extends StatelessWidget {
   const PhotoboothPhoto({
     Key? key,
     required this.image,
-    this.shouldTransform = true,
+    this.isTilted = true,
   }) : super(key: key);
 
   final Uint8List image;
-  final bool shouldTransform;
+  final bool isTilted;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class PhotoboothPhoto extends StatelessWidget {
         ),
       ),
     );
-    if (!shouldTransform) return photo;
+    if (!isTilted) return photo;
     return Transform(
       alignment: const Alignment(0, -3 / 4),
       transform: Matrix4.identity()..rotateZ(-5 * (math.pi / 180)),

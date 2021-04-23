@@ -69,11 +69,11 @@ void main() {
 
     testWidgets(
         'does not transform image '
-        'when shouldTransform is false', (tester) async {
+        'when isTilted is false', (tester) async {
       await tester.pumpApp(
         PhotoboothPhoto(
           image: data,
-          shouldTransform: false,
+          isTilted: false,
         ),
         photoboothBloc: photoboothBloc,
       );
