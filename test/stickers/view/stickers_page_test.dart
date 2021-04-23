@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -74,63 +75,6 @@ void main() async {
         ),
       );
       expect(find.byType(PreviewImage), findsOneWidget);
-    });
-
-    testWidgets('renders Android character assert', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: photoboothBloc,
-          child: StickersPage(),
-        ),
-      );
-      expect(
-        find.byKey(const Key('charactersLayer_android_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('renders Dash character assert', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: photoboothBloc,
-          child: StickersPage(),
-        ),
-      );
-      expect(
-        find.byKey(const Key('charactersLayer_dash_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('renders Sparky character assert', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: photoboothBloc,
-          child: StickersPage(),
-        ),
-      );
-      expect(
-        find.byKey(const Key('charactersLayer_sparky_positioned')),
-        findsOneWidget,
-      );
     });
 
     testWidgets('renders StickersView', (tester) async {
