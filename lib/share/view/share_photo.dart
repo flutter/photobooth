@@ -14,14 +14,11 @@ class SharePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
-      margin: const EdgeInsets.symmetric(horizontal: 30),
-      padding: const EdgeInsets.symmetric(
-        vertical: 35,
-        horizontal: 15,
-      ),
+      height: isMobile ? 330 : 430,
+      width: isMobile ? 250 : 600,
       decoration: BoxDecoration(
         image: DecorationImage(
+          fit: BoxFit.cover,
           image: AssetImage(isMobile
               ? 'assets/images/photo_placeholder_mobile.png'
               : 'assets/images/photo_placeholder_desktop.png'),
