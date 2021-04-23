@@ -20,8 +20,7 @@ class AuthenticationRepository {
   Stream<User> get user {
     return _firebaseAuth
         .authStateChanges()
-        .map((user) => user == null ? User.none : user.toUser)
-        .where((user) => user != User.none);
+        .map((user) => user == null ? User.none : user.toUser);
   }
 
   /// Logs in into the app as an anonymous user.

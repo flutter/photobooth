@@ -71,12 +71,12 @@ void main() {
     });
 
     group('user', () {
-      test('does not emit user when firebase user is null', () async {
+      test('emits none user when firebase user is null', () async {
         when(() => firebaseAuth.authStateChanges())
             .thenAnswer((_) => Stream.value(null));
         await expectLater(
           authenticationRepository.user,
-          emitsInOrder(const <User>[]),
+          emitsInOrder(const <User>[User.none]),
         );
       });
 
