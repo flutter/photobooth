@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothPlaceholder extends StatelessWidget {
@@ -10,7 +11,9 @@ class PhotoboothPlaceholder extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return Stack(
+      fit: StackFit.expand,
       children: [
+        const PermissionsBackground(),
         Center(
           child: SingleChildScrollView(
             child: Column(
