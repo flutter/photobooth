@@ -93,8 +93,8 @@ class PhotoboothPreview extends StatelessWidget {
             },
           ),
         ResponsiveLayoutBuilder(
-          mobile: (_) => MobileCharactersIconLayout(children: children),
-          desktop: (_) => DesktopCharactersIconLayout(children: children),
+          mobile: (_, __) => MobileCharactersIconLayout(children: children),
+          desktop: (_, __) => DesktopCharactersIconLayout(children: children),
         ),
         Align(
           alignment: Alignment.bottomCenter,
