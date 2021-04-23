@@ -1,5 +1,7 @@
 export 'characters_caption.dart';
 export 'characters_layer.dart';
+export 'permissions_background.dart';
+export 'photobooth_background.dart';
 export 'photobooth_error.dart';
 export 'photobooth_photo.dart';
 export 'photobooth_placeholder.dart';
