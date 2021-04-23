@@ -225,6 +225,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  firebase_storage:
+    dependency: transitive
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.4"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -389,6 +410,13 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/photobooth_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  photos_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/photos_repository"
       relative: true
     source: path
     version: "1.0.0+1"

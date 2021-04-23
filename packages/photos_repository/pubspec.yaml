@@ -1,0 +1,18 @@
+name: photos_repository
+description: Repository that persists photos in a Firebase Storage
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: "^1.0.4"
+  firebase_storage: "^8.0.4"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^1.0.4
+  mocktail: ^0.1.1
