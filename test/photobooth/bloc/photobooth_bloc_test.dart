@@ -36,6 +36,14 @@ void main() async {
         act: (bloc) => bloc.add(PhotoCaptured(image: image)),
         expect: () => [PhotoboothState(image: image)],
       );
+
+      blocTest<PhotoboothBloc, PhotoboothState>(
+        'emits updated state with image and no selected asset',
+        build: () => PhotoboothBloc(uuid),
+        seed: () => PhotoboothState(selectedAssetId: '0'),
+        act: (bloc) => bloc.add(PhotoCaptured(image: image)),
+        expect: () => [PhotoboothState(image: image)],
+      );
     });
 
     group('PhotoCharacterToggled', () {
