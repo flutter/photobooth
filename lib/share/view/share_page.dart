@@ -39,11 +39,14 @@ class SharePage extends StatelessWidget {
             Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 30,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SharePhoto(),
+                      SharePhoto(image: image),
                       const SizedBox(height: 40),
                       Text(
                         l10n.sharePageHeading,
