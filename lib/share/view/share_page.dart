@@ -52,6 +52,10 @@ class SharePage extends StatelessWidget {
                         l10n.sharePageHeading,
                         style: theme.textTheme.headline1?.copyWith(
                           color: PhotoboothColors.white,
+                          fontSize: MediaQuery.of(context).size.width >
+                                  PhotoboothBreakpoints.mobile
+                              ? 56
+                              : 32,
                         ),
                         textAlign: TextAlign.center,
                       ),
