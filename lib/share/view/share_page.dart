@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -9,8 +10,6 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
-const _photoImageHeight = 500.0;
 
 class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
@@ -31,97 +30,67 @@ class SharePage extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
-
     return Scaffold(
       body: ShareErrorListener(
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Image.asset(
-                'assets/backgrounds/share_background.png',
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-              ),
-            ),
+            const ShareBackground(),
             Center(
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (image != null)
-                      Container(
-                        height: _photoImageHeight,
-                        child: PhotoboothPhoto(image: image.data),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 30,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SharePhoto(image: image),
+                      const SizedBox(height: 40),
+                      Text(
+                        l10n.sharePageHeading,
+                        style: theme.textTheme.headline1?.copyWith(
+                          color: PhotoboothColors.white,
+                          fontSize: MediaQuery.of(context).size.width >
+                                  PhotoboothBreakpoints.mobile
+                              ? 56
+                              : 32,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    const SizedBox(height: 80),
-                    Text(
-                      l10n.sharePageHeading,
-                      style: theme.textTheme.headline1
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      l10n.sharePageSubheading,
-                      style: theme.textTheme.headline2
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 40),
-                    if (image != null)
-                      ResponsiveLayoutBuilder(
-                        mobile: (_) => MobileButtonsLayout(image: image),
-                        desktop: (_) => DesktopButtonsLayout(image: image),
-                      ),
-                    const SizedBox(height: 42),
-                    _SocialMediaShareClarificationNote(
-                      key: const Key('sharePage_socialMediaShareClarification'),
-                    ),
-                    const SizedBox(height: 80),
-                    const WhiteFooter()
-                  ],
+                      const SizedBox(height: 20),
+                      const LearnMoreAboutText(),
+                      const SizedBox(height: 30),
+                      if (image != null)
+                        ResponsiveLayoutBuilder(
+                          mobile: (_) => MobileButtonsLayout(image: image),
+                          desktop: (_) => DesktopButtonsLayout(image: image),
+                        ),
+                      const SizedBox(height: 70),
+                      const WhiteFooter()
+                    ],
+                  ),
                 ),
+              ),
+            ),
+            Positioned(
+              left: 15,
+              top: 15,
+              child: RetakeButton(
+                onPressed: () {
+                  context
+                      .read<PhotoboothBloc>()
+                      .add(const PhotoClearAllTapped());
+                  Navigator.of(context).popUntil(
+                    (route) => route.settings.name == PhotoboothPage.name,
+                  );
+                },
               ),
             ),
             ShareProgressOverlay()
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _SocialMediaShareClarificationNote extends StatelessWidget {
-  _SocialMediaShareClarificationNote({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    final text = Text(
-      l10n.sharePageSocialMediaShareClarification,
-      key: const Key(
-        'sharePage_socialMediaShareClarification_text',
-      ),
-      textAlign: TextAlign.center,
-      style: theme.textTheme.caption?.copyWith(
-        color: PhotoboothColors.white,
-        fontWeight: PhotoboothFontWeight.regular,
-      ),
-    );
-
-    return ResponsiveLayoutBuilder(
-      mobile: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: text,
-      ),
-      desktop: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 234),
-        child: text,
       ),
     );
   }
@@ -137,11 +106,11 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Flexible(child: _RetakeButton()),
+        Flexible(child: _DownloadButton(file: image.toFile())),
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
-        Flexible(child: _DownloadButton(file: image.toFile())),
+        const _GoToGoogleIOButton(),
       ],
     );
   }
@@ -154,55 +123,55 @@ class MobileButtonsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gap = const SizedBox(height: 20);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const _RetakeButton(),
-        const SizedBox(height: 15),
-        ShareButton(image: image),
-        const SizedBox(height: 20),
         _DownloadButton(file: image.toFile()),
+        gap,
+        ShareButton(image: image),
+        gap,
+        const _GoToGoogleIOButton(),
       ],
     );
   }
 }
 
-class _RetakeButton extends StatelessWidget {
-  const _RetakeButton({Key? key}) : super(key: key);
+class _DownloadButton extends StatelessWidget {
+  const _DownloadButton({
+    Key? key,
+    required this.file,
+  }) : super(key: key);
+  final XFile file;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return OutlinedButton(
-      key: const Key('sharePage_retake_elevatedButton'),
-      onPressed: () {
-        context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-        Navigator.of(context).popUntil(
-          (route) => route.settings.name == PhotoboothPage.name,
-        );
-      },
-      child: Text(l10n.sharePageRetakeButtonText),
+      key: const Key('sharePage_download_outlinedButton'),
+      onPressed: () => file.saveTo(''),
+      child: Text(
+        l10n.sharePageDownloadButtonText,
+      ),
     );
   }
 }
 
-class _DownloadButton extends StatelessWidget {
-  const _DownloadButton({Key? key, required this.file}) : super(key: key);
-
-  final XFile file;
+class _GoToGoogleIOButton extends StatelessWidget {
+  const _GoToGoogleIOButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      key: const Key('sharePage_download_elevatedButton'),
+      key: const Key('sharePage_goToGoogleIO_elevatedButton'),
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),
-      onPressed: () => file.saveTo(''),
+      onPressed: () {},
       child: Text(
-        l10n.sharePageDownloadButtonText,
+        l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(
           color: PhotoboothColors.black,
         ),

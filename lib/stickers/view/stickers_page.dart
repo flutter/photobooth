@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -187,33 +188,6 @@ class ClearStickersButton extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           child: Image.asset('assets/icons/delete_icon.png', height: 50),
-        ),
-      ),
-    );
-  }
-}
-
-class RetakeButton extends StatelessWidget {
-  const RetakeButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Tooltip(
-        message: l10n.retakeButtonTooltip,
-        child: InkWell(
-          onTap: onPressed,
-          child: Image.asset(
-            'assets/icons/retake_button_icon.png',
-            height: 54,
-          ),
         ),
       ),
     );

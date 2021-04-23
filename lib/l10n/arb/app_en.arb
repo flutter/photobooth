@@ -44,13 +44,9 @@
     "@footerPrivacyPolicyLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
     },
-    "sharePageHeading": "Nice shot!",
+    "sharePageHeading": "Share your photo with the community!",
     "@sharePageHeading": {
         "description": "Heading shown on the share page."
-    },
-    "sharePageSubheading": "Share your photo with the community!",
-    "@sharePageSubheading": {
-        "description": "Subheading shown on the share page."
     },
     "sharePageRetakeButtonText": "Take new photo",
     "@sharePageRetakeButtonText": {
@@ -133,11 +129,11 @@
         "description": "Text displayed on headline on the photobooth page when unknown error occurs"
     },
     "photoBoothCameraErrorSubheadline1": "Please refresh your browser and try again.",
-    "@photoBoothCameraErrorSubheadline": {
+    "@photoBoothCameraErrorSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
     },
     "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact photobooth@google.com",
-    "@photoBoothCameraErrorSubheadline": {
+    "@photoBoothCameraErrorSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
     "stickersDrawerTitle": "Add Props",
@@ -159,5 +155,25 @@
     "charactersCaptionText": "Add Friends",
     "@charactersCaptionText": {
         "description": "Text displayed as a caption on the characters layout"
+    },
+    "sharePageLearnMoreAboutTextPart1": "Learn more about ",
+    "@sharePageLearnMoreAboutTextPart1": {
+        "description": "Part 1 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart2": " and ",
+    "@sharePageLearnMoreAboutTextPart2": {
+        "description": "Part 2 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart3": " or dive right into the ",
+    "@sharePageLearnMoreAboutTextPart3": {
+        "description": "Part 3 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart4": "open source code",
+    "@sharePageLearnMoreAboutTextPart4": {
+        "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "goToGoogleIOButtonText": "Go to Google I/O",
+    "@goToGoogleIOButtonText": {
+        "description": "Text displayed on the button to navigate to Google I/O"
     }
 }

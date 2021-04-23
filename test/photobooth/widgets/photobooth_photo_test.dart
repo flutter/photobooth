@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
@@ -56,6 +57,27 @@ void main() {
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(StickersLayer), findsOneWidget);
+    });
+
+    testWidgets('transform image by default', (tester) async {
+      await tester.pumpApp(
+        PhotoboothPhoto(image: data),
+        photoboothBloc: photoboothBloc,
+      );
+      expect(find.byType(Transform), findsOneWidget);
+    });
+
+    testWidgets(
+        'does not transform image '
+        'when isTilted is false', (tester) async {
+      await tester.pumpApp(
+        PhotoboothPhoto(
+          image: data,
+          isTilted: false,
+        ),
+        photoboothBloc: photoboothBloc,
+      );
+      expect(find.byType(Transform), findsNothing);
     });
   });
 }
