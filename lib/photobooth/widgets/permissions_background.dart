@@ -7,12 +7,12 @@ class PermissionsBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      mobile: (_) => Image.asset(
+      mobile: (_, __) => Image.asset(
         'assets/backgrounds/permissions_background_mobile.jpg',
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,
       ),
-      desktop: (_) => Image.asset(
+      desktop: (_, __) => Image.asset(
         'assets/backgrounds/permissions_background_desktop.jpg',
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,
