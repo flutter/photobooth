@@ -60,9 +60,7 @@ class PhotosRepository {
     }
 
     try {
-      /// Can't mock the UploadTask when adding await
-      // ignore: unawaited_futures
-      reference.putData(photoData);
+      await reference.putData(photoData);
     } catch (e, st) {
       throw UploadPhotoException(
         'Uploading photo for user $userId failed. '

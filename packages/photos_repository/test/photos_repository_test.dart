@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -20,13 +21,19 @@ class FakeUint8List extends Fake implements Uint8List {}
 class FakeSettableMetadata extends Fake
     implements firebase_storage.SettableMetadata {}
 
+typedef UploadTaskSnapshot = FutureOr<firebase_storage.TaskSnapshot> Function(
+  firebase_storage.TaskSnapshot,
+);
+
 void main() {
   setUpAll(() {
     registerFallbackValue<Uint8List>(FakeUint8List());
     registerFallbackValue<firebase_storage.UploadTask>(MockUploadTask());
     registerFallbackValue<firebase_storage.TaskSnapshot>(MockTaskSnapshot());
     registerFallbackValue<firebase_storage.SettableMetadata>(
-        FakeSettableMetadata());
+      FakeSettableMetadata(),
+    );
+    registerFallbackValue<UploadTaskSnapshot>((_) async => MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {
@@ -47,6 +54,7 @@ void main() {
 
     late firebase_storage.Reference reference;
     late firebase_storage.UploadTask uploadTask;
+    late firebase_storage.TaskSnapshot taskSnapshot;
 
     const userId = 'mock-user-id';
     const uuid = 'mock-uuid';
@@ -63,10 +71,20 @@ void main() {
 
       reference = MockReference();
       uploadTask = MockUploadTask();
+      taskSnapshot = MockTaskSnapshot();
 
-      when(() => firebaseStorage.ref(any())).thenAnswer((_) => reference);
-      when(() => reference.putData(photoData)).thenAnswer((_) => uploadTask);
-      when(() => reference.fullPath).thenAnswer((_) => referenceFullPath);
+      when(() => firebaseStorage.ref(any())).thenReturn(reference);
+      when(() => reference.putData(any())).thenAnswer((_) => uploadTask);
+      when(() => reference.fullPath).thenReturn(referenceFullPath);
+      when(
+        () => uploadTask.then<firebase_storage.TaskSnapshot>(
+          any(),
+          onError: any(named: 'onError'),
+        ),
+      ).thenAnswer((invocation) async {
+        (invocation.positionalArguments.first as Function).call(taskSnapshot);
+        return taskSnapshot;
+      });
     });
 
     group('uploadPhoto', () {
