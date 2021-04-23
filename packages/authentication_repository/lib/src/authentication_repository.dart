@@ -29,7 +29,7 @@ class AuthenticationRepository {
   Future<void> signInAnonymously() async {
     try {
       await _firebaseAuth.signInAnonymously();
-    } catch (e) {
+    } catch (_) {
       throw SignInAnonymouslyException();
     }
   }
