@@ -1,0 +1,20 @@
+name: authentication_repository
+description: Repository which manages user authentication using Firebase Authentication.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  equatable: ^2.0.0
+
+  firebase_core: "^1.0.4"
+  firebase_auth: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^1.0.4
+  mocktail: ^0.1.1
