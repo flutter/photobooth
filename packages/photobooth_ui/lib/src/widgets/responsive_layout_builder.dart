@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/src/layout/layout.dart';
 
+/// Signature for the individual builders (`mobile`, `desktop`, etc.).
+typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext, Widget?);
+
 /// {@template responsive_layout_builder}
 /// A wrapper around [LayoutBuilder] which exposes builders for
 /// various responsive breakpoints.
@@ -11,21 +14,26 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     Key? key,
     required this.mobile,
     required this.desktop,
+    this.child,
   }) : super(key: key);
 
   /// [WidgetBuilder] for mobile layout.
-  final WidgetBuilder mobile;
+  final ResponsiveLayoutWidgetBuilder mobile;
 
   /// [WidgetBuilder] for desktop layout.
-  final WidgetBuilder desktop;
+  final ResponsiveLayoutWidgetBuilder desktop;
+
+  /// Optional child widget which will be passed to the `mobile` and `desktop`
+  /// builders as a way to share/optimize shared layout.
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return constraints.maxWidth <= PhotoboothBreakpoints.mobile
-            ? mobile(context)
-            : desktop(context);
+            ? mobile(context, child)
+            : desktop(context, child);
       },
     );
   }

@@ -40,10 +40,10 @@ class _ShareProgressOverlay extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
         child: Center(
           child: ResponsiveLayoutBuilder(
-            mobile: (_) => _MobileShareProgressOverlay(
+            mobile: (_, __) => _MobileShareProgressOverlay(
               key: const Key('shareProgressOverlay_mobile'),
             ),
-            desktop: (_) => _DesktopShareProgressOverlay(
+            desktop: (_, __) => _DesktopShareProgressOverlay(
               key: const Key('shareProgressOverlay_desktop'),
             ),
           ),
