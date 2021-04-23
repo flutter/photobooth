@@ -168,7 +168,7 @@
     "@sharePageLearnMoreAboutTextPart3": {
         "description": "Part 3 text shown on the share page which mentiones technologies used to build the app."
     },
-    "sharePageLearnMoreAboutTextPart4": " open source code",
+    "sharePageLearnMoreAboutTextPart4": "open source code",
     "@sharePageLearnMoreAboutTextPart4": {
         "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
     },
