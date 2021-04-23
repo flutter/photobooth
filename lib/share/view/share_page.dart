@@ -27,8 +27,6 @@ class SharePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
       body: ShareErrorListener(
@@ -48,17 +46,7 @@ class SharePage extends StatelessWidget {
                     children: [
                       SharePhoto(image: image),
                       const SizedBox(height: 40),
-                      Text(
-                        l10n.sharePageHeading,
-                        style: theme.textTheme.headline1?.copyWith(
-                          color: PhotoboothColors.white,
-                          fontSize: MediaQuery.of(context).size.width >
-                                  PhotoboothBreakpoints.mobile
-                              ? 56
-                              : 32,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      const _Heading(),
                       const SizedBox(height: 20),
                       const LearnMoreAboutText(),
                       const SizedBox(height: 30),
@@ -92,6 +80,27 @@ class SharePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Heading extends StatelessWidget {
+  const _Heading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+    return Text(
+      l10n.sharePageHeading,
+      style: theme.textTheme.headline1?.copyWith(
+        color: PhotoboothColors.white,
+        fontSize:
+            MediaQuery.of(context).size.width > PhotoboothBreakpoints.mobile
+                ? 56
+                : 32,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }
