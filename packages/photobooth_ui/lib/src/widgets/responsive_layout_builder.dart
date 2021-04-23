@@ -17,10 +17,10 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     this.child,
   }) : super(key: key);
 
-  /// [WidgetBuilder] for mobile layout.
+  /// [ResponsiveLayoutWidgetBuilder] for mobile layout.
   final ResponsiveLayoutWidgetBuilder mobile;
 
-  /// [WidgetBuilder] for desktop layout.
+  /// [ResponsiveLayoutWidgetBuilder] for desktop layout.
   final ResponsiveLayoutWidgetBuilder desktop;
 
   /// Optional child widget which will be passed to the `mobile` and `desktop`
