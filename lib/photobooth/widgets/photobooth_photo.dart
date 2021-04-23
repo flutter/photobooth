@@ -25,17 +25,16 @@ class PhotoboothPhoto extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: isMobile ? 3 / 4 : 4 / 3,
         child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 35,
+            horizontal: 100,
+          ),
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: PhotoboothColors.black.withOpacity(
-                  0.72,
-                ),
-                offset: const Offset(-6, 1),
-                blurRadius: 8.0,
-                spreadRadius: 2.0,
-              ),
-            ],
+            image: DecorationImage(
+              image: AssetImage(isMobile
+                  ? 'assets/images/photo_frame.png'
+                  : 'assets/images/photo_frame.png'),
+            ),
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -43,14 +42,15 @@ class PhotoboothPhoto extends StatelessWidget {
               PreviewImage(data: image),
               const CharactersLayer(),
               const StickersLayer(),
-              Container(
+
+              /*Container(
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: PhotoboothColors.white,
                     width: 8,
                   ),
                 ),
-              )
+              )*/
             ],
           ),
         ),
