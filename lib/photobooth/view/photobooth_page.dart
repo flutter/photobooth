@@ -77,40 +77,44 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/backgrounds/wood_background.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
-          ),
-          Center(
-            child: Camera(
-              controller: _controller,
-              placeholder: (_) => const PhotoboothPlaceholder(),
-              preview: (context, preview) {
-                return ResponsiveLayoutBuilder(
-                  mobile: (_) => AspectRatio(
+      body: Camera(
+        controller: _controller,
+        placeholder: (_) => const PhotoboothPlaceholder(),
+        preview: (context, preview) {
+          return ResponsiveLayoutBuilder(
+            mobile: (_) => Stack(
+              fit: StackFit.expand,
+              children: [
+                const PhotoboothBackground(),
+                Center(
+                  child: AspectRatio(
                     aspectRatio: 3 / 4,
                     child: PhotoboothPreview(
                       preview: preview,
                       onSnapPressed: _onSnapPressed,
                     ),
                   ),
-                  desktop: (_) => AspectRatio(
+                ),
+              ],
+            ),
+            desktop: (_) => Stack(
+              fit: StackFit.expand,
+              children: [
+                const PhotoboothBackground(),
+                Center(
+                  child: AspectRatio(
                     aspectRatio: 4 / 3,
                     child: PhotoboothPreview(
                       preview: preview,
                       onSnapPressed: _onSnapPressed,
                     ),
                   ),
-                );
-              },
-              error: (_, error) => PhotoboothError(error: error),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
+        error: (_, error) => PhotoboothError(error: error),
       ),
     );
   }
