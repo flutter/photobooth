@@ -1,0 +1,39 @@
+name: authentication_repository
+
+on:
+  pull_request:
+    paths:
+      - "packages/authentication_repository/**"
+      - ".github/workflows/authentication_repository.yaml"
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: packages/authentication_repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          flutter-version: 2.2.0-10.1.
+          channel: beta
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: packages/authentication_repository/coverage/lcov.info
