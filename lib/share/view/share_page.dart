@@ -60,8 +60,7 @@ class SharePage extends StatelessWidget {
                           mobile: (_) => MobileButtonsLayout(image: image),
                           desktop: (_) => DesktopButtonsLayout(image: image),
                         ),
-                      const SizedBox(height: 42),
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 122),
                       const WhiteFooter()
                     ],
                   ),
