@@ -24,6 +24,8 @@ dependencies:
   intl: ^0.17.0
   photos_repository:
     path: packages/photos_repository
+  authentication_repository:
+    path: packages/authentication_repository
   photobooth_ui:
     path: packages/photobooth_ui
   uuid: ^3.0.3

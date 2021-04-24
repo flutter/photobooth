@@ -22,7 +22,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   @override
   Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
     if (event is PhotoCaptured) {
-      yield state.copyWith(image: event.image);
+      yield state.copyWith(
+        image: event.image,
+        selectedAssetId: emptyAssetId,
+      );
     } else if (event is PhotoCharacterToggled) {
       yield _mapCharacterToggledToState(event, state);
     } else if (event is PhotoCharacterDragged) {

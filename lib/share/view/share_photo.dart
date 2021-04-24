@@ -13,41 +13,23 @@ class SharePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      desktop: (_) => Container(
-        height: 400,
-        padding: const EdgeInsets.symmetric(
-          vertical: 35,
+    return Container(
+      height: isMobile ? 330 : 430,
+      width: isMobile ? 250 : 600,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(isMobile
+              ? 'assets/images/photo_placeholder_mobile.png'
+              : 'assets/images/photo_placeholder_desktop.png'),
         ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/photo_placeholder_desktop.png'),
-          ),
-        ),
-        child: image != null
-            ? PhotoboothPhoto(
-                image: image!.data,
-                isTilted: false,
-              )
-            : const SizedBox(),
       ),
-      mobile: (_) => Container(
-        height: 400,
-        padding: const EdgeInsets.symmetric(
-          vertical: 35,
-        ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/photo_placeholder_mobile.png'),
-          ),
-        ),
-        child: image != null
-            ? PhotoboothPhoto(
-                image: image!.data,
-                isTilted: false,
-              )
-            : const SizedBox(),
-      ),
+      child: image != null
+          ? PhotoboothPhoto(
+              image: image!.data,
+              isTilted: false,
+            )
+          : const SizedBox(),
     );
   }
 }
