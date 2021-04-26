@@ -9,16 +9,16 @@ export default `
     <title>{{meta.title}}</title>
     <meta name="descripton" content="{{meta.desc}}">
 
-    <meta property="og:title" content="{{meta.message}}">
+    <meta property="og:title" content="{{meta.title}}">
     <meta property="og:description" content="{{meta.desc}}">
     <meta property="og:url" content="{{{shareUrl}}}">
-    <meta property="og:image" content="{{{shareImageUrl}}}">
+    <meta property="og:image" content="{{{assetUrls.notFoundPhoto}}}">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{meta.title}}">
-    <meta name="twitter:text:title" content="{{meta.message}}">
-    <meta name="twitter:description" content="{{metaDesc}}">
-    <meta name="twitter:image" content="{{{shareImageUrl}}}">
+    <meta name="twitter:text:title" content="{{meta.title}}">
+    <meta name="twitter:description" content="{{meta.desc}}">
+    <meta name="twitter:image" content="{{{assetUrls.notFoundPhoto}}}">
     <meta name="twitter:site" content="@flutterdev">
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500" rel="stylesheet">
@@ -36,7 +36,7 @@ export default `
         <h1>Flutter taken with Flutter</h1>
         <h2>Join the fun! Grab a photo with your favorite Google mascot 
           at the I/O Photo Booth.</h2>
-        <a class="share-btn" href="{{appUrl}}">Take your own</a>
+        <a class="share-btn" href="/">Take your own</a>
       </div>
     </main>
     {{{footer}}}

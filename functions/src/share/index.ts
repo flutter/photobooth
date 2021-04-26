@@ -31,10 +31,6 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
       'Take a photo at the Google I/O Photo Booth! ' +
       'Built for Google I/O 2021 with Flutter & Firebase.'
     ),
-    message: (
-      'Check out my photo taken at the #IOPhotoBooth. ' +
-      'Join the fun at #GoogleIO and take your own!'
-    ),
   },
   footer: mustache.render(footerTmpl, {}),
   styles: '',
@@ -127,8 +123,12 @@ export async function getShareResponse(
       };
     }
 
+    functions.logger.log('Image does not exist', { imageBlobPath });
+
+    // NOTE 200 status so that default share meta tags work,
+    // where twitter does not show meta tags on a 404 status
     return {
-      status: 404,
+      status: 200,
       send: renderNotFoundPage(imageFileName, baseUrl),
     };
   } catch (error) {
