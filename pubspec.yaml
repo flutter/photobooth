@@ -22,6 +22,8 @@ dependencies:
   file_selector: ^0.8.2
   flutter_bloc: ^7.0.0
   image: ^3.0.2
+  image_compositor:
+    path: packages/image_compositor
   intl: ^0.17.0
   share_photo_repository:
     path: packages/share_photo_repository
