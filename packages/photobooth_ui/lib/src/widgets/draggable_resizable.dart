@@ -100,17 +100,33 @@ class _DraggableResizableState extends State<DraggableResizable> {
     return value;
   }
 
+  /* double clampY(double value) {
+    if (value <= 0) return 0.0;
+    if (value + size.height + _floatingActionPadding >= constraints.maxHeight)
+      return constraints.maxHeight - size.height;
+    return value;
+  }*/
+
+  double clampX(double value, BoxConstraints constraints) {
+    if (value <= 0) return 0.0;
+    if (value + size.width + _floatingActionPadding >= constraints.maxWidth)
+      return constraints.maxWidth - size.width - _floatingActionPadding;
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
-        position = position == Offset.zero
-            ? Offset(
-                constraints.maxWidth / 2 - (size.width / 2),
-                constraints.maxHeight / 2 - (size.height / 2),
-              )
-            : position;
+        if (position == Offset.zero) {
+          position = Offset(
+            constraints.maxWidth / 2 - (size.width / 2),
+            constraints.maxHeight / 2 - (size.height / 2),
+          );
+        } else {
+          position = Offset(clampX(position.dx, constraints), position.dy);
+        }
 
         final widthFactor = constraints.maxWidth / initialSize!.width;
         final heightFactor = constraints.maxHeight / initialSize!.height;
