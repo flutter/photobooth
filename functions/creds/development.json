@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "io-photobooth-dev",
+    "private_key_id": "659f249e4b47415e30f63afb4530b09b29c7aecb",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCujFqvVMFvn+Jo\n4Z8KxERHnpVOCAw/l2X842vwnPJSm7LT096TwLKtjxuO0cyL3HcBQIuxMXW/R+AX\nkR53LYT8yP+IpMrmrozSQObMSkNJ6ORzcAggGqxfOwZA7JxA6hcM0Fl1jcoqNQvM\nO6FnCAyw8dp8A96EFZWey/MSdHIZqmadOsd8M7cgIJF7SASEnYVjF5TwFiS10JCl\nHizg5Egh7Cccmb/PAmpNjbmvXilWCdVWxa4JmaCB4mgNCzPUaRTv0ruy50J3zJmb\nWub2uXLSeb6oyc7mplzP38796hqYLt4uqXBvsjYWoubto5kSfWA6gCLYLiRapUer\ndAKiHlDJAgMBAAECggEABO4En9P9WxyunAmhmz/yvDxDFAHnmP0FYGyKvMWCqrky\n8PyNxPSchJ5IjVfzppsWoYUhdOLprrogqYBmdiqlqVniwrOXIfJZ2pSCmDrm4TMN\nTw0sg5NGnUbD3P35xfO+lyoZbrfPQbIqF+3IDRUwfj0JxPZ7Les/T1hMBbr0H9v7\nbnTeH3VFjxuTqNXw283ZuUdXFBo2qtUMT+5RXxLB0U4tA+b28TfqvtMIea34bPJj\nJY0YJJz2vyNBBxmhQ8R5Z1a+0OVQdw8i9seZTsnKhXYvjzVTL9HJ1tC4ARXOck39\njNoArARj2tn0l4T59qTU69eYJYmJlSKqkdJ56bfQYQKBgQDyK/AluI6PggZMpRBM\nd6J/vTCMORyUWlhgaSRyzXgW1EGhHrHoGb2L6mlDA061O8gQ16Ap2umQdd+5jyMR\n8YW4rqeGgQyrXdLr+0dBvCtnC+/9TstvxOZvLS42wONZ94E4BgB4FQandplNR3eb\nyZJuT7GOoPZ6/bm5RvJUKQY9YQKBgQC4g+YFIgZ2c6n8B8ftv73tTjUJJi3es6US\ncBZuByoqjWLWD4T8gEy6dprsE56I2rDE0ndQsSpVbaM9FUvXZjTFQtBIxkGaFjig\nrSfDQcSJT8L4lFK94AFt3D6PWbju6RQ/Ius0S79bw5dd3pdu273LzpQlWy43k3WR\ny1NVY12kaQKBgEX/ez979AD5BVccEvT3U4n2plSxoVgkMQ1U9ssUJtT6byniFGxR\nHF+X1usexp5N9Esh+FKAyygNWihpfiqOlCdInHWdUYsq6G97RyJyAF2drrWaE+Vv\nlWenOIdtA4oap0gJPBN5iF3ZQwB6WtE111R5RopCblwogIlUP3EiFoKhAoGAOncg\nxXOYlKPlssRMZ1sgNTdYusNsOWq23XbCxK5kgAM41Bcqzk9hAJxgTnmQ/FA/Pr5p\nrBnXDialWM+Mrn3mLrMTCFw5oTd1TgRP2yDVw6SQZO+qoBuAmGz3LbkCTkFwduj7\nmiB+S/dX2RiU5z2dkByu+H9Bz75bvIyupRnNLDECgYEAp/qJ2gTwzpHAgZQgWmLt\nr7+xyslvGR/F4ZDAhTRWOTid95pKXD9I+pPzHAaBqOgdol5h6IoyQyr7ynvOkg+Z\nsb6Us6CV8n5wjlMyMp3H4x00061J4GDUrOc0SrSwrucz3azj6Y5iQj3gk1V3wJBf\n+9HfON4swmS2GLPpgLeNpQ4=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-igqjm@io-photobooth-dev.iam.gserviceaccount.com",
+    "client_id": "114154013740937763370",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-igqjm%40io-photobooth-dev.iam.gserviceaccount.com"
+  }
+  
