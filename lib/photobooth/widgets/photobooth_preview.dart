@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
+
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
@@ -80,17 +81,17 @@ class PhotoboothPreview extends StatelessWidget {
           ),
         ),
         for (final character in state.characters)
-          DraggableResizableAsset(
+          DraggableResizable(
             key: Key(
               '''photoboothPreview_${character.asset.name}_draggableResizableAsset''',
             ),
-            asset: character.asset,
             canTransform: character.id == state.selectedAssetId,
             onUpdate: (update) {
               context.read<PhotoboothBloc>().add(
                     PhotoCharacterDragged(character: character, update: update),
                   );
             },
+            child: _AnimatedCharacter(name: character.asset.name),
           ),
         ResponsiveLayoutBuilder(
           mobile: (_, __) => MobileCharactersIconLayout(children: children),
@@ -108,6 +109,28 @@ class PhotoboothPreview extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _AnimatedCharacter extends StatelessWidget {
+  const _AnimatedCharacter({Key? key, required this.name}) : super(key: key);
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (name) {
+      case 'android':
+        return const AnimatedAndroid();
+      case 'dash':
+        return const AnimatedDash();
+      case 'dino':
+        return const AnimatedDino();
+      case 'sparky':
+        return const AnimatedSparky();
+      default:
+        return const SizedBox();
+    }
   }
 }
 

@@ -197,7 +197,7 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(DraggableResizableAsset), findsNothing);
+      expect(find.byType(DraggableResizable), findsNothing);
     });
 
     testWidgets('displays DraggableResizableAsset when stickers is populated',
@@ -221,7 +221,7 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(DraggableResizableAsset), findsNWidgets(2));
+      expect(find.byType(DraggableResizable), findsNWidgets(2));
     });
 
     testWidgets('adds PhotoStickerDragged when sticker dragged',
@@ -244,7 +244,7 @@ void main() async {
       );
 
       tester
-          .widget<DraggableResizableAsset>(find.byType(DraggableResizableAsset))
+          .widget<DraggableResizable>(find.byType(DraggableResizable))
           .onUpdate
           ?.call(FakeDragUpdate());
       verify(
@@ -506,7 +506,7 @@ void main() async {
       );
 
       tester
-          .widget<DraggableResizableAsset>(find.byType(DraggableResizableAsset))
+          .widget<DraggableResizable>(find.byType(DraggableResizable))
           .onDelete
           ?.call();
 
