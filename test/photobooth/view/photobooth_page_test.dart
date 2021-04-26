@@ -108,6 +108,7 @@ void main() async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
+      verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets(
@@ -123,6 +124,7 @@ void main() async {
         find.byKey(Key('photoboothError_cameraAccessDenied')),
         findsOneWidget,
       );
+      verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets(
@@ -138,6 +140,7 @@ void main() async {
         find.byKey(Key('photoboothError_unknown')),
         findsOneWidget,
       );
+      verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets('renders error when not allowed', (tester) async {
@@ -147,6 +150,7 @@ void main() async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
+      verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets('renders preview when available', (tester) async {
