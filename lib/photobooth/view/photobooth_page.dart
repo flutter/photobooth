@@ -43,8 +43,21 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     options: CameraOptions(
       audio: const AudioConstraints(enabled: false),
       video: isMobile
-          ? const VideoConstraints(width: 3072, height: 4096)
-          : const VideoConstraints(width: 4096, height: 3072),
+          ? const VideoConstraints(
+              width: 3072,
+              height: 4096,
+              facingMode: FacingMode(
+                type: CameraType.user,
+                constrain: Constrain.ideal,
+              ))
+          : const VideoConstraints(
+              width: 4096,
+              height: 3072,
+              facingMode: FacingMode(
+                type: CameraType.rear,
+                constrain: Constrain.ideal,
+              ),
+            ),
     ),
   );
 
