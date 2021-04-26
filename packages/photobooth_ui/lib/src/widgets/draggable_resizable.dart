@@ -272,10 +272,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
         final rotateAnchor = GestureDetector(
           key: const Key('draggableResizable_rotate_gestureDetector'),
           onScaleUpdate: (d) {
-            onUpdate();
             setState(
               () => angle = d.localFocalPoint.direction,
             );
+            onUpdate();
           },
           child: Material(
             color: PhotoboothColors.transparent,
