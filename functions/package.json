@@ -18,7 +18,7 @@
     "test:coverage": "jest --collect-coverage",
     "test:ts": "mocha -r ts-node/register --reporter spec tests/**/*.js",
     "test:upload": "gsutil cp testdata/upload.jpeg gs://io-photobooth-dev.appspot.com/uploads",
-    "test": "GCLOUD_PROJECT=io-photobooth-dev jest",
+    "test": "jest",
     "watch": "tsc --watch"
   },
   "dependencies": {
