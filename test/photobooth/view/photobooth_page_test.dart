@@ -301,6 +301,7 @@ void main() async {
         ),
         findsOneWidget,
       );
+      expect(find.byType(AnimatedAndroid), findsOneWidget);
     });
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
@@ -351,6 +352,7 @@ void main() async {
         find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
         findsOneWidget,
       );
+      expect(find.byType(AnimatedDash), findsOneWidget);
     });
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
@@ -400,6 +402,7 @@ void main() async {
         ),
         findsOneWidget,
       );
+      expect(find.byType(AnimatedSparky), findsOneWidget);
     });
 
     testWidgets('renders only dino when only dino is selected', (tester) async {
@@ -422,6 +425,7 @@ void main() async {
         ),
         findsOneWidget,
       );
+      expect(find.byType(AnimatedDino), findsOneWidget);
     });
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
@@ -472,7 +476,11 @@ void main() async {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byType(DraggableResizableAsset), findsNWidgets(4));
+      expect(find.byType(DraggableResizable), findsNWidgets(4));
+      expect(find.byType(AnimatedAndroid), findsOneWidget);
+      expect(find.byType(AnimatedDash), findsOneWidget);
+      expect(find.byType(AnimatedDino), findsOneWidget);
+      expect(find.byType(AnimatedSparky), findsOneWidget);
     });
 
     testWidgets('displays a DesktopCharactersIconLayout', (tester) async {
