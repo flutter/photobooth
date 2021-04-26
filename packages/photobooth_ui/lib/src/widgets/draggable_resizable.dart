@@ -87,7 +87,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
   void initState() {
     super.initState();
     maxHeight = 1000;
-    minHeight = maxHeight * 0.05;
+    minHeight = maxHeight * 0.1;
     size = Size(maxHeight * 0.25, maxHeight * 0.25);
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
