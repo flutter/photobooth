@@ -57,17 +57,15 @@ void main() {
     late firebase_storage.UploadTask uploadTask;
     late firebase_storage.TaskSnapshot taskSnapshot;
 
-    const userId = 'mock-user-id';
-    const uuid = 'mock-uuid';
+    const photoName = 'photo-name';
     final photoData = Uint8List(0);
 
-    const referenceFullPath = 'uploads/$userId/$uuid.jpg';
+    const referenceFullPath = 'uploads/$photoName.jpg';
 
     setUp(() {
       firebaseStorage = MockFirebaseStorage();
       photosRepository = PhotosRepository(
         firebaseStorage: firebaseStorage,
-        uuidGenerator: () => uuid,
       );
 
       reference = MockReference();
@@ -90,28 +88,13 @@ void main() {
 
     group('uploadPhoto', () {
       test('calls firebaseStorage.ref with appropriate path', () async {
-        await photosRepository.uploadPhoto(userId, photoData);
-        verify(() => firebaseStorage.ref('uploads/$userId/$uuid.jpg'))
-            .called(1);
+        await photosRepository.uploadPhoto(photoName, photoData);
+        verify(() => firebaseStorage.ref('uploads/$photoName.jpg')).called(1);
       });
 
       test('calls putData on reference', () async {
-        await photosRepository.uploadPhoto(userId, photoData);
+        await photosRepository.uploadPhoto(photoName, photoData);
         verify(() => reference.putData(photoData)).called(1);
-      });
-
-      test(
-          'throws UploadPhotoException '
-          'when uuid generator throws', () async {
-        photosRepository = PhotosRepository(
-          firebaseStorage: firebaseStorage,
-          uuidGenerator: () => throw Exception(),
-        );
-
-        expect(
-          () async => await photosRepository.uploadPhoto(userId, photoData),
-          throwsA(isA<UploadPhotoException>()),
-        );
       });
 
       test(
@@ -120,7 +103,7 @@ void main() {
         when(() => firebaseStorage.ref(any())).thenThrow(() => Exception());
 
         expect(
-          () async => await photosRepository.uploadPhoto(userId, photoData),
+          () async => await photosRepository.uploadPhoto(photoName, photoData),
           throwsA(isA<UploadPhotoException>()),
         );
       });
@@ -130,7 +113,7 @@ void main() {
           'when reference.putData throws', () async {
         when(() => reference.putData(photoData)).thenThrow(() => Exception());
         expect(
-          () async => await photosRepository.uploadPhoto(userId, photoData),
+          () async => await photosRepository.uploadPhoto(photoName, photoData),
           throwsA(isA<UploadPhotoException>()),
         );
       });

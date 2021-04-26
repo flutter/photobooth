@@ -25,36 +25,20 @@ class PhotosRepository {
   /// {@macro photos_repository}
   const PhotosRepository({
     required FirebaseStorage firebaseStorage,
-    required String Function() uuidGenerator,
-  })  : _firebaseStorage = firebaseStorage,
-        _uuidGenerator = uuidGenerator;
+  }) : _firebaseStorage = firebaseStorage;
 
   /// An instance of the Firebase Storage
   final FirebaseStorage _firebaseStorage;
 
-  /// A function that generates UUID string
-  final String Function() _uuidGenerator;
-
   /// Uploads photo to the [FirebaseStorage].
-  Future<void> uploadPhoto(String userId, Uint8List photoData) async {
-    String uuid;
-    try {
-      uuid = _uuidGenerator();
-    } catch (e, st) {
-      throw UploadPhotoException(
-        'Uploading photo for user $userId failed. '
-        'Couldn\'t generate UUID. '
-        'Error: $e. StackTrace: $st',
-      );
-    }
-
+  Future<void> uploadPhoto(String photoName, Uint8List photoData) async {
     Reference reference;
     try {
-      reference = _firebaseStorage.ref('uploads/$userId/$uuid.jpg');
+      reference = _firebaseStorage.ref('uploads/$photoName.jpg');
     } catch (e, st) {
       throw UploadPhotoException(
-        'Uploading photo for user $userId failed. '
-        'Couldn\'t get storage reference \'uploads/$userId/$uuid.jpg\'.'
+        'Uploading photo $photoName failed. '
+        'Couldn\'t get storage reference \'uploads/$photoName.jpg\'.'
         'Error: $e. StackTrace: $st',
       );
     }
@@ -63,7 +47,7 @@ class PhotosRepository {
       await reference.putData(photoData);
     } catch (e, st) {
       throw UploadPhotoException(
-        'Uploading photo for user $userId failed. '
+        'Uploading photo $photoName failed. '
         'Couldn\'t upload data to ${reference.fullPath}.'
         'Error: $e. StackTrace: $st',
       );
