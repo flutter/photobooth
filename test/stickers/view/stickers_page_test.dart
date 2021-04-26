@@ -101,6 +101,19 @@ void main() async {
       when(() => stickersBloc.state).thenReturn(StickersState());
     });
 
+    testWidgets('renders PhotoboothBackground', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(PhotoboothBackground), findsOneWidget);
+    });
+
     testWidgets('renders PreviewImage', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
