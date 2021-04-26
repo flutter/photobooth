@@ -24,6 +24,8 @@ dependencies:
   intl: ^0.17.0
   share_photo_repository:
     path: packages/share_photo_repository
+  photos_repository:
+    path: packages/photos_repository
   authentication_repository:
     path: packages/authentication_repository
   photobooth_ui:
