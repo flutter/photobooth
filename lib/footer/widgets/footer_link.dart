@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
@@ -44,8 +45,7 @@ class FooterMadeWithLink extends StatelessWidget {
         children: <TextSpan>[
           TextSpan(
             text: l10n.footerMadeWithFlutterLinkText,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink('https://flutter.dev'),
+            recognizer: TapGestureRecognizer()..onTap = launchFlutterDevLink,
             style: const TextStyle(
               decoration: TextDecoration.underline,
             ),
@@ -55,8 +55,7 @@ class FooterMadeWithLink extends StatelessWidget {
           ),
           TextSpan(
             text: l10n.footerMadeWithFirebaseLinkText,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink('https://firebase.google.com'),
+            recognizer: TapGestureRecognizer()..onTap = launchFirebaseLink,
             style: const TextStyle(
               decoration: TextDecoration.underline,
             ),
@@ -77,7 +76,7 @@ class FooterGoogleIOLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: '',
+      link: googleIOExternalLink,
       text: l10n.footerGoogleIOLinkText,
     );
   }
