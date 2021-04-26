@@ -20,7 +20,7 @@ class UploadPhotoException implements Exception {
 
 /// {@template photos_repository}
 /// Repository that persists photos in a Firebase Storage.
-/// {@endtemplate}
+/// {@endtemplate
 class PhotosRepository {
   /// {@macro photos_repository}
   const PhotosRepository({
@@ -34,11 +34,11 @@ class PhotosRepository {
   Future<void> uploadPhoto(String photoName, Uint8List photoData) async {
     Reference reference;
     try {
-      reference = _firebaseStorage.ref('uploads/$photoName.jpg');
+      reference = _firebaseStorage.ref('uploads/$photoName');
     } catch (e, st) {
       throw UploadPhotoException(
         'Uploading photo $photoName failed. '
-        'Couldn\'t get storage reference \'uploads/$photoName.jpg\'.'
+        'Couldn\'t get storage reference \'uploads/$photoName\'.'
         'Error: $e. StackTrace: $st',
       );
     }

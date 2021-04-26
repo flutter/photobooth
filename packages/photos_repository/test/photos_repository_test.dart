@@ -57,10 +57,10 @@ void main() {
     late firebase_storage.UploadTask uploadTask;
     late firebase_storage.TaskSnapshot taskSnapshot;
 
-    const photoName = 'photo-name';
+    const photoName = 'photo-name.jpg';
     final photoData = Uint8List(0);
 
-    const referenceFullPath = 'uploads/$photoName.jpg';
+    const referenceFullPath = 'uploads/$photoName';
 
     setUp(() {
       firebaseStorage = MockFirebaseStorage();
@@ -89,7 +89,7 @@ void main() {
     group('uploadPhoto', () {
       test('calls firebaseStorage.ref with appropriate path', () async {
         await photosRepository.uploadPhoto(photoName, photoData);
-        verify(() => firebaseStorage.ref('uploads/$photoName.jpg')).called(1);
+        verify(() => firebaseStorage.ref('uploads/$photoName')).called(1);
       });
 
       test('calls putData on reference', () async {
