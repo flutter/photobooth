@@ -3,29 +3,37 @@ name: share_photo_repository
 on:
   pull_request:
     paths:
-      - "flutter/packages/share_photo_repository/**"
+      - "packages/share_photo_repository/**"
       - ".github/workflows/share_photo_repository.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: flutter/packages/share_photo_repository/
+        working-directory: packages/share_photo_repository
     runs-on: ubuntu-latest
-    container:
-      image: google/dart:2.12
+
     steps:
       - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          flutter-version: 2.2.0-10.1.
+          channel: beta
+
       - name: Install Dependencies
-        run: dart pub get
+        run: flutter packages get
+
       - name: Format
-        run: dartfmt --dry-run --set-exit-if-changed .
+        run: flutter format --set-exit-if-changed lib test
+
       - name: Analyze
-        run: dart analyze --fatal-infos --fatal-warnings .
+        run: flutter analyze lib test
+
       - name: Run tests
-        run: dart test --coverage=coverage && pub run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
         with:
-          path: flutter/packages/share_photo_repository/coverage/lcov.info
-          exclude: "**/*.g.dart"
+          path: packages/share_photo_repository/coverage/lcov.info
