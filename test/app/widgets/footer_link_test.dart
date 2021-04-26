@@ -2,6 +2,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -93,7 +94,7 @@ void main() {
         await tester.pumpAndSettle();
 
         verify(() => mock.launch(
-              'https://flutter.dev',
+              flutterDevExternalLink,
               useSafariVC: true,
               useWebView: false,
               enableJavaScript: false,
@@ -123,7 +124,7 @@ void main() {
         await tester.pumpAndSettle();
 
         verify(() => mock.launch(
-              'https://firebase.google.com',
+              firebaseExternalLink,
               useSafariVC: true,
               useWebView: false,
               enableJavaScript: false,
@@ -142,12 +143,7 @@ void main() {
           find.byType(FooterLink),
         );
 
-        expect(
-          widget.link,
-          equals(
-            'https://events.google.com/io/adventure/',
-          ),
-        );
+        expect(widget.link, equals(googleIOExternalLink));
       });
     });
 

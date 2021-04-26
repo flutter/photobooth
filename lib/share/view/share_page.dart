@@ -3,6 +3,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -180,7 +181,7 @@ class _GoToGoogleIOButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),
-      onPressed: () => openLink('https://events.google.com/io/adventure/'),
+      onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(

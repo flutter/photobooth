@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -165,7 +166,7 @@ void main() async {
   group('GoToGoogleIOButton', () {
     testWidgets('opens link when tapped', (tester) async {
       final mock = MockUrlLauncher();
-      final url = 'https://events.google.com/io/adventure/';
+      const url = googleIOExternalLink;
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(() => mock.launch(
