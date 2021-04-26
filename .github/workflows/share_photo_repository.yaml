@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: pub get
+        run: dart pub get
       - name: Format
         run: dartfmt --dry-run --set-exit-if-changed .
       - name: Analyze
