@@ -49,8 +49,6 @@ main {
   box-shadow: none;
 }
 
-.text {}
-
 h1, h2 {
   color: white;
   margin-block-start: 0;
