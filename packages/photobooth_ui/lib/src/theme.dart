@@ -7,13 +7,15 @@ class PhotoboothTheme {
   /// Default `ThemeData` for Photobooth UI.
   static ThemeData get themeData {
     return ThemeData(
-      accentColor: PhotoboothColors.lightBlue,
+      accentColor: PhotoboothColors.blue,
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
       textTheme: _textTheme,
       dialogBackgroundColor: PhotoboothColors.whiteBackground,
+      dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
+      bottomSheetTheme: _bottomSheetTheme,
     );
   }
 
@@ -34,7 +36,7 @@ class PhotoboothTheme {
       );
 
   static AppBarTheme get _appBarTheme {
-    return const AppBarTheme(color: PhotoboothColors.lightBlue);
+    return const AppBarTheme(color: PhotoboothColors.blue);
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
@@ -69,7 +71,24 @@ class PhotoboothTheme {
   static TooltipThemeData get _tooltipTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
-        color: PhotoboothColors.lightBlue,
+        color: PhotoboothColors.blue,
+      ),
+    );
+  }
+
+  static DialogTheme get _dialogTheme {
+    return DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  static BottomSheetThemeData get _bottomSheetTheme {
+    return const BottomSheetThemeData(
+      backgroundColor: PhotoboothColors.whiteBackground,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
     );
   }

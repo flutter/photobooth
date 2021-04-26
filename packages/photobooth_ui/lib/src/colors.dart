@@ -5,6 +5,9 @@ abstract class PhotoboothColors {
   /// Black
   static const Color black = Color(0xFF202124);
 
+  /// Black Inactive
+  static const Color black54 = Color(0x8A000000);
+
   /// Gray
   static const Color gray = Color(0xFFCFCFCF);
 
@@ -17,9 +20,6 @@ abstract class PhotoboothColors {
   /// Transparent
   static const Color transparent = Color(0x00000000);
 
-  /// Light Blue
-  static const Color lightBlue = Color(0xFF428EFF);
-
   /// Blue
   static const Color blue = Color(0xFF428EFF);
 
@@ -31,4 +31,7 @@ abstract class PhotoboothColors {
 
   /// Orange
   static const Color orange = Color(0xFFFFBB00);
+
+  /// Dialog barrier color
+  static const Color dialogBarrierColor = Color(0xBF202124);
 }

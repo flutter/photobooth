@@ -18,9 +18,7 @@ class BlackFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Footer(
-      textColor: PhotoboothColors.black,
-    );
+    return const Footer(textColor: PhotoboothColors.black);
   }
 }
 
@@ -36,8 +34,8 @@ class Footer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
-          mobile: (_) => _ColumnFooter(key: const Key('footer_column')),
-          desktop: (_) => _RowFooter(key: const Key('footer_row')),
+          mobile: (_, __) => _ColumnFooter(key: const Key('footer_column')),
+          desktop: (_, __) => _RowFooter(key: const Key('footer_row')),
         ),
       ),
     );
@@ -49,20 +47,34 @@ class _ColumnFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const gap = SizedBox(height: 8);
+    const gap = SizedBox(height: 16);
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const FooterMadeWithLink(),
         const SizedBox(height: 32),
-        const FooterGoogleIOLink(),
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 16,
+          children: [
+            const FooterGoogleIOLink(),
+            const SizedBox(width: 8),
+            const FooterCodelabLink(),
+            const SizedBox(width: 8),
+            const FooterHowItsMadeLink(),
+          ],
+        ),
         gap,
-        const FooterCodelabLink(),
-        gap,
-        const FooterHowItsMadeLink(),
-        gap,
-        const FooterTermsOfServiceLink(),
-        gap,
-        const FooterPrivacyPolicyLink(),
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 16,
+          children: [
+            const FooterTermsOfServiceLink(),
+            const SizedBox(width: 8),
+            const FooterPrivacyPolicyLink(),
+          ],
+        ),
       ],
     );
   }

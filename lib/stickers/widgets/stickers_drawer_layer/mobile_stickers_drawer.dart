@@ -14,16 +14,11 @@ class MobileStickersDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.95,
-      width: size.width,
+      margin: const EdgeInsets.only(top: 30),
       decoration: const BoxDecoration(
         color: PhotoboothColors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25.0),
-          topRight: Radius.circular(25.0),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Column(
         children: [

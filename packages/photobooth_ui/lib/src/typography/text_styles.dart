@@ -76,7 +76,7 @@ class PhotoboothTextStyle {
   /// Caption Text Style
   static TextStyle get caption => _baseTextStyle.copyWith(
         fontSize: 14,
-        fontWeight: PhotoboothFontWeight.medium,
+        fontWeight: PhotoboothFontWeight.regular,
       );
 
   /// Overline Text Style

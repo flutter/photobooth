@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 
 class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
@@ -43,8 +43,21 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     options: CameraOptions(
       audio: const AudioConstraints(enabled: false),
       video: isMobile
-          ? const VideoConstraints(width: 3072, height: 4096)
-          : const VideoConstraints(width: 4096, height: 3072),
+          ? const VideoConstraints(
+              width: 3072,
+              height: 4096,
+              facingMode: FacingMode(
+                type: CameraType.user,
+                constrain: Constrain.ideal,
+              ))
+          : const VideoConstraints(
+              width: 4096,
+              height: 3072,
+              facingMode: FacingMode(
+                type: CameraType.rear,
+                constrain: Constrain.ideal,
+              ),
+            ),
     ),
   );
 
@@ -77,41 +90,42 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/backgrounds/wood_background.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
-          ),
-          Center(
-            child: Camera(
-              controller: _controller,
-              placeholder: (_) => const PhotoboothPlaceholder(),
-              preview: (context, preview) {
-                return ResponsiveLayoutBuilder(
-                  mobile: (_) => AspectRatio(
-                    aspectRatio: 3 / 4,
-                    child: PhotoboothPreview(
-                      preview: preview,
-                      onSnapPressed: _onSnapPressed,
-                    ),
-                  ),
-                  desktop: (_) => AspectRatio(
-                    aspectRatio: 4 / 3,
-                    child: PhotoboothPreview(
-                      preview: preview,
-                      onSnapPressed: _onSnapPressed,
-                    ),
-                  ),
-                );
-              },
-              error: (_, error) => PhotoboothError(error: error),
+      body: Camera(
+        controller: _controller,
+        placeholder: (_) => const PhotoboothPlaceholder(),
+        preview: (context, preview) {
+          return ResponsiveLayoutBuilder(
+            mobile: (_, child) => _PreviewLayout(
+              child: AspectRatio(aspectRatio: 3 / 4, child: child),
             ),
-          ),
-        ],
+            desktop: (_, child) => _PreviewLayout(
+              child: AspectRatio(aspectRatio: 4 / 3, child: child),
+            ),
+            child: PhotoboothPreview(
+              preview: preview,
+              onSnapPressed: _onSnapPressed,
+            ),
+          );
+        },
+        error: (_, error) => PhotoboothError(error: error),
       ),
+    );
+  }
+}
+
+class _PreviewLayout extends StatelessWidget {
+  const _PreviewLayout({Key? key, required this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        const PhotoboothBackground(),
+        Center(child: child),
+      ],
     );
   }
 }

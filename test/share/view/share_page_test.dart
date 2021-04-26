@@ -4,12 +4,16 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -19,6 +23,10 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
+
+class MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,15 +38,26 @@ void main() async {
   final image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
+  late ShareBloc shareBloc;
 
   setUpAll(() {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+
+    registerFallbackValue<ShareEvent>(FakeShareEvent());
+    registerFallbackValue<ShareState>(FakeShareState());
   });
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
+
+    shareBloc = MockShareBloc();
+    whenListen(
+      shareBloc,
+      Stream.fromIterable([ShareState.initial()]),
+      initialState: ShareState.initial(),
+    );
   });
 
   group('SharePage', () {
@@ -46,136 +65,141 @@ void main() async {
       expect(SharePage.route(), isA<MaterialPageRoute>());
     });
 
-    testWidgets('displays a PreviewImage', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-      expect(find.byType(PreviewImage), findsOneWidget);
+    testWidgets('displays a ShareBackground', (tester) async {
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(ShareBackground), findsOneWidget);
+    });
+
+    testWidgets('displays a SharePhoto', (tester) async {
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(SharePhoto), findsOneWidget);
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
       expect(
-        find.byKey(const Key('sharePage_retake_elevatedButton')),
+        find.byType(RetakeButton),
         findsOneWidget,
       );
     });
 
     testWidgets('displays a ShareButton', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
       expect(
-        find.byKey(const Key('sharePage_share_elevatedButton')),
+        find.byType(ShareButton),
         findsOneWidget,
       );
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
       expect(
-        find.byKey(const Key('sharePage_download_elevatedButton')),
+        find.byKey(const Key('sharePage_download_outlinedButton')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays a GoToGoogleIOButton', (tester) async {
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(
+        find.byKey(const Key('sharePage_goToGoogleIO_elevatedButton')),
         findsOneWidget,
       );
     });
 
     testWidgets('displays white footer', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
       expect(
         find.byType(WhiteFooter),
         findsOneWidget,
       );
-    });
-
-    testWidgets('displays a social media share clarification note',
-        (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-      expect(
-        find.byKey(const Key('sharePage_socialMediaShareClarification_text')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('displays selected character assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-      expect(
-        find.byKey(const Key('charactersLayer_android_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('displays selected sticker assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
-          stickers: [PhotoAsset(id: 0, asset: Assets.banana)],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-      expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('displays multiple selected sticker assets', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          characters: [PhotoAsset(id: 0, asset: Assets.android)],
-          stickers: [
-            PhotoAsset(id: 0, asset: Assets.banana),
-            PhotoAsset(id: 1, asset: Assets.banana),
-            PhotoAsset(id: 2, asset: Assets.beret),
-          ],
-          image: image,
-        ),
-      );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-      expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_banana_1_positioned')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key('stickersLayer_beret_2_positioned')),
-        findsOneWidget,
-      );
-    });
-  });
-
-  group('ShareButton', () {
-    testWidgets('tapping on share photo button opens ShareDialog',
-        (tester) async {
-      final shareButtonFinder = find.byKey(
-        const Key('sharePage_share_elevatedButton'),
-      );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
-
-      await tester.ensureVisible(shareButtonFinder);
-      await tester.tap(shareButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ShareDialog), findsOneWidget);
     });
   });
 
   group('DownloadButton', () {
     testWidgets('tapping on download photo button completes', (tester) async {
       final downloadButtonFinder = find.byKey(
-        const Key('sharePage_download_elevatedButton'),
+        const Key('sharePage_download_outlinedButton'),
       );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
 
       await tester.ensureVisible(downloadButtonFinder);
       await tester.tap(downloadButtonFinder);
 
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('GoToGoogleIOButton', () {
+    testWidgets('opens link when tapped', (tester) async {
+      final mock = MockUrlLauncher();
+      const url = googleIOExternalLink;
+      UrlLauncherPlatform.instance = mock;
+      when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+      when(() => mock.launch(
+            url,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          )).thenAnswer((_) async => true);
+      final googleIOButton = find.byKey(
+        const Key('sharePage_goToGoogleIO_elevatedButton'),
+      );
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      await tester.ensureVisible(googleIOButton);
+      await tester.tap(googleIOButton);
+      await tester.pumpAndSettle();
+
+      verify(() => mock.launch(
+            url,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          )).called(1);
     });
   });
 
@@ -209,17 +233,16 @@ void main() async {
           },
         ),
         photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
       );
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
       expect(find.byType(SharePage), findsOneWidget);
 
-      final retakeButtonFinder = find.byKey(
-        const Key('sharePage_retake_elevatedButton'),
-      );
-      await tester.ensureVisible(retakeButtonFinder);
-      await tester.tap(retakeButtonFinder);
+      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
+      backButton.onPressed();
       await tester.pumpAndSettle();
 
       expect(find.byType(SharePage), findsNothing);
@@ -231,7 +254,11 @@ void main() async {
 
   group('ResponsiveLayout', () {
     testWidgets('displays a DesktopButtonsLayout', (tester) async {
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
       expect(find.byType(DesktopButtonsLayout), findsOneWidget);
     });
 
@@ -240,7 +267,11 @@ void main() async {
         PhotoboothBreakpoints.mobile,
         1000,
       );
-      await tester.pumpApp(SharePage(), photoboothBloc: photoboothBloc);
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
       expect(find.byType(MobileButtonsLayout), findsOneWidget);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });

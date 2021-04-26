@@ -61,3 +61,11 @@ class PhotoClearStickersTapped extends PhotoboothEvent {
 class PhotoClearAllTapped extends PhotoboothEvent {
   const PhotoClearAllTapped();
 }
+
+class PhotoDeleteSelectedStickerTapped extends PhotoboothEvent {
+  const PhotoDeleteSelectedStickerTapped();
+}
+
+class PhotoTapped extends PhotoboothEvent {
+  const PhotoTapped();
+}

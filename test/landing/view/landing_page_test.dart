@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
@@ -16,7 +17,7 @@ void main() {
   });
 
   group('LandingView', () {
-    testWidgets('renders image background', (tester) async {
+    testWidgets('renders background', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byKey(Key('landingPage_background')), findsOneWidget);
     });
@@ -24,6 +25,21 @@ void main() {
     testWidgets('renders heading', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byKey(Key('landingPage_heading_text')), findsOneWidget);
+    });
+
+    testWidgets('renders image', (tester) async {
+      await tester.pumpApp(const LandingView());
+      expect(find.byType(Image), findsOneWidget);
+    });
+
+    testWidgets('renders image on small screens', (tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(
+        PhotoboothBreakpoints.mobile,
+        1000,
+      );
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      await tester.pumpApp(const LandingView());
+      expect(find.byType(Image), findsOneWidget);
     });
 
     testWidgets('renders subheading', (tester) async {

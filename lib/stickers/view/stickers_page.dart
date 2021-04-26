@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersPage extends StatelessWidget {
-  const StickersPage({Key? key}) : super(key: key);
+  const StickersPage({
+    Key? key,
+  }) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute(builder: (_) => const StickersPage());
@@ -33,11 +35,7 @@ class StickersView extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/backgrounds/wood_background.png',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
-          ),
+          const PhotoboothBackground(),
           Center(
             child: AspectRatio(
               aspectRatio: isMobile ? 3 / 4 : 4 / 3,
@@ -53,12 +51,7 @@ class StickersView extends StatelessWidget {
                     ),
                   ),
                   const CharactersLayer(),
-                  BlocBuilder<PhotoboothBloc, PhotoboothState>(
-                    builder: (context, state) {
-                      if (state.stickers.isEmpty) return const SizedBox();
-                      return _DraggableStickers(stickers: state.stickers);
-                    },
-                  ),
+                  const _DraggableStickers(),
                   Positioned(
                     left: 15,
                     top: 15,
@@ -85,11 +78,11 @@ class StickersView extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: NextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(SharePage.route());
-                      },
-                    ),
+                    child: NextButtonLayer(),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RemoveSelectedStickerButtonLayer(),
                   ),
                 ],
               ),
@@ -121,51 +114,39 @@ class StickersView extends StatelessWidget {
 }
 
 class _DraggableStickers extends StatelessWidget {
-  const _DraggableStickers({
-    Key? key,
-    required this.stickers,
-  }) : super(key: key);
-
-  final List<PhotoAsset> stickers;
+  const _DraggableStickers({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PhotoboothBloc>().state;
+    if (state.stickers.isEmpty) return const SizedBox();
     return Stack(
       fit: StackFit.expand,
       children: [
-        for (final sticker in stickers)
-          DraggableResizableAsset(
-            asset: sticker.asset,
+        Positioned.fill(
+          child: GestureDetector(
+            key: const Key('stickersView_background_gestureDetector'),
+            onTap: () {
+              context.read<PhotoboothBloc>().add(const PhotoTapped());
+            },
+          ),
+        ),
+        for (final sticker in state.stickers)
+          DraggableResizable(
+            key: Key('stickerPage_${sticker.id}_draggableResizable_asset'),
+            canTransform: sticker.id == state.selectedAssetId,
             onUpdate: (update) => context
                 .read<PhotoboothBloc>()
                 .add(PhotoStickerDragged(sticker: sticker, update: update)),
+            onDelete: () => context
+                .read<PhotoboothBloc>()
+                .add(const PhotoDeleteSelectedStickerTapped()),
+            child: Image.memory(
+              sticker.asset.bytes,
+              gaplessPlayback: true,
+            ),
           ),
       ],
-    );
-  }
-}
-
-class NextButton extends StatelessWidget {
-  const NextButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/go_next_button_icon.png',
-          height: 100,
-        ),
-      ),
     );
   }
 }
@@ -206,33 +187,6 @@ class ClearStickersButton extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           child: Image.asset('assets/icons/delete_icon.png', height: 50),
-        ),
-      ),
-    );
-  }
-}
-
-class RetakeButton extends StatelessWidget {
-  const RetakeButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Tooltip(
-        message: l10n.retakeButtonTooltip,
-        child: InkWell(
-          onTap: onPressed,
-          child: Image.asset(
-            'assets/icons/retake_button_icon.png',
-            height: 54,
-          ),
         ),
       ),
     );

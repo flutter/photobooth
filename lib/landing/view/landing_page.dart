@@ -23,46 +23,64 @@ class LandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Image.asset(
-                'assets/backgrounds/landing_background.jpg',
-                key: const Key('landingPage_background'),
-                fit: BoxFit.fitWidth,
-                filterQuality: FilterQuality.high,
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 108),
-                  child: Column(
-                    children: [
-                      Text(
-                        l10n.landingPageHeading,
-                        key: const Key('landingPage_heading_text'),
-                        style: theme.textTheme.headline1,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        l10n.landingPageSubheading,
-                        key: const Key('landingPage_subheading_text'),
-                        style: theme.textTheme.headline2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      const TakePhotoButton(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+    final size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        Container(
+          key: const Key('landingPage_background'),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                PhotoboothColors.gray,
+                PhotoboothColors.white,
+              ],
+            ),
           ),
-          const BlackFooter(),
-        ],
-      ),
+        ),
+        Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.landingPageHeading,
+                    key: const Key('landingPage_heading_text'),
+                    style: theme.textTheme.headline1,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.landingPageSubheading,
+                    key: const Key('landingPage_subheading_text'),
+                    style: theme.textTheme.headline2,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  const TakePhotoButton(),
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48),
+                    child: Image.asset(
+                      'assets/backgrounds/landing_background.png',
+                      height: size.width > PhotoboothBreakpoints.mobile
+                          ? size.height * 0.6
+                          : size.height * 0.4,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const BlackFooter(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
