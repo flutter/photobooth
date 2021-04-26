@@ -16,13 +16,15 @@ class SharePhotoRepository {
   final bool _isSharingEnabled;
 
   /// Given a [photoName], it returns its Twitter share URL
-  String getShareOnTwitterUrl(String photoName) {
-    return 'https://twitter.com/intent/tweet?url=${_getSharePhotoUrl(photoName)}';
+  String getShareOnTwitterUrl(String photoName, String shareText) {
+    final encodedShareText = Uri.encodeComponent(shareText);
+    return 'https://twitter.com/intent/tweet?url=${_getSharePhotoUrl(photoName)}&text=$encodedShareText';
   }
 
   /// Given a [photoName], it returns its Facebook share URL
-  String getShareOnFacebookUrl(String photoName) {
-    return 'https://www.facebook.com/sharer.php?u=${_getSharePhotoUrl(photoName)}';
+  String getShareOnFacebookUrl(String photoName, String shareText) {
+    final encodedShareText = Uri.encodeComponent(shareText);
+    return 'https://www.facebook.com/sharer.php?u=${_getSharePhotoUrl(photoName)}&quote=$encodedShareText';
   }
 
   String _getSharePhotoUrl(String photoName) => '$_shareUrl/$photoName';

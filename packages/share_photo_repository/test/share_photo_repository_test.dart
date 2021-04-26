@@ -49,11 +49,12 @@ void main() {
           shareUrl: 'http://example.com/share',
         );
 
-        final twitterLink = repository.getShareOnTwitterUrl('photo.jpg');
+        final twitterLink =
+            repository.getShareOnTwitterUrl('photo.jpg', 'Share text');
         expect(
           twitterLink,
           equals(
-            'https://twitter.com/intent/tweet?url=http://example.com/share/photo.jpg',
+            'https://twitter.com/intent/tweet?url=http://example.com/share/photo.jpg&text=Share%20text',
           ),
         );
       });
@@ -66,11 +67,12 @@ void main() {
           shareUrl: 'http://example.com/share',
         );
 
-        final twitterLink = repository.getShareOnFacebookUrl('photo.jpg');
+        final twitterLink =
+            repository.getShareOnFacebookUrl('photo.jpg', 'Share text');
         expect(
           twitterLink,
           equals(
-            'https://www.facebook.com/sharer.php?u=http://example.com/share/photo.jpg',
+            'https://www.facebook.com/sharer.php?u=http://example.com/share/photo.jpg&quote=Share%20text',
           ),
         );
       });
