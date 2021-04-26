@@ -23,8 +23,7 @@ describe('Share API', () => {
   const baseReq = {
     path: '',
     protocol: 'http',
-    // @ts-ignore
-    get(key: string) {
+    get(_: string) {
       return 'localhost:5001';
     },
   } as functions.https.Request;
