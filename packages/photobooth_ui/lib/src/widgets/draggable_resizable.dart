@@ -35,14 +35,14 @@ const _cornerDiameter = 15.0;
 const _floatingActionDiameter = 45.0;
 const _floatingActionPadding = 100.0;
 
-/// {@template draggable_resizable_image}
-/// A widget which allows a user to drag and resize the provided [asset].
+/// {@template draggable_resizable}
+/// A widget which allows a user to drag and resize the provided [child].
 /// {@endtemplate}
-class DraggableResizableAsset extends StatefulWidget {
-  /// {@macro draggable_resizable_asset}
-  DraggableResizableAsset({
+class DraggableResizable extends StatefulWidget {
+  /// {@macro draggable_resizable}
+  DraggableResizable({
     Key? key,
-    required this.asset,
+    required this.child,
     this.onUpdate,
     this.onDelete,
     this.canTransform = false,
@@ -50,8 +50,8 @@ class DraggableResizableAsset extends StatefulWidget {
   })  : platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
-  /// Image that will be draggable and resizable
-  final Asset asset;
+  /// The child which will be draggable/resizable.
+  final Widget child;
 
   /// Drag/Resize value setter.
   final ValueSetter<DragUpdate>? onUpdate;
@@ -67,11 +67,10 @@ class DraggableResizableAsset extends StatefulWidget {
   final PlatformHelper platformHelper;
 
   @override
-  _DraggableResizableAssetState createState() =>
-      _DraggableResizableAssetState();
+  _DraggableResizableState createState() => _DraggableResizableState();
 }
 
-class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
+class _DraggableResizableState extends State<DraggableResizable> {
   late Size size;
   late double minHeight;
   late double maxHeight;
@@ -87,8 +86,8 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
   @override
   void initState() {
     super.initState();
-    maxHeight = widget.asset.image.height.toDouble();
-    minHeight = maxHeight * 0.05;
+    maxHeight = 1000;
+    minHeight = maxHeight * 0.1;
     size = Size(maxHeight * 0.25, maxHeight * 0.25);
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
@@ -214,7 +213,8 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
           onUpdate();
         }
 
-        final decoratedImage = Container(
+        final decoratedChild = Container(
+          key: const Key('draggableResizable_child_container'),
           alignment: Alignment.center,
           height: normalizedHeight + _cornerDiameter + _floatingActionPadding,
           width: normalizedWidth + _cornerDiameter + _floatingActionPadding,
@@ -229,33 +229,27 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
                     : PhotoboothColors.transparent,
               ),
             ),
-            child: Image.memory(
-              widget.asset.bytes,
-              key: const Key('draggableResizableAsset_asset_image'),
-              height: normalizedHeight,
-              width: normalizedWidth,
-              gaplessPlayback: true,
-            ),
+            child: widget.child,
           ),
         );
 
         final topLeftCorner = _ResizePoint(
-          key: const Key('draggableResizableAsset_topLeft_resizePoint'),
+          key: const Key('draggableResizable_topLeft_resizePoint'),
           onDrag: onDragTopLeft,
         );
 
         final topRightCorner = _ResizePoint(
-          key: const Key('draggableResizableAsset_topRight_resizePoint'),
+          key: const Key('draggableResizable_topRight_resizePoint'),
           onDrag: onDragTopRight,
         );
 
         final bottomLeftCorner = _ResizePoint(
-          key: const Key('draggableResizableAsset_bottomLeft_resizePoint'),
+          key: const Key('draggableResizable_bottomLeft_resizePoint'),
           onDrag: onDragBottomLeft,
         );
 
         final bottomRightCorner = _ResizePoint(
-          key: const Key('draggableResizableAsset_bottomRight_resizePoint'),
+          key: const Key('draggableResizable_bottomRight_resizePoint'),
           onDrag: onDragBottomRight,
         );
 
@@ -268,7 +262,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
             child: Image.asset(
               'assets/images/delete_circle_icon.png',
               package: 'photobooth_ui',
-              key: const Key('draggableResizableAsset_delete_image'),
+              key: const Key('draggableResizable_delete_image'),
               width: _floatingActionDiameter,
               height: _floatingActionDiameter,
             ),
@@ -276,7 +270,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
         );
 
         final rotateAnchor = GestureDetector(
-          key: const Key('draggableResizableAsset_rotate_gestureDetector'),
+          key: const Key('draggableResizable_rotate_gestureDetector'),
           onScaleUpdate: (d) => setState(
             () => angle = d.localFocalPoint.direction,
           ),
@@ -288,7 +282,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
               child: Image.asset(
                 'assets/images/rotate_circle_icon.png',
                 package: 'photobooth_ui',
-                key: const Key('draggableResizableAsset_rotate_image'),
+                key: const Key('draggableResizable_rotate_image'),
                 width: _floatingActionDiameter,
                 height: _floatingActionDiameter,
               ),
@@ -312,9 +306,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
                   ..scale(scale)
                   ..rotateZ(angle),
                 child: _DraggablePoint(
-                  key: const Key(
-                    'draggableResizableAsset_image_draggablePoint',
-                  ),
+                  key: const Key('draggableResizable_child_draggablePoint'),
                   onTap: onUpdate,
                   onDrag: (d) {
                     setState(() {
@@ -335,7 +327,7 @@ class _DraggableResizableAssetState extends State<DraggableResizableAsset> {
                   },
                   child: Stack(
                     children: [
-                      decoratedImage,
+                      decoratedChild,
                       if (widget.canTransform && !isTouchInputSupported) ...[
                         Positioned(
                           top: _floatingActionPadding / 2,

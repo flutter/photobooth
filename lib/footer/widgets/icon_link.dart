@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class IconLink extends StatelessWidget {
@@ -29,7 +30,7 @@ class FlutterIconLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconLink(
       icon: Image.asset('assets/icons/flutter_icon.png'),
-      link: 'https://flutter.dev',
+      link: flutterDevExternalLink,
     );
   }
 }
@@ -43,7 +44,7 @@ class FirebaseIconLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconLink(
       icon: Image.asset('assets/icons/firebase_icon.png'),
-      link: 'https://firebase.google.com',
+      link: firebaseExternalLink,
     );
   }
 }

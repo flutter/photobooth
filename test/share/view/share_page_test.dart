@@ -5,12 +5,15 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -20,6 +23,10 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
+
+class MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -157,7 +164,20 @@ void main() async {
   });
 
   group('GoToGoogleIOButton', () {
-    testWidgets('tapping on GoToGoogleIOButton does nothing', (tester) async {
+    testWidgets('opens link when tapped', (tester) async {
+      final mock = MockUrlLauncher();
+      const url = googleIOExternalLink;
+      UrlLauncherPlatform.instance = mock;
+      when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+      when(() => mock.launch(
+            url,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          )).thenAnswer((_) async => true);
       final googleIOButton = find.byKey(
         const Key('sharePage_goToGoogleIO_elevatedButton'),
       );
@@ -169,8 +189,17 @@ void main() async {
 
       await tester.ensureVisible(googleIOButton);
       await tester.tap(googleIOButton);
+      await tester.pumpAndSettle();
 
-      expect(tester.takeException(), isNull);
+      verify(() => mock.launch(
+            url,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          )).called(1);
     });
   });
 

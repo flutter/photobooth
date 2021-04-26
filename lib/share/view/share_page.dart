@@ -3,6 +3,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -52,8 +53,10 @@ class SharePage extends StatelessWidget {
                       const SizedBox(height: 30),
                       if (image != null)
                         ResponsiveLayoutBuilder(
-                          mobile: (_) => MobileButtonsLayout(image: image),
-                          desktop: (_) => DesktopButtonsLayout(image: image),
+                          mobile: (_, __) => MobileButtonsLayout(image: image),
+                          desktop: (_, __) => DesktopButtonsLayout(
+                            image: image,
+                          ),
                         ),
                       const SizedBox(height: 70),
                       const WhiteFooter()
@@ -178,7 +181,7 @@ class _GoToGoogleIOButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),
-      onPressed: () {},
+      onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(

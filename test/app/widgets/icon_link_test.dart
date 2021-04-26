@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -55,7 +56,7 @@ void main() {
     testWidgets('renders IconLink widget with a proper link', (tester) async {
       await tester.pumpApp(FlutterIconLink());
       final widget = tester.widget<IconLink>(find.byType(IconLink));
-      expect(widget.link, equals('https://flutter.dev'));
+      expect(widget.link, equals(flutterDevExternalLink));
     });
   });
 
@@ -63,7 +64,7 @@ void main() {
     testWidgets('renders IconLink widget with a proper link', (tester) async {
       await tester.pumpApp(FirebaseIconLink());
       final widget = tester.widget<IconLink>(find.byType(IconLink));
-      expect(widget.link, equals('https://firebase.google.com'));
+      expect(widget.link, equals(firebaseExternalLink));
     });
   });
 }

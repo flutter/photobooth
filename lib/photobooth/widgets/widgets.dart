@@ -1,3 +1,4 @@
+export 'animated_characters/animated_characters.dart';
 export 'characters_caption.dart';
 export 'characters_layer.dart';
 export 'permissions_background.dart';

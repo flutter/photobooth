@@ -71,7 +71,6 @@ class LandingView extends StatelessWidget {
                       height: size.width > PhotoboothBreakpoints.mobile
                           ? size.height * 0.6
                           : size.height * 0.4,
-                      filterQuality: FilterQuality.high,
                     ),
                   ),
                   const SizedBox(height: 24),
