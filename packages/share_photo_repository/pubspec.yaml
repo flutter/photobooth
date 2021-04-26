@@ -1,0 +1,10 @@
+name: share_photo_repository
+description: Repository that generates social media links to share a photo
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0-0 <3.0.0"
+
+dev_dependencies:
+  test: ^1.15.6
+  very_good_analysis: ^1.0.4
