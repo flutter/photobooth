@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.0
+  flame: ^1.0.0-rc9
   url_launcher: ^6.0.3
   platform_helper:
     path: ../platform_helper

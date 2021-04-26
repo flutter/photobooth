@@ -136,9 +136,8 @@ class _DraggableStickers extends StatelessWidget {
           ),
         ),
         for (final sticker in state.stickers)
-          DraggableResizableAsset(
+          DraggableResizable(
             key: Key('stickerPage_${sticker.id}_draggableResizable_asset'),
-            asset: sticker.asset,
             canTransform: sticker.id == state.selectedAssetId,
             onUpdate: (update) => context
                 .read<PhotoboothBloc>()
@@ -146,6 +145,7 @@ class _DraggableStickers extends StatelessWidget {
             onDelete: () => context
                 .read<PhotoboothBloc>()
                 .add(const PhotoDeleteSelectedStickerTapped()),
+            child: const AnimatedDash(),
           ),
       ],
     );
