@@ -11,5 +11,6 @@ export 'share_page.dart';
 export 'share_photo.dart';
 export 'share_progress_overlay.dart';
 export 'share_social_media_clarification.dart';
+export 'share_success_listener.dart';
 export 'share_try_again_button.dart';
 export 'twitter_button.dart';

@@ -9,7 +9,9 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:share_photo_repository/share_photo_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class SharePage extends StatelessWidget {
@@ -19,7 +21,8 @@ class SharePage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (_) => BlocProvider(
         create: (context) => ShareBloc(
-          delay: const Duration(seconds: 2),
+          sharePhotoRepository: context.read<SharePhotoRepository>(),
+          photosRepository: context.read<PhotosRepository>(),
         ),
         child: SharePage(),
       ),
@@ -30,57 +33,60 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
-      body: ShareErrorListener(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            const ShareBackground(),
-            Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 30,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SharePhoto(image: image),
-                      const SizedBox(height: 40),
-                      const _Heading(),
-                      const SizedBox(height: 20),
-                      const LearnMoreAboutText(),
-                      const SizedBox(height: 30),
-                      if (image != null)
-                        ResponsiveLayoutBuilder(
-                          mobile: (_, __) => MobileButtonsLayout(image: image),
-                          desktop: (_, __) => DesktopButtonsLayout(
-                            image: image,
+      body: ShareSuccessListener(
+        child: ShareErrorListener(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              const ShareBackground(),
+              Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 30,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SharePhoto(image: image),
+                        const SizedBox(height: 40),
+                        const _Heading(),
+                        const SizedBox(height: 20),
+                        const LearnMoreAboutText(),
+                        const SizedBox(height: 30),
+                        if (image != null)
+                          ResponsiveLayoutBuilder(
+                            mobile: (_, __) =>
+                                MobileButtonsLayout(image: image),
+                            desktop: (_, __) => DesktopButtonsLayout(
+                              image: image,
+                            ),
                           ),
-                        ),
-                      const SizedBox(height: 70),
-                      const WhiteFooter()
-                    ],
+                        const SizedBox(height: 70),
+                        const WhiteFooter()
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 15,
-              top: 15,
-              child: RetakeButton(
-                onPressed: () {
-                  context
-                      .read<PhotoboothBloc>()
-                      .add(const PhotoClearAllTapped());
-                  Navigator.of(context).popUntil(
-                    (route) => route.settings.name == PhotoboothPage.name,
-                  );
-                },
+              Positioned(
+                left: 15,
+                top: 15,
+                child: RetakeButton(
+                  onPressed: () {
+                    context
+                        .read<PhotoboothBloc>()
+                        .add(const PhotoClearAllTapped());
+                    Navigator.of(context).popUntil(
+                      (route) => route.settings.name == PhotoboothPage.name,
+                    );
+                  },
+                ),
               ),
-            ),
-            ShareProgressOverlay()
-          ],
+              ShareProgressOverlay()
+            ],
+          ),
         ),
       ),
     );

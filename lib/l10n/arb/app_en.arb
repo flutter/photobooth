@@ -60,6 +60,10 @@
     "@sharePageDownloadButtonText": {
         "description": "Button text shown on the share page which downloads the taken photo."
     },
+    "socialMediaShareLinkText": "Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!",
+    "@socialMediaShareLinkText": {
+        "description": "Text that is put into the social media share URL link."
+    },
     "previewPageCameraNotAllowedText": "You have denied camera permissions. Please grant access in order to use app.",
     "@previewPageCameraNotAllowedText": {
         "description": "Text shown when user denies camera permission"

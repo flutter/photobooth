@@ -5,6 +5,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('ShareState', () {
+    final shareUrl = 'share-url';
+
     group('initial', () {
       test('supports value equality', () {
         expect(ShareState.initial(), equals(ShareState.initial()));
@@ -33,12 +35,17 @@ void main() {
 
     group('success', () {
       test('supports value equality', () {
-        expect(ShareState.success(), equals(ShareState.success()));
+        expect(
+          ShareState.success(shareUrl: shareUrl),
+          equals(ShareState.success(shareUrl: shareUrl)),
+        );
       });
 
       test('status is success', () {
         expect(
-          ShareState.success().status,
+          ShareState.success(
+            shareUrl: shareUrl,
+          ).status,
           ShareStatus.success,
         );
       });
