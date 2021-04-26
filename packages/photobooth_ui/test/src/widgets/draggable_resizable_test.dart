@@ -459,9 +459,14 @@ void main() {
         final gestureDetector = tester.widget<GestureDetector>(
           find.byKey(Key('draggableResizable_rotate_gestureDetector')),
         );
+
+        gestureDetector.onScaleStart!(
+          ScaleStartDetails(localFocalPoint: Offset(0, 0)),
+        );
         gestureDetector.onScaleUpdate!(
           ScaleUpdateDetails(localFocalPoint: Offset(1, 1)),
         );
+        gestureDetector.onScaleEnd!(ScaleEndDetails());
 
         await tester.pumpAndSettle();
         final childFinder = find.byKey(
