@@ -289,9 +289,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
           },
           onScaleUpdate: (details) {
             final offsetFromCenter = details.localFocalPoint - center;
-            setState(
-              () => angle = (offsetFromCenter).direction + angleDelta,
-            );
+            setState(() => angle = offsetFromCenter.direction + angleDelta);
             onUpdate();
           },
           onScaleEnd: (_) => setState(() => baseAngle = angle),
