@@ -59,9 +59,9 @@ class _ColumnFooter extends StatelessWidget {
           runSpacing: 16,
           children: [
             const FooterGoogleIOLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterCodelabLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterHowItsMadeLink(),
           ],
         ),
@@ -71,7 +71,7 @@ class _ColumnFooter extends StatelessWidget {
           runSpacing: 16,
           children: [
             const FooterTermsOfServiceLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterPrivacyPolicyLink(),
           ],
         ),
