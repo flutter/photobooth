@@ -110,8 +110,6 @@ export async function getShareResponse(
     const baseUrl = `${req.protocol}://${host}`;
     const { ext, base: imageFileName } = path.parse(req.path);
 
-    console.log({ host, baseUrl, ext, imageFileName });
-
     if (!ALLOWED_HOSTS.includes(host) || !VALID_IMAGE_EXT.includes(ext)) {
       return {
         status: 404,
@@ -121,9 +119,6 @@ export async function getShareResponse(
 
     const imageBlobPath = `${UPLOAD_PATH}/${imageFileName}`;
     const imageExists = await admin.storage().bucket().file(imageBlobPath).exists();
-
-
-    console.log('MADE IT', { imageExists, imageBlobPath });
 
     if (Array.isArray(imageExists) && imageExists[0]) {
       return {
