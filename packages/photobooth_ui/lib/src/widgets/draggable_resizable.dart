@@ -100,12 +100,12 @@ class _DraggableResizableState extends State<DraggableResizable> {
     return value;
   }
 
-  /* double clampY(double value) {
+  double clampY(double value) {
     if (value <= 0) return 0.0;
     if (value + size.height + _floatingActionPadding >= constraints.maxHeight)
-      return constraints.maxHeight - size.height;
+      return constraints.maxHeight - size.height - _floatingActionPadding;
     return value;
-  }*/
+  }
 
   double clampX(double value, BoxConstraints constraints) {
     if (value <= 0) return 0.0;
@@ -125,8 +125,11 @@ class _DraggableResizableState extends State<DraggableResizable> {
             constraints.maxHeight / 2 - (size.height / 2),
           );
         } else {
-          position = Offset(clampX(position.dx, constraints), position.dy);
+          position =
+              Offset(clampX(position.dx, constraints), clampY(position.dy));
         }
+
+        maxHeight = constraints.maxHeight - _floatingActionPadding;
 
         final widthFactor = constraints.maxWidth / initialSize!.width;
         final heightFactor = constraints.maxHeight / initialSize!.height;
