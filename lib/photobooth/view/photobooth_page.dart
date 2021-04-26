@@ -47,7 +47,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
               width: 3072,
               height: 4096,
               facingMode: FacingMode(
-                type: CameraType.front,
+                type: CameraType.user,
                 constrain: Constrain.ideal,
               ))
           : const VideoConstraints(
