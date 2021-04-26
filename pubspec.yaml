@@ -22,6 +22,8 @@ dependencies:
   flutter_bloc: ^7.0.0
   image: ^3.0.2
   intl: ^0.17.0
+  photos_repository:
+    path: packages/photos_repository
   authentication_repository:
     path: packages/authentication_repository
   photobooth_ui:
