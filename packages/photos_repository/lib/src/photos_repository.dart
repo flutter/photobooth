@@ -50,11 +50,11 @@ class PhotosRepository {
 
     Reference reference;
     try {
-      reference = _firebaseStorage.ref('photos/$userId/$uuid.jpg');
+      reference = _firebaseStorage.ref('uploads/$userId/$uuid.jpg');
     } catch (e, st) {
       throw UploadPhotoException(
         'Uploading photo for user $userId failed. '
-        'Couldn\'t get storage reference \'photos/$userId/$uuid.jpg\'.'
+        'Couldn\'t get storage reference \'uploads/$userId/$uuid.jpg\'.'
         'Error: $e. StackTrace: $st',
       );
     }

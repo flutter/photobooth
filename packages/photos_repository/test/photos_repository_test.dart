@@ -61,7 +61,7 @@ void main() {
     const uuid = 'mock-uuid';
     final photoData = Uint8List(0);
 
-    const referenceFullPath = 'photos/$userId/$uuid.jpg';
+    const referenceFullPath = 'uploads/$userId/$uuid.jpg';
 
     setUp(() {
       firebaseStorage = MockFirebaseStorage();
@@ -91,7 +91,8 @@ void main() {
     group('uploadPhoto', () {
       test('calls firebaseStorage.ref with appropriate path', () async {
         await photosRepository.uploadPhoto(userId, photoData);
-        verify(() => firebaseStorage.ref('photos/$userId/$uuid.jpg')).called(1);
+        verify(() => firebaseStorage.ref('uploads/$userId/$uuid.jpg'))
+            .called(1);
       });
 
       test('calls putData on reference', () async {
