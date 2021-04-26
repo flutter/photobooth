@@ -111,6 +111,7 @@ export async function getShareResponse(
     const { ext, base: imageFileName } = path.parse(req.path);
 
     if (!ALLOWED_HOSTS.includes(host) || !VALID_IMAGE_EXT.includes(ext)) {
+      functions.logger.log('Bad host or image ext', { host, baseUrl, ext, imageFileName });
       return {
         status: 404,
         send: renderNotFoundPage(imageFileName, baseUrl),
@@ -126,6 +127,8 @@ export async function getShareResponse(
         send: renderSharePage(imageFileName, baseUrl),
       };
     }
+
+    functions.logger.log('Image does not exist', { imageBlobPath });
 
     return {
       status: 404,
