@@ -19,7 +19,7 @@ void main() {
       expect(find.byType(Image), findsOneWidget);
     });
 
-    testWidgets('anti aliasing is enabled', (tester) async {
+    testWidgets('anti-aliasing is enabled', (tester) async {
       await tester.pumpWidget(PreviewImage(
         data: data,
         height: 100,
