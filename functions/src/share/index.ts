@@ -1,22 +1,45 @@
-import * as path from 'path';
-import * as querystring from 'querystring';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import * as path from 'path';
+import * as querystring from 'querystring';
+import mustache from 'mustache';
 
-import { UPLOAD_PATH, SHARE_PATH } from '../config';
+import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
+import footerTmpl from './templates/footer';
+import notFoundTmpl from './templates/notfound';
+import shareTmpl from './templates/share';
+import stylesTmpl from './templates/styles';
 
 
-const htmlMeta = {
-  title: 'Google IO Photobooth',
-  description: 'Take a photo with special IO effects and share it with your community.',
-  ogUrl: 'https://io-photobooth.web.app',
-  ogTwitterSite: '@flutterdev',
-  imgPathBackground: 'public/background.jpg',
-  imgPathLogo: 'public/logo.svg',
-  ctaHeaderText: 'Take a selfie and share your photo with the community.',
-  ctaBtnText: 'Take Your Own',
-  faviconPath: 'public/favicon.png',
+const VALID_IMAGE_EXT = [ '.png', '.jpeg', '.jpg' ];
+
+const BaseHTMLContext: Record<string, string | Record<string, string>> = {
+  appUrl: '',
+  shareUrl: '',
+  shareImageUrl: '',
+  assetUrls: {
+    favicon: bucketPathForFile('public/favicon.png'),
+    bg: bucketPathForFile('public/background.jpg'),
+    bgMobile: bucketPathForFile('public/background-mobile.jpg'),
+    notFoundPhoto: bucketPathForFile('public/404-photo.png'),
+    fixedPhotosLeft: bucketPathForFile('public/table-photos-left.png'),
+    fixedPhotosRight: bucketPathForFile('public/table-photos-right.png'),
+  },
+  meta: {
+    title: 'Google I/O Photo Booth',
+    desc: (
+      'Take a photo at the Google I/O Photo Booth! ' +
+      'Built for Google I/O 2021 with Flutter & Firebase.'
+    ),
+    message: (
+      'Check out my photo taken at the #IOPhotoBooth. ' +
+      'Join the fun at #GoogleIO and take your own!'
+    ),
+  },
+  footer: mustache.render(footerTmpl, {}),
+  styles: '',
 };
+
 
 /**
  * Returns bucket path
@@ -25,186 +48,88 @@ const htmlMeta = {
  */
 function bucketPathForFile(filename: string): string {
   return (
-    `https://firebasestorage.googleapis.com/v0/b/${admin.storage().bucket().name}` +
+    'https://firebasestorage.googleapis.com/v0' +
+    `/b/${admin.storage().bucket().name}` +
     `/o/${querystring.escape(filename)}?alt=media`
   );
 }
 
 /**
- * Return not found response
- * @return {Object} Corrent not found response?
+ * Return a local file HTML template built with context
+ * @param {string} tmpl - html template string
+ * @param {Object} context - html context dict
+ * @return {string} HTML template string
  */
-function getNotFoundHTML(): string {
-  return (`
-    <!doctype html>
-    <html>
-      <head>
-        <title>${htmlMeta.title}</title>
-        <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <style>
-          html {
-            font-family: 'Google Sans', 'Roboto', sans-serif;
-            background-repeat: no-repeat;
-            background-image: url('${bucketPathForFile(htmlMeta.imgPathBackground)}');
-            background-position: center center;
-            background-attachement: fixed;
-            background-size: cover;
-          }
-          .logo {
-            width: 90%;
-            margin: 3rem auto;
-            display:block;
-            max-width: 800px;
-          }
-          .share-content {
-            background: #fff;
-            width: 95%;
-            max-width: 800px;
-            border-radius: 6px;
-            padding: 2rem 1rem 3rem;
-            margin: 0 auto;
-            text-align: center;
-          }
-        </style>
-      </head>
-      <body>
-        <img class='logo' src='${bucketPathForFile(htmlMeta.imgPathLogo)}'/>
-        <div class='share-content'>
-          <h2>Some clever not found message :)</h2>
-        </div>
-      </body>
-    </html>
-  `);
+function renderTemplate(
+  tmpl: string, context: Record<string, string | Record<string, string>>
+): string {
+  context.styles = mustache.render(stylesTmpl, context);
+  return mustache.render(tmpl, context);
+}
+
+/**
+ * Render the 404 html page
+ * @param {string} imageFileName - filename of storage image
+ * @param {string} baseUrl - http base fully qualified URL
+ * @return {string} HTML string
+ */
+function renderNotFoundPage(imageFileName: string, baseUrl: string): string {
+  const context = Object.assign({}, BaseHTMLContext, {
+    appUrl: baseUrl,
+    shareUrl: `${baseUrl}/share/${imageFileName}`,
+    shareImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${imageFileName}`),
+  });
+  return renderTemplate(notFoundTmpl, context);
 }
 
 /**
  * Populate and return the share page HTML for given path
- * @param {string} filePath
+ * @param {string} imageFileName - filename of storage image
+ * @param {string} baseUrl - http base fully qualified URL
  * @return {string} HTML string
  */
-function generateShareHTML(filePath: string): string {
-  /*eslint-disable */
-  return (`
-    <!doctype html>
-    <html>
-      <head>
-        <title>${htmlMeta.title}</title>
-        <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta name='descripton' content='${htmlMeta.description}'>
-        <meta property='og:description' content='${htmlMeta.description}'>
-        <meta property='og:title' content='${htmlMeta.title}'>
-        <meta property='og:url' content='${htmlMeta.ogUrl}'>
-        <meta property='og:image' content='${bucketPathForFile(filePath)}'>
-        <meta name='twitter:text:title' content='${htmlMeta.title}'>
-        <meta name='twitter:card' content='summary_large_image'>
-        <meta name='twitter:site' content='${htmlMeta.ogTwitterSite}'>
-        <meta name='twitter:title' content='${htmlMeta.title}'>
-        <meta name='twitter:description' content='${htmlMeta.description}'>
-        <meta name='twitter:image' content='${bucketPathForFile(filePath)}'>
-        <link rel='icon' type='image/png' href='${bucketPathForFile(htmlMeta.faviconPath)}'>
-        <style>
-          html {
-            font-family: 'Google Sans', 'Roboto', sans-serif;
-            background-repeat: no-repeat;
-            background-image: url('${bucketPathForFile(htmlMeta.imgPathBackground)}');
-            background-position: center center;
-            background-attachement: fixed;
-            background-size: cover;
-          }
-          .logo {
-            width: 90%;
-            margin: 3rem auto;
-            display:block;
-            max-width: 800px;
-          }
-          .share-content {
-            background: #fff;
-            width: 95%;
-            max-width: 800px;
-            border-radius: 6px;
-            padding: 2rem 1rem 3rem;
-            margin: 0 auto;
-            text-align: center;
-          }
-          .share-image {
-            width: 80%;
-            margin: 0 1rem;
-          }
-          .share-header {
-            margin: 4rem auto 0;
-            font-size:1.5rem;
-          }
-          .share-btn {
-            background-color: #1389FD;
-            border-color: #1389FD;
-            border-radius: 0;
-            border: 1px solid transparent;
-            box-sizing: border-box;
-            color: #fff;
-            cursor: pointer;
-            display: inline-block;
-            font-size: 2rem;
-            font-weight: 400;
-            line-height: 1.5;
-            margin-top: 3rem;
-            min-width: 250px;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-            user-select: none;
-            vertical-align: middle;
-            white-space: normal;
-          }
-        </style>
-      </head>
-      <body>
-        <img class='logo' src='${bucketPathForFile(htmlMeta.imgPathLogo)}'/>
-        <div class='share-content'>
-          <img class='share-image' src='${bucketPathForFile(filePath)}'/>
-          <div class='share-header'> ${htmlMeta.ctaHeaderText} </div>
-          <a  class='share-btn' href='${htmlMeta.ogUrl}'> ${htmlMeta.ctaBtnText} </a>
-        </div>
-      </body>
-    </html>
-  `);
-  /* eslint-enable */
+function renderSharePage(imageFileName: string, baseUrl: string): string {
+  const context = Object.assign({}, BaseHTMLContext, {
+    appUrl: baseUrl,
+    shareUrl: `${baseUrl}/share/${imageFileName}`,
+    shareImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${imageFileName}`),
+  });
+  return renderTemplate(shareTmpl, context);
 }
 
 /**
  * Get share response
- * @param {string} reqPath
+ * @param {Object} req - request object
  * @return {Object} share response
  */
 export async function getShareResponse(
-  reqPath: string
+  req: functions.https.Request
 ): Promise<{ status: number; send: string }> {
   try {
-    const { dir, ext, base } = path.parse(reqPath);
-    const isValidPath = (
-      dir === `/${SHARE_PATH}` && [ '.png', '.jpeg', '.jpg' ].includes(ext)
-    );
+    const host = req.get('host') ?? '';
+    const baseUrl = `${req.protocol}://${host}`;
+    const { ext, base: imageFileName } = path.parse(req.path);
 
-    const storagePath = `${UPLOAD_PATH}/${base}`;
-    let exists: [boolean] | undefined;
-
-    if (isValidPath) {
-      exists = await admin.storage().bucket().file(storagePath).exists();
-      if (exists && exists[0]) {
-        return {
-          status: 200,
-          send: generateShareHTML(storagePath),
-        };
-      }
+    if (!ALLOWED_HOSTS.includes(host) || !VALID_IMAGE_EXT.includes(ext)) {
+      return {
+        status: 404,
+        send: renderNotFoundPage(imageFileName, baseUrl),
+      };
     }
 
-    functions.logger.info('File path invalid or not found', {
-      storagePath, exists, valid: isValidPath,
-    });
+    const imageBlobPath = `${UPLOAD_PATH}/${imageFileName}`;
+    const imageExists = await admin.storage().bucket().file(imageBlobPath).exists();
+
+    if (Array.isArray(imageExists) && imageExists[0]) {
+      return {
+        status: 200,
+        send: renderSharePage(imageFileName, baseUrl),
+      };
+    }
 
     return {
       status: 404,
-      send: getNotFoundHTML(),
+      send: renderNotFoundPage(imageFileName, baseUrl),
     };
   } catch (error) {
     functions.logger.error(error);
@@ -215,14 +140,12 @@ export async function getShareResponse(
   }
 }
 
+
 /**
  * Public sharing function
  */
 export const shareImage = functions.https.onRequest(async (req, res) => {
-  const { status, send } = await getShareResponse(req.path);
-
-  // Development only, set to actual production hosting domain
+  const { status, send } = await getShareResponse(req);
   res.set('Access-Control-Allow-Origin', '*');
-
   res.status(status).send(send);
 });
