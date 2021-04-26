@@ -3,68 +3,43 @@ export default `
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="{{favicon_url}}">
+    <link rel="icon" type="image/png" href="{{{assetUrls.favicon}}}">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{{metaTitle}}</title>
+    <title>{{meta.title}}</title>
+    <meta name="descripton" content="{{meta.desc}}">
+
+    <meta property="og:title" content="{{meta.message}}">
+    <meta property="og:description" content="{{meta.desc}}">
+    <meta property="og:url" content="{{{shareUrl}}}">
+    <meta property="og:image" content="{{{shareImageUrl}}}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{meta.title}}">
+    <meta name="twitter:text:title" content="{{meta.message}}">
+    <meta name="twitter:description" content="{{metaDesc}}">
+    <meta name="twitter:image" content="{{{shareImageUrl}}}">
+    <meta name="twitter:site" content="@flutterdev">
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     
-    <style>
-
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-      }
-
-      body {
-        font-family: "Google Sans", "Roboto", sans-serif;
-        background-image: url("{{{bgImageUrl}}}");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-      }
-
-      *, ::before, ::after {
-        box-sizing: border-box;
-      }
-
-      main {
-        width: 95%;
-        max-width: 800px;
-        padding: 0;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      h2 {
-        font-size: 24px;
-        font-weight: 400;
-        color: white;
-      }
-
-      .share-image {
-        width: 80%;
-        margin: 0 1rem;
-      }
-
-      .share-btn {
-        background-color: #428eff;
-        color: white;
-        font-size: 22px;
-      }
-      
-    </style>
+    <style>{{{styles}}}</style>
   </head>
   <body>
+    <img src="{{{assetUrls.fixedPhotosLeft}}}" class="fixed-photos left">
+    <img src="{{{assetUrls.fixedPhotosRight}}}" class="fixed-photos right">
     <main>
-      <h1>Flutter taken with Flutter</h1>
-      <h2>Join the fun! Grab a photo with your favorite Google mascot 
-        at the I/O Photo Booth.</h2>
-      <a class="share-btn" href="{{appUrl}}">Take your own</a>
+      <div class="share-image no-shadow">
+        <img src="{{{assetUrls.notFoundPhoto}}}">
+      </div>
+      <div class="text">
+        <h1>Flutter taken with Flutter</h1>
+        <h2>Join the fun! Grab a photo with your favorite Google mascot 
+          at the I/O Photo Booth.</h2>
+        <a class="share-btn" href="{{appUrl}}">Take your own</a>
+      </div>
     </main>
+    {{{footer}}}
   </body>
 </html>
 `;

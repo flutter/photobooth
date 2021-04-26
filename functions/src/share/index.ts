@@ -5,8 +5,10 @@ import * as querystring from 'querystring';
 import mustache from 'mustache';
 
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
+import footerTmpl from './templates/footer';
 import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
+import stylesTmpl from './templates/styles';
 
 
 const VALID_IMAGE_EXT = [ '.png', '.jpeg', '.jpg' ];
@@ -34,6 +36,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
       'Join the fun at #GoogleIO and take your own!'
     ),
   },
+  footer: mustache.render(footerTmpl, {}),
+  styles: '',
 };
 
 
@@ -56,19 +60,25 @@ function bucketPathForFile(filename: string): string {
  * @param {Object} context - html context dict
  * @return {string} HTML template string
  */
-async function renderTemplate(
+function renderTemplate(
   tmpl: string, context: Record<string, string | Record<string, string>>
-): Promise<string> {
+): string {
+  context.styles = mustache.render(stylesTmpl, context);
   return mustache.render(tmpl, context);
 }
 
 /**
  * Render the 404 html page
+ * @param {string} imageFileName - filename of storage image
  * @param {string} baseUrl - http base fully qualified URL
  * @return {string} HTML string
  */
-async function renderNotFoundPage(baseUrl: string): Promise<string> {
-  const context = Object.assign({}, BaseHTMLContext, { appUrl: baseUrl });
+function renderNotFoundPage(imageFileName: string, baseUrl: string): string {
+  const context = Object.assign({}, BaseHTMLContext, {
+    appUrl: baseUrl,
+    shareUrl: `${baseUrl}/share/${imageFileName}`,
+    shareImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${imageFileName}`),
+  });
   return renderTemplate(notFoundTmpl, context);
 }
 
@@ -78,7 +88,7 @@ async function renderNotFoundPage(baseUrl: string): Promise<string> {
  * @param {string} baseUrl - http base fully qualified URL
  * @return {string} HTML string
  */
-async function renderSharePage(imageFileName: string, baseUrl: string): Promise<string> {
+function renderSharePage(imageFileName: string, baseUrl: string): string {
   const context = Object.assign({}, BaseHTMLContext, {
     appUrl: baseUrl,
     shareUrl: `${baseUrl}/share/${imageFileName}`,
@@ -103,7 +113,7 @@ export async function getShareResponse(
     if (!ALLOWED_HOSTS.includes(host) || !VALID_IMAGE_EXT.includes(ext)) {
       return {
         status: 404,
-        send: await renderNotFoundPage(baseUrl),
+        send: renderNotFoundPage(imageFileName, baseUrl),
       };
     }
 
@@ -113,13 +123,13 @@ export async function getShareResponse(
     if (Array.isArray(imageExists) && imageExists[0]) {
       return {
         status: 200,
-        send: await renderSharePage(imageFileName, baseUrl),
+        send: renderSharePage(imageFileName, baseUrl),
       };
     }
 
     return {
       status: 404,
-      send: await renderNotFoundPage(baseUrl),
+      send: renderNotFoundPage(imageFileName, baseUrl),
     };
   } catch (error) {
     functions.logger.error(error);
@@ -135,7 +145,6 @@ export async function getShareResponse(
  * Public sharing function
  */
 export const shareImage = functions.https.onRequest(async (req, res) => {
-  console.log(__dirname + '/templates/404.html');
   const { status, send } = await getShareResponse(req);
   res.set('Access-Control-Allow-Origin', '*');
   res.status(status).send(send);
