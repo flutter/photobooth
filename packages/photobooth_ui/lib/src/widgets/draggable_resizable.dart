@@ -347,6 +347,18 @@ class _DraggableResizableState extends State<DraggableResizable> {
                   child: Stack(
                     children: [
                       decoratedChild,
+                      if (widget.canTransform && widget.onDelete != null)
+                        Positioned(
+                          top: (normalizedHeight / 2) -
+                              (_floatingActionDiameter / 2) +
+                              (_cornerDiameter / 2) +
+                              (_floatingActionPadding / 2),
+                          left: normalizedWidth +
+                              (_floatingActionDiameter / 2) +
+                              (_floatingActionPadding / 2) -
+                              (_cornerDiameter / 2),
+                          child: deleteButton,
+                        ),
                       if (widget.canTransform && !isTouchInputSupported) ...[
                         Positioned(
                           top: _floatingActionPadding / 2,
@@ -368,18 +380,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
                           left: normalizedWidth + _floatingActionPadding / 2,
                           child: bottomRightCorner,
                         ),
-                        if (widget.onDelete != null)
-                          Positioned(
-                            top: (normalizedHeight / 2) -
-                                (_floatingActionDiameter / 2) +
-                                (_cornerDiameter / 2) +
-                                (_floatingActionPadding / 2),
-                            left: normalizedWidth +
-                                (_floatingActionDiameter / 2) +
-                                (_floatingActionPadding / 2) -
-                                (_cornerDiameter / 2),
-                            child: deleteButton,
-                          ),
                         Positioned(
                           top: 0,
                           left: (normalizedWidth / 2) -
