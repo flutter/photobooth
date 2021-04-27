@@ -74,7 +74,16 @@ void main() async {
       expect(find.byType(ShareBackground), findsOneWidget);
     });
 
-    testWidgets('displays an AnimatedPhotoboothPhoto', (tester) async {
+    testWidgets('displays a AnimatedPhotoIndicator', (tester) async {
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(AnimatedPhotoIndicator), findsOneWidget);
+    });
+
+    testWidgets('displays a AnimatedPhotoboothPhoto', (tester) async {
       await tester.pumpApp(
         SharePage(),
         photoboothBloc: photoboothBloc,

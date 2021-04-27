@@ -1,4 +1,4 @@
-export 'animated_photobooth_photo.dart';
+export 'animated_photo_indicator.dart';
 export 'animated_photobooth_photo.dart';
 export 'facebook_button.dart';
 export 'learn_more_about_text.dart';

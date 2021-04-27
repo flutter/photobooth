@@ -4,6 +4,7 @@ import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -78,11 +79,10 @@ class StickersView extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: NextButtonLayer(),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: RemoveSelectedStickerButtonLayer(),
+                    child: NextButton(
+                      onPressed: () =>
+                          Navigator.of(context).push(SharePage.route()),
+                    ),
                   ),
                 ],
               ),
