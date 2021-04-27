@@ -38,7 +38,7 @@ void main() async {
             RepositoryProvider.value(
               value: const SharePhotoRepository(
                 shareUrl: 'https://io-photobooth-dev.web.app/share',
-                isSharingEnabled: true,
+                isSharingEnabled: false,
               ),
             ),
           ],
