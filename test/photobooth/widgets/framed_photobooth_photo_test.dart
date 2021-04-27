@@ -31,8 +31,6 @@ void main() {
   });
 
   group('FramedPhotoboothPhoto', () {
-    final data = '';
-
     testWidgets('displays PhotoboothPhoto', (tester) async {
       await tester.pumpApp(
         FramedPhotoboothPhoto(image: data),
