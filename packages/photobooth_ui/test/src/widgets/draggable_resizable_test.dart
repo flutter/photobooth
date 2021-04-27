@@ -428,7 +428,7 @@ void main() {
 
       testWidgets(
           'delete button does not render when'
-          'there is not delete callback', (tester) async {
+          'there is delete callback', (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: DraggableResizable(
