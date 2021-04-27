@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
@@ -28,7 +27,7 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
+  final data = '';
   final image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;

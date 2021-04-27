@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:html' as html;
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -177,9 +175,8 @@ class Camera {
       ..translate(videoWidth, 0)
       ..scale(-1, 1)
       ..drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
-    final thumbnailData = base64.decode(canvas.toDataUrl().split(',')[1]);
     return CameraImage(
-      data: Uint8List.fromList(thumbnailData),
+      data: canvas.toDataUrl(),
       width: videoWidth,
       height: videoHeight,
     );

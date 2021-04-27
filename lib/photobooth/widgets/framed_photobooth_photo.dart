@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -16,7 +15,7 @@ class FramedPhotoboothPhoto extends StatelessWidget {
     this.isTilted = true,
   }) : super(key: key);
 
-  final Uint8List image;
+  final String image;
   final bool isTilted;
 
   @override

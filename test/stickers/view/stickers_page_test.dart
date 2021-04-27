@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
@@ -40,7 +40,7 @@ class MockPlatformHelper extends Mock implements PlatformHelper {}
 void main() async {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList(transparentImage);
+  final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: width, height: height, data: data);
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -507,8 +507,9 @@ void main() async {
           ?.call();
 
       verify(
-        () => photoboothBloc
-            .add(any(that: isA<PhotoDeleteSelectedStickerTapped>())),
+        () => photoboothBloc.add(
+          any(that: isA<PhotoDeleteSelectedStickerTapped>()),
+        ),
       ).called(1);
     });
   });

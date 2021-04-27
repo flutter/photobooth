@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
+  final data = '';
   final image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
@@ -32,7 +31,7 @@ void main() {
   });
 
   group('FramedPhotoboothPhoto', () {
-    final data = Uint8List.fromList([]);
+    final data = '';
 
     testWidgets('displays PhotoboothPhoto', (tester) async {
       await tester.pumpApp(

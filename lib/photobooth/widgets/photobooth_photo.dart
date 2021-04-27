@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -12,7 +10,7 @@ class PhotoboothPhoto extends StatelessWidget {
     required this.image,
   }) : super(key: key);
 
-  final Uint8List image;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
