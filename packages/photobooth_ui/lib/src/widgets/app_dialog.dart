@@ -27,18 +27,19 @@ class _AppDialog extends StatelessWidget {
     return Dialog(
       clipBehavior: Clip.hardEdge,
       child: Container(
-          width: 900,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                PhotoboothColors.whiteBackground,
-                PhotoboothColors.white,
-              ],
-            ),
+        width: 900,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              PhotoboothColors.whiteBackground,
+              PhotoboothColors.white,
+            ],
           ),
-          child: child),
+        ),
+        child: child,
+      ),
     );
   }
 }
