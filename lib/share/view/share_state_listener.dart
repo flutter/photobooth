@@ -49,7 +49,7 @@ class ShareStateListener extends StatelessWidget {
     }
   }
 
-    void _onShareSuccess(BuildContext context, ShareState state) {
+  void _onShareSuccess(BuildContext context, ShareState state) {
     openLink(state.shareUrl);
   }
 }

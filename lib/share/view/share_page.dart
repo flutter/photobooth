@@ -56,8 +56,7 @@ class SharePage extends StatelessWidget {
                       const SizedBox(height: 30),
                       if (image != null)
                         ResponsiveLayoutBuilder(
-                          mobile: (_, __) =>
-                              MobileButtonsLayout(image: image),
+                          mobile: (_, __) => MobileButtonsLayout(image: image),
                           desktop: (_, __) => DesktopButtonsLayout(
                             image: image,
                           ),
