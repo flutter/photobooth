@@ -81,6 +81,7 @@ class PhotoboothState extends Equatable {
     this.stickers = const <PhotoAsset>[],
     this.selectedAssetId = emptyAssetId,
     this.image,
+    this.imageName,
   });
 
   bool get isDashSelected => characters.containsAsset(Assets.dash);
@@ -96,21 +97,30 @@ class PhotoboothState extends Equatable {
   List<PhotoAsset> get assets => characters + stickers;
 
   final CameraImage? image;
+  final String? imageName;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;
   final String selectedAssetId;
 
   @override
-  List<Object?> get props => [image, characters, stickers, selectedAssetId];
+  List<Object?> get props => [
+        image,
+        imageName,
+        characters,
+        stickers,
+        selectedAssetId,
+      ];
 
   PhotoboothState copyWith({
     CameraImage? image,
+    String? imageName,
     List<PhotoAsset>? characters,
     List<PhotoAsset>? stickers,
     String? selectedAssetId,
   }) {
     return PhotoboothState(
       image: image ?? this.image,
+      imageName: imageName ?? this.imageName,
       characters: characters ?? this.characters,
       stickers: stickers ?? this.stickers,
       selectedAssetId: selectedAssetId ?? this.selectedAssetId,

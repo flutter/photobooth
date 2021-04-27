@@ -8,6 +8,8 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photos_repository/photos_repository.dart';
+import 'package:share_photo_repository/share_photo_repository.dart';
 
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -23,6 +25,10 @@ class FakeShareEvent extends Fake implements ShareEvent {}
 
 class FakeShareState extends Fake implements ShareState {}
 
+class MockPhotosRepository extends Mock implements PhotosRepository {}
+
+class MockSharePhotoRepository extends Mock implements SharePhotoRepository {}
+
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
@@ -36,18 +42,26 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<ShareState>(FakeShareState());
 
     return pumpWidget(
-      MultiBlocProvider(
+      MultiRepositoryProvider(
         providers: [
-          BlocProvider.value(value: photoboothBloc ?? MockPhotoboothBloc()),
-          BlocProvider.value(value: shareBloc ?? MockShareBloc()),
+          RepositoryProvider<PhotosRepository>.value(
+              value: MockPhotosRepository()),
+          RepositoryProvider<SharePhotoRepository>.value(
+              value: MockSharePhotoRepository()),
         ],
-        child: MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc ?? MockPhotoboothBloc()),
+            BlocProvider.value(value: shareBloc ?? MockShareBloc()),
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: widget,
+          child: MaterialApp(
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: widget,
+          ),
         ),
       ),
     );
