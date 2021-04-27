@@ -20,7 +20,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
 
 class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   late Timer timer;
-  bool _isPhotoVisible = false;
+  var _isPhotoVisible = false;
 
   @override
   void initState() {
