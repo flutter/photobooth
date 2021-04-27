@@ -9,7 +9,9 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:share_photo_repository/share_photo_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class SharePage extends StatelessWidget {
@@ -19,7 +21,8 @@ class SharePage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (_) => BlocProvider(
         create: (context) => ShareBloc(
-          delay: const Duration(seconds: 2),
+          sharePhotoRepository: context.read<SharePhotoRepository>(),
+          photosRepository: context.read<PhotosRepository>(),
         ),
         child: SharePage(),
       ),
@@ -30,7 +33,7 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
-      body: ShareErrorListener(
+      body: ShareStateListener(
         child: Stack(
           fit: StackFit.expand,
           children: [

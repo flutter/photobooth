@@ -40,7 +40,10 @@ enum AnimationMode {
   trigger,
 
   /// Animations plays on a loop
-  loop
+  loop,
+
+  /// Animations plays immediately once
+  oneTime
 }
 
 /// {@template animated_sprite}
@@ -58,7 +61,7 @@ class AnimatedSprite extends StatefulWidget {
   /// The collection of sprites which will be animated.
   final Sprites sprites;
 
-  /// The mode of animation (`trigger` or `loop`).
+  /// The mode of animation (`trigger`, `loop` or `oneTime`).
   final AnimationMode mode;
 
   @override
@@ -106,7 +109,8 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
 
       setState(() {
         _status = _AnimatedSpriteStatus.loaded;
-        if (widget.mode == AnimationMode.loop) {
+        if (widget.mode == AnimationMode.loop ||
+            widget.mode == AnimationMode.oneTime) {
           _isPlaying = true;
         }
       });

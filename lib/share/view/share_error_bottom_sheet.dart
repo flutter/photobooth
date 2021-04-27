@@ -26,7 +26,7 @@ class ShareErrorBottomSheet extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 58.0),
                   child: Image.asset(
-                    'assets/images/photo_placeholder.png',
+                    'assets/images/error_photo_mobile.png',
                   ),
                 ),
                 const SizedBox(height: 60),

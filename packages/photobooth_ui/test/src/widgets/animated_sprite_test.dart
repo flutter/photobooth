@@ -58,6 +58,29 @@ void main() async {
       });
     });
 
+    testWidgets('renders SpriteAnimationWidget when asset is loaded (oneTime)',
+        (tester) async {
+      await tester.runAsync(() async {
+        final images = MockImages();
+        when(() => images.load(any())).thenAnswer((_) async => image);
+        Flame.images = images;
+        await tester.pumpWidget(MaterialApp(
+          home: Scaffold(
+            body: AnimatedSprite(
+              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+              mode: AnimationMode.oneTime,
+            ),
+          ),
+        ));
+        await tester.pump();
+        final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
+        final widget = tester.widget<SpriteAnimationWidget>(
+          spriteAnimationFinder,
+        );
+        expect(widget.playing, isTrue);
+      });
+    });
+
     testWidgets('renders SpriteAnimationWidget when asset is loaded (trigger)',
         (tester) async {
       await tester.runAsync(() async {
