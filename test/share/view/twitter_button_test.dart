@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -14,10 +12,10 @@ class MockPhotoAsset extends Mock implements PhotoAsset {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
-  final imageName = 'image-name';
-  final shareText =
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
+  const imageName = 'image-name';
+  const shareText =
       '''Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!''';
   final characters = [MockPhotoAsset()];
   final stickers = [MockPhotoAsset()];

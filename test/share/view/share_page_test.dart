@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +33,8 @@ void main() async {
 
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
   late ShareBloc shareBloc;

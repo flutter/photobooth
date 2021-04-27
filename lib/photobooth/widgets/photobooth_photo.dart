@@ -1,9 +1,23 @@
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
+const _mobileMargin = EdgeInsets.all(15);
+const _mobilePadding = EdgeInsets.only(
+  bottom: 30,
+  left: 19,
+  right: 10,
+  top: 10,
+);
+const _desktopMargin = EdgeInsets.all(20);
+const _desktopPadding = EdgeInsets.only(
+  bottom: 30,
+  left: 39,
+  right: 19,
+  top: 5,
+);
 
 /// A widget that displays [CharactersLayer] and [StickersLayer] on top of
 /// the raw [image] took from the camera.
@@ -16,36 +30,25 @@ class PhotoboothPhoto extends StatelessWidget {
     this.isTilted = true,
   }) : super(key: key);
 
-  final Uint8List image;
+  final String image;
   final bool isTilted;
 
   @override
   Widget build(BuildContext context) {
-    var photo = Center(
+    final photo = Center(
       child: AspectRatio(
         aspectRatio: isMobile ? 3 / 4 : 4 / 3,
         child: Container(
-          margin:
-              isMobile ? const EdgeInsets.all(15) : const EdgeInsets.all(20),
-          padding: isMobile
-              ? const EdgeInsets.only(
-                  bottom: 30,
-                  left: 19,
-                  right: 10,
-                  top: 10,
-                )
-              : const EdgeInsets.only(
-                  bottom: 30,
-                  left: 39,
-                  right: 19,
-                  top: 5,
-                ),
+          margin: isMobile ? _mobileMargin : _desktopMargin,
+          padding: isMobile ? _mobilePadding : _desktopPadding,
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(isMobile
-                  ? 'assets/images/photo_frame_mobile.png'
-                  : 'assets/images/photo_frame.png'),
+              image: AssetImage(
+                isMobile
+                    ? 'assets/images/photo_frame_mobile.png'
+                    : 'assets/images/photo_frame.png',
+              ),
             ),
           ),
           child: Stack(

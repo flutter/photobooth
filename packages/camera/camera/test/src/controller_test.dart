@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -111,11 +109,7 @@ void main() {
       });
 
       test('invokes CameraPlatform.takePicture', () async {
-        final image = CameraImage(
-          data: Uint8List.fromList([]),
-          width: 1,
-          height: 1,
-        );
+        final image = const CameraImage(data: '', width: 1, height: 1);
         when(() => platform.takePicture(any())).thenAnswer((_) async => image);
         expect(await controller.takePicture(), equals(image));
         verify(() => platform.takePicture(textureId)).called(1);

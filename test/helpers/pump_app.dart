@@ -8,6 +8,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:mocktail_image_network/mocktail_image_network.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:share_photo_repository/share_photo_repository.dart';
 
@@ -41,29 +42,31 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<ShareEvent>(FakeShareEvent());
     registerFallbackValue<ShareState>(FakeShareState());
 
-    return pumpWidget(
-      MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<PhotosRepository>.value(
-              value: MockPhotosRepository()),
-          RepositoryProvider<SharePhotoRepository>.value(
-              value: MockSharePhotoRepository()),
-        ],
-        child: MultiBlocProvider(
+    return mockNetworkImages(() async {
+      return pumpWidget(
+        MultiRepositoryProvider(
           providers: [
-            BlocProvider.value(value: photoboothBloc ?? MockPhotoboothBloc()),
-            BlocProvider.value(value: shareBloc ?? MockShareBloc()),
+            RepositoryProvider<PhotosRepository>.value(
+                value: MockPhotosRepository()),
+            RepositoryProvider<SharePhotoRepository>.value(
+                value: MockSharePhotoRepository()),
           ],
-          child: MaterialApp(
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: photoboothBloc ?? MockPhotoboothBloc()),
+              BlocProvider.value(value: shareBloc ?? MockShareBloc()),
             ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: widget,
+            child: MaterialApp(
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: widget,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
