@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -29,29 +30,34 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 
-  group('PhotoboothPhoto', () {
-    testWidgets('displays PreviewImage', (tester) async {
+  group('FramedPhotoboothPhoto', () {
+    testWidgets('displays PhotoboothPhoto', (tester) async {
       await tester.pumpApp(
-        PhotoboothPhoto(image: data),
+        FramedPhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(PreviewImage), findsOneWidget);
+      expect(find.byType(PhotoboothPhoto), findsOneWidget);
     });
 
-    testWidgets('displays CharactersLayer', (tester) async {
+    testWidgets('transform image by default', (tester) async {
       await tester.pumpApp(
-        PhotoboothPhoto(image: data),
+        FramedPhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(CharactersLayer), findsOneWidget);
+      expect(find.byType(Transform), findsOneWidget);
     });
 
-    testWidgets('displays StickersLayer', (tester) async {
+    testWidgets(
+        'does not transform image '
+        'when isTilted is false', (tester) async {
       await tester.pumpApp(
-        PhotoboothPhoto(image: data),
+        FramedPhotoboothPhoto(
+          image: data,
+          isTilted: false,
+        ),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(StickersLayer), findsOneWidget);
+      expect(find.byType(Transform), findsNothing);
     });
   });
 }
