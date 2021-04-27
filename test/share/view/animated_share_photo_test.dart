@@ -27,8 +27,8 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = '';
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
 
