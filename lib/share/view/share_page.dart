@@ -199,7 +199,7 @@ class _GoToGoogleIOButton extends StatelessWidget {
 extension on CameraImage {
   XFile toFile() {
     final uuid = const Uuid().v4();
-    return XFile.fromData(
+    return XFile(
       data,
       mimeType: 'image/png',
       name: 'photobooth_$uuid.png',

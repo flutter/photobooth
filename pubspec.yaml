@@ -38,6 +38,7 @@ dev_dependencies:
     sdk: flutter
   bloc_test: ^8.0.0
   mocktail: ^0.1.2
+  mocktail_image_network: ^0.1.0
   very_good_analysis: ^2.0.3
 
 flutter:

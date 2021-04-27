@@ -13,6 +13,7 @@ class SharePhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = this.image;
     return Container(
       height: isMobile ? 330 : 430,
       width: isMobile ? 250 : 600,
@@ -25,10 +26,7 @@ class SharePhoto extends StatelessWidget {
         ),
       ),
       child: image != null
-          ? PhotoboothPhoto(
-              image: image!.data,
-              isTilted: false,
-            )
+          ? PhotoboothPhoto(image: image.data, isTilted: false)
           : const SizedBox(),
     );
   }

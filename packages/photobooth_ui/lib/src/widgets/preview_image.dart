@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 /// {@template preview_image}
@@ -14,8 +12,8 @@ class PreviewImage extends StatelessWidget {
     this.width,
   }) : super(key: key);
 
-  /// [Uint8List] representing the data of the image
-  final Uint8List data;
+  /// Data URI representing the data of the image
+  final String data;
 
   /// [double?] representing the height of the image
   final double? height;
@@ -25,8 +23,8 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.memory(
-      Uint8List.fromList(data),
+    return Image.network(
+      data,
       filterQuality: FilterQuality.high,
       isAntiAlias: true,
       fit: BoxFit.cover,
