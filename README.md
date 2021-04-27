@@ -1,4 +1,4 @@
-# IO Photobooth
+# I/O Photo Booth
 
 [![Very Good Ventures][logo]][very_good_ventures_link]
 
@@ -22,7 +22,7 @@ To run the desired project either use the launch configuration in VSCode/Android
 $ flutter run -d chrome
 ```
 
-_\*Io Photobooth works on Web._
+_\*I/O Photo Booth works on Web._
 
 ### Known Issues
 

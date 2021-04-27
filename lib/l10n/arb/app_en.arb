@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "landingPageHeading": "Welcome to the I/O Photobooth",
+    "landingPageHeading": "Welcome to the I/O Photo Booth",
     "@landingPageHeading": {
         "description": "Heading shown on the landing page."
     },

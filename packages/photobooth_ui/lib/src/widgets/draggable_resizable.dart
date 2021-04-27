@@ -76,6 +76,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
   late double maxHeight;
   late BoxConstraints constraints;
   late double angle;
+  late double angleDelta;
+  late double baseAngle;
   late double scale;
 
   bool get isTouchInputSupported => widget.platformHelper.isMobile;
@@ -91,6 +93,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
     size = Size(maxHeight * 0.25, maxHeight * 0.25);
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
+    baseAngle = 0;
+    angleDelta = 0;
     scale = 1;
   }
 
@@ -269,11 +273,26 @@ class _DraggableResizableState extends State<DraggableResizable> {
           ),
         );
 
+        final center = Offset(
+          (_floatingActionDiameter + _cornerDiameter) / 2,
+          (normalizedHeight / 2) +
+              (_floatingActionDiameter / 2) +
+              (_cornerDiameter / 2) +
+              (_floatingActionPadding / 2),
+        );
+
         final rotateAnchor = GestureDetector(
           key: const Key('draggableResizable_rotate_gestureDetector'),
-          onScaleUpdate: (d) => setState(
-            () => angle = d.localFocalPoint.direction,
-          ),
+          onScaleStart: (details) {
+            final offsetFromCenter = details.localFocalPoint - center;
+            setState(() => angleDelta = baseAngle - offsetFromCenter.direction);
+          },
+          onScaleUpdate: (details) {
+            final offsetFromCenter = details.localFocalPoint - center;
+            setState(() => angle = offsetFromCenter.direction + angleDelta);
+            onUpdate();
+          },
+          onScaleEnd: (_) => setState(() => baseAngle = angle),
           child: Material(
             color: PhotoboothColors.transparent,
             clipBehavior: Clip.hardEdge,
