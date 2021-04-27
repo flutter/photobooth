@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,8 +14,8 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
 
@@ -33,8 +30,6 @@ void main() {
   });
 
   group('PhotoboothPhoto', () {
-    final data = Uint8List.fromList([]);
-
     testWidgets('displays PreviewImage', (tester) async {
       await tester.pumpApp(
         PhotoboothPhoto(image: data),
@@ -57,27 +52,6 @@ void main() {
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(StickersLayer), findsOneWidget);
-    });
-
-    testWidgets('transform image by default', (tester) async {
-      await tester.pumpApp(
-        PhotoboothPhoto(image: data),
-        photoboothBloc: photoboothBloc,
-      );
-      expect(find.byType(Transform), findsOneWidget);
-    });
-
-    testWidgets(
-        'does not transform image '
-        'when isTilted is false', (tester) async {
-      await tester.pumpApp(
-        PhotoboothPhoto(
-          image: data,
-          isTilted: false,
-        ),
-        photoboothBloc: photoboothBloc,
-      );
-      expect(find.byType(Transform), findsNothing);
     });
   });
 }

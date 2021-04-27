@@ -49,7 +49,7 @@ class SharePage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AnimatedPhotoIndicator(),
-                      SharePhoto(image: image),
+                      AnimatedPhotoboothPhoto(image: image),
                       const SizedBox(height: 40),
                       const _Heading(),
                       const SizedBox(height: 20),
@@ -199,7 +199,7 @@ class _GoToGoogleIOButton extends StatelessWidget {
 extension on CameraImage {
   XFile toFile() {
     final uuid = const Uuid().v4();
-    return XFile.fromData(
+    return XFile(
       data,
       mimeType: 'image/png',
       name: 'photobooth_$uuid.png',

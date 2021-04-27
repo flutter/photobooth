@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
@@ -30,47 +30,34 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 
-  group('ShareDialog', () {
-    testWidgets('displays heading', (tester) async {
+  group('FramedPhotoboothPhoto', () {
+    testWidgets('displays PhotoboothPhoto', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        FramedPhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byKey(Key('shareDialog_heading')), findsOneWidget);
+      expect(find.byType(PhotoboothPhoto), findsOneWidget);
     });
 
-    testWidgets('displays subheading', (tester) async {
+    testWidgets('transform image by default', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        FramedPhotoboothPhoto(image: data),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byKey(Key('shareDialog_subheading')), findsOneWidget);
+      expect(find.byType(Transform), findsOneWidget);
     });
 
-    testWidgets('displays a TwitterButton', (tester) async {
+    testWidgets(
+        'does not transform image '
+        'when isTilted is false', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        FramedPhotoboothPhoto(
+          image: data,
+          isTilted: false,
+        ),
         photoboothBloc: photoboothBloc,
       );
-      expect(find.byType(TwitterButton), findsOneWidget);
-    });
-
-    testWidgets('displays a FacebookButton', (tester) async {
-      await tester.pumpApp(
-        ShareDialog(image: image),
-        photoboothBloc: photoboothBloc,
-      );
-      expect(find.byType(FacebookButton), findsOneWidget);
-    });
-
-    testWidgets('taps on close will dismiss the popup', (tester) async {
-      await tester.pumpApp(
-        ShareDialog(image: image),
-        photoboothBloc: photoboothBloc,
-      );
-      await tester.tap(find.byIcon(Icons.clear));
-      await tester.pumpAndSettle();
-      expect(find.byType(ShareDialog), findsNothing);
+      expect(find.byType(Transform), findsNothing);
     });
   });
 }

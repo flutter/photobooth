@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
@@ -36,7 +38,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     yield const ShareState.loading();
     try {
       final photoFileName = _getPhotoFileName(event.imageName);
-      await _photosRepository.uploadPhoto(photoFileName, event.image.data);
+      final data = _getBytes(event.image.data);
+      await _photosRepository.uploadPhoto(photoFileName, data);
 
       var shareUrl = '';
       if (_sharePhotoRepository.isSharingEnabled) {
@@ -57,7 +60,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     yield const ShareState.loading();
     try {
       final photoFileName = _getPhotoFileName(event.imageName);
-      await _photosRepository.uploadPhoto(photoFileName, event.image.data);
+      final data = _getBytes(event.image.data);
+      await _photosRepository.uploadPhoto(photoFileName, data);
 
       var shareUrl = '';
       if (_sharePhotoRepository.isSharingEnabled) {
@@ -75,4 +79,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   }
 
   String _getPhotoFileName(String photoName) => '$photoName.jpg';
+
+  Uint8List _getBytes(String dataUri) {
+    return Uint8List.fromList(base64.decode(dataUri.split(',')[1]));
+  }
 }

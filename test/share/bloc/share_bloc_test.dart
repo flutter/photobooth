@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -10,6 +11,8 @@ import 'package:photos_repository/photos_repository.dart';
 import 'package:share_photo_repository/share_photo_repository.dart';
 import 'package:test/test.dart';
 
+import '../../helpers/helpers.dart';
+
 class MockSharePhotoRepository extends Mock implements SharePhotoRepository {}
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
@@ -18,7 +21,8 @@ class MockAsset extends Mock implements Asset {}
 
 void main() {
   group('ShareBloc', () {
-    final image = CameraImage(width: 0, height: 0, data: Uint8List(0));
+    final data = 'data:image/png,${base64.encode(transparentImage)}';
+    final image = CameraImage(width: 0, height: 0, data: data);
     final imageName = 'image-name';
     final imageFileName = '$imageName.jpg';
     final shareText = 'share-text';
@@ -28,8 +32,12 @@ void main() {
     final sharePhotoRepository = MockSharePhotoRepository();
     final photosRepository = MockPhotosRepository();
 
+    setUpAll(() {
+      registerFallbackValue(Uint8List(0));
+    });
+
     setUp(() {
-      when(() => photosRepository.uploadPhoto(imageFileName, image.data))
+      when(() => photosRepository.uploadPhoto(imageFileName, any()))
           .thenAnswer((_) => Future.value());
       when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
       when(() => sharePhotoRepository.getShareOnTwitterUrl(
@@ -60,7 +68,10 @@ void main() {
         ),
         verify: (b) {
           verify(
-            () => photosRepository.uploadPhoto(imageFileName, image.data),
+            () => photosRepository.uploadPhoto(
+              imageFileName,
+              Uint8List.fromList(transparentImage),
+            ),
           ).called(1);
         },
       );
@@ -68,7 +79,7 @@ void main() {
       blocTest<ShareBloc, ShareState>(
         'emits [loading, error] when photosRepository.uploadPhoto throws',
         build: () {
-          when(() => photosRepository.uploadPhoto(imageFileName, image.data))
+          when(() => photosRepository.uploadPhoto(imageFileName, any()))
               .thenThrow(Exception('e'));
           return ShareBloc(
             sharePhotoRepository: sharePhotoRepository,
@@ -187,7 +198,10 @@ void main() {
         ),
         verify: (b) {
           verify(
-            () => photosRepository.uploadPhoto(imageFileName, image.data),
+            () => photosRepository.uploadPhoto(
+              imageFileName,
+              Uint8List.fromList(transparentImage),
+            ),
           ).called(1);
         },
       );
@@ -195,7 +209,7 @@ void main() {
       blocTest<ShareBloc, ShareState>(
         'emits [loading, error] when photosRepository.uploadPhoto throws',
         build: () {
-          when(() => photosRepository.uploadPhoto(imageFileName, image.data))
+          when(() => photosRepository.uploadPhoto(imageFileName, any()))
               .thenThrow(Exception('e'));
           return ShareBloc(
             sharePhotoRepository: sharePhotoRepository,
