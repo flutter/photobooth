@@ -9,6 +9,8 @@ export default `
     <title>{{meta.title}}</title>
     <meta name="descripton" content="{{meta.desc}}">
 
+    {{{ga}}}
+
     <meta property="og:title" content="{{meta.title}}">
     <meta property="og:description" content="{{meta.desc}}">
     <meta property="og:url" content="{{{shareUrl}}}">
@@ -26,6 +28,7 @@ export default `
     <style>{{{styles}}}</style>
   </head>
   <body>
+    <div class="backdrop"></div>
     <img src="{{{assetUrls.fixedPhotosLeft}}}" class="fixed-photos left">
     <img src="{{{assetUrls.fixedPhotosRight}}}" class="fixed-photos right">
     <main>

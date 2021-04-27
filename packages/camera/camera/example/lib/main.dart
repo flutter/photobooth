@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -102,19 +100,19 @@ class CameraFrame extends StatelessWidget {
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
-  static Route route({required Uint8List image}) {
+  static Route route({required String image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
   }
 
-  final Uint8List image;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview')),
       body: Center(
-        child: Image.memory(
-          Uint8List.fromList(image),
+        child: Image.network(
+          image,
           errorBuilder: (context, error, stackTrace) {
             return Text('Error, $error, $stackTrace');
           },

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:typed_data';
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
@@ -193,7 +193,7 @@ void main() async {
         (tester) async {
       const preview = SizedBox();
       final image = CameraImage(
-        data: Uint8List.fromList(transparentImage),
+        data: 'data:image/png,${base64.encode(transparentImage)}',
         width: 1280,
         height: 720,
       );

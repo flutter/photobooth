@@ -1,7 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,8 +32,8 @@ void main() async {
   await Assets.load();
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
     registerFallbackValue<StickersEvent>(FakeStickersEvent());
@@ -44,8 +41,10 @@ void main() async {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
   });
+
   late StickersBloc stickersBloc;
   late PhotoboothBloc photoboothBloc;
+
   setUp(() {
     stickersBloc = MockStickersBloc();
     photoboothBloc = MockPhotoboothBloc();
