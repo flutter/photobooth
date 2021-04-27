@@ -4,8 +4,8 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-class ShareErrorListener extends StatelessWidget {
-  ShareErrorListener({
+class ShareStateListener extends StatelessWidget {
+  ShareStateListener({
     Key? key,
     PlatformHelper? platformHelper,
     required this.child,
@@ -20,10 +20,17 @@ class ShareErrorListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ShareBloc, ShareState>(
-      listenWhen: (prev, next) => next.status == ShareStatus.error,
-      listener: _onShareError,
+      listener: _onShareStateChange,
       child: child,
     );
+  }
+
+  void _onShareStateChange(BuildContext context, ShareState state) {
+    if (state.status == ShareStatus.error) {
+      _onShareError(context, state);
+    } else if (state.status == ShareStatus.success) {
+      _onShareSuccess(context, state);
+    }
   }
 
   void _onShareError(BuildContext context, ShareState state) {
@@ -40,5 +47,9 @@ class ShareErrorListener extends StatelessWidget {
         builder: (_) => const ShareErrorDialog(),
       );
     }
+  }
+
+    void _onShareSuccess(BuildContext context, ShareState state) {
+    openLink(state.shareUrl);
   }
 }
