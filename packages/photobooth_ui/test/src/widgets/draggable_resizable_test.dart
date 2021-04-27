@@ -408,14 +408,31 @@ void main() {
         expect(onUpdateCalls, isNotEmpty);
       });
 
-      testWidgets(
-          'delete button does not render when canTransform is false'
-          'and there is not delete callback', (tester) async {
+      testWidgets('delete button does not render when canTransform is false',
+          (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: false,
+              onDelete: () {},
+              child: child,
+            ),
+          ),
+        );
+        expect(
+          find.byKey(Key('draggableResizable_delete_image')),
+          findsNothing,
+        );
+      });
+
+      testWidgets(
+          'delete button does not render when'
+          'there is not delete callback', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: DraggableResizable(
+              platformHelper: platformHelper,
               child: child,
             ),
           ),

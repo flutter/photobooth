@@ -347,7 +347,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
                   child: Stack(
                     children: [
                       decoratedChild,
-                      if (widget.onDelete != null)
+                      if (widget.canTransform && widget.onDelete != null)
                         Positioned(
                           top: (normalizedHeight / 2) -
                               (_floatingActionDiameter / 2) +
