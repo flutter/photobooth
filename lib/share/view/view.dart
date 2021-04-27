@@ -1,3 +1,4 @@
+export 'animated_photo_indicator.dart';
 export 'facebook_button.dart';
 export 'learn_more_about_text.dart';
 export 'share_background.dart';
