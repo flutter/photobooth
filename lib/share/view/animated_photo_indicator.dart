@@ -22,7 +22,8 @@ class AnimatedPhotoIndicator extends StatelessWidget {
           sprites: Sprites(
             asset: 'photo_indicator_spritesheet_mobile.png',
             size: Size(250, 239),
-            frames: 25,
+            frames: 51,
+            stepTime: 0.05,
           ),
         ),
       );
@@ -34,7 +35,8 @@ class AnimatedPhotoIndicator extends StatelessWidget {
           sprites: Sprites(
             asset: 'photo_indicator_spritesheet_desktop.png',
             size: Size(173, 163),
-            frames: 25,
+            frames: 51,
+            stepTime: 0.05,
           ),
         ),
       );
