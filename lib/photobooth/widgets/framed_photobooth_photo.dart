@@ -52,9 +52,7 @@ class FramedPhotoboothPhoto extends StatelessWidget {
               ),
             ),
           ),
-          child: PhotoboothPhoto(
-            image: image,
-          ),
+          child: PhotoboothPhoto(image: image),
         ),
       ),
     );
