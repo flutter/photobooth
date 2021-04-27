@@ -67,6 +67,7 @@ class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = this.image;
     return Container(
       height: 430,
       width: 600,
@@ -98,7 +99,7 @@ class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: 4 / 3,
                         child: PhotoboothPhoto(
-                          image: image!.data,
+                          image: image.data,
                         ),
                       ),
                     ),
@@ -124,6 +125,7 @@ class AnimatedPhotoboothPhotoMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = this.image;
     return Container(
       height: 330,
       width: 250,
@@ -156,7 +158,7 @@ class AnimatedPhotoboothPhotoMobile extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: 3 / 4,
                         child: PhotoboothPhoto(
-                          image: image!.data,
+                          image: image.data,
                         ),
                       ),
                     ),
