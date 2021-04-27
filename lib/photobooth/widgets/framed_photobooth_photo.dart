@@ -45,9 +45,11 @@ class FramedPhotoboothPhoto extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(isMobile
-                  ? 'assets/images/photo_frame_mobile.png'
-                  : 'assets/images/photo_frame.png'),
+              image: AssetImage(
+                isMobile
+                    ? 'assets/images/photo_frame_mobile.png'
+                    : 'assets/images/photo_frame.png',
+              ),
             ),
           ),
           child: PhotoboothPhoto(
