@@ -40,7 +40,7 @@ void main() {
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(() => mock.launch(
             shareUrl,
-            useSafariVC: true,
+            useSafariVC: false,
             useWebView: false,
             enableJavaScript: false,
             enableDomStorage: false,
@@ -62,7 +62,7 @@ void main() {
 
       verify(() => mock.launch(
             shareUrl,
-            useSafariVC: true,
+            useSafariVC: false,
             useWebView: false,
             enableJavaScript: false,
             enableDomStorage: false,
