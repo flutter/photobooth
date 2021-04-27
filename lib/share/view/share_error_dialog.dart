@@ -40,7 +40,7 @@ class ShareErrorDialog extends StatelessWidget {
                       Container(
                         height: 300,
                         child: Image.asset(
-                          'assets/images/photo_placeholder.png',
+                          'assets/images/error_photo_desktop.png',
                         ),
                       ),
                       const SizedBox(height: 60),
