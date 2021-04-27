@@ -1,3 +1,5 @@
+export 'animated_photobooth_photo.dart';
+export 'animated_photobooth_photo.dart';
 export 'facebook_button.dart';
 export 'learn_more_about_text.dart';
 export 'share_background.dart';
@@ -7,7 +9,6 @@ export 'share_dialog.dart';
 export 'share_error_bottom_sheet.dart';
 export 'share_error_dialog.dart';
 export 'share_page.dart';
-export 'share_photo.dart';
 export 'share_progress_overlay.dart';
 export 'share_social_media_clarification.dart';
 export 'share_state_listener.dart';

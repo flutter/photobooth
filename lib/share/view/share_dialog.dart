@@ -47,7 +47,7 @@ class ShareDialog extends StatelessWidget {
                       Container(
                         height: 430,
                         width: 600,
-                        child: PhotoboothPhoto(image: image.data),
+                        child: FramedPhotoboothPhoto(image: image.data),
                       ),
                       const SizedBox(height: 60),
                       Text(

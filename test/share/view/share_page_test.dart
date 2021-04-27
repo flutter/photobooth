@@ -74,13 +74,13 @@ void main() async {
       expect(find.byType(ShareBackground), findsOneWidget);
     });
 
-    testWidgets('displays a SharePhoto', (tester) async {
+    testWidgets('displays an AnimatedPhotoboothPhoto', (tester) async {
       await tester.pumpApp(
         SharePage(),
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(find.byType(SharePhoto), findsOneWidget);
+      expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
     });
 
     testWidgets('displays a RetakeButton', (tester) async {

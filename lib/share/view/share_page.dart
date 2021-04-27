@@ -48,7 +48,7 @@ class SharePage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SharePhoto(image: image),
+                      AnimatedPhotoboothPhoto(image: image),
                       const SizedBox(height: 40),
                       const _Heading(),
                       const SizedBox(height: 20),
