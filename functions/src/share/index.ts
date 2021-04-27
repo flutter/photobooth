@@ -9,6 +9,7 @@ import footerTmpl from './templates/footer';
 import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
 import stylesTmpl from './templates/styles';
+import gaTmpl from './templates/ga';
 
 
 const VALID_IMAGE_EXT = [ '.png', '.jpeg', '.jpg' ];
@@ -32,7 +33,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
       'Built for Google I/O 2021 with Flutter & Firebase.'
     ),
   },
-  footer: mustache.render(footerTmpl, {}),
+  footer: footerTmpl,
+  ga: gaTmpl,
   styles: '',
 };
 
