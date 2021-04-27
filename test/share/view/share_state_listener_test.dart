@@ -85,7 +85,7 @@ void main() {
           'and platform is mobile', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.success(shareUrl: 'share-url')]),
+          Stream.fromIterable([ShareState.initial()]),
         );
         when(() => platformHelper.isMobile).thenReturn(true);
         await tester.pumpApp(
@@ -106,7 +106,7 @@ void main() {
           'and platform is desktop', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.success(shareUrl: 'share-url')]),
+          Stream.fromIterable([ShareState.initial()]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpApp(
