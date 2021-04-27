@@ -16,6 +16,9 @@ void main() {
   const height = 1;
   final data = Uint8List.fromList([]);
   final image = CameraImage(width: width, height: height, data: data);
+  final imageName = 'image-name';
+  final shareText =
+      '''Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!''';
   final characters = [MockPhotoAsset()];
   final stickers = [MockPhotoAsset()];
   final photoboothState = PhotoboothState(
@@ -40,6 +43,7 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(
       PhotoboothState(
         image: image,
+        imageName: imageName,
         characters: characters,
         stickers: stickers,
       ),
@@ -73,9 +77,7 @@ void main() {
       expect(find.byType(FacebookButton), findsNothing);
     });
 
-    testWidgets(
-        'adds ShareOnFacebook event with image and assets '
-        'when tapped', (tester) async {
+    testWidgets('adds ShareOnFacebook event when tapped', (tester) async {
       await tester.pumpApp(
         FacebookButton(),
         photoboothBloc: photoboothBloc,
@@ -89,7 +91,9 @@ void main() {
         () => shareBloc.add(
           ShareOnFacebook(
             image: image,
+            imageName: imageName,
             assets: photoboothState.assets,
+            shareText: shareText,
           ),
         ),
       ).called(1);
@@ -101,6 +105,30 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           image: null,
+          imageName: imageName,
+          characters: characters,
+          stickers: stickers,
+        ),
+      );
+      await tester.pumpApp(
+        FacebookButton(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      await tester.tap(find.byType(FacebookButton));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => shareBloc.add(any()));
+    });
+
+    testWidgets(
+        'does not add ShareOnFacebook event '
+        'when tapped but PhotoboothState imageName is null', (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          image: image,
+          imageName: null,
           characters: characters,
           stickers: stickers,
         ),
