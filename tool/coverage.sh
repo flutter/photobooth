@@ -19,7 +19,7 @@ cd ${PROJECT_PATH}
 
 rm -rf coverage
 if grep -q "flutter:" pubspec.yaml; then
-    fvm flutter test --no-pub --test-randomize-ordering-seed random --coverage
+    flutter test --no-pub --test-randomize-ordering-seed random --coverage
 else
     dart test --coverage=coverage && pub run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
 fi
