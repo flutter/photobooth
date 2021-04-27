@@ -24,13 +24,13 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 
   @override
   void initState() {
+    super.initState();
+
     timer = Timer(const Duration(seconds: 2), () {
       setState(() {
         _isPhotoVisible = true;
       });
     });
-
-    super.initState();
   }
 
   @override
