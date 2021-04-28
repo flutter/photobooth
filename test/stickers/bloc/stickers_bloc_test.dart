@@ -47,5 +47,21 @@ void main() {
         ],
       );
     });
+
+    group('StickersClearTooltipShowed', () {
+      blocTest<StickersBloc, StickersState>(
+        'emits state with displayClearStickersTooltip:false',
+        build: () => StickersBloc(),
+        seed: () => StickersState(
+          displayClearStickersTooltip: true,
+        ),
+        act: (bloc) => bloc.add(StickersClearTooltipShowed()),
+        expect: () => [
+          StickersState(
+            displayClearStickersTooltip: false,
+          ),
+        ],
+      );
+    });
   });
 }
