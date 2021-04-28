@@ -53,18 +53,26 @@ void main() {
     });
 
     test('verifies should not repaint', () async {
-      final timePainter = TimerPainter(animation: animation);
+      final timePainter = TimerPainter(animation: animation, countdown: 3);
       expect(timePainter.shouldRepaint(timePainter), false);
     });
 
-    test('calculate correct colors', () async {
-      final timePainter = TimerPainter(animation: animation);
-      final blue = timePainter.calculateColor(2);
+    test('counter is blue with value 3', () async {
+      final timePainter = TimerPainter(animation: animation, countdown: 3);
+      final blue = timePainter.calculateColor();
       expect(blue, PhotoboothColors.blue);
-      final orange = timePainter.calculateColor(4);
-      expect(orange, PhotoboothColors.orange);
-      final green = timePainter.calculateColor(10);
-      expect(green, PhotoboothColors.green);
+    });
+
+    test('counter is orange with value 2', () async {
+      final timePainter = TimerPainter(animation: animation, countdown: 2);
+      final blue = timePainter.calculateColor();
+      expect(blue, PhotoboothColors.orange);
+    });
+
+    test('counter is green with value 1', () async {
+      final timePainter = TimerPainter(animation: animation, countdown: 1);
+      final blue = timePainter.calculateColor();
+      expect(blue, PhotoboothColors.green);
     });
 
     test('verify paints correctly', () {
@@ -72,7 +80,10 @@ void main() {
 
       final canvas = MockCanvas();
 
-      TimerPainter(animation: animation)..paint(canvas, const Size(200, 200));
+      TimerPainter(
+        animation: animation,
+        countdown: 3,
+      )..paint(canvas, const Size(200, 200));
 
       verify(() => canvas.drawCircle(any(), any(), any())).called(1);
       verify(() => canvas.drawArc(any(), any(), any(), any(), any())).called(1);
