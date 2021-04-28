@@ -116,7 +116,7 @@ Future<List<int>> _composite({
     dstH: (framedImageWidth / aspectRatio).round(),
   );
 
-  completer.complete(img.encodeJpg(image, quality: 90));
+  completer.complete(img.encodeJpg(image));
 
   return completer.future;
 }
