@@ -175,8 +175,9 @@ class Camera {
       ..translate(videoWidth, 0)
       ..scale(-1, 1)
       ..drawImageScaled(videoElement, 0, 0, videoWidth, videoHeight);
+    final blob = await canvas.toBlob();
     return CameraImage(
-      data: canvas.toDataUrl(),
+      data: html.Url.createObjectUrl(blob),
       width: videoWidth,
       height: videoHeight,
     );
