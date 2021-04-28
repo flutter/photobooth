@@ -136,15 +136,9 @@ class TimerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final progressColor = calculateColor();
-    double progress;
-    if (countdown == 3) {
-      progress = (1 - animation.value) * (2 * math.pi) * 3;
-    } else if (countdown == 2) {
-      progress = ((1 - animation.value) * (2 * math.pi) * 3) - (2 * math.pi);
-    } else {
-      progress =
-          ((1 - animation.value) * (2 * math.pi) * 3) - 2 * (2 * math.pi);
-    }
+    final progress = ((1 - animation.value) * (2 * math.pi) * 3) -
+        ((3 - countdown) * (2 * math.pi));
+
     final paint = Paint()
       ..color = progressColor
       ..strokeWidth = 5.0
