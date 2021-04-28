@@ -60,7 +60,6 @@ class StickersView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const RetakeButtonLayer(),
-                        const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
                       ],
                     ),
