@@ -179,5 +179,21 @@
     "goToGoogleIOButtonText": "Go to Google I/O",
     "@goToGoogleIOButtonText": {
         "description": "Text displayed on the button to navigate to Google I/O"
+    },
+    "clearStickersDialogHeading": "Clear all props?",
+    "@clearStickersDialogHeading": {
+        "description": "Heading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogSubheading": "Do you want to remove all of the props from the screen?",
+    "@clearStickersDialogSubheading": {
+        "description": "Subheading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogCancelButtonText": "No, take me back",
+    "@clearStickersDialogCancelButtonText": {
+        "description": "Cancel button text displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogConfirmButtonText": "Yes, clear all props",
+    "@clearStickersDialogConfirmButtonText": {
+        "description": "Confirm button text displayed on the clear stickers dialog"
     }
 }

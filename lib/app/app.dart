@@ -10,6 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'I/O Photo Booth',
       theme: PhotoboothTheme.themeData,
       localizationsDelegates: [
         AppLocalizations.delegate,
