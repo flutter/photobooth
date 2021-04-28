@@ -5,7 +5,7 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
-import 'package:io_photobooth/stickers/widgets/open_stickers/open_stickers_layer.dart';
+import 'package:io_photobooth/stickers/widgets/open_stickers_layer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersPage extends StatelessWidget {
