@@ -15,15 +15,27 @@ class ClearStickersButtonLayer extends StatelessWidget {
     );
 
     if (isHidden) return const SizedBox();
-    return ClearStickersButton(
-      onPressed: () async {
-        final confirmed = await showAppDialog(
-          context: context,
-          child: const ClearStickersDialog(),
-        );
-        if (confirmed)
-          context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
-      },
+    final l10n = context.l10n;
+    return Column(
+      children: [
+        ClearStickersButton(
+          onPressed: () async {
+            final confirmed = await showAppDialog(
+              context: context,
+              child: const ClearStickersDialog(),
+            );
+            if (confirmed)
+              context
+                  .read<PhotoboothBloc>()
+                  .add(const PhotoClearStickersTapped());
+          },
+        ),
+        if (isMobile)
+          AnimatedTooltip(
+            tooltip:
+                AppPersistentTooltip(text: l10n.clearStickersButtonTooltip),
+          )
+      ],
     );
   }
 }
@@ -46,7 +58,7 @@ class ClearStickersButton extends StatelessWidget {
         message: l10n.clearStickersButtonTooltip,
         child: InkWell(
           onTap: onPressed,
-          child: Image.asset('assets/icons/delete_icon.png', height: 50),
+          child: Image.asset('assets/icons/delete_icon.png', height: 54),
         ),
       ),
     );

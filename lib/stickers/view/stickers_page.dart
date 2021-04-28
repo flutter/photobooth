@@ -57,10 +57,9 @@ class StickersView extends StatelessWidget {
                     left: 15,
                     top: 15,
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RetakeButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
+                        const RetakeButtonLayer(),
                         const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
                       ],
