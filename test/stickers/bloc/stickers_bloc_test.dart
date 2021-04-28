@@ -18,20 +18,32 @@ void main() {
       blocTest<StickersBloc, StickersState>(
         'emits isDrawerActive: true when isDrawerActive: false',
         build: () => StickersBloc(),
-        seed: () => StickersState(isDrawerActive: false),
+        seed: () => StickersState(
+          isDrawerActive: false,
+          displayOpenStickersTooltip: true,
+        ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
-          StickersState(isDrawerActive: true),
+          StickersState(
+            isDrawerActive: true,
+            displayOpenStickersTooltip: false,
+          ),
         ],
       );
 
       blocTest<StickersBloc, StickersState>(
         'emits isDrawerActive: false when isDrawerActive: true',
         build: () => StickersBloc(),
-        seed: () => StickersState(isDrawerActive: true),
+        seed: () => StickersState(
+          isDrawerActive: true,
+          displayOpenStickersTooltip: false,
+        ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
-          StickersState(isDrawerActive: false),
+          StickersState(
+            isDrawerActive: false,
+            displayOpenStickersTooltip: false,
+          ),
         ],
       );
     });

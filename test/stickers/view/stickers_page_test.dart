@@ -127,7 +127,7 @@ void main() async {
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
-    testWidgets('renders OpenStickersButton', (tester) async {
+    testWidgets('renders OpenStickersButtonLayer', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [
@@ -137,7 +137,7 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(OpenStickersButton), findsOneWidget);
+      expect(find.byType(OpenStickersButtonLayer), findsOneWidget);
     });
 
     testWidgets('renders FlutterIconLink', (tester) async {
