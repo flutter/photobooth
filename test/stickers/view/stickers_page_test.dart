@@ -139,6 +139,7 @@ void main() async {
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
+
     testWidgets('renders FlutterIconLink', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
@@ -164,6 +165,7 @@ void main() async {
       );
       expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
+
     testWidgets('renders StickersDrawerLayer when mode is active',
         (tester) async {
       when(() => stickersBloc.state).thenReturn(
@@ -355,8 +357,7 @@ void main() async {
       expect(find.byType(ClearStickersButton), findsOneWidget);
     });
 
-    testWidgets(
-        'adds PhotoClearStickersTapped when ClearStickersButton is tapped',
+    testWidgets('shows ClearStickersDialog when ClearStickersButton is tapped',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
@@ -380,6 +381,39 @@ void main() async {
         find.byType(ClearStickersButton),
       );
       clearStickersButton.onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(ClearStickersDialog), findsOneWidget);
+    });
+
+    testWidgets(
+        'PhotoClearStickersTapped when ClearStickersConfirmButton is tapped',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          image: image,
+        ),
+      );
+
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      final clearStickersButton = tester.widget<ClearStickersButton>(
+        find.byType(ClearStickersButton),
+      );
+      clearStickersButton.onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(ClearStickersDialog), findsOneWidget);
+      final confirmButton = find.byType(ClearStickersConfirmButton);
+      await tester.ensureVisible(confirmButton);
+      await tester.tap(confirmButton);
+      await tester.pumpAndSettle();
       verify(() => photoboothBloc.add(PhotoClearStickersTapped())).called(1);
     });
 
