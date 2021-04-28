@@ -7,7 +7,6 @@
 @JS()
 library image_compositor;
 
-import 'dart:async';
 import 'dart:html';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -47,8 +46,6 @@ Future<List<int>> _composite({
   required List rawLayers,
   required double aspectRatio,
 }) async {
-  final completer = Completer<List<int>>();
-
   final bytes = await getBytes(data);
   var image = img.decodePng(bytes)!;
 
@@ -116,9 +113,7 @@ Future<List<int>> _composite({
     dstH: (framedImageWidth / aspectRatio).round(),
   );
 
-  completer.complete(img.encodeJpg(image));
-
-  return completer.future;
+  return img.encodeJpg(image);
 }
 
 Future<Uint8List> getBytes(String path) async {
