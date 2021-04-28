@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// {@template app_persistent_tooltip}
+/// {@template app_tooltip}
 /// Container identical to a tooltip but just displayed persistenly
 /// {@endtemplate}
-class AppPersistentTooltip extends StatelessWidget {
-  /// {@macro app_persistent_tooltip}
-  const AppPersistentTooltip({
+class AppTooltip extends StatelessWidget {
+  /// {@macro app_tooltip}
+  const AppTooltip({
     Key? key,
     required this.text,
   }) : super(key: key);

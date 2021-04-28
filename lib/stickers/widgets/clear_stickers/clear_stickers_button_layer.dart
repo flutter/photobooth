@@ -32,8 +32,7 @@ class ClearStickersButtonLayer extends StatelessWidget {
         ),
         if (isMobile)
           AnimatedTooltip(
-            tooltip:
-                AppPersistentTooltip(text: l10n.clearStickersButtonTooltip),
+            text: l10n.clearStickersButtonTooltip,
           )
       ],
     );

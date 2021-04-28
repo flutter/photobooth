@@ -24,7 +24,7 @@ class OpenStickersButtonLayer extends StatelessWidget {
               builder: (context, state) {
                 return Visibility(
                   visible: state.displayOpenStickersTooltip,
-                  child: AppPersistentTooltip(text: l10n.openStickersTooltip),
+                  child: AppTooltip(text: l10n.openStickersTooltip),
                 );
               },
             )

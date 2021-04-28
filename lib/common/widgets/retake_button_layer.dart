@@ -15,7 +15,7 @@ class RetakeButtonLayer extends StatelessWidget {
         ),
         if (isMobile)
           AnimatedTooltip(
-            tooltip: AppPersistentTooltip(text: l10n.retakeButtonTooltip),
+            text: l10n.retakeButtonTooltip,
           )
       ],
     );
