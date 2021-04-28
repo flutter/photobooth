@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/download/bloc/download_bloc.dart';
@@ -13,9 +10,15 @@ class DownloadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DownloadBloc(
-        photosRepository: context.read<PhotosRepository>(),
-      ),
+      create: (context) {
+        final state = context.read<PhotoboothBloc>().state;
+        return DownloadBloc(
+          photosRepository: context.read<PhotosRepository>(),
+          imageId: state.imageId,
+          image: state.image!,
+          assets: state.assets,
+        );
+      },
       child: const DownloadButtonView(),
     );
   }
@@ -29,27 +32,23 @@ class DownloadButtonView extends StatelessWidget {
     final isLoading = context.select(
       (DownloadBloc bloc) => bloc.state.status == DownloadStatus.loading,
     );
+
+    void _onDownloadPressed() {
+      final state = context.read<PhotoboothBloc>().state;
+      final image = state.image;
+      if (image != null)
+        context.read<DownloadBloc>().add(const DownloadTapped());
+    }
+
     return BlocListener<DownloadBloc, DownloadState>(
       listener: (context, state) async {
         if (state.status == DownloadStatus.success) {
-          final file = XFile.fromData(
-            Uint8List.fromList(state.image!),
-            mimeType: 'image/jpeg',
-            name: 'photobooth.jpg',
-          );
-          await file.saveTo('');
+          await state.file?.saveTo('');
         }
       },
       child: OutlinedButton(
         key: const Key('downloadButton_download_outlinedButton'),
-        onPressed: () {
-          final state = context.read<PhotoboothBloc>().state;
-          final image = state.image;
-          if (image != null)
-            context
-                .read<DownloadBloc>()
-                .add(DownloadTapped(image: image, assets: state.assets));
-        },
+        onPressed: !isLoading ? _onDownloadPressed : null,
         child: isLoading
             ? const CircularProgressIndicator()
             : Text(l10n.sharePageDownloadButtonText),

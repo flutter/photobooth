@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,10 +24,13 @@ class FakeDownloadEvent extends Fake implements DownloadEvent {}
 
 class FakeDownloadState extends Fake implements DownloadState {}
 
+class MockXFile extends Mock implements XFile {}
+
 void main() {
   const width = 1;
   const height = 1;
   const data = '';
+  const imageId = 'image-id';
   const image = CameraImage(width: width, height: height, data: data);
 
   group('DownloadButton', () {
@@ -45,13 +49,16 @@ void main() {
       downloadBloc = MockDownloadBloc();
 
       when(() => photoboothBloc.state).thenReturn(
-        const PhotoboothState(image: image),
+        const PhotoboothState(image: image, imageId: imageId),
       );
       when(() => downloadBloc.state).thenReturn(const DownloadState.initial());
     });
 
     testWidgets('renders DownloadButtonView', (tester) async {
-      await tester.pumpApp(const DownloadButton());
+      await tester.pumpApp(
+        const DownloadButton(),
+        photoboothBloc: photoboothBloc,
+      );
       expect(find.byType(DownloadButtonView), findsOneWidget);
     });
 
@@ -85,8 +92,30 @@ void main() {
       await tester.tap(downloadButtonFinder);
 
       verify(
-        () => downloadBloc.add(const DownloadTapped(image: image, assets: [])),
+        () => downloadBloc.add(const DownloadTapped()),
       ).called(1);
+    });
+
+    testWidgets('downloads file on success', (tester) async {
+      final file = MockXFile();
+      when(() => file.saveTo(any())).thenAnswer((_) async => null);
+      whenListen(
+        downloadBloc,
+        Stream.fromIterable([
+          const DownloadState.loading(),
+          DownloadState.success(file: file),
+        ]),
+      );
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: downloadBloc,
+          child: const DownloadButtonView(),
+        ),
+        photoboothBloc: photoboothBloc,
+      );
+
+      verify(() => file.saveTo('')).called(1);
     });
   });
 }

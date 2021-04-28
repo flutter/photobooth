@@ -23,8 +23,8 @@ void main() {
   group('ShareBloc', () {
     final data = 'data:image/png,${base64.encode(transparentImage)}';
     final image = CameraImage(width: 0, height: 0, data: data);
-    final imageName = 'image-name';
-    final imageFileName = '$imageName.jpg';
+    final imageId = 'image-name';
+    final imageFileName = '$imageId.jpg';
     final shareText = 'share-text';
     final twitterShareUrl = 'twitter-share-url';
     final facebookShareUrl = 'facebook-share-url';
@@ -61,7 +61,7 @@ void main() {
         act: (b) => b.add(
           ShareOnTwitter(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -89,7 +89,7 @@ void main() {
         act: (b) => b.add(
           ShareOnTwitter(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -116,7 +116,7 @@ void main() {
         act: (b) => b.add(
           ShareOnTwitter(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -144,7 +144,7 @@ void main() {
         act: (b) => b.add(
           ShareOnTwitter(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -169,7 +169,7 @@ void main() {
         act: (b) => b.add(
           ShareOnTwitter(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -191,7 +191,7 @@ void main() {
         act: (b) => b.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -219,7 +219,7 @@ void main() {
         act: (b) => b.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -246,7 +246,7 @@ void main() {
         act: (b) => b.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -274,7 +274,7 @@ void main() {
         act: (b) => b.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
@@ -299,7 +299,7 @@ void main() {
         act: (b) => b.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             shareText: shareText,
             assets: [],
           ),

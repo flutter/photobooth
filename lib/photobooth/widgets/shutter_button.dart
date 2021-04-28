@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _shutterCountdownDuration = Duration(milliseconds: 3);
+const _shutterCountdownDuration = Duration(seconds: 3);
 
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
