@@ -2,7 +2,12 @@
 
 class ImageCompositor {
   /// Throws [UnsupportedError].
-  Future<String> composite() {
+  Future<List<int>> composite({
+    required String data,
+    required int width,
+    required int height,
+    required List layers,
+  }) {
     throw UnsupportedError(
       'composite is not supported for the current host platform',
     );
