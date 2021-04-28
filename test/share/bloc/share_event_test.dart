@@ -15,7 +15,7 @@ class MockDragUpdate extends Mock implements DragUpdate {}
 
 void main() {
   group('ShareEvent', () {
-    final imageName = 'image-name';
+    final imageId = 'image-id';
     final shareText = 'share-text';
 
     group('ShareOnTwitter', () {
@@ -24,13 +24,13 @@ void main() {
         final assets = [MockPhotoAsset()];
         final instanceA = ShareOnTwitter(
           image: image,
-          imageName: imageName,
+          imageId: imageId,
           shareText: shareText,
           assets: assets,
         );
         final instanceB = ShareOnTwitter(
           image: image,
-          imageName: imageName,
+          imageId: imageId,
           shareText: shareText,
           assets: assets,
         );
@@ -44,13 +44,13 @@ void main() {
         final assets = [MockPhotoAsset()];
         final instanceA = ShareOnFacebook(
           image: image,
-          imageName: imageName,
+          imageId: imageId,
           shareText: shareText,
           assets: assets,
         );
         final instanceB = ShareOnFacebook(
           image: image,
-          imageName: imageName,
+          imageId: imageId,
           shareText: shareText,
           assets: assets,
         );

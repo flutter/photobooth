@@ -57,6 +57,8 @@ linked_*.ds
 unlinked.ds
 unlinked_spec.ds
 .fvm/
+web/*.js.deps
+web/*.js.map
 
 # Android related
 **/android/**/gradle-wrapper.jar
