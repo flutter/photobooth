@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_compositor/image_compositor.dart';
 
 /// {@template upload_photo_exception}
 /// Exception thrown when upload photo operation failed.
@@ -18,17 +19,36 @@ class UploadPhotoException implements Exception {
   String toString() => message;
 }
 
+/// {@template composite_photo_exception}
+/// Exception thrown when composite photo operation failed.
+///
+/// It contains a [message] field which describes the error.
+/// {@endtemplate}
+class CompositePhotoException implements Exception {
+  /// {@macro composite_photo_exception}
+  const CompositePhotoException(this.message);
+
+  /// Description of the failure
+  final String message;
+
+  @override
+  String toString() => message;
+}
+
 /// {@template photos_repository}
 /// Repository that persists photos in a Firebase Storage.
 /// {@endtemplate
 class PhotosRepository {
   /// {@macro photos_repository}
-  const PhotosRepository({
+  PhotosRepository({
     required FirebaseStorage firebaseStorage,
-  }) : _firebaseStorage = firebaseStorage;
+    ImageCompositor? imageCompositor,
+  })  : _firebaseStorage = firebaseStorage,
+        _imageCompositor = imageCompositor ?? ImageCompositor();
 
-  /// An instance of the Firebase Storage
   final FirebaseStorage _firebaseStorage;
+
+  final ImageCompositor _imageCompositor;
 
   /// Uploads photo to the [FirebaseStorage].
   Future<void> uploadPhoto(String photoName, Uint8List photoData) async {
@@ -45,11 +65,39 @@ class PhotosRepository {
 
     try {
       await reference.putData(photoData);
-    } catch (e, st) {
+    } catch (error, stackTrace) {
       throw UploadPhotoException(
         'Uploading photo $photoName failed. '
         'Couldn\'t upload data to ${reference.fullPath}.'
-        'Error: $e. StackTrace: $st',
+        'Error: $error. StackTrace: $stackTrace',
+      );
+    }
+  }
+
+  /// Given an image ([data]) with the provided [layers]
+  /// it will return a ByteArray ([Uint8List]) which represents a
+  /// composite of the original [data] and [layers] which is cropped for
+  /// the provided [aspectRatio].
+  Future<Uint8List> composite({
+    required int width,
+    required int height,
+    required String data,
+    required List<CompositeLayer> layers,
+    required double aspectRatio,
+  }) async {
+    try {
+      final image = await _imageCompositor.composite(
+        data: data,
+        width: width,
+        height: height,
+        layers: layers.map((l) => l.toJson()).toList(),
+        aspectRatio: aspectRatio,
+      );
+      return Uint8List.fromList(image);
+    } catch (error, stackTrace) {
+      throw CompositePhotoException(
+        'compositing photo failed. '
+        'Error: $error. StackTrace: $stackTrace',
       );
     }
   }
