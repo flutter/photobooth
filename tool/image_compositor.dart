@@ -22,12 +22,13 @@ external DedicatedWorkerGlobalScope get self;
 void main() {
   self.onMessage.listen((e) {
     final data = e.data;
-    if (data is List && data.isNotEmpty) {
+    if (data is List && data.length == 5) {
       _composite(
         data: data[0],
         width: data[1],
         height: data[2],
         rawLayers: data[3],
+        aspectRatio: data[4],
       ).then((result) {
         self.postMessage(result, null);
       }).catchError((error, stackTrace) {
@@ -37,18 +38,19 @@ void main() {
   });
 }
 
+const _frameBorderSize = 8;
+
 Future<List<int>> _composite({
   required int width,
   required int height,
   required String data,
   required List rawLayers,
-  double aspectRatio = 4 / 3,
+  required double aspectRatio,
 }) async {
-  print('_composite()');
   final completer = Completer<List<int>>();
 
   final bytes = await getBytes(data);
-  final image = img.decodePng(bytes)!;
+  var image = img.decodePng(bytes)!;
 
   final inputImageAspectRatio = width / height;
 
@@ -61,9 +63,9 @@ Future<List<int>> _composite({
     croppedHeight = width / aspectRatio;
   }
 
-  final croppedDx = ((croppedWidth - width) / 2).abs().round();
-  final croppedDy = ((croppedHeight - height) / 2).abs().round();
-  var croppedImage = img.copyCrop(
+  final croppedDx = ((croppedWidth - width) ~/ 2).abs();
+  final croppedDy = ((croppedHeight - height) ~/ 2).abs();
+  image = img.copyCrop(
     image,
     croppedDx,
     croppedDy,
@@ -74,40 +76,52 @@ Future<List<int>> _composite({
   final layers =
       rawLayers.map((l) => CompositeLayer.fromJson(l as Map)).toList();
   for (final layer in layers) {
-    print('asset: ${layer.assetPath}');
     final assetBytes = await getBytes(layer.assetPath);
-    final asset = img.decodePng(assetBytes)!;
-    final rotatedAsset = img.copyRotate(asset, layer.angle * (180 / math.pi));
-    croppedImage = img.drawImage(
-      croppedImage,
-      rotatedAsset,
-      dstX: layer.position.x.round(),
-      dstY: layer.position.y.round(),
-      dstW: (layer.size.x * layer.scale).round(),
-      dstH: (layer.size.y * layer.scale).round(),
-    );
+    var asset = img.decodePng(assetBytes)!;
+
+    final widthFactor = image.width / layer.constraints.x;
+    final heightFactor = image.height / layer.constraints.y;
+
+    final assetWidth = (layer.size.x * widthFactor * layer.scale).round();
+    final assetDx = ((layer.position.x * widthFactor * layer.scale)).round();
+    final assetDy = (layer.position.y * heightFactor * layer.scale).round();
+
+    if (layer.angle != 0)
+      asset = img.copyRotate(
+        asset,
+        layer.angle * (180 / math.pi),
+        interpolation: img.Interpolation.average,
+      );
+
+    if (asset.width != assetWidth)
+      asset = img.copyResize(asset, width: assetWidth);
+
+    image = img.drawImage(image, asset, dstX: assetDx, dstY: assetDy);
   }
 
   final frameAssetPath = aspectRatio == 3 / 4
-      ? 'assets/assets/images/photo_frame_mobile.png'
-      : 'assets/assets/images/photo_frame.png';
+      ? 'assets/assets/images/photo_frame_mobile_download.png'
+      : 'assets/assets/images/photo_frame_download.png';
   final frameBytes = await getBytes(frameAssetPath);
   final frame = img.decodePng(frameBytes)!;
 
-  final framedImage = img.drawImage(
+  final frameHorizontalPadding = (2 * _frameBorderSize);
+  final framedImageWidth = frame.width - frameHorizontalPadding;
+  image = img.drawImage(
     frame,
-    croppedImage,
-    dstX: ((frame.width / 2) - (croppedWidth / 2) + 27).round(),
-    dstY: ((frame.height / 2) - (croppedHeight / 2)).round(),
+    image,
+    dstX: _frameBorderSize,
+    dstY: _frameBorderSize,
+    dstW: framedImageWidth,
+    dstH: (framedImageWidth / aspectRatio).round(),
   );
 
-  completer.complete(img.encodePng(framedImage));
+  completer.complete(img.encodeJpg(image, quality: 90));
 
   return completer.future;
 }
 
 Future<Uint8List> getBytes(String path) async {
-  // We can force 'response' to be a byte buffer by passing responseType:
   final ByteBuffer? response =
       (await HttpRequest.request(path, responseType: 'arraybuffer')).response;
 
