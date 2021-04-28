@@ -15,7 +15,9 @@ class ClearStickersButtonLayer extends StatelessWidget {
     );
 
     if (isHidden) return const SizedBox();
-    final l10n = context.l10n;
+    final displayClearStickersTooltip =
+        context.read<StickersBloc>().state.displayClearStickersTooltip;
+
     return Column(
       children: [
         ClearStickersButton(
@@ -30,11 +32,32 @@ class ClearStickersButtonLayer extends StatelessWidget {
                   .add(const PhotoClearStickersTapped());
           },
         ),
-        if (isMobile)
-          AnimatedTooltip(
-            text: l10n.clearStickersButtonTooltip,
-          )
+        if (isMobile && displayClearStickersTooltip) ClearStickerTooltip(),
       ],
+    );
+  }
+}
+
+class ClearStickerTooltip extends StatefulWidget {
+  ClearStickerTooltip({Key? key}) : super(key: key);
+
+  @override
+  _ClearStickerTooltipState createState() => _ClearStickerTooltipState();
+}
+
+class _ClearStickerTooltipState extends State<ClearStickerTooltip> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<StickersBloc>().add(const StickersClearTooltipShowed());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return AnimatedTooltip(
+      text: l10n.clearStickersButtonTooltip,
     );
   }
 }

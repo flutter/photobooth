@@ -13,6 +13,8 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
   Stream<StickersState> mapEventToState(StickersEvent event) async* {
     if (event is StickersDrawerToggled) {
       yield _mapStickersDrawerToggledToState(state);
+    } else if (event is StickersClearTooltipShowed) {
+      yield state.copyWith(displayClearStickersTooltip: false);
     }
   }
 
