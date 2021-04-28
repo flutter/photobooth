@@ -19,15 +19,15 @@ class OpenStickersButtonLayer extends StatelessWidget {
             onPressed: () =>
                 context.read<StickersBloc>().add(const StickersDrawerToggled()),
           ),
-          BlocBuilder<StickersBloc, StickersState>(
-            buildWhen: (previous, current) => isMobile,
-            builder: (context, state) {
-              return Visibility(
-                visible: state.displayOpenStickersTooltip,
-                child: AppPersistentTooltip(text: l10n.openStickersTooltip),
-              );
-            },
-          )
+          if (isMobile)
+            BlocBuilder<StickersBloc, StickersState>(
+              builder: (context, state) {
+                return Visibility(
+                  visible: state.displayOpenStickersTooltip,
+                  child: AppPersistentTooltip(text: l10n.openStickersTooltip),
+                );
+              },
+            )
         ],
       ),
     );
