@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/stickers/widgets/clear_stickers/clear_stickers_dialog.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ClearStickersButtonLayer extends StatelessWidget {

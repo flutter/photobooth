@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/stickers/widgets/clear_stickers/clear_stickers_cancel_button.dart';
-import 'package:io_photobooth/stickers/widgets/clear_stickers/clear_stickers_confirm_button.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 
 class ClearStickersDialog extends StatelessWidget {
   const ClearStickersDialog({
