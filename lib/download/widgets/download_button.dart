@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/download/bloc/download_bloc.dart';
@@ -29,7 +32,12 @@ class DownloadButtonView extends StatelessWidget {
     return BlocListener<DownloadBloc, DownloadState>(
       listener: (context, state) async {
         if (state.status == DownloadStatus.success) {
-          await state.file?.saveTo('');
+          final file = XFile.fromData(
+            Uint8List.fromList(state.image!),
+            mimeType: 'image/jpeg',
+            name: 'photobooth.jpg',
+          );
+          await file.saveTo('');
         }
       },
       child: OutlinedButton(

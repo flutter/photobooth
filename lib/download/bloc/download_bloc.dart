@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:image_compositor/image_compositor.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photos_repository/photos_repository.dart';
@@ -61,12 +60,7 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
           )
         ],
       );
-      final file = XFile.fromData(
-        Uint8List.fromList(image),
-        mimeType: 'image/jpeg',
-        name: 'photobooth.jpg',
-      );
-      yield DownloadState.success(file: file);
+      yield DownloadState.success(image: image);
     } catch (error, stackTrace) {
       yield const DownloadState.error();
       addError(error, stackTrace);
