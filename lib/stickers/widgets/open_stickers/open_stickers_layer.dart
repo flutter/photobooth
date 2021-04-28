@@ -9,14 +9,27 @@ class OpenStickersButtonLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        OpenStickersButton(
-          onPressed: () =>
-              context.read<StickersBloc>().add(const StickersDrawerToggled()),
-        ),
-        OpenStickersTooltip(),
-      ],
+    final l10n = context.l10n;
+
+    return Container(
+      width: 100,
+      child: Column(
+        children: [
+          OpenStickersButton(
+            onPressed: () =>
+                context.read<StickersBloc>().add(const StickersDrawerToggled()),
+          ),
+          BlocBuilder<StickersBloc, StickersState>(
+            buildWhen: (previous, current) => isMobile,
+            builder: (context, state) {
+              return Visibility(
+                visible: state.displayOpenStickersTooltip,
+                child: AppPersistentTooltip(text: l10n.openStickersTooltip),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -44,25 +57,6 @@ class OpenStickersButton extends StatelessWidget {
             height: 50,
           ),
         ),
-      ),
-    );
-  }
-}
-
-@visibleForTesting
-class OpenStickersTooltip extends StatelessWidget {
-  const OpenStickersTooltip({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context).tooltipTheme;
-    return Container(
-      color: PhotoboothColors.tooltipBackgroundColor,
-      padding: theme.padding,
-      child: Text(
-        l10n.openStickersTooltip,
-        style: theme.textStyle,
       ),
     );
   }

@@ -72,7 +72,9 @@ class PhotoboothTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
         color: PhotoboothColors.tooltipBackgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
+      padding: EdgeInsets.symmetric(horizontal: 11, vertical: 11),
       textStyle: TextStyle(color: PhotoboothColors.white),
     );
   }
