@@ -32,7 +32,11 @@ class ClearStickersButtonLayer extends StatelessWidget {
                   .add(const PhotoClearStickersTapped());
           },
         ),
-        if (isMobile && displayClearStickersTooltip) ClearStickerTooltip(),
+        if (isMobile)
+          Opacity(
+            opacity: displayClearStickersTooltip ? 1.0 : 0.0,
+            child: ClearStickerTooltip(),
+          ),
       ],
     );
   }
