@@ -63,7 +63,7 @@ class CountdownTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final secondsRemaining =
+    final seconds =
         (_shutterCountdownDuration.inSeconds * controller.value).ceil();
     return Container(
       height: 70,
@@ -74,7 +74,7 @@ class CountdownTimer extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              '$secondsRemaining',
+              '$seconds',
               style: const TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.w500,
@@ -83,7 +83,11 @@ class CountdownTimer extends StatelessWidget {
             ),
           ),
           Positioned.fill(
-            child: CustomPaint(painter: TimerPainter(animation: controller)),
+            child: CustomPaint(
+                painter: TimerPainter(
+              animation: controller,
+              countdown: seconds,
+            )),
           )
         ],
       ),
@@ -115,21 +119,32 @@ class CameraButton extends StatelessWidget {
 }
 
 class TimerPainter extends CustomPainter {
-  const TimerPainter({required this.animation}) : super(repaint: animation);
+  const TimerPainter({
+    required this.animation,
+    required this.countdown,
+  }) : super(repaint: animation);
 
   final Animation<double> animation;
-
+  final int countdown;
   @visibleForTesting
-  Color calculateColor(double progress) {
-    if (progress <= 2) return PhotoboothColors.blue;
-    if (progress <= 4) return PhotoboothColors.orange;
+  Color calculateColor() {
+    if (countdown == 3) return PhotoboothColors.blue;
+    if (countdown == 2) return PhotoboothColors.orange;
     return PhotoboothColors.green;
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final progress = (1.0 - animation.value) * 2 * math.pi;
-    final progressColor = calculateColor(progress);
+    final progressColor = calculateColor();
+    double progress;
+    if (countdown == 3) {
+      progress = (1 - animation.value) * (2 * math.pi) * 3;
+    } else if (countdown == 2) {
+      progress = ((1 - animation.value) * (2 * math.pi) * 3) - (2 * math.pi);
+    } else {
+      progress =
+          ((1 - animation.value) * (2 * math.pi) * 3) - 2 * (2 * math.pi);
+    }
     final paint = Paint()
       ..color = progressColor
       ..strokeWidth = 5.0
@@ -138,7 +153,7 @@ class TimerPainter extends CustomPainter {
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
     paint.color = PhotoboothColors.white;
-    canvas.drawArc(Offset.zero & size, math.pi * 1.5, -progress, false, paint);
+    canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 
   @override
