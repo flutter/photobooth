@@ -34,4 +34,7 @@ abstract class PhotoboothColors {
 
   /// Dialog barrier color
   static const Color dialogBarrierColor = Color(0xBF202124);
+
+  /// Dialog barrier color
+  static const Color tooltipBackgroundColor = Color(0xBF202124);
 }

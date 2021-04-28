@@ -28,6 +28,7 @@ class ClearStickersButtonLayer extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
     Key? key,
