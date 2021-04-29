@@ -132,6 +132,12 @@
           }, 4000);
         }),
       ]).then(function () {
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+          console.log(
+            "[window.onError] " + error + " " + msg + " " + url + " " + lineNo
+          );
+          return false;
+        };
         var scriptTag = document.createElement("script");
         scriptTag.src = "main.dart.js";
         scriptTag.type = "application/javascript";
