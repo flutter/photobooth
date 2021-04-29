@@ -29,7 +29,6 @@ class _ClearStickersButtonLayerState extends State<ClearStickersButtonLayer> {
       maintainState: true,
       visible: !isHidden,
       child: ClearStickersButton(
-        willDisplayTooltipAutomatically: !isHidden,
         onPressed: () async {
           final confirmed = await showAppDialog(
             context: context,
@@ -50,11 +49,9 @@ class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
     Key? key,
     required this.onPressed,
-    required this.willDisplayTooltipAutomatically,
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final bool willDisplayTooltipAutomatically;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +61,6 @@ class ClearStickersButton extends StatelessWidget {
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
         message: l10n.clearStickersButtonTooltip,
-        willDisplayTooltipAutomatically: willDisplayTooltipAutomatically,
         child: InkWell(
           onTap: onPressed,
           child: Image.asset('assets/icons/delete_icon.png', height: 54),

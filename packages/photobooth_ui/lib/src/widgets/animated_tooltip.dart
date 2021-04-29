@@ -15,7 +15,6 @@ class AnimatedTooltip extends StatefulWidget {
     Key? key,
     required this.message,
     required this.child,
-    this.willDisplayTooltipAutomatically = true,
     this.isPersistent = false,
   }) : super(key: key);
 
@@ -24,9 +23,6 @@ class AnimatedTooltip extends StatefulWidget {
 
   /// [Widget] under the tooltip will be displayed
   final Widget child;
-
-  /// When the tooltip will be displayed automatically or not
-  final bool willDisplayTooltipAutomatically;
 
   /// Whether the tooltip is persistent or not
   final bool isPersistent;
@@ -57,7 +53,7 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   }
 
   void _startTimer() {
-    if (widget.willDisplayTooltipAutomatically && isMobile) {
+    if (isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = globalKey.currentState;
         // We need to delay the tooltip, else will be displayed inconsistenly
