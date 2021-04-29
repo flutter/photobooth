@@ -20,7 +20,6 @@ class ClearStickersButtonLayer extends StatelessWidget {
       child: ClearStickersButton(
         willDisplayTooltipAutomatically: !isHidden,
         onPressed: () async {
-          context.read<StickersBloc>().add(const StickersClearTooltipShowed());
           final confirmed = await showAppDialog(
             context: context,
             child: const ClearStickersDialog(),
