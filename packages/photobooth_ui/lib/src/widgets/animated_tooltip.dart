@@ -1,5 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 const int _maxDuration = 999;
@@ -49,6 +49,7 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
     if (widget.willDisplayTooltipAutomatically) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = widget.globalKey.currentState;
+
         startingTimer = Timer(
             const Duration(milliseconds: 500), tooltip.ensureTooltipVisible);
         if (!widget.isPersistent)
