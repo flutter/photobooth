@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 const int _maxDuration = 999;
 
@@ -46,7 +47,7 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   @override
   void initState() {
     super.initState();
-    if (widget.willDisplayTooltipAutomatically) {
+    if (widget.willDisplayTooltipAutomatically && isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = widget.globalKey.currentState;
 
