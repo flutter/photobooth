@@ -127,7 +127,7 @@ void main() async {
       expect(find.byType(PreviewImage), findsOneWidget);
     });
 
-    testWidgets('renders OpenStickersButtonLayer', (tester) async {
+    testWidgets('renders OpenStickersButton', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [

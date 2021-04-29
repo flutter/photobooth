@@ -19,8 +19,6 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
   }
 
   StickersState _mapStickersDrawerToggledToState(StickersState state) {
-    return state.copyWith(
-      isDrawerActive: !state.isDrawerActive,
-    );
+    return state.copyWith(isDrawerActive: !state.isDrawerActive);
   }
 }

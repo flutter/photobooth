@@ -20,7 +20,6 @@ class AnimatedTooltip extends StatefulWidget {
   }) : super(key: key);
 
   ///Text to display on the tooltip
-
   final String message;
 
   /// [Widget] under the tooltip will be displayed
@@ -47,7 +46,8 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
     if (widget.willDisplayTooltipAutomatically && isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = globalKey.currentState;
-
+        // We need to delay the tooltip, else will be displayed inconsistenly
+        // on the screen while navigating
         startingTimer = Timer(const Duration(milliseconds: 500), () {
           tooltip.ensureTooltipVisible();
           if (!widget.isPersistent)
