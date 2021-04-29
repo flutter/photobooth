@@ -21,7 +21,7 @@ class PhotoboothPlaceholder extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: size.width > PhotoboothBreakpoints.mobile
+                  height: size.width > PhotoboothBreakpoints.small
                       ? size.height * 0.4
                       : 0,
                 ),

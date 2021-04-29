@@ -165,7 +165,7 @@ void main() async {
       expect(find.byKey(key), findsOneWidget);
     });
 
-    testWidgets('renders 4/3 aspect ratio on desktop', (tester) async {
+    testWidgets('renders 4/3 aspect ratio on large', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
 
       await tester.pumpApp(PhotoboothPage());
@@ -175,10 +175,10 @@ void main() async {
       expect(aspectRatio.aspectRatio, equals(4 / 3));
     });
 
-    testWidgets('renders 3/4 aspect ratio on mobile', (tester) async {
+    testWidgets('renders 3/4 aspect ratio on small', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       await tester.pumpApp(PhotoboothPage());
@@ -505,7 +505,7 @@ void main() async {
 
     testWidgets('displays a MobileCharactersIconLayout', (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       const preview = SizedBox();
@@ -635,7 +635,7 @@ void main() async {
         'renders CharactersCaption on mobile when no character is selected',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
@@ -655,7 +655,7 @@ void main() async {
         'does not render CharactersCaption on mobile when '
         'any character is selected', (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       when(() => photoboothBloc.state).thenReturn(PhotoboothState(

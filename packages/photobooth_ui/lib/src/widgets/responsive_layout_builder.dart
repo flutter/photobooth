@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/src/layout/layout.dart';
 
-/// Signature for the individual builders (`mobile`, `desktop`, etc.).
+/// Signature for the individual builders (`small`, `large`, etc.).
 typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext, Widget?);
 
 /// {@template responsive_layout_builder}
@@ -12,18 +12,24 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   /// {@macro responsive_layout_builder}
   const ResponsiveLayoutBuilder({
     Key? key,
-    required this.mobile,
-    required this.desktop,
+    required this.small,
+    required this.large,
+    this.xLarge,
     this.child,
   }) : super(key: key);
 
-  /// [ResponsiveLayoutWidgetBuilder] for mobile layout.
-  final ResponsiveLayoutWidgetBuilder mobile;
+  /// [ResponsiveLayoutWidgetBuilder] for small layout.
+  final ResponsiveLayoutWidgetBuilder small;
 
-  /// [ResponsiveLayoutWidgetBuilder] for desktop layout.
-  final ResponsiveLayoutWidgetBuilder desktop;
+  /// [ResponsiveLayoutWidgetBuilder] for large layout.
+  final ResponsiveLayoutWidgetBuilder large;
 
-  /// Optional child widget which will be passed to the `mobile` and `desktop`
+  /// [ResponsiveLayoutWidgetBuilder] for xLarge layout.
+
+  final ResponsiveLayoutWidgetBuilder? xLarge;
+
+  /// Optional child widget which will be passed
+  /// to the `small`, `large` and `xLarge`
   /// builders as a way to share/optimize shared layout.
   final Widget? child;
 
@@ -31,9 +37,13 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return constraints.maxWidth <= PhotoboothBreakpoints.mobile
-            ? mobile(context, child)
-            : desktop(context, child);
+        if (constraints.maxWidth <= PhotoboothBreakpoints.small)
+          return small(context, child);
+        if (constraints.maxWidth <= PhotoboothBreakpoints.large)
+          return large(context, child);
+        if (xLarge == null) return large(context, child);
+
+        return xLarge!(context, child);
       },
     );
   }

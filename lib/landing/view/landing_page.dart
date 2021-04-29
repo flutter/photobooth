@@ -68,7 +68,7 @@ class LandingView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 48),
                     child: Image.asset(
                       'assets/backgrounds/landing_background.png',
-                      height: size.width > PhotoboothBreakpoints.mobile
+                      height: size.width > PhotoboothBreakpoints.small
                           ? size.height * 0.6
                           : size.height * 0.4,
                     ),

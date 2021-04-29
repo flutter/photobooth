@@ -2,74 +2,115 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+extension PhotoboothWidgetTester on WidgetTester {
+  void setDisplaySize(Size size) {
+    binding.window.physicalSizeTestValue = size;
+    binding.window.devicePixelRatioTestValue = 1.0;
+    addTearDown(() {
+      binding.window.clearPhysicalSizeTestValue();
+      binding.window.clearDevicePixelRatioTestValue();
+    });
+  }
+}
+
 void main() {
   group('ResponsiveLayout', () {
-    testWidgets('displays a desktop layout', (tester) async {
-      const mobileKey = Key('__mobile__');
-      const desktopKey = Key('__desktop__');
+    testWidgets('displays a large layout if xLarge is not provided',
+        (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
+      const xLargeKey = Key('__xLarge__');
 
       await tester.pumpWidget(ResponsiveLayoutBuilder(
-        mobile: (_, __) => const SizedBox(key: mobileKey),
-        desktop: (_, __) => const SizedBox(key: desktopKey),
+        small: (_, __) => const SizedBox(key: smallKey),
+        large: (_, __) => const SizedBox(key: largeKey),
       ));
 
-      expect(find.byKey(desktopKey), findsOneWidget);
-      expect(find.byKey(mobileKey), findsNothing);
+      expect(find.byKey(smallKey), findsNothing);
+      expect(find.byKey(largeKey), findsOneWidget);
+      expect(find.byKey(xLargeKey), findsNothing);
     });
 
-    testWidgets('displays a mobile layout', (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
-        1000,
-      );
-      const mobileKey = Key('__mobile__');
-      const desktopKey = Key('__desktop__');
+    testWidgets('displays a xLarge layout', (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
+      const xLargeKey = Key('__xLarge__');
 
       await tester.pumpWidget(ResponsiveLayoutBuilder(
-        mobile: (_, __) => const SizedBox(key: mobileKey),
-        desktop: (_, __) => const SizedBox(key: desktopKey),
+        small: (_, __) => const SizedBox(key: smallKey),
+        large: (_, __) => const SizedBox(key: largeKey),
+        xLarge: (_, __) => const SizedBox(key: xLargeKey),
       ));
 
-      expect(find.byKey(desktopKey), findsNothing);
-      expect(find.byKey(mobileKey), findsOneWidget);
-
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      expect(find.byKey(smallKey), findsNothing);
+      expect(find.byKey(largeKey), findsNothing);
+      expect(find.byKey(xLargeKey), findsOneWidget);
     });
 
-    testWidgets('displays child when available (desktop)', (tester) async {
-      const mobileKey = Key('__mobile__');
-      const desktopKey = Key('__desktop__');
+    testWidgets('displays a large layout', (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
+      const xLargeKey = Key('__xLarge__');
+
+      await tester.pumpWidget(ResponsiveLayoutBuilder(
+        small: (_, __) => const SizedBox(key: smallKey),
+        large: (_, __) => const SizedBox(key: largeKey),
+        xLarge: (_, __) => const SizedBox(key: xLargeKey),
+      ));
+
+      expect(find.byKey(largeKey), findsOneWidget);
+      expect(find.byKey(smallKey), findsNothing);
+      expect(find.byKey(xLargeKey), findsNothing);
+    });
+
+    testWidgets('displays a small layout', (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
+
+      await tester.pumpWidget(ResponsiveLayoutBuilder(
+        small: (_, __) => const SizedBox(key: smallKey),
+        large: (_, __) => const SizedBox(key: largeKey),
+      ));
+
+      expect(find.byKey(largeKey), findsNothing);
+      expect(find.byKey(smallKey), findsOneWidget);
+    });
+
+    testWidgets('displays child when available (large)', (tester) async {
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
       const childKey = Key('__child__');
 
       await tester.pumpWidget(ResponsiveLayoutBuilder(
-        mobile: (_, child) => SizedBox(key: mobileKey, child: child),
-        desktop: (_, child) => SizedBox(key: desktopKey, child: child),
+        small: (_, child) => SizedBox(key: smallKey, child: child),
+        large: (_, child) => SizedBox(key: largeKey, child: child),
         child: const SizedBox(key: childKey),
       ));
 
-      expect(find.byKey(desktopKey), findsOneWidget);
-      expect(find.byKey(mobileKey), findsNothing);
+      expect(find.byKey(largeKey), findsOneWidget);
+      expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(childKey), findsOneWidget);
     });
 
-    testWidgets('displays child when available (mobile)', (tester) async {
-      const mobileKey = Key('__mobile__');
-      const desktopKey = Key('__desktop__');
+    testWidgets('displays child when available (small)', (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
+
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
       const childKey = Key('__child__');
 
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
-        1000,
-      );
-
       await tester.pumpWidget(ResponsiveLayoutBuilder(
-        mobile: (_, child) => SizedBox(key: mobileKey, child: child),
-        desktop: (_, child) => SizedBox(key: desktopKey, child: child),
+        small: (_, child) => SizedBox(key: smallKey, child: child),
+        large: (_, child) => SizedBox(key: largeKey, child: child),
         child: const SizedBox(key: childKey),
       ));
 
-      expect(find.byKey(desktopKey), findsNothing);
-      expect(find.byKey(mobileKey), findsOneWidget);
+      expect(find.byKey(largeKey), findsNothing);
+      expect(find.byKey(smallKey), findsOneWidget);
       expect(find.byKey(childKey), findsOneWidget);
 
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);

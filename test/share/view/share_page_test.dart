@@ -254,7 +254,7 @@ void main() async {
 
     testWidgets('displays a MobileButtonsLayout', (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       await tester.pumpApp(

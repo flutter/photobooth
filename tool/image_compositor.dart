@@ -117,8 +117,7 @@ Future<List<int>> _composite({
 }
 
 Future<Uint8List> getBytes(String path) async {
-  final ByteBuffer? response =
-      (await HttpRequest.request(path, responseType: 'arraybuffer')).response;
-
-  return response?.asUint8List() ?? Uint8List(0);
+  final Body response = await self.fetch(path);
+  final ByteBuffer? buffer = await response.arrayBuffer();
+  return buffer?.asUint8List() ?? Uint8List(0);
 }

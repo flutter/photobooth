@@ -41,17 +41,71 @@
         width: 100vw;
         height: 100vh;
         font-size: 16px;
+        background: linear-gradient(#cfcfcf, white);
+        font-family: sans-serif;
       }
-      .center {
+      .heading {
+        font-weight: normal;
+        font-size: 56px;
+      }
+      .content {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100%;
+        color: black;
+      }
+      .circular {
+        animation: rotate 2s linear infinite;
+        height: 100px;
+        position: relative;
+        width: 100px;
+      }
+      .path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        stroke: #ffbb00;
+      }
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -35;
+        }
+        100% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -124;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="center">loading...</div>
+    <div class="content">
+      <div class="heading">Welcome to the I/O Photo Booth</div>
+      <svg class="circular">
+        <circle
+          class="path"
+          cx="50"
+          cy="50"
+          r="20"
+          fill="none"
+          stroke-width="5"
+          stroke-miterlimit="10"
+        />
+      </svg>
+      <img src="assets/assets/backgrounds/landing_background.png" />
+    </div>
     <script>
       var assets = [
         "assets/assets/backgrounds/blue_circle.png",
@@ -132,6 +186,12 @@
           }, 4000);
         }),
       ]).then(function () {
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+          console.log(
+            "[window.onError] " + error + " " + msg + " " + url + " " + lineNo
+          );
+          return false;
+        };
         var scriptTag = document.createElement("script");
         scriptTag.src = "main.dart.js";
         scriptTag.type = "application/javascript";

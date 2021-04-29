@@ -37,24 +37,6 @@ void main() {
         when(() => worker.postMessage(any())).thenReturn(null);
       });
 
-      test('calls postMessage to worker with correct args', () {
-        final events = StreamController<MessageEvent>();
-
-        when(() => worker.onMessage).thenAnswer((_) => events.stream);
-
-        compositor.composite(
-          data: data,
-          width: width,
-          height: height,
-          layers: layers,
-          aspectRatio: aspectRatio,
-        );
-
-        verify(
-          () => worker.postMessage([data, width, height, layers, aspectRatio]),
-        ).called(1);
-      });
-
       test('returns message from worker when complete', () async {
         const result = <int>[];
         final event = MockMessageEvent();
@@ -69,7 +51,12 @@ void main() {
           layers: layers,
           aspectRatio: aspectRatio,
         );
+
         expect(actual, equals(result));
+
+        verify(
+          () => worker.postMessage([data, width, height, layers, aspectRatio]),
+        ).called(1);
       });
     });
   });
