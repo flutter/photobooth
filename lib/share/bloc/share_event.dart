@@ -7,33 +7,33 @@ abstract class ShareEvent extends Equatable {
 class ShareOnTwitter extends ShareEvent {
   ShareOnTwitter({
     required this.image,
-    required this.imageName,
+    required this.imageId,
     required this.assets,
     required this.shareText,
   });
 
   final CameraImage image;
-  final String imageName;
+  final String imageId;
   final List<PhotoAsset> assets;
   final String shareText;
 
   @override
-  List<Object> get props => [image, imageName, assets, shareText];
+  List<Object> get props => [image, imageId, assets, shareText];
 }
 
 class ShareOnFacebook extends ShareEvent {
   ShareOnFacebook({
     required this.image,
-    required this.imageName,
+    required this.imageId,
     required this.assets,
     required this.shareText,
   });
 
   final CameraImage image;
-  final String imageName;
+  final String imageId;
   final List<PhotoAsset> assets;
   final String shareText;
 
   @override
-  List<Object> get props => [image, imageName, assets, shareText];
+  List<Object> get props => [image, imageId, assets, shareText];
 }

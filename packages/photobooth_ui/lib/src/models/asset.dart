@@ -11,6 +11,7 @@ class Asset {
     required this.image,
     required this.buffer,
     required this.bytes,
+    required this.path,
   });
 
   /// The [ui.Image] instance.
@@ -22,6 +23,9 @@ class Asset {
   /// The image buffer.
   final ByteBuffer buffer;
 
-  /// THe image bytes (useful for rendering images via `Image.memory`).
+  /// The image bytes (useful for rendering images via `Image.memory`).
   final Uint8List bytes;
+
+  /// The path to the asset
+  final String path;
 }

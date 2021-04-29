@@ -14,7 +14,7 @@ void main() {
   const height = 1;
   const data = '';
   const image = CameraImage(width: width, height: height, data: data);
-  const imageName = 'image-name';
+  const imageId = 'image-id';
   const shareText =
       '''Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!''';
   final characters = [MockPhotoAsset()];
@@ -41,7 +41,7 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(
       PhotoboothState(
         image: image,
-        imageName: imageName,
+        imageId: imageId,
         characters: characters,
         stickers: stickers,
       ),
@@ -89,7 +89,7 @@ void main() {
         () => shareBloc.add(
           ShareOnFacebook(
             image: image,
-            imageName: imageName,
+            imageId: imageId,
             assets: photoboothState.assets,
             shareText: shareText,
           ),
@@ -103,30 +103,7 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           image: null,
-          imageName: imageName,
-          characters: characters,
-          stickers: stickers,
-        ),
-      );
-      await tester.pumpApp(
-        FacebookButton(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-
-      await tester.tap(find.byType(FacebookButton));
-      await tester.pumpAndSettle();
-
-      verifyNever(() => shareBloc.add(any()));
-    });
-
-    testWidgets(
-        'does not add ShareOnFacebook event '
-        'when tapped but PhotoboothState imageName is null', (tester) async {
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(
-          image: image,
-          imageName: null,
+          imageId: imageId,
           characters: characters,
           stickers: stickers,
         ),
