@@ -9,6 +9,7 @@ class AnimatedSparky extends AnimatedSprite {
             asset: 'sparky_spritesheet.png',
             size: Size(1054, 849),
             frames: 25,
+            stepTime: 2 / 25,
           ),
         );
 }
