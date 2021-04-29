@@ -42,12 +42,11 @@ const _frameBorderSize = 8;
 Future<List<int>> _composite({
   required int width,
   required int height,
-  required String data,
+  required ByteBuffer data,
   required List rawLayers,
   required double aspectRatio,
 }) async {
-  final bytes = await getBytes(data);
-  var image = img.decodePng(bytes)!;
+  var image = img.decodeImage(data.asUint8List())!;
 
   final inputImageAspectRatio = width / height;
 
