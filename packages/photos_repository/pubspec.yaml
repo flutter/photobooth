@@ -1,6 +1,7 @@
 name: photos_repository
-description: Repository that persists photos in a Firebase Storage
+description: repository that manages the photo domain
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -8,8 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: "^1.0.4"
-  firebase_storage: "^8.0.4"
+  firebase_core: ^1.0.4
+  firebase_storage: ^8.0.4
+  image_compositor:
+    path: ../image_compositor
 
 dev_dependencies:
   flutter_test:

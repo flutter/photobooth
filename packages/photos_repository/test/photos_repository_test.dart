@@ -5,8 +5,11 @@ import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_compositor/image_compositor.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photos_repository/photos_repository.dart';
+
+class MockImageCompositor extends Mock implements ImageCompositor {}
 
 class MockFirebaseStorage extends Mock
     implements firebase_storage.FirebaseStorage {}
@@ -50,6 +53,7 @@ void main() {
   });
 
   group('PhotosRepository', () {
+    late ImageCompositor imageCompositor;
     late firebase_storage.FirebaseStorage firebaseStorage;
     late PhotosRepository photosRepository;
 
@@ -63,6 +67,7 @@ void main() {
     const referenceFullPath = 'uploads/$photoName';
 
     setUp(() {
+      imageCompositor = MockImageCompositor();
       firebaseStorage = MockFirebaseStorage();
       photosRepository = PhotosRepository(
         firebaseStorage: firebaseStorage,
@@ -115,6 +120,98 @@ void main() {
         expect(
           () async => await photosRepository.uploadPhoto(photoName, photoData),
           throwsA(isA<UploadPhotoException>()),
+        );
+      });
+    });
+
+    group('composite', () {
+      const image = <int>[];
+      const data = '';
+      const width = 4;
+      const height = 4;
+      const layers = [
+        CompositeLayer(
+          angle: 0.0,
+          assetPath: 'path',
+          constraints: Vector2D(1, 2),
+          position: Vector2D(3, 4),
+          scale: 4.2,
+          size: Vector2D(5, 6),
+        ),
+      ];
+      const aspectRatio = 4 / 3;
+
+      setUp(() {
+        when(
+          () => imageCompositor.composite(
+            data: any(named: 'data'),
+            width: any(named: 'width'),
+            height: any(named: 'height'),
+            layers: any(named: 'layers'),
+            aspectRatio: any(named: 'aspectRatio'),
+          ),
+        ).thenAnswer((_) async => image);
+        photosRepository = PhotosRepository(
+          firebaseStorage: firebaseStorage,
+          imageCompositor: imageCompositor,
+        );
+      });
+
+      test('invokes composite api on ImageCompositor with serialized data',
+          () async {
+        final actual = await photosRepository.composite(
+          width: width,
+          height: height,
+          data: data,
+          layers: layers,
+          aspectRatio: aspectRatio,
+        );
+
+        expect(actual, equals(image));
+
+        verify(
+          () => imageCompositor.composite(
+            data: data,
+            width: width,
+            height: height,
+            layers: any(
+              named: 'layers',
+              that: isA<List<Map<String, dynamic>>>().having(
+                (m) => m.first['assetPath'],
+                'assetPath',
+                layers.first.assetPath,
+              ),
+            ),
+            aspectRatio: aspectRatio,
+          ),
+        ).called(1);
+      });
+
+      test('throws CompositePhotoException when compositor fails', () async {
+        when(
+          () => imageCompositor.composite(
+            data: any(named: 'data'),
+            width: any(named: 'width'),
+            height: any(named: 'height'),
+            layers: any(named: 'layers'),
+            aspectRatio: any(named: 'aspectRatio'),
+          ),
+        ).thenThrow(Exception('oops'));
+        expect(
+          () async => await photosRepository.composite(
+            width: width,
+            height: height,
+            data: data,
+            layers: layers,
+            aspectRatio: aspectRatio,
+          ),
+          throwsA(
+            isA<CompositePhotoException>().having(
+              (e) => e.toString(),
+              'toString',
+              contains('compositing photo failed.'),
+            ),
+          ),
         );
       });
     });

@@ -1,8 +1,8 @@
 import 'package:camera/camera.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/download/download.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -12,7 +12,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:share_photo_repository/share_photo_repository.dart';
-import 'package:uuid/uuid.dart';
 
 class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
@@ -122,7 +121,7 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Flexible(child: _DownloadButton(file: image.toFile())),
+        const Flexible(child: DownloadButton()),
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
@@ -143,32 +142,12 @@ class MobileButtonsLayout extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _DownloadButton(file: image.toFile()),
+        const DownloadButton(),
         gap,
         ShareButton(image: image),
         gap,
         const _GoToGoogleIOButton(),
       ],
-    );
-  }
-}
-
-class _DownloadButton extends StatelessWidget {
-  const _DownloadButton({
-    Key? key,
-    required this.file,
-  }) : super(key: key);
-  final XFile file;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return OutlinedButton(
-      key: const Key('sharePage_download_outlinedButton'),
-      onPressed: () => file.saveTo(''),
-      child: Text(
-        l10n.sharePageDownloadButtonText,
-      ),
     );
   }
 }
@@ -192,17 +171,6 @@ class _GoToGoogleIOButton extends StatelessWidget {
           color: PhotoboothColors.black,
         ),
       ),
-    );
-  }
-}
-
-extension on CameraImage {
-  XFile toFile() {
-    final uuid = const Uuid().v4();
-    return XFile(
-      data,
-      mimeType: 'image/png',
-      name: 'photobooth_$uuid.png',
     );
   }
 }

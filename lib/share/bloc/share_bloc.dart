@@ -37,7 +37,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   Stream<ShareState> _mapShareOnTwitterToState(ShareOnTwitter event) async* {
     yield const ShareState.loading();
     try {
-      final photoFileName = _getPhotoFileName(event.imageName);
+      final photoFileName = _getPhotoFileName(event.imageId);
       final data = _getBytes(event.image.data);
       await _photosRepository.uploadPhoto(photoFileName, data);
 
@@ -59,7 +59,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   Stream<ShareState> _mapShareOnFacebookToState(ShareOnFacebook event) async* {
     yield const ShareState.loading();
     try {
-      final photoFileName = _getPhotoFileName(event.imageName);
+      final photoFileName = _getPhotoFileName(event.imageId);
       final data = _getBytes(event.image.data);
       await _photosRepository.uploadPhoto(photoFileName, data);
 
