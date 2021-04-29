@@ -37,8 +37,8 @@ class AnimatedTooltip extends StatefulWidget {
 }
 
 class _AnimatedTooltipState extends State<AnimatedTooltip> {
-  late final Timer? startingTimer;
-  late final Timer? endTimer;
+  Timer? startingTimer;
+  Timer? endTimer;
   final globalKey = GlobalKey();
 
   @override
