@@ -17,6 +17,7 @@ class RetakeButton extends StatelessWidget {
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
+        globalKey: GlobalKey(),
         message: l10n.retakeButtonTooltip,
         child: InkWell(
           onTap: onPressed,

@@ -16,6 +16,7 @@ class OpenStickersButton extends StatelessWidget {
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
+        globalKey: GlobalKey(),
         message: l10n.openStickersTooltip,
         isPersistent: true,
         child: InkWell(

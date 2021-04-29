@@ -48,6 +48,7 @@ class ClearStickersButton extends StatelessWidget {
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
+        globalKey: GlobalKey(),
         message: l10n.clearStickersButtonTooltip,
         willDisplayTooltipAutomatically: displayClearStickersTooltip,
         child: InkWell(
