@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:html';
 
+import 'dart:typed_data';
+
 /// {@template image_compositor}
 /// Web Implementation of [ImageCompositor]
 /// @{endtemplate}
@@ -25,7 +27,19 @@ class ImageCompositor {
       (e) => completer.complete(e.data),
       onError: (e) => completer.completeError(e),
     );
-    _worker.postMessage([data, width, height, layers, aspectRatio]);
+    _getBytes(data).then((bytes) {
+      _worker.postMessage(
+        [bytes.buffer, width, height, layers, aspectRatio],
+        [bytes.buffer],
+      );
+    }, onError: (e) => completer.completeError(e));
     return completer.future;
   }
+}
+
+Future<Uint8List> _getBytes(String path) async {
+  final ByteBuffer? response =
+      (await HttpRequest.request(path, responseType: 'arraybuffer')).response;
+
+  return response?.asUint8List() ?? Uint8List(0);
 }
