@@ -50,9 +50,14 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
   void _startTimer() {
-    if (startingTimer != null) return;
-    if (widget.willDisplayTooltipAutomatically && isMobile) {
+    if (widget.willDisplayTooltipAutomatically && !isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = globalKey.currentState;
         // We need to delay the tooltip, else will be displayed inconsistenly
@@ -68,7 +73,6 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
 
   @override
   Widget build(BuildContext context) {
-    _startTimer();
     return Tooltip(
       key: globalKey,
       message: widget.message,
