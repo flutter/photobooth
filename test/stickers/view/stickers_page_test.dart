@@ -137,7 +137,7 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(OpenStickersButtonLayer), findsOneWidget);
+      expect(find.byType(OpenStickersButton), findsOneWidget);
     });
 
     testWidgets('renders FlutterIconLink', (tester) async {

@@ -2,26 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class RetakeButtonLayer extends StatelessWidget {
-  const RetakeButtonLayer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Column(
-      children: [
-        RetakeButton(
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        if (isMobile)
-          AnimatedTooltip(
-            text: l10n.retakeButtonTooltip,
-          )
-      ],
-    );
-  }
-}
-
 @visibleForTesting
 class RetakeButton extends StatelessWidget {
   const RetakeButton({
@@ -36,7 +16,7 @@ class RetakeButton extends StatelessWidget {
     final l10n = context.l10n;
     return Material(
       color: PhotoboothColors.transparent,
-      child: Tooltip(
+      child: AnimatedTooltip(
         message: l10n.retakeButtonTooltip,
         child: InkWell(
           onTap: onPressed,

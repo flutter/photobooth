@@ -15,53 +15,16 @@ class ClearStickersButtonLayer extends StatelessWidget {
     );
 
     if (isHidden) return const SizedBox();
-    final displayClearStickersTooltip =
-        context.read<StickersBloc>().state.displayClearStickersTooltip;
 
-    return Column(
-      children: [
-        ClearStickersButton(
-          onPressed: () async {
-            final confirmed = await showAppDialog(
-              context: context,
-              child: const ClearStickersDialog(),
-            );
-            if (confirmed)
-              context
-                  .read<PhotoboothBloc>()
-                  .add(const PhotoClearStickersTapped());
-          },
-        ),
-        if (isMobile)
-          Opacity(
-            opacity: displayClearStickersTooltip ? 1.0 : 0.0,
-            child: ClearStickerTooltip(),
-          ),
-      ],
-    );
-  }
-}
-
-class ClearStickerTooltip extends StatefulWidget {
-  ClearStickerTooltip({Key? key}) : super(key: key);
-
-  @override
-  _ClearStickerTooltipState createState() => _ClearStickerTooltipState();
-}
-
-class _ClearStickerTooltipState extends State<ClearStickerTooltip> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<StickersBloc>().add(const StickersClearTooltipShowed());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return AnimatedTooltip(
-      text: l10n.clearStickersButtonTooltip,
+    return ClearStickersButton(
+      onPressed: () async {
+        final confirmed = await showAppDialog(
+          context: context,
+          child: const ClearStickersDialog(),
+        );
+        if (confirmed)
+          context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
+      },
     );
   }
 }
@@ -78,10 +41,15 @@ class ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final displayClearStickersTooltip =
+        context.read<StickersBloc>().state.displayClearStickersTooltip;
+    context.read<StickersBloc>().add(const StickersClearTooltipShowed());
+
     return Material(
       color: PhotoboothColors.transparent,
-      child: Tooltip(
+      child: AnimatedTooltip(
         message: l10n.clearStickersButtonTooltip,
+        willDisplayTooltipAutomatically: displayClearStickersTooltip,
         child: InkWell(
           onTap: onPressed,
           child: Image.asset('assets/icons/delete_icon.png', height: 54),

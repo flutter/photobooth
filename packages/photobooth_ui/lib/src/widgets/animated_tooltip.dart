@@ -1,54 +1,80 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+
+const int _maxDuration = 999;
 
 /// {@template animated_tooltip}
-/// Display a [text] on a AppTooltip for a [duration], default to 3 seconds.
-/// After the given [duration] will be dismissed
+/// Abstraction of a [Tooltip] that can be automatically displayed
 /// {@endtemplate}
 class AnimatedTooltip extends StatefulWidget {
   /// {@macro animated_tooltip}
-  AnimatedTooltip({
+
+  const AnimatedTooltip({
     Key? key,
-    required this.text,
-    this.duration = const Duration(seconds: 3),
+    required this.message,
+    required this.child,
+    this.willDisplayTooltipAutomatically = true,
+    this.isPersistent = false,
   }) : super(key: key);
 
   ///Text to display on the tooltip
-  final String text;
 
-  ///Duration tooltip is visible
-  final Duration duration;
+  final String message;
+
+  /// [Widget] under the tooltip will be displayed
+  final Widget child;
+
+  /// When the tooltip will be displayed automatically or not
+  final bool willDisplayTooltipAutomatically;
+
+  /// Whether the tooltip is persistent or not
+
+  final bool isPersistent;
 
   @override
   _AnimatedTooltipState createState() => _AnimatedTooltipState();
 }
 
 class _AnimatedTooltipState extends State<AnimatedTooltip> {
-  late final Timer timer;
-  var _isTooltipVisible = true;
+  late final Timer startingTimer;
+  late final Timer endTimer;
+  final GlobalKey key = GlobalKey();
+
   @override
   void initState() {
     super.initState();
-
-    timer = Timer(widget.duration, () {
-      setState(() {
-        _isTooltipVisible = false;
+    if (widget.willDisplayTooltipAutomatically) {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        final dynamic tooltip = key.currentState;
+        startingTimer = Timer(const Duration(seconds: 1), () {
+          tooltip.ensureTooltipVisible();
+        });
+        if (!widget.isPersistent)
+          endTimer = Timer(const Duration(seconds: 3), () {
+            tooltip.deactivate();
+          });
       });
-    });
+    }
   }
 
   @override
   void dispose() {
-    timer.cancel();
+    endTimer.cancel();
+    startingTimer.cancel();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: _isTooltipVisible ? 1.0 : 0.0,
-      child: AppTooltip(text: widget.text),
+    return Tooltip(
+      key: key,
+      message: widget.message,
+      showDuration: Duration(
+        seconds: widget.isPersistent ? _maxDuration : 3,
+      ),
+      child: widget.child,
     );
   }
 }

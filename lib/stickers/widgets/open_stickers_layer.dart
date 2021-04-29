@@ -1,40 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OpenStickersButtonLayer extends StatelessWidget {
-  const OpenStickersButtonLayer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return Container(
-      width: 100,
-      child: Column(
-        children: [
-          OpenStickersButton(
-            onPressed: () =>
-                context.read<StickersBloc>().add(const StickersDrawerToggled()),
-          ),
-          if (isMobile)
-            BlocBuilder<StickersBloc, StickersState>(
-              builder: (context, state) {
-                return Visibility(
-                  visible: state.displayOpenStickersTooltip,
-                  child: AppTooltip(text: l10n.openStickersTooltip),
-                );
-              },
-            )
-        ],
-      ),
-    );
-  }
-}
-
-@visibleForTesting
 class OpenStickersButton extends StatelessWidget {
   const OpenStickersButton({
     Key? key,
@@ -48,8 +15,9 @@ class OpenStickersButton extends StatelessWidget {
     final l10n = context.l10n;
     return Material(
       color: PhotoboothColors.transparent,
-      child: Tooltip(
+      child: AnimatedTooltip(
         message: l10n.openStickersTooltip,
+        isPersistent: true,
         child: InkWell(
           onTap: onPressed,
           child: Image.asset(
