@@ -35,6 +35,7 @@ dependencies:
   photobooth_ui:
     path: packages/photobooth_ui
   uuid: ^3.0.3
+  very_good_analysis: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +43,6 @@ dev_dependencies:
   bloc_test: ^8.0.0
   mocktail: ^0.1.2
   mocktail_image_network: ^0.1.0
-  very_good_analysis: ^2.0.3
 
 flutter:
   uses-material-design: true
