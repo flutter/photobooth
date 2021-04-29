@@ -93,7 +93,8 @@ class Camera {
       throw const CameraNotSupportedException();
     }
 
-    videoElement = html.VideoElement();
+    videoElement = html.VideoElement()
+      ..style.setProperty('pointer-events', 'none');
     divElement = html.DivElement()
       ..append(videoElement)
       ..style.setProperty('object-fit', 'cover');
