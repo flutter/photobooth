@@ -3,14 +3,12 @@ part of 'stickers_bloc.dart';
 class StickersState extends Equatable {
   const StickersState({
     this.isDrawerActive = false,
-    this.displayClearStickersTooltip = true,
   });
 
   final bool isDrawerActive;
-  final bool displayClearStickersTooltip;
 
   @override
-  List<Object> get props => [isDrawerActive, displayClearStickersTooltip];
+  List<Object> get props => [isDrawerActive];
 
   StickersState copyWith({
     bool? isDrawerActive,
@@ -18,8 +16,6 @@ class StickersState extends Equatable {
   }) {
     return StickersState(
       isDrawerActive: isDrawerActive ?? this.isDrawerActive,
-      displayClearStickersTooltip:
-          displayClearStickersTooltip ?? this.displayClearStickersTooltip,
     );
   }
 }

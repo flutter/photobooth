@@ -41,8 +41,17 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   final globalKey = GlobalKey();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    if (!widget.isPersistent) {
+      endTimer?.cancel();
+    }
+    startingTimer?.cancel();
+
+    super.dispose();
+  }
+
+  void _startTimer() {
+    if (startingTimer != null) return;
     if (widget.willDisplayTooltipAutomatically && isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = globalKey.currentState;
@@ -58,17 +67,8 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   }
 
   @override
-  void dispose() {
-    if (!widget.isPersistent) {
-      endTimer?.cancel();
-    }
-    startingTimer?.cancel();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _startTimer();
     return Tooltip(
       key: globalKey,
       message: widget.message,

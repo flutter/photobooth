@@ -14,17 +14,23 @@ class ClearStickersButtonLayer extends StatelessWidget {
       (PhotoboothBloc bloc) => bloc.state.stickers.isEmpty,
     );
 
-    if (isHidden) return const SizedBox();
-    return ClearStickersButton(
-      onPressed: () async {
-        context.read<StickersBloc>().add(const StickersClearTooltipShowed());
-        final confirmed = await showAppDialog(
-          context: context,
-          child: const ClearStickersDialog(),
-        );
-        if (confirmed)
-          context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
-      },
+    return Visibility(
+      maintainState: true,
+      visible: !isHidden,
+      child: ClearStickersButton(
+        willDisplayTooltipAutomatically: !isHidden,
+        onPressed: () async {
+          context.read<StickersBloc>().add(const StickersClearTooltipShowed());
+          final confirmed = await showAppDialog(
+            context: context,
+            child: const ClearStickersDialog(),
+          );
+          if (confirmed)
+            context
+                .read<PhotoboothBloc>()
+                .add(const PhotoClearStickersTapped());
+        },
+      ),
     );
   }
 }
@@ -34,20 +40,21 @@ class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
     Key? key,
     required this.onPressed,
+    required this.willDisplayTooltipAutomatically,
   }) : super(key: key);
 
   final VoidCallback onPressed;
+  final bool willDisplayTooltipAutomatically;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final displayClearStickersTooltip =
-        context.read<StickersBloc>().state.displayClearStickersTooltip;
+
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
         message: l10n.clearStickersButtonTooltip,
-        willDisplayTooltipAutomatically: displayClearStickersTooltip,
+        willDisplayTooltipAutomatically: willDisplayTooltipAutomatically,
         child: InkWell(
           onTap: onPressed,
           child: Image.asset('assets/icons/delete_icon.png', height: 54),
