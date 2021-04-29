@@ -20,13 +20,11 @@ void main() {
         build: () => StickersBloc(),
         seed: () => StickersState(
           isDrawerActive: false,
-          displayOpenStickersTooltip: true,
         ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(
             isDrawerActive: true,
-            displayOpenStickersTooltip: false,
           ),
         ],
       );
@@ -36,13 +34,11 @@ void main() {
         build: () => StickersBloc(),
         seed: () => StickersState(
           isDrawerActive: true,
-          displayOpenStickersTooltip: false,
         ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(
             isDrawerActive: false,
-            displayOpenStickersTooltip: false,
           ),
         ],
       );
