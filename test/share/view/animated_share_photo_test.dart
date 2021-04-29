@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -84,7 +85,8 @@ void main() {
 
     group('desktop', () {
       testWidgets('displays AnimatedPhotoboothPhotoDesktop', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
@@ -95,7 +97,8 @@ void main() {
       testWidgets(
           'displays AnimatedPhotoboothPhotoDesktop '
           'with isPhotoVisible false', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
@@ -109,7 +112,8 @@ void main() {
           'displays AnimatedPhotoboothPhotoDesktop '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
@@ -117,6 +121,52 @@ void main() {
         await tester.pump(Duration(seconds: 2));
         final widget = tester.widget<AnimatedPhotoboothPhotoDesktop>(
             find.byType(AnimatedPhotoboothPhotoDesktop));
+        expect(widget.isPhotoVisible, true);
+      });
+    });
+
+    group('wide desktop', () {
+      testWidgets('displays AnimatedPhotoboothPhotoWideDesktop',
+          (tester) async {
+        tester
+            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(find.byType(AnimatedPhotoboothPhotoWideDesktop), findsOneWidget);
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoWideDesktop '
+          'with isPhotoVisible false', (tester) async {
+        tester
+            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        final widget = tester.widget<AnimatedPhotoboothPhotoWideDesktop>(
+            find.byType(AnimatedPhotoboothPhotoWideDesktop));
+        expect(widget.isPhotoVisible, false);
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoWideDesktop '
+          'with isPhotoVisible false '
+          'after 2 seconds', (tester) async {
+        tester
+            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        await tester.pump(Duration(seconds: 2));
+        final widget = tester.widget<AnimatedPhotoboothPhotoWideDesktop>(
+            find.byType(AnimatedPhotoboothPhotoWideDesktop));
         expect(widget.isPhotoVisible, true);
       });
     });

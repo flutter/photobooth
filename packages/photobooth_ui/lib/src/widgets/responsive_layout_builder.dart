@@ -14,6 +14,7 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     Key? key,
     required this.mobile,
     required this.desktop,
+    this.wideDesktop,
     this.child,
   }) : super(key: key);
 
@@ -23,6 +24,10 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   /// [ResponsiveLayoutWidgetBuilder] for desktop layout.
   final ResponsiveLayoutWidgetBuilder desktop;
 
+  /// [ResponsiveLayoutWidgetBuilder] for large layout.
+
+  final ResponsiveLayoutWidgetBuilder? wideDesktop;
+
   /// Optional child widget which will be passed to the `mobile` and `desktop`
   /// builders as a way to share/optimize shared layout.
   final Widget? child;
@@ -31,9 +36,13 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return constraints.maxWidth <= PhotoboothBreakpoints.mobile
-            ? mobile(context, child)
-            : desktop(context, child);
+        if (constraints.maxWidth <= PhotoboothBreakpoints.mobile)
+          return mobile(context, child);
+        if (constraints.maxWidth <= PhotoboothBreakpoints.desktop)
+          return desktop(context, child);
+        if (wideDesktop == null) return desktop(context, child);
+
+        return wideDesktop!(context, child);
       },
     );
   }

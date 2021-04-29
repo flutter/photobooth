@@ -50,6 +50,70 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
+      wideDesktop: (_, __) => AnimatedPhotoboothPhotoWideDesktop(
+        image: widget.image,
+        isPhotoVisible: _isPhotoVisible,
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+class AnimatedPhotoboothPhotoWideDesktop extends StatelessWidget {
+  const AnimatedPhotoboothPhotoWideDesktop({
+    Key? key,
+    required this.image,
+    required this.isPhotoVisible,
+  }) : super(key: key);
+
+  final CameraImage? image;
+  final bool isPhotoVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = this.image;
+    return Container(
+      height: 688,
+      width: 960,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const FittedBox(
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+            child: AnimatedSprite(
+              mode: AnimationMode.oneTime,
+              sprites: Sprites(
+                asset: 'photo_frame_spritesheet_desktop.png',
+                size: Size(521, 420),
+                frames: 28,
+                stepTime: 0.05,
+              ),
+            ),
+          ),
+          image != null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 122.0,
+                      right: 105.0,
+                      bottom: 82.0,
+                    ),
+                    child: AnimatedOpacity(
+                      duration: const Duration(seconds: 2),
+                      opacity: isPhotoVisible ? 1 : 0,
+                      child: AspectRatio(
+                        aspectRatio: 4 / 3,
+                        child: PhotoboothPhoto(
+                          image: image.data,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
     );
   }
 }
