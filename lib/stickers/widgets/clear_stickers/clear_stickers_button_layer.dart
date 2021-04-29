@@ -15,9 +15,9 @@ class ClearStickersButtonLayer extends StatelessWidget {
     );
 
     if (isHidden) return const SizedBox();
-
     return ClearStickersButton(
       onPressed: () async {
+        context.read<StickersBloc>().add(const StickersClearTooltipShowed());
         final confirmed = await showAppDialog(
           context: context,
           child: const ClearStickersDialog(),
@@ -43,8 +43,6 @@ class ClearStickersButton extends StatelessWidget {
     final l10n = context.l10n;
     final displayClearStickersTooltip =
         context.read<StickersBloc>().state.displayClearStickersTooltip;
-    context.read<StickersBloc>().add(const StickersClearTooltipShowed());
-
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
