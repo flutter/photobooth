@@ -51,8 +51,8 @@ class SharePage extends StatelessWidget {
                     const SizedBox(height: 30),
                     if (image != null)
                       ResponsiveLayoutBuilder(
-                        mobile: (_, __) => MobileButtonsLayout(image: image),
-                        desktop: (_, __) => DesktopButtonsLayout(
+                        small: (_, __) => MobileButtonsLayout(image: image),
+                        large: (_, __) => DesktopButtonsLayout(
                           image: image,
                         ),
                       ),
@@ -96,7 +96,7 @@ class _Heading extends StatelessWidget {
       style: theme.textTheme.headline1?.copyWith(
         color: PhotoboothColors.white,
         fontSize:
-            MediaQuery.of(context).size.width > PhotoboothBreakpoints.mobile
+            MediaQuery.of(context).size.width > PhotoboothBreakpoints.small
                 ? 56
                 : 32,
       ),

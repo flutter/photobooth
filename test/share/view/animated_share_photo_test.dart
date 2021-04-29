@@ -44,31 +44,31 @@ void main() {
   });
 
   group('AnimatedPhotoboothPhoto', () {
-    group('mobile', () {
-      testWidgets('displays AnimatedPhotoboothPhotoMobile', (tester) async {
+    group('small', () {
+      testWidgets('displays AnimatedPhotoboothPhotoSmall', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoMobile), findsOneWidget);
+        expect(find.byType(AnimatedPhotoboothPhotoSmall), findsOneWidget);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoMobile '
+          'displays AnimatedPhotoboothPhotoSmall '
           'with isPhotoVisible false', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoMobile>(
-            find.byType(AnimatedPhotoboothPhotoMobile));
+        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
+            find.byType(AnimatedPhotoboothPhotoSmall));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoMobile '
+          'displays AnimatedPhotoboothPhotoSmall '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
@@ -77,96 +77,92 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoMobile>(
-            find.byType(AnimatedPhotoboothPhotoMobile));
+        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
+            find.byType(AnimatedPhotoboothPhotoSmall));
         expect(widget.isPhotoVisible, true);
       });
     });
 
-    group('desktop', () {
-      testWidgets('displays AnimatedPhotoboothPhotoDesktop', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+    group('large', () {
+      testWidgets('displays AnimatedPhotoboothPhotoLarge', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoDesktop), findsOneWidget);
+        expect(find.byType(AnimatedPhotoboothPhotoLarge), findsOneWidget);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoDesktop '
+          'displays AnimatedPhotoboothPhotoLarge '
           'with isPhotoVisible false', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoDesktop>(
-            find.byType(AnimatedPhotoboothPhotoDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
+            find.byType(AnimatedPhotoboothPhotoLarge));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoDesktop '
+          'displays AnimatedPhotoboothPhotoLarge '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.desktop, 800));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoDesktop>(
-            find.byType(AnimatedPhotoboothPhotoDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
+            find.byType(AnimatedPhotoboothPhotoLarge));
         expect(widget.isPhotoVisible, true);
       });
     });
 
-    group('wide desktop', () {
-      testWidgets('displays AnimatedPhotoboothPhotoWideDesktop',
-          (tester) async {
-        tester
-            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+    group('xLarge', () {
+      testWidgets('displays AnimatedPhotoboothPhotoXLarge', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoWideDesktop), findsOneWidget);
+        expect(find.byType(AnimatedPhotoboothPhotoXLarge), findsOneWidget);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoWideDesktop '
+          'displays AnimatedPhotoboothPhotoXLarge '
           'with isPhotoVisible false', (tester) async {
-        tester
-            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoWideDesktop>(
-            find.byType(AnimatedPhotoboothPhotoWideDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
+            find.byType(AnimatedPhotoboothPhotoXLarge));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoWideDesktop '
+          'displays AnimatedPhotoboothPhotoXLarge '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
-        tester
-            .setDisplaySize(const Size(PhotoboothBreakpoints.desktop + 1, 800));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoWideDesktop>(
-            find.byType(AnimatedPhotoboothPhotoWideDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
+            find.byType(AnimatedPhotoboothPhotoXLarge));
         expect(widget.isPhotoVisible, true);
       });
     });

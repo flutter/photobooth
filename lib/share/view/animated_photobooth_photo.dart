@@ -42,15 +42,15 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      mobile: (_, __) => AnimatedPhotoboothPhotoMobile(
+      small: (_, __) => AnimatedPhotoboothPhotoSmall(
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
-      desktop: (_, __) => AnimatedPhotoboothPhotoDesktop(
+      large: (_, __) => AnimatedPhotoboothPhotoLarge(
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
-      wideDesktop: (_, __) => AnimatedPhotoboothPhotoWideDesktop(
+      xLarge: (_, __) => AnimatedPhotoboothPhotoXLarge(
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
@@ -59,8 +59,8 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoWideDesktop extends StatelessWidget {
-  const AnimatedPhotoboothPhotoWideDesktop({
+class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
+  const AnimatedPhotoboothPhotoXLarge({
     Key? key,
     required this.image,
     required this.isPhotoVisible,
@@ -119,8 +119,8 @@ class AnimatedPhotoboothPhotoWideDesktop extends StatelessWidget {
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
-  const AnimatedPhotoboothPhotoDesktop({
+class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
+  const AnimatedPhotoboothPhotoLarge({
     Key? key,
     required this.image,
     required this.isPhotoVisible,
@@ -177,8 +177,8 @@ class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoMobile extends StatelessWidget {
-  const AnimatedPhotoboothPhotoMobile({
+class AnimatedPhotoboothPhotoSmall extends StatelessWidget {
+  const AnimatedPhotoboothPhotoSmall({
     Key? key,
     required this.image,
     required this.isPhotoVisible,

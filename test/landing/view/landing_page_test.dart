@@ -34,7 +34,7 @@ void main() {
 
     testWidgets('renders image on small screens', (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);

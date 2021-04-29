@@ -110,10 +110,10 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return ResponsiveLayoutBuilder(
-            mobile: (_, child) => _PreviewLayout(
+            small: (_, child) => _PreviewLayout(
               child: AspectRatio(aspectRatio: 3 / 4, child: child),
             ),
-            desktop: (_, child) => _PreviewLayout(
+            large: (_, child) => _PreviewLayout(
               child: AspectRatio(aspectRatio: 4 / 3, child: child),
             ),
             child: PhotoboothPreview(

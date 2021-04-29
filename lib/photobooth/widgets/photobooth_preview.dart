@@ -94,8 +94,8 @@ class PhotoboothPreview extends StatelessWidget {
             child: _AnimatedCharacter(name: character.asset.name),
           ),
         ResponsiveLayoutBuilder(
-          mobile: (_, __) => MobileCharactersIconLayout(children: children),
-          desktop: (_, __) => DesktopCharactersIconLayout(children: children),
+          small: (_, __) => MobileCharactersIconLayout(children: children),
+          large: (_, __) => DesktopCharactersIconLayout(children: children),
         ),
         Align(
           alignment: Alignment.bottomCenter,
