@@ -10,7 +10,6 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: AnimatedTooltip(
-            globalKey: GlobalKey(),
             message: textTooltip,
             child: Text('test'),
           ),
@@ -28,7 +27,6 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: AnimatedTooltip(
-            globalKey: GlobalKey(),
             message: textTooltip,
             child: Text('test'),
           ),
@@ -49,7 +47,6 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: AnimatedTooltip(
-            globalKey: GlobalKey(),
             isPersistent: true,
             message: textTooltip,
             child: Text('test'),

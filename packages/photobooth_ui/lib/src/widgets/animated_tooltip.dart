@@ -13,7 +13,6 @@ class AnimatedTooltip extends StatefulWidget {
 
   const AnimatedTooltip({
     Key? key,
-    required this.globalKey,
     required this.message,
     required this.child,
     this.willDisplayTooltipAutomatically = true,
@@ -33,9 +32,6 @@ class AnimatedTooltip extends StatefulWidget {
   /// Whether the tooltip is persistent or not
   final bool isPersistent;
 
-  /// GlobalKey
-  final GlobalKey globalKey;
-
   @override
   _AnimatedTooltipState createState() => _AnimatedTooltipState();
 }
@@ -43,13 +39,14 @@ class AnimatedTooltip extends StatefulWidget {
 class _AnimatedTooltipState extends State<AnimatedTooltip> {
   late final Timer? startingTimer;
   late final Timer? endTimer;
+  final globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     if (widget.willDisplayTooltipAutomatically && isMobile) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-        final dynamic tooltip = widget.globalKey.currentState;
+        final dynamic tooltip = globalKey.currentState;
 
         startingTimer = Timer(const Duration(milliseconds: 500), () {
           tooltip.ensureTooltipVisible();
@@ -73,7 +70,7 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      key: widget.globalKey,
+      key: globalKey,
       message: widget.message,
       showDuration: Duration(
         seconds: widget.isPersistent ? _maxDuration : 3,

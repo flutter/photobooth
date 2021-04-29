@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class OpenStickersButton extends StatelessWidget {
-  const OpenStickersButton({
+class RetakeButton extends StatelessWidget {
+  const RetakeButton({
     Key? key,
     required this.onPressed,
   }) : super(key: key);
@@ -16,14 +16,12 @@ class OpenStickersButton extends StatelessWidget {
     return Material(
       color: PhotoboothColors.transparent,
       child: AnimatedTooltip(
-        globalKey: GlobalKey(),
-        message: l10n.openStickersTooltip,
-        isPersistent: true,
+        message: l10n.retakeButtonTooltip,
         child: InkWell(
           onTap: onPressed,
           child: Image.asset(
-            'assets/icons/stickers_button_icon.png',
-            height: 50,
+            'assets/icons/retake_button_icon.png',
+            height: 54,
           ),
         ),
       ),
