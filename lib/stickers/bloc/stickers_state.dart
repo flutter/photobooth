@@ -9,8 +9,6 @@ class StickersState extends Equatable {
   List<Object> get props => [isDrawerActive];
 
   StickersState copyWith({bool? isDrawerActive}) {
-    return StickersState(
-      isDrawerActive: isDrawerActive ?? this.isDrawerActive,
-    );
+    return StickersState(isDrawerActive: isDrawerActive ?? this.isDrawerActive);
   }
 }
