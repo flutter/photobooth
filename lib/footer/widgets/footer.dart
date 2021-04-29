@@ -34,8 +34,8 @@ class Footer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
-          mobile: (_, __) => _ColumnFooter(key: const Key('footer_column')),
-          desktop: (_, __) => _RowFooter(key: const Key('footer_row')),
+          small: (_, __) => _ColumnFooter(key: const Key('footer_column')),
+          large: (_, __) => _RowFooter(key: const Key('footer_row')),
         ),
       ),
     );

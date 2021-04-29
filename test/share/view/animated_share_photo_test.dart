@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -43,31 +44,31 @@ void main() {
   });
 
   group('AnimatedPhotoboothPhoto', () {
-    group('mobile', () {
-      testWidgets('displays AnimatedPhotoboothPhotoMobile', (tester) async {
+    group('small', () {
+      testWidgets('displays AnimatedPhotoboothPhotoSmall', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoMobile), findsOneWidget);
+        expect(find.byType(AnimatedPhotoboothPhotoSmall), findsOneWidget);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoMobile '
+          'displays AnimatedPhotoboothPhotoSmall '
           'with isPhotoVisible false', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoMobile>(
-            find.byType(AnimatedPhotoboothPhotoMobile));
+        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
+            find.byType(AnimatedPhotoboothPhotoSmall));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoMobile '
+          'displays AnimatedPhotoboothPhotoSmall '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
         tester.setDisplaySize(const Size(320, 800));
@@ -76,47 +77,92 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoMobile>(
-            find.byType(AnimatedPhotoboothPhotoMobile));
+        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
+            find.byType(AnimatedPhotoboothPhotoSmall));
         expect(widget.isPhotoVisible, true);
       });
     });
 
-    group('desktop', () {
-      testWidgets('displays AnimatedPhotoboothPhotoDesktop', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+    group('large', () {
+      testWidgets('displays AnimatedPhotoboothPhotoLarge', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoDesktop), findsOneWidget);
+        expect(find.byType(AnimatedPhotoboothPhotoLarge), findsOneWidget);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoDesktop '
+          'displays AnimatedPhotoboothPhotoLarge '
           'with isPhotoVisible false', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoDesktop>(
-            find.byType(AnimatedPhotoboothPhotoDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
+            find.byType(AnimatedPhotoboothPhotoLarge));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoDesktop '
+          'displays AnimatedPhotoboothPhotoLarge '
           'with isPhotoVisible false '
           'after 2 seconds', (tester) async {
-        tester.setDisplaySize(const Size(1920, 1080));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoDesktop>(
-            find.byType(AnimatedPhotoboothPhotoDesktop));
+        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
+            find.byType(AnimatedPhotoboothPhotoLarge));
+        expect(widget.isPhotoVisible, true);
+      });
+    });
+
+    group('xLarge', () {
+      testWidgets('displays AnimatedPhotoboothPhotoXLarge', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(find.byType(AnimatedPhotoboothPhotoXLarge), findsOneWidget);
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoXLarge '
+          'with isPhotoVisible false', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
+            find.byType(AnimatedPhotoboothPhotoXLarge));
+        expect(widget.isPhotoVisible, false);
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoXLarge '
+          'with isPhotoVisible false '
+          'after 2 seconds', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        await tester.pump(Duration(seconds: 2));
+        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
+            find.byType(AnimatedPhotoboothPhotoXLarge));
         expect(widget.isPhotoVisible, true);
       });
     });

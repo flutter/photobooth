@@ -42,11 +42,15 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      mobile: (_, __) => AnimatedPhotoboothPhotoMobile(
+      small: (_, __) => AnimatedPhotoboothPhotoSmall(
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
-      desktop: (_, __) => AnimatedPhotoboothPhotoDesktop(
+      large: (_, __) => AnimatedPhotoboothPhotoLarge(
+        image: widget.image,
+        isPhotoVisible: _isPhotoVisible,
+      ),
+      xLarge: (_, __) => AnimatedPhotoboothPhotoXLarge(
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
@@ -55,8 +59,68 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
-  const AnimatedPhotoboothPhotoDesktop({
+class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
+  const AnimatedPhotoboothPhotoXLarge({
+    Key? key,
+    required this.image,
+    required this.isPhotoVisible,
+  }) : super(key: key);
+
+  final CameraImage? image;
+  final bool isPhotoVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = this.image;
+    return Container(
+      height: 688,
+      width: 960,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const FittedBox(
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+            child: AnimatedSprite(
+              mode: AnimationMode.oneTime,
+              sprites: Sprites(
+                asset: 'photo_frame_spritesheet_desktop.png',
+                size: Size(521, 420),
+                frames: 28,
+                stepTime: 0.05,
+              ),
+            ),
+          ),
+          image != null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 122.0,
+                      right: 105.0,
+                      bottom: 82.0,
+                    ),
+                    child: AnimatedOpacity(
+                      duration: const Duration(seconds: 2),
+                      opacity: isPhotoVisible ? 1 : 0,
+                      child: AspectRatio(
+                        aspectRatio: 4 / 3,
+                        child: PhotoboothPhoto(
+                          image: image.data,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
+  const AnimatedPhotoboothPhotoLarge({
     Key? key,
     required this.image,
     required this.isPhotoVisible,
@@ -113,8 +177,8 @@ class AnimatedPhotoboothPhotoDesktop extends StatelessWidget {
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoMobile extends StatelessWidget {
-  const AnimatedPhotoboothPhotoMobile({
+class AnimatedPhotoboothPhotoSmall extends StatelessWidget {
+  const AnimatedPhotoboothPhotoSmall({
     Key? key,
     required this.image,
     required this.isPhotoVisible,
