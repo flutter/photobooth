@@ -47,9 +47,11 @@ extension PumpApp on WidgetTester {
         MultiRepositoryProvider(
           providers: [
             RepositoryProvider<PhotosRepository>.value(
-                value: MockPhotosRepository()),
+              value: MockPhotosRepository(),
+            ),
             RepositoryProvider<SharePhotoRepository>.value(
-                value: MockSharePhotoRepository()),
+              value: MockSharePhotoRepository(),
+            ),
           ],
           child: MultiBlocProvider(
             providers: [

@@ -119,5 +119,6 @@ Future<Asset> _loadAsset(String name, String path) async {
     image: image,
     buffer: imageBytes!.buffer,
     bytes: bytes,
+    path: path,
   );
 }

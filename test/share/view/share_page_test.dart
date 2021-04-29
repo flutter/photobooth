@@ -123,7 +123,7 @@ void main() async {
         shareBloc: shareBloc,
       );
       expect(
-        find.byKey(const Key('sharePage_download_outlinedButton')),
+        find.byKey(const Key('downloadButton_download_outlinedButton')),
         findsOneWidget,
       );
     });
@@ -150,24 +150,6 @@ void main() async {
         find.byType(WhiteFooter),
         findsOneWidget,
       );
-    });
-  });
-
-  group('DownloadButton', () {
-    testWidgets('tapping on download photo button completes', (tester) async {
-      final downloadButtonFinder = find.byKey(
-        const Key('sharePage_download_outlinedButton'),
-      );
-      await tester.pumpApp(
-        SharePage(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-
-      await tester.ensureVisible(downloadButtonFinder);
-      await tester.tap(downloadButtonFinder);
-
-      expect(tester.takeException(), isNull);
     });
   });
 
