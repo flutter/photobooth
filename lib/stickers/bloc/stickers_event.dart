@@ -10,7 +10,3 @@ abstract class StickersEvent extends Equatable {
 class StickersDrawerToggled extends StickersEvent {
   const StickersDrawerToggled();
 }
-
-class StickersClearTooltipShowed extends StickersEvent {
-  const StickersClearTooltipShowed();
-}
