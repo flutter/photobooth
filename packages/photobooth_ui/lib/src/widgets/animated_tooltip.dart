@@ -51,10 +51,11 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = widget.globalKey.currentState;
 
-        startingTimer = Timer(
-            const Duration(milliseconds: 500), tooltip.ensureTooltipVisible);
-        if (!widget.isPersistent)
-          endTimer = Timer(const Duration(seconds: 3), tooltip.deactivate);
+        startingTimer = Timer(const Duration(milliseconds: 500), () {
+          tooltip.ensureTooltipVisible();
+          if (!widget.isPersistent)
+            endTimer = Timer(const Duration(seconds: 3), tooltip.deactivate);
+        });
       });
     }
   }
