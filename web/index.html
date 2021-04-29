@@ -108,95 +108,24 @@
     </div>
     <script>
       var assets = [
-        "assets/assets/backgrounds/blue_circle.png",
-        "assets/assets/backgrounds/circle_object.png",
+        "https://unpkg.com/canvaskit-wasm@0.25.1/bin/canvaskit.wasm",
+        "https://unpkg.com/canvaskit-wasm@0.25.1/bin/canvaskit.js",
         "assets/assets/backgrounds/landing_background.png",
         "assets/assets/backgrounds/permissions_background_desktop.jpg",
         "assets/assets/backgrounds/permissions_background_mobile.jpg",
         "assets/assets/backgrounds/photobooth_background.jpg",
+        "assets/assets/backgrounds/blue_circle.png",
+        "assets/assets/backgrounds/circle_object.png",
         "assets/assets/backgrounds/red_box.png",
-        "assets/assets/backgrounds/share_background.jpg",
         "assets/assets/backgrounds/yellow_bar.png",
         "assets/assets/backgrounds/yellow_plus.png",
-        "assets/assets/images/android.png",
-        "assets/assets/images/android_spritesheet.png",
-        "assets/assets/images/banana.png",
-        "assets/assets/images/beret.png",
-        "assets/assets/images/birthday_cake.png",
-        "assets/assets/images/bow_tie.png",
-        "assets/assets/images/cat_eye_glasses.png",
-        "assets/assets/images/coffee_mug.png",
-        "assets/assets/images/dash.png",
-        "assets/assets/images/dash_spritesheet.png",
-        "assets/assets/images/dino.png",
-        "assets/assets/images/dino_spritesheet.png",
-        "assets/assets/images/dumbell.png",
-        "assets/assets/images/error_photo_desktop.png",
-        "assets/assets/images/error_photo_mobile.png",
-        "assets/assets/images/generic_glasses.png",
-        "assets/assets/images/generic_mug.png",
-        "assets/assets/images/graph_mug.png",
-        "assets/assets/images/guitar.png",
-        "assets/assets/images/headband.png",
-        "assets/assets/images/headphones.png",
-        "assets/assets/images/megaphone.png",
-        "assets/assets/images/oval_glasses.png",
-        "assets/assets/images/party_hat.png",
-        "assets/assets/images/pencil.png",
-        "assets/assets/images/photo_frame.png",
-        "assets/assets/images/photo_frame_mobile.png",
-        "assets/assets/images/photo_frame_spritesheet_desktop.png",
-        "assets/assets/images/photo_frame_spritesheet_mobile.png",
-        "assets/assets/images/photo_indicator_spritesheet.png",
-        "assets/assets/images/photo_placeholder.png",
-        "assets/assets/images/photo_placeholder_desktop.png",
-        "assets/assets/images/photo_placeholder_mobile.png",
-        "assets/assets/images/pizza.png",
-        "assets/assets/images/round_glasses.png",
-        "assets/assets/images/round_glasses1.png",
-        "assets/assets/images/soda.png",
-        "assets/assets/images/sparky.png",
-        "assets/assets/images/sparky_spritesheet.png",
-        "assets/assets/images/square_glasses.png",
-        "assets/assets/images/star.png",
-        "assets/assets/images/sunglasses.png",
-        "assets/assets/icons/android_icon.png",
-        "assets/assets/icons/camera_button_icon.png",
-        "assets/assets/icons/dash_icon.png",
-        "assets/assets/icons/delete_icon.png",
-        "assets/assets/icons/dino_icon.png",
-        "assets/assets/icons/firebase_icon.png",
-        "assets/assets/icons/flutter_icon.png",
-        "assets/assets/icons/go_next_button_icon.png",
-        "assets/assets/icons/retake_button_icon.png",
-        "assets/assets/icons/sparky_icon.png",
-        "assets/assets/icons/stickers_button_icon.png",
-      ];
-      Promise.race([
-        Promise.all(
-          assets.map(function (asset) {
-            return fetch(asset).catch(function (e) {
-              console.log("fetch failure " + e);
-            });
-          })
-        ),
-        new Promise(function (resolve, reject) {
-          setTimeout(function () {
-            resolve();
-          }, 4000);
-        }),
-      ]).then(function () {
-        window.onerror = function (msg, url, lineNo, columnNo, error) {
-          console.log(
-            "[window.onError] " + error + " " + msg + " " + url + " " + lineNo
-          );
-          return false;
-        };
-        var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js";
-        scriptTag.type = "application/javascript";
-        document.body.append(scriptTag);
+        "assets/assets/backgrounds/share_background.jpg",
+      ].map(function (asset) {
+        return fetch(asset).catch(function (e) {
+          console.log("fetch failure " + e);
+        });
       });
     </script>
+    <script src="main.dart.js"></script>
   </body>
 </html>
