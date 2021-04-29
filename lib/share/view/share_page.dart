@@ -39,32 +39,26 @@ class SharePage extends StatelessWidget {
             const ShareBackground(),
             Center(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 30,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedPhotoIndicator(),
-                      AnimatedPhotoboothPhoto(image: image),
-                      const SizedBox(height: 40),
-                      const _Heading(),
-                      const SizedBox(height: 20),
-                      const LearnMoreAboutText(),
-                      const SizedBox(height: 30),
-                      if (image != null)
-                        ResponsiveLayoutBuilder(
-                          mobile: (_, __) => MobileButtonsLayout(image: image),
-                          desktop: (_, __) => DesktopButtonsLayout(
-                            image: image,
-                          ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedPhotoIndicator(),
+                    AnimatedPhotoboothPhoto(image: image),
+                    const SizedBox(height: 40),
+                    const _Heading(),
+                    const SizedBox(height: 20),
+                    const LearnMoreAboutText(),
+                    const SizedBox(height: 30),
+                    if (image != null)
+                      ResponsiveLayoutBuilder(
+                        small: (_, __) => MobileButtonsLayout(image: image),
+                        large: (_, __) => DesktopButtonsLayout(
+                          image: image,
                         ),
-                      const SizedBox(height: 70),
-                      const WhiteFooter()
-                    ],
-                  ),
+                      ),
+                    const SizedBox(height: 70),
+                    const WhiteFooter()
+                  ],
                 ),
               ),
             ),
@@ -102,7 +96,7 @@ class _Heading extends StatelessWidget {
       style: theme.textTheme.headline1?.copyWith(
         color: PhotoboothColors.white,
         fontSize:
-            MediaQuery.of(context).size.width > PhotoboothBreakpoints.mobile
+            MediaQuery.of(context).size.width > PhotoboothBreakpoints.small
                 ? 56
                 : 32,
       ),
