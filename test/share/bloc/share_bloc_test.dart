@@ -8,12 +8,9 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:share_photo_repository/share_photo_repository.dart';
 import 'package:test/test.dart';
 
 import '../../helpers/helpers.dart';
-
-class MockSharePhotoRepository extends Mock implements SharePhotoRepository {}
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
 
@@ -25,11 +22,11 @@ void main() {
     final image = CameraImage(width: 0, height: 0, data: data);
     final imageId = 'image-name';
     final imageFileName = '$imageId.jpg';
+    final imageData = Uint8List.fromList(transparentImage);
     final shareText = 'share-text';
     final twitterShareUrl = 'twitter-share-url';
     final facebookShareUrl = 'facebook-share-url';
 
-    final sharePhotoRepository = MockSharePhotoRepository();
     final photosRepository = MockPhotosRepository();
 
     setUpAll(() {
@@ -39,39 +36,52 @@ void main() {
     setUp(() {
       when(() => photosRepository.uploadPhoto(imageFileName, any()))
           .thenAnswer((_) => Future.value());
-      when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
-      when(() => sharePhotoRepository.getShareOnTwitterUrl(
-          imageFileName, shareText)).thenReturn(twitterShareUrl);
-      when(() => sharePhotoRepository.getShareOnFacebookUrl(
-          imageFileName, shareText)).thenReturn(facebookShareUrl);
+      when(() => photosRepository.twitterShareUrl(imageFileName, shareText))
+          .thenReturn(twitterShareUrl);
+      when(() => photosRepository.facebookShareUrl(imageFileName, shareText))
+          .thenReturn(facebookShareUrl);
     });
 
     tearDown(() {
       reset(photosRepository);
-      reset(sharePhotoRepository);
     });
 
-    group('ShareOnTwitter', () {
+    group('ShareOnTwitterTapped', () {
       blocTest<ShareBloc, ShareState>(
-        'calls photosRepository.uploadPhoto with correct arguments',
-        build: () => ShareBloc(
-          sharePhotoRepository: sharePhotoRepository,
-          photosRepository: photosRepository,
-        ),
+        'does nothing when isSharingEnabled is false',
+        build: () => ShareBloc(photosRepository: photosRepository),
         act: (b) => b.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
         ),
-        verify: (b) {
+        expect: () => [],
+        verify: (_) {
+          verifyNever(() => photosRepository.uploadPhoto(any(), any()));
+          verifyNever(() => photosRepository.twitterShareUrl(any(), any()));
+        },
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'calls photosRepository.uploadPhoto with correct arguments',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
+        act: (b) => b.add(
+          ShareOnTwitterTapped(
+            image: image,
+            imageId: imageId,
+            shareText: shareText,
+            assets: [],
+          ),
+        ),
+        verify: (_) {
           verify(
-            () => photosRepository.uploadPhoto(
-              imageFileName,
-              Uint8List.fromList(transparentImage),
-            ),
+            () => photosRepository.uploadPhoto(imageFileName, imageData),
           ).called(1);
         },
       );
@@ -82,12 +92,12 @@ void main() {
           when(() => photosRepository.uploadPhoto(imageFileName, any()))
               .thenThrow(Exception('e'));
           return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
             photosRepository: photosRepository,
+            isSharingEnabled: true,
           );
         },
         act: (b) => b.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
@@ -104,45 +114,39 @@ void main() {
       );
 
       blocTest<ShareBloc, ShareState>(
-        'calls sharePhotoRepository.getShareOnTwitterUrl '
-        'when isSharingEnabled is true',
-        build: () {
-          when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
-          return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
-            photosRepository: photosRepository,
-          );
-        },
+        'calls sharePhotoRepository.getShareOnTwitterUrl',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
         act: (b) => b.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
         ),
-        verify: (b) {
+        verify: (_) {
           verify(
-            () => sharePhotoRepository.getShareOnTwitterUrl(
-                imageFileName, shareText),
-          );
+            () => photosRepository.twitterShareUrl(imageFileName, shareText),
+          ).called(1);
         },
       );
 
       blocTest<ShareBloc, ShareState>(
-        'emits [loading, error] '
-        'when sharePhotoRepository.getShareOnTwitterUrl throws',
+        'emits [loading, error] when twitterShareUrl throws',
         build: () {
-          when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
-          when(() => sharePhotoRepository.getShareOnTwitterUrl(
-              imageFileName, shareText)).thenThrow(Exception('e'));
+          when(
+            () => photosRepository.twitterShareUrl(imageFileName, shareText),
+          ).thenThrow(Exception('oops'));
           return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
             photosRepository: photosRepository,
+            isSharingEnabled: true,
           );
         },
         act: (b) => b.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
@@ -160,14 +164,12 @@ void main() {
 
       blocTest<ShareBloc, ShareState>(
         'emits [loading, success] when operations successfully finish',
-        build: () {
-          return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
-            photosRepository: photosRepository,
-          );
-        },
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
         act: (b) => b.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
@@ -181,27 +183,41 @@ void main() {
       );
     });
 
-    group('ShareOnFacebook', () {
+    group('ShareOnFacebookTapped', () {
       blocTest<ShareBloc, ShareState>(
-        'calls photosRepository.uploadPhoto with correct arguments',
-        build: () => ShareBloc(
-          sharePhotoRepository: sharePhotoRepository,
-          photosRepository: photosRepository,
-        ),
+        'does nothing when isSharingEnabled is false',
+        build: () => ShareBloc(photosRepository: photosRepository),
         act: (b) => b.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
         ),
-        verify: (b) {
+        expect: () => [],
+        verify: (_) {
+          verifyNever(() => photosRepository.uploadPhoto(any(), any()));
+          verifyNever(() => photosRepository.facebookShareUrl(any(), any()));
+        },
+      );
+      blocTest<ShareBloc, ShareState>(
+        'calls photosRepository.uploadPhoto with correct arguments',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
+        act: (b) => b.add(
+          ShareOnFacebookTapped(
+            image: image,
+            imageId: imageId,
+            shareText: shareText,
+            assets: [],
+          ),
+        ),
+        verify: (_) {
           verify(
-            () => photosRepository.uploadPhoto(
-              imageFileName,
-              Uint8List.fromList(transparentImage),
-            ),
+            () => photosRepository.uploadPhoto(imageFileName, imageData),
           ).called(1);
         },
       );
@@ -212,12 +228,12 @@ void main() {
           when(() => photosRepository.uploadPhoto(imageFileName, any()))
               .thenThrow(Exception('e'));
           return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
             photosRepository: photosRepository,
+            isSharingEnabled: true,
           );
         },
         act: (b) => b.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
@@ -234,27 +250,22 @@ void main() {
       );
 
       blocTest<ShareBloc, ShareState>(
-        'calls sharePhotoRepository.getShareOnFacebookUrl '
-        'when isSharingEnabled is true',
-        build: () {
-          when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
-          return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
-            photosRepository: photosRepository,
-          );
-        },
+        'calls sharePhotoRepository.getShareOnFacebookUrl',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
         act: (b) => b.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
         ),
-        verify: (b) {
+        verify: (_) {
           verify(
-            () => sharePhotoRepository.getShareOnFacebookUrl(
-                imageFileName, shareText),
+            () => photosRepository.facebookShareUrl(imageFileName, shareText),
           );
         },
       );
@@ -263,41 +274,39 @@ void main() {
         'emits [loading, error] '
         'when sharePhotoRepository.getShareOnFacebookUrl throws',
         build: () {
-          when(() => sharePhotoRepository.isSharingEnabled).thenReturn(true);
-          when(() => sharePhotoRepository.getShareOnFacebookUrl(
-              imageFileName, shareText)).thenThrow(Exception('e'));
+          when(
+            () => photosRepository.facebookShareUrl(imageFileName, shareText),
+          ).thenThrow(Exception('e'));
           return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
             photosRepository: photosRepository,
+            isSharingEnabled: true,
           );
         },
         act: (b) => b.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,
             assets: [],
           ),
         ),
-        errors: () => [
-          isA<Exception>(),
-        ],
         expect: () => [
           ShareState.loading(),
           ShareState.error(),
+        ],
+        errors: () => [
+          isA<Exception>(),
         ],
       );
 
       blocTest<ShareBloc, ShareState>(
         'emits [loading, success] when operations successfully finish',
-        build: () {
-          return ShareBloc(
-            sharePhotoRepository: sharePhotoRepository,
-            photosRepository: photosRepository,
-          );
-        },
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          isSharingEnabled: true,
+        ),
         act: (b) => b.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             shareText: shareText,

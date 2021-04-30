@@ -35,6 +35,8 @@ class CompositePhotoException implements Exception {
   String toString() => message;
 }
 
+const _shareUrl = 'https://io-photobooth-dev.web.app/share';
+
 /// {@template photos_repository}
 /// Repository that persists photos in a Firebase Storage.
 /// {@endtemplate
@@ -47,7 +49,6 @@ class PhotosRepository {
         _imageCompositor = imageCompositor ?? ImageCompositor();
 
   final FirebaseStorage _firebaseStorage;
-
   final ImageCompositor _imageCompositor;
 
   /// Uploads photo to the [FirebaseStorage].
@@ -110,4 +111,18 @@ class PhotosRepository {
       );
     }
   }
+
+  /// Given a [photoName], it returns its Twitter share URL
+  String twitterShareUrl(String photoName, String shareText) {
+    final encodedShareText = Uri.encodeComponent(shareText);
+    return 'https://twitter.com/intent/tweet?url=${_getSharePhotoUrl(photoName)}&text=$encodedShareText';
+  }
+
+  /// Given a [photoName], it returns its Facebook share URL
+  String facebookShareUrl(String photoName, String shareText) {
+    final encodedShareText = Uri.encodeComponent(shareText);
+    return 'https://www.facebook.com/sharer.php?u=${_getSharePhotoUrl(photoName)}&quote=$encodedShareText';
+  }
+
+  String _getSharePhotoUrl(String photoName) => '$_shareUrl/$photoName';
 }

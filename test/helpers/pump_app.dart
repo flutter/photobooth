@@ -10,7 +10,6 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:share_photo_repository/share_photo_repository.dart';
 
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -27,8 +26,6 @@ class FakeShareEvent extends Fake implements ShareEvent {}
 class FakeShareState extends Fake implements ShareState {}
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
-
-class MockSharePhotoRepository extends Mock implements SharePhotoRepository {}
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
@@ -48,9 +45,6 @@ extension PumpApp on WidgetTester {
           providers: [
             RepositoryProvider<PhotosRepository>.value(
               value: MockPhotosRepository(),
-            ),
-            RepositoryProvider<SharePhotoRepository>.value(
-              value: MockSharePhotoRepository(),
             ),
           ],
           child: MultiBlocProvider(

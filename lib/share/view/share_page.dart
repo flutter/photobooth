@@ -11,7 +11,6 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
-import 'package:share_photo_repository/share_photo_repository.dart';
 
 class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
@@ -20,7 +19,6 @@ class SharePage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (_) => BlocProvider(
         create: (context) => ShareBloc(
-          sharePhotoRepository: context.read<SharePhotoRepository>(),
           photosRepository: context.read<PhotosRepository>(),
         ),
         child: SharePage(),

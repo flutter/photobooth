@@ -18,17 +18,17 @@ void main() {
     final imageId = 'image-id';
     final shareText = 'share-text';
 
-    group('ShareOnTwitter', () {
+    group('ShareOnTwitterTapped', () {
       test('support value equality', () {
         final image = MockCameraImage();
         final assets = [MockPhotoAsset()];
-        final instanceA = ShareOnTwitter(
+        final instanceA = ShareOnTwitterTapped(
           image: image,
           imageId: imageId,
           shareText: shareText,
           assets: assets,
         );
-        final instanceB = ShareOnTwitter(
+        final instanceB = ShareOnTwitterTapped(
           image: image,
           imageId: imageId,
           shareText: shareText,
@@ -38,17 +38,17 @@ void main() {
       });
     });
 
-    group('ShareOnFacebook', () {
+    group('ShareOnFacebookTapped', () {
       test('support value equality', () {
         final image = MockCameraImage();
         final assets = [MockPhotoAsset()];
-        final instanceA = ShareOnFacebook(
+        final instanceA = ShareOnFacebookTapped(
           image: image,
           imageId: imageId,
           shareText: shareText,
           assets: assets,
         );
-        final instanceB = ShareOnFacebook(
+        final instanceB = ShareOnFacebookTapped(
           image: image,
           imageId: imageId,
           shareText: shareText,
