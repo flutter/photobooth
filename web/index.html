@@ -8,7 +8,7 @@
     The path provided below has to start and end with a slash "/" in order for
     it to work correctly.
 
-    Fore more details:
+    For more details:
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
   -->
     <base href="/" />
@@ -42,6 +42,7 @@
     <script src="/__/firebase/8.4.1/firebase-app.js"></script>
     <script src="/__/firebase/8.4.1/firebase-auth.js"></script>
     <script src="/__/firebase/8.4.1/firebase-storage.js"></script>
+    <script src="/__/firebase/8.4.1/firebase-performance.js"></script>
     <script src="/__/firebase/init.js"></script>
 
     <style>
@@ -126,6 +127,10 @@
       />
     </div>
     <script>
+      // Initialize Performance Monitoring.
+      firebase.performance();
+
+      // Pre-fetch key assets.
       var assets = [
         "https://unpkg.com/canvaskit-wasm@0.25.1/bin/canvaskit.wasm",
         "https://unpkg.com/canvaskit-wasm@0.25.1/bin/canvaskit.js",
