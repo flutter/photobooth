@@ -87,7 +87,7 @@ void main() {
 
       verify(
         () => shareBloc.add(
-          ShareOnFacebook(
+          ShareOnFacebookTapped(
             image: image,
             imageId: imageId,
             assets: photoboothState.assets,

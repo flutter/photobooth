@@ -87,7 +87,7 @@ void main() {
 
       verify(
         () => shareBloc.add(
-          ShareOnTwitter(
+          ShareOnTwitterTapped(
             image: image,
             imageId: imageId,
             assets: photoboothState.assets,

@@ -11,7 +11,6 @@ import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:share_photo_repository/share_photo_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
 void main() async {
@@ -29,18 +28,11 @@ void main() async {
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
   );
-  const sharePhotoRepository = SharePhotoRepository(
-    shareUrl: 'https://io-photobooth-dev.web.app/share',
-    isSharingEnabled: false,
-  );
 
   unawaited(Assets.load());
 
   runZonedGuarded(
-    () => runApp(App(
-      photosRepository: photosRepository,
-      sharePhotoRepository: sharePhotoRepository,
-    )),
+    () => runApp(App(photosRepository: photosRepository)),
     (error, stackTrace) {
       print(error.toString());
       print(stackTrace.toString());

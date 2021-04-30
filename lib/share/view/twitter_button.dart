@@ -21,7 +21,7 @@ class TwitterButton extends StatelessWidget {
         if (photoboothImage == null) return;
 
         context.read<ShareBloc>().add(
-              ShareOnTwitter(
+              ShareOnTwitterTapped(
                 image: photoboothImage,
                 imageId: photoboothImageId,
                 assets: photoboothAssets,

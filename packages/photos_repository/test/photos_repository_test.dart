@@ -221,5 +221,33 @@ void main() {
         );
       });
     });
+
+    group('twitterShareUrl', () {
+      const photoName = 'photo.jpg';
+      const shareText = 'Share text';
+
+      test('returns correct url', () {
+        expect(
+          photosRepository.twitterShareUrl(photoName, shareText),
+          equals(
+            'https://twitter.com/intent/tweet?url=https://io-photobooth-dev.web.app/share/photo.jpg&text=Share%20text',
+          ),
+        );
+      });
+    });
+
+    group('facebookShareUrl', () {
+      const photoName = 'photo.jpg';
+      const shareText = 'Share text';
+
+      test('returns correct url', () {
+        expect(
+          photosRepository.facebookShareUrl(photoName, shareText),
+          equals(
+            'https://www.facebook.com/sharer.php?u=https://io-photobooth-dev.web.app/share/photo.jpg&quote=Share%20text',
+          ),
+        );
+      });
+    });
   });
 }

@@ -26,8 +26,6 @@ dependencies:
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
-  share_photo_repository:
-    path: packages/share_photo_repository
   photos_repository:
     path: packages/photos_repository
   authentication_repository:
