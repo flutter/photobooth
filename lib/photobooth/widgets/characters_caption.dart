@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class CharactersCaption extends StatelessWidget {
@@ -8,18 +7,13 @@ class CharactersCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: PhotoboothColors.blue,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      padding: const EdgeInsets.all(10),
+      decoration: theme.tooltipTheme.decoration,
+      padding: theme.tooltipTheme.padding,
       child: Text(
         l10n.charactersCaptionText,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText2
-            ?.copyWith(color: PhotoboothColors.white),
+        style: theme.tooltipTheme.textStyle,
       ),
     );
   }
