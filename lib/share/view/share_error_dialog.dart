@@ -10,74 +10,71 @@ class ShareErrorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Dialog(
-      clipBehavior: Clip.hardEdge,
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              PhotoboothColors.whiteBackground,
-              PhotoboothColors.white,
-            ],
-          ),
-        ),
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                width: 900,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 60,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 300,
-                        child: Image.asset(
-                          'assets/images/error_photo_desktop.png',
-                        ),
-                      ),
-                      const SizedBox(height: 60),
-                      Text(
-                        l10n.shareErrorDialogHeading,
-                        key: const Key('shareErrorDialog_heading'),
-                        style: theme.textTheme.headline1,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        l10n.shareErrorDialogSubheading,
-                        key: const Key('shareErrorDialog_subheading'),
-                        style: theme.textTheme.headline2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 42),
-                      const ShareTryAgainButton(),
-                      const SizedBox(height: 16),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 24,
-              top: 24,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.clear,
-                  color: PhotoboothColors.black54,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            PhotoboothColors.whiteBackground,
+            PhotoboothColors.white,
           ],
         ),
+      ),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              width: 900,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 60,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 300,
+                      child: Image.asset(
+                        'assets/images/error_photo_desktop.png',
+                      ),
+                    ),
+                    const SizedBox(height: 60),
+                    Text(
+                      l10n.shareErrorDialogHeading,
+                      key: const Key('shareErrorDialog_heading'),
+                      style: theme.textTheme.headline1,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.shareErrorDialogSubheading,
+                      key: const Key('shareErrorDialog_subheading'),
+                      style: theme.textTheme.headline2,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 42),
+                    const ShareTryAgainButton(),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: PhotoboothColors.black54,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
       ),
     );
   }

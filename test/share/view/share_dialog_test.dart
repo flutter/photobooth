@@ -33,7 +33,7 @@ void main() {
   group('ShareDialog', () {
     testWidgets('displays heading', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Material(child: ShareDialog(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareDialog_heading')), findsOneWidget);
@@ -41,7 +41,7 @@ void main() {
 
     testWidgets('displays subheading', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Material(child: ShareDialog(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareDialog_subheading')), findsOneWidget);
@@ -49,7 +49,7 @@ void main() {
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Material(child: ShareDialog(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(TwitterButton), findsOneWidget);
@@ -57,7 +57,7 @@ void main() {
 
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Material(child: ShareDialog(image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(FacebookButton), findsOneWidget);
@@ -65,7 +65,7 @@ void main() {
 
     testWidgets('taps on close will dismiss the popup', (tester) async {
       await tester.pumpApp(
-        ShareDialog(image: image),
+        Material(child: ShareDialog(image: image)),
         photoboothBloc: photoboothBloc,
       );
       await tester.tap(find.byIcon(Icons.clear));
