@@ -102,6 +102,12 @@ void main() {
         verify(() => reference.putData(photoData)).called(1);
       });
 
+      test('does not putData when reference already exists', () async {
+        when(() => reference.getDownloadURL()).thenAnswer((_) async => 'url');
+        await photosRepository.uploadPhoto(photoName, photoData);
+        verifyNever(() => reference.putData(photoData));
+      });
+
       test(
           'throws UploadPhotoException '
           'when firebaseStorage.ref throws', () async {
