@@ -50,6 +50,18 @@ class PhotosRepository {
 
   final ImageCompositor _imageCompositor;
 
+  /// Checks if a given [photoName] exists on the [FirebaseStorage]
+  Future<bool> existsPhoto(String photoName) async {
+    Reference reference;
+    try {
+      reference = _firebaseStorage.ref('uploads/$photoName');
+      await reference.getDownloadURL();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// Uploads photo to the [FirebaseStorage].
   Future<void> uploadPhoto(String photoName, Uint8List photoData) async {
     Reference reference;
@@ -62,7 +74,7 @@ class PhotosRepository {
         'Error: $e. StackTrace: $st',
       );
     }
-
+    if (await existsPhoto(photoName)) return;
     try {
       await reference.putData(photoData);
     } catch (error, stackTrace) {
