@@ -41,10 +41,9 @@ class ShareStateListener extends StatelessWidget {
         builder: (_) => const ShareErrorBottomSheet(),
       );
     } else {
-      showDialog(
-        barrierColor: PhotoboothColors.dialogBarrierColor,
+      showAppDialog(
         context: context,
-        builder: (_) => const ShareErrorDialog(),
+        child: const ShareErrorDialog(),
       );
     }
   }

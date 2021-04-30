@@ -32,6 +32,6 @@ abstract class PhotoboothColors {
   /// Orange
   static const Color orange = Color(0xFFFFBB00);
 
-  /// Dialog barrier color
-  static const Color dialogBarrierColor = Color(0xBF202124);
+  /// Charcoal
+  static const Color charcoal = Color(0xBF202124);
 }

@@ -17,81 +17,78 @@ class ShareDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Dialog(
-      clipBehavior: Clip.hardEdge,
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              PhotoboothColors.whiteBackground,
-              PhotoboothColors.white,
-            ],
-          ),
-        ),
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                width: 900,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 60,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 430,
-                        width: 600,
-                        child: FramedPhotoboothPhoto(image: image.data),
-                      ),
-                      const SizedBox(height: 60),
-                      Text(
-                        l10n.shareDialogHeading,
-                        key: const Key('shareDialog_heading'),
-                        style: theme.textTheme.headline1,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        l10n.shareDialogSubheading,
-                        key: const Key('shareDialog_subheading'),
-                        style: theme.textTheme.headline2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const TwitterButton(),
-                          const SizedBox(width: 36),
-                          const FacebookButton(),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      const SocialMediaShareClarificationNote(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 24,
-              top: 24,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.clear,
-                  color: PhotoboothColors.black54,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            PhotoboothColors.whiteBackground,
+            PhotoboothColors.white,
           ],
         ),
+      ),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              width: 900,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 60,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 430,
+                      width: 600,
+                      child: FramedPhotoboothPhoto(image: image.data),
+                    ),
+                    const SizedBox(height: 60),
+                    Text(
+                      l10n.shareDialogHeading,
+                      key: const Key('shareDialog_heading'),
+                      style: theme.textTheme.headline1,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.shareDialogSubheading,
+                      key: const Key('shareDialog_subheading'),
+                      style: theme.textTheme.headline2,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const TwitterButton(),
+                        const SizedBox(width: 36),
+                        const FacebookButton(),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    const SocialMediaShareClarificationNote(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: PhotoboothColors.black54,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
       ),
     );
   }

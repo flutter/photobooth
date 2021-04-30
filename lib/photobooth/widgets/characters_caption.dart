@@ -10,7 +10,7 @@ class CharactersCaption extends StatelessWidget {
     final l10n = context.l10n;
     return Container(
       decoration: const BoxDecoration(
-        color: PhotoboothColors.blue,
+        color: PhotoboothColors.charcoal,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       padding: const EdgeInsets.all(10),

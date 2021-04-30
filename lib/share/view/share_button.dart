@@ -46,17 +46,12 @@ class ShareButton extends StatelessWidget {
             ),
           );
         } else {
-          showDialog(
-            barrierColor: PhotoboothColors.dialogBarrierColor,
+          showAppDialog(
             context: context,
-            builder: (_) => MultiBlocProvider(
+            child: MultiBlocProvider(
               providers: [
-                BlocProvider.value(
-                  value: context.read<PhotoboothBloc>(),
-                ),
-                BlocProvider.value(
-                  value: context.read<ShareBloc>(),
-                ),
+                BlocProvider.value(value: context.read<PhotoboothBloc>()),
+                BlocProvider.value(value: context.read<ShareBloc>()),
               ],
               child: ShareDialog(image: image),
             ),
