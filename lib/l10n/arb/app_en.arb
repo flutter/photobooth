@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "landingPageHeading": "Welcome to the I/O Photobooth",
+    "landingPageHeading": "Welcome to the I/O Photo Booth",
     "@landingPageHeading": {
         "description": "Heading shown on the landing page."
     },
@@ -59,6 +59,10 @@
     "sharePageDownloadButtonText": "Download",
     "@sharePageDownloadButtonText": {
         "description": "Button text shown on the share page which downloads the taken photo."
+    },
+    "socialMediaShareLinkText": "Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!",
+    "@socialMediaShareLinkText": {
+        "description": "Text that is put into the social media share URL link."
     },
     "previewPageCameraNotAllowedText": "You have denied camera permissions. Please grant access in order to use app.",
     "@previewPageCameraNotAllowedText": {
@@ -175,5 +179,21 @@
     "goToGoogleIOButtonText": "Go to Google I/O",
     "@goToGoogleIOButtonText": {
         "description": "Text displayed on the button to navigate to Google I/O"
+    },
+    "clearStickersDialogHeading": "Clear all props?",
+    "@clearStickersDialogHeading": {
+        "description": "Heading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogSubheading": "Do you want to remove all of the props from the screen?",
+    "@clearStickersDialogSubheading": {
+        "description": "Subheading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogCancelButtonText": "No, take me back",
+    "@clearStickersDialogCancelButtonText": {
+        "description": "Cancel button text displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogConfirmButtonText": "Yes, clear all props",
+    "@clearStickersDialogConfirmButtonText": {
+        "description": "Confirm button text displayed on the clear stickers dialog"
     }
 }

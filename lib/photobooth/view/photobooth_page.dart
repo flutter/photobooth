@@ -8,6 +8,23 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 
+const _mobileVideoConstraints = VideoConstraints(
+  width: 3072,
+  height: 4096,
+  facingMode: FacingMode(
+    type: CameraType.user,
+    constrain: Constrain.ideal,
+  ),
+);
+const _desktopVideoConstraints = VideoConstraints(
+  width: 4096,
+  height: 3072,
+  facingMode: FacingMode(
+    type: CameraType.rear,
+    constrain: Constrain.ideal,
+  ),
+);
+
 class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
@@ -42,11 +59,22 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: CameraOptions(
       audio: const AudioConstraints(enabled: false),
-      video: isMobile
-          ? const VideoConstraints(width: 3072, height: 4096)
-          : const VideoConstraints(width: 4096, height: 3072),
+      video: isMobile ? _mobileVideoConstraints : _desktopVideoConstraints,
     ),
   );
+
+  bool get _isCameraAvailable =>
+      _controller.value.status == CameraStatus.available;
+
+  Future<void> _play() async {
+    if (!_isCameraAvailable) return;
+    return _controller.play();
+  }
+
+  Future<void> _stop() async {
+    if (!_isCameraAvailable) return;
+    return _controller.stop();
+  }
 
   @override
   void initState() {
@@ -62,16 +90,16 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   Future<void> _initializeCameraController() async {
     await _controller.initialize();
-    await _controller.play();
+    await _play();
   }
 
   void _onSnapPressed() async {
     final picture = await _controller.takePicture();
     context.read<PhotoboothBloc>().add(PhotoCaptured(image: picture));
     final stickersPage = StickersPage.route();
-    await _controller.stop();
+    await _stop();
     await Navigator.of(context).push(stickersPage);
-    await _controller.play();
+    await _play();
   }
 
   @override
@@ -82,10 +110,10 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return ResponsiveLayoutBuilder(
-            mobile: (_, child) => _PreviewLayout(
+            small: (_, child) => _PreviewLayout(
               child: AspectRatio(aspectRatio: 3 / 4, child: child),
             ),
-            desktop: (_, child) => _PreviewLayout(
+            large: (_, child) => _PreviewLayout(
               child: AspectRatio(aspectRatio: 4 / 3, child: child),
             ),
             child: PhotoboothPreview(

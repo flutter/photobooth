@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +33,8 @@ void main() async {
 
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
   late ShareBloc shareBloc;
@@ -74,13 +73,22 @@ void main() async {
       expect(find.byType(ShareBackground), findsOneWidget);
     });
 
-    testWidgets('displays a SharePhoto', (tester) async {
+    testWidgets('displays a AnimatedPhotoIndicator', (tester) async {
       await tester.pumpApp(
         SharePage(),
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(find.byType(SharePhoto), findsOneWidget);
+      expect(find.byType(AnimatedPhotoIndicator), findsOneWidget);
+    });
+
+    testWidgets('displays a AnimatedPhotoboothPhoto', (tester) async {
+      await tester.pumpApp(
+        SharePage(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
@@ -115,7 +123,7 @@ void main() async {
         shareBloc: shareBloc,
       );
       expect(
-        find.byKey(const Key('sharePage_download_outlinedButton')),
+        find.byKey(const Key('downloadButton_download_outlinedButton')),
         findsOneWidget,
       );
     });
@@ -142,24 +150,6 @@ void main() async {
         find.byType(WhiteFooter),
         findsOneWidget,
       );
-    });
-  });
-
-  group('DownloadButton', () {
-    testWidgets('tapping on download photo button completes', (tester) async {
-      final downloadButtonFinder = find.byKey(
-        const Key('sharePage_download_outlinedButton'),
-      );
-      await tester.pumpApp(
-        SharePage(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-
-      await tester.ensureVisible(downloadButtonFinder);
-      await tester.tap(downloadButtonFinder);
-
-      expect(tester.takeException(), isNull);
     });
   });
 
@@ -264,7 +254,7 @@ void main() async {
 
     testWidgets('displays a MobileButtonsLayout', (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.mobile,
+        PhotoboothBreakpoints.small,
         1000,
       );
       await tester.pumpApp(

@@ -34,8 +34,8 @@ class Footer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
-          mobile: (_, __) => _ColumnFooter(key: const Key('footer_column')),
-          desktop: (_, __) => _RowFooter(key: const Key('footer_row')),
+          small: (_, __) => _ColumnFooter(key: const Key('footer_column')),
+          large: (_, __) => _RowFooter(key: const Key('footer_row')),
         ),
       ),
     );
@@ -59,9 +59,9 @@ class _ColumnFooter extends StatelessWidget {
           runSpacing: 16,
           children: [
             const FooterGoogleIOLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterCodelabLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterHowItsMadeLink(),
           ],
         ),
@@ -71,7 +71,7 @@ class _ColumnFooter extends StatelessWidget {
           runSpacing: 16,
           children: [
             const FooterTermsOfServiceLink(),
-            const SizedBox(width: 8),
+            const SizedBox(width: 30),
             const FooterPrivacyPolicyLink(),
           ],
         ),

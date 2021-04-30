@@ -7,8 +7,9 @@ class AnimatedAndroid extends AnimatedSprite {
           key: key,
           sprites: const Sprites(
             asset: 'android_spritesheet.png',
-            size: Size(875, 861),
+            size: Size(592, 860),
             frames: 25,
+            stepTime: 2 / 25,
           ),
         );
 }

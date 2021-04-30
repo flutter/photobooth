@@ -34,7 +34,7 @@ void main() async {
         'emits updated state with image',
         build: () => PhotoboothBloc(uuid),
         act: (bloc) => bloc.add(PhotoCaptured(image: image)),
-        expect: () => [PhotoboothState(image: image)],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
@@ -42,7 +42,7 @@ void main() async {
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(selectedAssetId: '0'),
         act: (bloc) => bloc.add(PhotoCaptured(image: image)),
-        expect: () => [PhotoboothState(image: image)],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
     });
 

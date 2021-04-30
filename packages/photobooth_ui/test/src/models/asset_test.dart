@@ -14,6 +14,7 @@ void main() {
     test('does not support value equality', () {
       final image = MockImage();
       final name = 'name';
+      final path = 'path/to/name';
       final buffer = MockByteBuffer();
       final bytes = Uint8List.fromList([]);
       final assetA = Asset(
@@ -21,12 +22,14 @@ void main() {
         image: image,
         buffer: buffer,
         bytes: bytes,
+        path: path,
       );
       final assetB = Asset(
         name: name,
         image: image,
         buffer: buffer,
         bytes: bytes,
+        path: path,
       );
       expect(assetA, isNot(equals(assetB)));
     });

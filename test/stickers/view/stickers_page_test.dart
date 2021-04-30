@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
@@ -40,7 +40,7 @@ class MockPlatformHelper extends Mock implements PlatformHelper {}
 void main() async {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList(transparentImage);
+  final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: width, height: height, data: data);
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -101,6 +101,19 @@ void main() async {
       when(() => stickersBloc.state).thenReturn(StickersState());
     });
 
+    testWidgets('renders PhotoboothBackground', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(PhotoboothBackground), findsOneWidget);
+    });
+
     testWidgets('renders PreviewImage', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
@@ -126,6 +139,7 @@ void main() async {
       );
       expect(find.byType(OpenStickersButton), findsOneWidget);
     });
+
     testWidgets('renders FlutterIconLink', (tester) async {
       await tester.pumpApp(
         MultiBlocProvider(
@@ -151,6 +165,7 @@ void main() async {
       );
       expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
+
     testWidgets('renders StickersDrawerLayer when mode is active',
         (tester) async {
       when(() => stickersBloc.state).thenReturn(
@@ -287,23 +302,6 @@ void main() async {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets(
-        'does not display NextButton when any sticker selected on mobile',
-        (tester) async {
-      await tester.pumpApp(
-        StickersPage(),
-        photoboothBloc: photoboothBloc,
-      );
-
-      final goToPreviewButton =
-          tester.widget<NextButton>(find.byType(NextButton));
-      goToPreviewButton.onPressed();
-      await tester.pumpAndSettle();
-
-      expect(find.byType(StickersPage), findsNothing);
-      expect(find.byType(SharePage), findsOneWidget);
-    });
-
     testWidgets('tapping NextButton routes to SharePage', (tester) async {
       await tester.pumpApp(
         StickersPage(),
@@ -359,8 +357,7 @@ void main() async {
       expect(find.byType(ClearStickersButton), findsOneWidget);
     });
 
-    testWidgets(
-        'adds PhotoClearStickersTapped when ClearStickersButton is tapped',
+    testWidgets('shows ClearStickersDialog when ClearStickersButton is tapped',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
@@ -384,6 +381,39 @@ void main() async {
         find.byType(ClearStickersButton),
       );
       clearStickersButton.onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(ClearStickersDialog), findsOneWidget);
+    });
+
+    testWidgets(
+        'PhotoClearStickersTapped when ClearStickersConfirmButton is tapped',
+        (tester) async {
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          image: image,
+        ),
+      );
+
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      final clearStickersButton = tester.widget<ClearStickersButton>(
+        find.byType(ClearStickersButton),
+      );
+      clearStickersButton.onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(ClearStickersDialog), findsOneWidget);
+      final confirmButton = find.byType(ClearStickersConfirmButton);
+      await tester.ensureVisible(confirmButton);
+      await tester.tap(confirmButton);
+      await tester.pumpAndSettle();
       verify(() => photoboothBloc.add(PhotoClearStickersTapped())).called(1);
     });
 
@@ -511,136 +541,9 @@ void main() async {
           ?.call();
 
       verify(
-        () => photoboothBloc
-            .add(any(that: isA<PhotoDeleteSelectedStickerTapped>())),
-      ).called(1);
-    });
-  });
-
-  group('NextButtonLayer', () {
-    late PlatformHelper platformHelper;
-    late PhotoboothBloc photoboothBloc;
-    setUp(() {
-      platformHelper = MockPlatformHelper();
-      photoboothBloc = MockPhotoboothBloc();
-    });
-
-    testWidgets(
-      'renders NextButton when is not mobile',
-      (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
-        await tester.pumpApp(
-          NextButtonLayer(
-            platformHelper: platformHelper,
-          ),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(NextButton), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'renders NextButton when is mobile and there is not character selected',
-      (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(true);
-        when(() => photoboothBloc.state).thenReturn(PhotoboothState());
-
-        await tester.pumpApp(
-          NextButtonLayer(
-            platformHelper: platformHelper,
-          ),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(NextButton), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-        'does not render NextButton when is mobile and there '
-        'is character selected', (tester) async {
-      when(() => platformHelper.isMobile).thenReturn(true);
-      when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: '0'));
-      await tester.pumpApp(
-        NextButtonLayer(
-          platformHelper: platformHelper,
+        () => photoboothBloc.add(
+          any(that: isA<PhotoDeleteSelectedStickerTapped>()),
         ),
-        photoboothBloc: photoboothBloc,
-      );
-      expect(find.byType(NextButton), findsNothing);
-    });
-  });
-
-  group('RemoveSelectedStickerButtonLayer', () {
-    late PlatformHelper platformHelper;
-    late PhotoboothBloc photoboothBloc;
-    setUp(() {
-      platformHelper = MockPlatformHelper();
-      photoboothBloc = MockPhotoboothBloc();
-    });
-
-    testWidgets(
-      'does not render RemoveSelectedStickerButton when it is not mobile',
-      (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
-        await tester.pumpApp(
-          RemoveSelectedStickerButtonLayer(
-            platformHelper: platformHelper,
-          ),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(RemoveSelectedStickerButton), findsNothing);
-      },
-    );
-
-    testWidgets(
-      'does not render RemoveSelectedStickerButton in mobile '
-      'and no sticker is selected',
-      (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(true);
-        when(() => photoboothBloc.state).thenReturn(PhotoboothState());
-
-        await tester.pumpApp(
-          RemoveSelectedStickerButtonLayer(
-            platformHelper: platformHelper,
-          ),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(RemoveSelectedStickerButton), findsNothing);
-      },
-    );
-
-    testWidgets(
-        'renders RemoveSelectedStickerButton when mobile '
-        'and any sticker is selected ', (tester) async {
-      when(() => platformHelper.isMobile).thenReturn(true);
-      when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: '0'));
-      await tester.pumpApp(
-        RemoveSelectedStickerButtonLayer(
-          platformHelper: platformHelper,
-        ),
-        photoboothBloc: photoboothBloc,
-      );
-      expect(find.byType(RemoveSelectedStickerButton), findsOneWidget);
-    });
-
-    testWidgets(
-        'PhotoDeleteSelectedStickerTapped is called '
-        'when RemoveSelectedStickerButton is tapped', (tester) async {
-      when(() => platformHelper.isMobile).thenReturn(true);
-      when(() => photoboothBloc.state)
-          .thenReturn(PhotoboothState(selectedAssetId: '0'));
-      await tester.pumpApp(
-        RemoveSelectedStickerButtonLayer(
-          platformHelper: platformHelper,
-        ),
-        photoboothBloc: photoboothBloc,
-      );
-      await tester.tap(find.byType(RemoveSelectedStickerButton));
-      verify(
-        () => photoboothBloc
-            .add(any(that: isA<PhotoDeleteSelectedStickerTapped>())),
       ).called(1);
     });
   });

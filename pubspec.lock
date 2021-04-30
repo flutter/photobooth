@@ -232,6 +232,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.4"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flame:
     dependency: transitive
     description:
@@ -301,6 +322,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  image_compositor:
+    dependency: "direct main"
+    description:
+      path: "packages/image_compositor"
+      relative: true
+    source: path
+    version: "0.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -357,6 +385,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  mocktail_image_network:
+    dependency: "direct dev"
+    description:
+      name: mocktail_image_network
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   nested:
     dependency: transitive
     description:
@@ -413,6 +448,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  photos_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/photos_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   platform_helper:
     dependency: transitive
     description:
@@ -448,6 +490,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.26.0"
+  share_photo_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/share_photo_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   shelf:
     dependency: transitive
     description:
@@ -615,7 +671,7 @@ packages:
     source: hosted
     version: "2.1.0"
   very_good_analysis:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: very_good_analysis
       url: "https://pub.dartlang.org"

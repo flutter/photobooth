@@ -1,16 +1,17 @@
 import 'package:camera/camera.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/common/common.dart';
+import 'package:io_photobooth/download/download.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
+import 'package:share_photo_repository/share_photo_repository.dart';
 
 class SharePage extends StatelessWidget {
   SharePage({Key? key}) : super(key: key);
@@ -19,7 +20,8 @@ class SharePage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (_) => BlocProvider(
         create: (context) => ShareBloc(
-          delay: const Duration(seconds: 2),
+          sharePhotoRepository: context.read<SharePhotoRepository>(),
+          photosRepository: context.read<PhotosRepository>(),
         ),
         child: SharePage(),
       ),
@@ -30,38 +32,33 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
     return Scaffold(
-      body: ShareErrorListener(
+      body: ShareStateListener(
         child: Stack(
           fit: StackFit.expand,
           children: [
             const ShareBackground(),
             Center(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 30,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SharePhoto(image: image),
-                      const SizedBox(height: 40),
-                      const _Heading(),
-                      const SizedBox(height: 20),
-                      const LearnMoreAboutText(),
-                      const SizedBox(height: 30),
-                      if (image != null)
-                        ResponsiveLayoutBuilder(
-                          mobile: (_, __) => MobileButtonsLayout(image: image),
-                          desktop: (_, __) => DesktopButtonsLayout(
-                            image: image,
-                          ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedPhotoIndicator(),
+                    AnimatedPhotoboothPhoto(image: image),
+                    const SizedBox(height: 40),
+                    const _Heading(),
+                    const SizedBox(height: 20),
+                    const LearnMoreAboutText(),
+                    const SizedBox(height: 30),
+                    if (image != null)
+                      ResponsiveLayoutBuilder(
+                        small: (_, __) => MobileButtonsLayout(image: image),
+                        large: (_, __) => DesktopButtonsLayout(
+                          image: image,
                         ),
-                      const SizedBox(height: 70),
-                      const WhiteFooter()
-                    ],
-                  ),
+                      ),
+                    const SizedBox(height: 70),
+                    const WhiteFooter()
+                  ],
                 ),
               ),
             ),
@@ -99,7 +96,7 @@ class _Heading extends StatelessWidget {
       style: theme.textTheme.headline1?.copyWith(
         color: PhotoboothColors.white,
         fontSize:
-            MediaQuery.of(context).size.width > PhotoboothBreakpoints.mobile
+            MediaQuery.of(context).size.width > PhotoboothBreakpoints.small
                 ? 56
                 : 32,
       ),
@@ -118,7 +115,7 @@ class DesktopButtonsLayout extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Flexible(child: _DownloadButton(file: image.toFile())),
+        const Flexible(child: DownloadButton()),
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
@@ -139,32 +136,12 @@ class MobileButtonsLayout extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _DownloadButton(file: image.toFile()),
+        const DownloadButton(),
         gap,
         ShareButton(image: image),
         gap,
         const _GoToGoogleIOButton(),
       ],
-    );
-  }
-}
-
-class _DownloadButton extends StatelessWidget {
-  const _DownloadButton({
-    Key? key,
-    required this.file,
-  }) : super(key: key);
-  final XFile file;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return OutlinedButton(
-      key: const Key('sharePage_download_outlinedButton'),
-      onPressed: () => file.saveTo(''),
-      child: Text(
-        l10n.sharePageDownloadButtonText,
-      ),
     );
   }
 }
@@ -188,17 +165,6 @@ class _GoToGoogleIOButton extends StatelessWidget {
           color: PhotoboothColors.black,
         ),
       ),
-    );
-  }
-}
-
-extension on CameraImage {
-  XFile toFile() {
-    final uuid = const Uuid().v4();
-    return XFile.fromData(
-      data,
-      mimeType: 'image/png',
-      name: 'photobooth_$uuid.png',
     );
   }
 }

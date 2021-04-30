@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -14,8 +12,11 @@ class MockPhotoAsset extends Mock implements PhotoAsset {}
 void main() {
   const width = 1;
   const height = 1;
-  final data = Uint8List.fromList([]);
-  final image = CameraImage(width: width, height: height, data: data);
+  const data = '';
+  const image = CameraImage(width: width, height: height, data: data);
+  const imageId = 'image-name';
+  const shareText =
+      '''Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!''';
   final characters = [MockPhotoAsset()];
   final stickers = [MockPhotoAsset()];
   final photoboothState = PhotoboothState(
@@ -40,6 +41,7 @@ void main() {
     when(() => photoboothBloc.state).thenReturn(
       PhotoboothState(
         image: image,
+        imageId: imageId,
         characters: characters,
         stickers: stickers,
       ),
@@ -73,9 +75,7 @@ void main() {
       expect(find.byType(TwitterButton), findsNothing);
     });
 
-    testWidgets(
-        'adds ShareOnTwitter event with image and assets '
-        'when tapped', (tester) async {
+    testWidgets('adds ShareOnFacebook event when tapped', (tester) async {
       await tester.pumpApp(
         TwitterButton(),
         photoboothBloc: photoboothBloc,
@@ -89,18 +89,21 @@ void main() {
         () => shareBloc.add(
           ShareOnTwitter(
             image: image,
+            imageId: imageId,
             assets: photoboothState.assets,
+            shareText: shareText,
           ),
         ),
       ).called(1);
     });
 
     testWidgets(
-        'does not add ShareOnTwitter event '
+        'does not add ShareOnFacebook event '
         'when tapped but PhotoboothState image is null', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           image: null,
+          imageId: imageId,
           characters: characters,
           stickers: stickers,
         ),

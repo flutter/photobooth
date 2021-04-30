@@ -408,14 +408,31 @@ void main() {
         expect(onUpdateCalls, isNotEmpty);
       });
 
-      testWidgets(
-          'delete button does not render when canTransform is false'
-          'and there is not delete callback', (tester) async {
+      testWidgets('delete button does not render when canTransform is false',
+          (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: false,
+              onDelete: () {},
+              child: child,
+            ),
+          ),
+        );
+        expect(
+          find.byKey(Key('draggableResizable_delete_image')),
+          findsNothing,
+        );
+      });
+
+      testWidgets(
+          'delete button does not render when'
+          'there is delete callback', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: DraggableResizable(
+              platformHelper: platformHelper,
               child: child,
             ),
           ),
@@ -459,9 +476,14 @@ void main() {
         final gestureDetector = tester.widget<GestureDetector>(
           find.byKey(Key('draggableResizable_rotate_gestureDetector')),
         );
+
+        gestureDetector.onScaleStart!(
+          ScaleStartDetails(localFocalPoint: Offset(0, 0)),
+        );
         gestureDetector.onScaleUpdate!(
           ScaleUpdateDetails(localFocalPoint: Offset(1, 1)),
         );
+        gestureDetector.onScaleEnd!(ScaleEndDetails());
 
         await tester.pumpAndSettle();
         final childFinder = find.byKey(

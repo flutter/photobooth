@@ -15,12 +15,25 @@ class MockDragUpdate extends Mock implements DragUpdate {}
 
 void main() {
   group('ShareEvent', () {
+    final imageId = 'image-id';
+    final shareText = 'share-text';
+
     group('ShareOnTwitter', () {
       test('support value equality', () {
         final image = MockCameraImage();
         final assets = [MockPhotoAsset()];
-        final instanceA = ShareOnTwitter(image: image, assets: assets);
-        final instanceB = ShareOnTwitter(image: image, assets: assets);
+        final instanceA = ShareOnTwitter(
+          image: image,
+          imageId: imageId,
+          shareText: shareText,
+          assets: assets,
+        );
+        final instanceB = ShareOnTwitter(
+          image: image,
+          imageId: imageId,
+          shareText: shareText,
+          assets: assets,
+        );
         expect(instanceA, equals(instanceB));
       });
     });
@@ -29,8 +42,18 @@ void main() {
       test('support value equality', () {
         final image = MockCameraImage();
         final assets = [MockPhotoAsset()];
-        final instanceA = ShareOnFacebook(image: image, assets: assets);
-        final instanceB = ShareOnFacebook(image: image, assets: assets);
+        final instanceA = ShareOnFacebook(
+          image: image,
+          imageId: imageId,
+          shareText: shareText,
+          assets: assets,
+        );
+        final instanceB = ShareOnFacebook(
+          image: image,
+          imageId: imageId,
+          shareText: shareText,
+          assets: assets,
+        );
         expect(instanceA, equals(instanceB));
       });
     });

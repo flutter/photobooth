@@ -15,16 +15,17 @@ class FacebookButton extends StatelessWidget {
         final photoboothState = context.read<PhotoboothBloc>().state;
 
         final photoboothImage = photoboothState.image;
+        final photoboothImageId = photoboothState.imageId;
         final photoboothAssets = photoboothState.assets;
 
-        if (photoboothImage == null) {
-          return;
-        }
+        if (photoboothImage == null) return;
 
         context.read<ShareBloc>().add(
               ShareOnFacebook(
                 image: photoboothImage,
+                imageId: photoboothImageId,
                 assets: photoboothAssets,
+                shareText: l10n.socialMediaShareLinkText,
               ),
             );
 

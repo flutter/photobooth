@@ -24,6 +24,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     if (event is PhotoCaptured) {
       yield state.copyWith(
         image: event.image,
+        imageId: uuid(),
         selectedAssetId: emptyAssetId,
       );
     } else if (event is PhotoCharacterToggled) {
