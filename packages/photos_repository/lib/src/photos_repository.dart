@@ -62,7 +62,7 @@ class PhotosRepository {
         'Error: $e. StackTrace: $st',
       );
     }
-
+    if (await _photoExists(reference)) return;
     try {
       await reference.putData(photoData);
     } catch (error, stackTrace) {
@@ -71,6 +71,15 @@ class PhotosRepository {
         'Couldn\'t upload data to ${reference.fullPath}.'
         'Error: $error. StackTrace: $stackTrace',
       );
+    }
+  }
+
+  Future<bool> _photoExists(Reference reference) async {
+    try {
+      await reference.getDownloadURL();
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
