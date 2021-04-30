@@ -22,8 +22,8 @@ void main() async {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  await Firebase.initializeApp();
-  await FirebaseAuth.instance.signInAnonymously();
+  unawaited(Firebase.initializeApp()
+      .then((_) => FirebaseAuth.instance.signInAnonymously()));
 
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
