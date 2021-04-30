@@ -7,47 +7,47 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:share_photo_repository/share_photo_repository.dart';
 
 part 'share_event.dart';
 part 'share_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ShareBloc({
-    required SharePhotoRepository sharePhotoRepository,
     required PhotosRepository photosRepository,
-  })  : _sharePhotoRepository = sharePhotoRepository,
-        _photosRepository = photosRepository,
+    bool isSharingEnabled = false,
+  })  : _photosRepository = photosRepository,
+        _isSharingEnabled = isSharingEnabled,
         super(const ShareState.initial());
 
-  final SharePhotoRepository _sharePhotoRepository;
   final PhotosRepository _photosRepository;
+  final bool _isSharingEnabled;
 
   @override
   Stream<ShareState> mapEventToState(
     ShareEvent event,
   ) async* {
-    if (event is ShareOnTwitter) {
-      yield* _mapShareOnTwitterToState(event);
-    } else if (event is ShareOnFacebook) {
-      yield* _mapShareOnFacebookToState(event);
+    if (event is ShareOnTwitterTapped) {
+      yield* _mapShareOnTwitterTappedToState(event);
+    } else if (event is ShareOnFacebookTapped) {
+      yield* _mapShareOnFacebookTappedToState(event);
     }
   }
 
-  Stream<ShareState> _mapShareOnTwitterToState(ShareOnTwitter event) async* {
+  Stream<ShareState> _mapShareOnTwitterTappedToState(
+    ShareOnTwitterTapped event,
+  ) async* {
+    if (!_isSharingEnabled) return;
     yield const ShareState.loading();
     try {
       final photoFileName = _getPhotoFileName(event.imageId);
       final data = _getBytes(event.image.data);
+
       await _photosRepository.uploadPhoto(photoFileName, data);
 
-      var shareUrl = '';
-      if (_sharePhotoRepository.isSharingEnabled) {
-        shareUrl = _sharePhotoRepository.getShareOnTwitterUrl(
-          photoFileName,
-          event.shareText,
-        );
-      }
+      final shareUrl = _photosRepository.twitterShareUrl(
+        photoFileName,
+        event.shareText,
+      );
 
       yield ShareState.success(shareUrl: shareUrl);
     } catch (e, st) {
@@ -56,20 +56,21 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     }
   }
 
-  Stream<ShareState> _mapShareOnFacebookToState(ShareOnFacebook event) async* {
+  Stream<ShareState> _mapShareOnFacebookTappedToState(
+    ShareOnFacebookTapped event,
+  ) async* {
+    if (!_isSharingEnabled) return;
     yield const ShareState.loading();
     try {
       final photoFileName = _getPhotoFileName(event.imageId);
       final data = _getBytes(event.image.data);
+
       await _photosRepository.uploadPhoto(photoFileName, data);
 
-      var shareUrl = '';
-      if (_sharePhotoRepository.isSharingEnabled) {
-        shareUrl = _sharePhotoRepository.getShareOnFacebookUrl(
-          photoFileName,
-          event.shareText,
-        );
-      }
+      final shareUrl = _photosRepository.facebookShareUrl(
+        photoFileName,
+        event.shareText,
+      );
 
       yield ShareState.success(shareUrl: shareUrl);
     } catch (e, st) {

@@ -4,8 +4,8 @@ abstract class ShareEvent extends Equatable {
   const ShareEvent();
 }
 
-class ShareOnTwitter extends ShareEvent {
-  ShareOnTwitter({
+class ShareOnTwitterTapped extends ShareEvent {
+  ShareOnTwitterTapped({
     required this.image,
     required this.imageId,
     required this.assets,
@@ -21,8 +21,8 @@ class ShareOnTwitter extends ShareEvent {
   List<Object> get props => [image, imageId, assets, shareText];
 }
 
-class ShareOnFacebook extends ShareEvent {
-  ShareOnFacebook({
+class ShareOnFacebookTapped extends ShareEvent {
+  ShareOnFacebookTapped({
     required this.image,
     required this.imageId,
     required this.assets,
