@@ -215,5 +215,19 @@ void main() {
         );
       });
     });
+
+    group('existsPhoto', () {
+      test('returns true when getDownloadURL does not fail', () async {
+        when(() => reference.getDownloadURL()).thenAnswer((_) async => 'url');
+        final exists = await photosRepository.existsPhoto(reference);
+        expect(exists, true);
+      });
+
+      test('returns false when getDownloadURL fails', () async {
+        when(() => reference.getDownloadURL()).thenThrow(() => Exception());
+        final exists = await photosRepository.existsPhoto(reference);
+        expect(exists, false);
+      });
+    });
   });
 }
