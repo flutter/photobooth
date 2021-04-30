@@ -53,7 +53,7 @@ class _AnimatedTooltipState extends State<AnimatedTooltip> {
   }
 
   void _startTimer() {
-    if (isMobile) {
+    if (isMobile || widget.isPersistent) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         final dynamic tooltip = globalKey.currentState;
         // We need to delay the tooltip, else will be displayed inconsistenly
