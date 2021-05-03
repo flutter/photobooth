@@ -3,33 +3,6 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-final _stickers = [
-  Assets.banana,
-  Assets.beret,
-  Assets.birthdayCake,
-  Assets.bowTie,
-  Assets.catEyeGlasses,
-  Assets.coffeeMug,
-  Assets.dumbell,
-  Assets.genericMug,
-  Assets.genericGlasses,
-  Assets.graphMug,
-  Assets.guitar,
-  Assets.headband,
-  Assets.headphones,
-  Assets.megaphone,
-  Assets.ovalGlasses,
-  Assets.partyHat,
-  Assets.pencil,
-  Assets.pizza,
-  Assets.roundGlasses,
-  Assets.roundGlasses1,
-  Assets.soda,
-  Assets.squareGlasses,
-  Assets.star,
-  Assets.sunglasses,
-];
-
 class StickersDrawerLayer extends StatelessWidget {
   const StickersDrawerLayer({Key? key}) : super(key: key);
 
@@ -59,11 +32,11 @@ class StickersGrid extends StatelessWidget {
         crossAxisSpacing: 15,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 30),
-      itemCount: _stickers.length,
+      itemCount: Assets.props.length,
       itemBuilder: (context, index) => StickerChoice(
-        asset: _stickers[index],
+        asset: Assets.props.elementAt(index),
         onPressed: () {
-          onStickerSelected.call(_stickers[index]);
+          onStickerSelected.call(Assets.props.elementAt(index));
         },
       ),
     );

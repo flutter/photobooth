@@ -39,7 +39,7 @@ void main() async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: [PhotoAsset(id: '0', asset: Assets.android)],
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -48,7 +48,7 @@ void main() async {
         photoboothBloc: photoboothBloc,
       );
       expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        find.byKey(const Key('stickersLayer_google01_0_positioned')),
         findsOneWidget,
       );
     });
@@ -58,9 +58,9 @@ void main() async {
         PhotoboothState(
           characters: [PhotoAsset(id: '0', asset: Assets.android)],
           stickers: [
-            PhotoAsset(id: '0', asset: Assets.banana),
-            PhotoAsset(id: '1', asset: Assets.banana),
-            PhotoAsset(id: '2', asset: Assets.beret),
+            PhotoAsset(id: '0', asset: Assets.props.first),
+            PhotoAsset(id: '1', asset: Assets.props.first),
+            PhotoAsset(id: '2', asset: Assets.props.last),
           ],
           image: image,
         ),
@@ -70,15 +70,15 @@ void main() async {
         photoboothBloc: photoboothBloc,
       );
       expect(
-        find.byKey(const Key('stickersLayer_banana_0_positioned')),
+        find.byKey(const Key('stickersLayer_google01_0_positioned')),
         findsOneWidget,
       );
       expect(
-        find.byKey(const Key('stickersLayer_banana_1_positioned')),
+        find.byKey(const Key('stickersLayer_google01_1_positioned')),
         findsOneWidget,
       );
       expect(
-        find.byKey(const Key('stickersLayer_beret_2_positioned')),
+        find.byKey(const Key('stickersLayer_shapes25_2_positioned')),
         findsOneWidget,
       );
     });
