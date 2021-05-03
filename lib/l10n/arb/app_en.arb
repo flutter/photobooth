@@ -108,10 +108,6 @@
     "@shareDialogFacebookButtonText": {
         "description": "Button text shown on the share dialog which shares on Facebook the photo."
     },
-    "shareDialogDeleteText": "If you would like to delete your photo prior to the 30 days, please contact photobooth@google.com",
-    "@shareDialogDeleteText": {
-        "description": "Text displayed on the share dialog to inform about the delete of the photo"
-    },
     "photoBoothPlaceholderHeadline": "Allow I/O to access your camera",
     "@photoBoothPlaceholderHeadline": {
         "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
@@ -136,7 +132,7 @@
     "@photoBoothCameraErrorSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
     },
-    "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact photobooth@google.com",
+    "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact flutter-photo-booth@google.com",
     "@photoBoothCameraErrorSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
