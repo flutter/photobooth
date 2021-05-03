@@ -220,8 +220,8 @@ void main() async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [
-            PhotoAsset(id: '0', asset: Assets.banana),
-            PhotoAsset(id: '1', asset: Assets.beret)
+            PhotoAsset(id: '0', asset: Assets.props.first),
+            PhotoAsset(id: '1', asset: Assets.props.last)
           ],
           image: image,
         ),
@@ -243,7 +243,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -338,7 +338,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -361,7 +361,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -390,7 +390,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -438,7 +438,7 @@ void main() async {
     });
 
     testWidgets('can select stickers on MobileStickersDrawer', (tester) async {
-      final sticker = Assets.banana;
+      final sticker = Assets.props.first;
       whenListen(
         stickersBloc,
         Stream.fromIterable([
@@ -495,7 +495,7 @@ void main() async {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
@@ -520,7 +520,7 @@ void main() async {
         'when sticker selected is removed', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.banana)],
+          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
       );
