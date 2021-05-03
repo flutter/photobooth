@@ -23,9 +23,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final bool _isSharingEnabled;
 
   @override
-  Stream<ShareState> mapEventToState(
-    ShareEvent event,
-  ) async* {
+  Stream<ShareState> mapEventToState(ShareEvent event) async* {
     if (event is ShareOnTwitterTapped) {
       yield* _mapShareOnTwitterTappedToState(event);
     } else if (event is ShareOnFacebookTapped) {

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:platform_helper/platform_helper.dart';
-
-class MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   group('AppTooltipButton', () {
@@ -16,27 +12,6 @@ void main() {
             child: AppTooltipButton(
               message: 'message',
               onPressed: () {},
-              child: const SizedBox(key: target),
-            ),
-          ),
-        ),
-      );
-      expect(find.byType(AppTooltip), findsOneWidget);
-      expect(find.byKey(target), findsOneWidget);
-      expect(find.text('message'), findsNothing);
-    });
-
-    testWidgets('renders AppTooltip when mobile is false', (tester) async {
-      final platformHelper = MockPlatformHelper();
-      when(() => platformHelper.isMobile).thenReturn(false);
-      const target = Key('__key__');
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Material(
-            child: AppTooltipButton(
-              message: 'message',
-              onPressed: () {},
-              platformHelper: platformHelper,
               child: const SizedBox(key: target),
             ),
           ),
@@ -67,11 +42,8 @@ void main() {
       expect(onPressedCallCount, equals(1));
     });
 
-    testWidgets(
-        'renders tooltip on mobile when mode is visibleUntilInteraction',
+    testWidgets('renders tooltip  when mode is visibleUntilInteraction',
         (tester) async {
-      final platformHelper = MockPlatformHelper();
-      when(() => platformHelper.isMobile).thenReturn(true);
       const target = Key('__key__');
       await tester.pumpWidget(
         MaterialApp(
@@ -79,7 +51,6 @@ void main() {
             child: AppTooltipButton(
               message: 'message',
               onPressed: () {},
-              platformHelper: platformHelper,
               mode: TooltipMode.visibleUntilInteraction,
               child: const SizedBox(key: target),
             ),
