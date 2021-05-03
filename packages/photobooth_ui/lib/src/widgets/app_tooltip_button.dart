@@ -12,7 +12,7 @@ enum TooltipMode {
   visibleUntilInteraction
 }
 
-/// {@template app_tooltip_button}\
+/// {@template app_tooltip_button}
 /// An [AppTooltip] button which handles showing a tooltip based on the
 /// [TooltipMode].
 /// {@endtemplate}
