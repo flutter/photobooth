@@ -8,19 +8,9 @@ class CharactersCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Container(
-      decoration: const BoxDecoration(
-        color: PhotoboothColors.charcoal,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Text(
-        l10n.charactersCaptionText,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText2
-            ?.copyWith(color: PhotoboothColors.white),
-      ),
+    return AppTooltip.custom(
+      visible: true,
+      message: l10n.charactersCaptionText,
     );
   }
 }

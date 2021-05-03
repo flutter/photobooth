@@ -152,28 +152,19 @@ class _DraggableStickers extends StatelessWidget {
 }
 
 class OpenStickersButton extends StatelessWidget {
-  const OpenStickersButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const OpenStickersButton({Key? key, required this.onPressed})
+      : super(key: key);
 
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Tooltip(
-        message: l10n.openStickersTooltip,
-        child: InkWell(
-          onTap: onPressed,
-          child: Image.asset(
-            'assets/icons/stickers_button_icon.png',
-            height: 50,
-          ),
-        ),
-      ),
+    return AppTooltipButton(
+      onPressed: onPressed,
+      message: l10n.openStickersTooltip,
+      mode: TooltipMode.visibleUntilInteraction,
+      child: Image.asset('assets/icons/stickers_button_icon.png', height: 50),
     );
   }
 }
