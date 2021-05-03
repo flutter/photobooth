@@ -1,5 +1,7 @@
 export 'animated_sprite.dart';
 export 'app_dialog.dart';
+export 'app_tooltip.dart';
+export 'app_tooltip_button.dart';
 export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'platform_builder.dart';

@@ -39,15 +39,10 @@ class ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Tooltip(
-        message: l10n.clearStickersButtonTooltip,
-        child: InkWell(
-          onTap: onPressed,
-          child: Image.asset('assets/icons/delete_icon.png', height: 50),
-        ),
-      ),
+    return AppTooltipButton(
+      onPressed: onPressed,
+      message: l10n.clearStickersButtonTooltip,
+      child: Image.asset('assets/icons/delete_icon.png', height: 50),
     );
   }
 }
