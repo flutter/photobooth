@@ -49,3 +49,8 @@ flutter:
     - assets/backgrounds/
     - assets/images/
     - assets/icons/
+    - assets/props/google/
+    - assets/props/hats/
+    - assets/props/eyewear/
+    - assets/props/food/
+    - assets/props/shapes/

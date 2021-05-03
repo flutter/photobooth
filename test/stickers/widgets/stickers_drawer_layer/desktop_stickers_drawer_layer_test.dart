@@ -79,7 +79,7 @@ void main() async {
     testWidgets('adds StickerSelected when StickerChoice tapped',
         (tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
-      final sticker = Assets.banana;
+      final sticker = Assets.props.first;
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [PhotoAsset(id: '0', asset: sticker)],
