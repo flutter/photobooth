@@ -136,7 +136,7 @@
     "@photoBoothCameraErrorSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
     },
-    "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact photobooth@google.com",
+    "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact flutter-photo-booth@google.com",
     "@photoBoothCameraErrorSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
