@@ -35,16 +35,21 @@ void main() {
   setUp(() {
     shareBloc = MockShareBloc();
     file = MockXFile();
-    when(() => shareBloc.state).thenReturn(ShareInitial());
+    when(() => shareBloc.state).thenReturn(ShareState());
   });
 
   group('ShareProgressOverlay', () {
     testWidgets(
         'displays loading overlay '
-        'when ShareBloc state is loading', (tester) async {
+        'when ShareBloc upload status is loading', (tester) async {
       tester.setDisplaySize(const Size(1920, 1080));
       when(() => shareBloc.state).thenReturn(
-        ShareUploadInProgress(file: file, bytes: bytes),
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
       expect(find.byKey(Key('shareProgressOverlay_loading')), findsOneWidget);
@@ -52,11 +57,16 @@ void main() {
 
     testWidgets(
         'displays mobile loading overlay '
-        'when ShareBloc state is loading '
+        'when ShareBloc upload status is loading '
         'and resolution is mobile', (tester) async {
       tester.setDisplaySize(const Size(320, 800));
       when(() => shareBloc.state).thenReturn(
-        ShareUploadInProgress(file: file, bytes: bytes),
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
       expect(find.byKey(Key('shareProgressOverlay_mobile')), findsOneWidget);
@@ -64,11 +74,16 @@ void main() {
 
     testWidgets(
         'displays desktop loading overlay '
-        'when ShareBloc state is loading '
+        'when ShareBloc upload status is loading '
         'and resolution is desktop', (tester) async {
       tester.setDisplaySize(const Size(1920, 1080));
       when(() => shareBloc.state).thenReturn(
-        ShareUploadInProgress(file: file, bytes: bytes),
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
       expect(find.byKey(Key('shareProgressOverlay_desktop')), findsOneWidget);
@@ -77,7 +92,6 @@ void main() {
     testWidgets(
         'displays nothing '
         'when ShareBloc state is not loading', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareInitial());
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
       expect(find.byKey(Key('shareProgressOverlay_nothing')), findsOneWidget);
     });

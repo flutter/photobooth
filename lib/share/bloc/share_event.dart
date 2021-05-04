@@ -16,22 +16,15 @@ class ShareDownloadTapped extends ShareEvent {
 }
 
 abstract class ShareTapped extends ShareEvent {
-  const ShareTapped({required this.shareText});
-
-  final String shareText;
-
-  @override
-  List<Object> get props => [shareText];
+  const ShareTapped();
 }
 
 class ShareOnTwitterTapped extends ShareTapped {
-  const ShareOnTwitterTapped({required String shareText})
-      : super(shareText: shareText);
+  const ShareOnTwitterTapped();
 }
 
 class ShareOnFacebookTapped extends ShareTapped {
-  const ShareOnFacebookTapped({required String shareText})
-      : super(shareText: shareText);
+  const ShareOnFacebookTapped();
 }
 
 class _ShareCompositeSucceeded extends ShareEvent {

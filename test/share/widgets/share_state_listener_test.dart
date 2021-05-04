@@ -37,7 +37,7 @@ void main() {
 
   setUp(() {
     shareBloc = MockShareBloc();
-    when(() => shareBloc.state).thenReturn(ShareInitial());
+    when(() => shareBloc.state).thenReturn(ShareState());
 
     file = MockXFile();
     platformHelper = MockPlatformHelper();
@@ -52,8 +52,18 @@ void main() {
         whenListen(
           shareBloc,
           Stream.fromIterable([
-            ShareUploadInProgress(file: file, bytes: bytes),
-            ShareUploadFailure(file: file, bytes: bytes),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.failure,
+              file: file,
+              bytes: bytes,
+            ),
           ]),
         );
         when(() => platformHelper.isMobile).thenReturn(true);
@@ -76,8 +86,18 @@ void main() {
         whenListen(
           shareBloc,
           Stream.fromIterable([
-            ShareUploadInProgress(file: file, bytes: bytes),
-            ShareUploadFailure(file: file, bytes: bytes),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.failure,
+              file: file,
+              bytes: bytes,
+            ),
           ]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
@@ -95,13 +115,20 @@ void main() {
 
       testWidgets(
           'does not display ShareErrorBottomSheet '
-          'when ShareBloc emits state different than error '
+          'when ShareBloc emits state other than error '
           'and platform is mobile', (tester) async {
         whenListen(
           shareBloc,
           Stream.fromIterable([
-            ShareUploadInProgress(file: file, bytes: bytes),
-            ShareOnTwitterSuccess(
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.success,
               file: file,
               bytes: bytes,
               twitterShareUrl: shareUrl,
@@ -128,7 +155,7 @@ void main() {
           'and platform is desktop', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareInitial()]),
+          Stream.fromIterable([ShareState()]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpApp(
@@ -166,8 +193,15 @@ void main() {
         whenListen(
           shareBloc,
           Stream.fromIterable([
-            ShareUploadInProgress(file: file, bytes: bytes),
-            ShareOnTwitterSuccess(
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.success,
               file: file,
               bytes: bytes,
               twitterShareUrl: shareUrl,
@@ -183,15 +217,17 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              shareUrl,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(
+          () => mock.launch(
+            shareUrl,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).called(1);
       });
     });
   });

@@ -1,104 +1,77 @@
 part of 'share_bloc.dart';
 
-abstract class ShareState extends Equatable {
-  const ShareState();
+enum ShareStatus { initial, loading, success, failure }
+
+enum ShareUrl { none, twitter, facebook }
+
+extension ShareStatusX on ShareStatus {
+  bool get isInitial => this == ShareStatus.initial;
+  bool get isLoading => this == ShareStatus.loading;
+  bool get isSuccess => this == ShareStatus.success;
+  bool get isFailure => this == ShareStatus.failure;
+}
+
+class ShareState extends Equatable {
+  const ShareState({
+    this.compositeStatus = ShareStatus.initial,
+    this.uploadStatus = ShareStatus.initial,
+    this.file,
+    this.bytes,
+    this.facebookShareUrl = '',
+    this.twitterShareUrl = '',
+    this.isDownloadRequested = false,
+    this.isUploadRequested = false,
+    this.shareUrl = ShareUrl.none,
+  });
 
   @override
-  List<Object> get props => [];
-}
+  String toString() =>
+      '''ShareState(compositeStatus: $compositeStatus, uploadStatus: $uploadStatus, shareUrl: $shareUrl)''';
 
-class ShareInitial extends ShareState {
-  const ShareInitial();
-}
-
-class ShareCompositeInProgress extends ShareState {
-  const ShareCompositeInProgress();
-}
-
-class ShareCompositeInProgressAndDownloadRequested
-    extends ShareCompositeInProgress {
-  const ShareCompositeInProgressAndDownloadRequested();
-}
-
-class ShareCompositeInProgressAndUploadRequested
-    extends ShareCompositeInProgress {
-  const ShareCompositeInProgressAndUploadRequested();
-}
-
-class ShareCompositeFailure extends ShareState {
-  const ShareCompositeFailure();
-}
-
-class ShareCompositeSuccess extends ShareState {
-  const ShareCompositeSuccess({required this.file, required this.bytes});
-
-  final XFile file;
-  final Uint8List bytes;
-
-  @override
-  List<Object> get props => [file, bytes];
-}
-
-class ShareCompositeSuccessAndDownloadRequested extends ShareCompositeSuccess {
-  const ShareCompositeSuccessAndDownloadRequested({
-    required XFile file,
-    required Uint8List bytes,
-  }) : super(file: file, bytes: bytes);
-}
-
-class ShareUploadInProgress extends ShareCompositeSuccess {
-  const ShareUploadInProgress({
-    required XFile file,
-    required Uint8List bytes,
-  }) : super(file: file, bytes: bytes);
-}
-
-class ShareUploadFailure extends ShareCompositeSuccess {
-  const ShareUploadFailure({
-    required XFile file,
-    required Uint8List bytes,
-  }) : super(file: file, bytes: bytes);
-}
-
-abstract class ShareUploadSuccess extends ShareCompositeSuccess {
-  const ShareUploadSuccess({
-    required XFile file,
-    required Uint8List bytes,
-    required this.twitterShareUrl,
-    required this.facebookShareUrl,
-  }) : super(file: file, bytes: bytes);
-
+  final ShareStatus compositeStatus;
+  final ShareStatus uploadStatus;
+  final XFile? file;
+  final Uint8List? bytes;
   final String twitterShareUrl;
   final String facebookShareUrl;
+  final bool isUploadRequested;
+  final bool isDownloadRequested;
+  final ShareUrl shareUrl;
 
   @override
-  List<Object> get props => [file, twitterShareUrl, facebookShareUrl];
-}
+  List<Object?> get props => [
+        compositeStatus,
+        uploadStatus,
+        file,
+        bytes,
+        twitterShareUrl,
+        facebookShareUrl,
+        isUploadRequested,
+        isDownloadRequested,
+        shareUrl,
+      ];
 
-class ShareOnTwitterSuccess extends ShareUploadSuccess {
-  const ShareOnTwitterSuccess({
-    required XFile file,
-    required Uint8List bytes,
-    required String twitterShareUrl,
-    required String facebookShareUrl,
-  }) : super(
-          file: file,
-          bytes: bytes,
-          twitterShareUrl: twitterShareUrl,
-          facebookShareUrl: facebookShareUrl,
-        );
-}
-
-class ShareOnFacebookSuccess extends ShareUploadSuccess {
-  const ShareOnFacebookSuccess({
-    required XFile file,
-    required Uint8List bytes,
-    required String twitterShareUrl,
-    required String facebookShareUrl,
-  }) : super(
-          file: file,
-          bytes: bytes,
-          twitterShareUrl: twitterShareUrl,
-          facebookShareUrl: facebookShareUrl,
-        );
+  ShareState copyWith({
+    ShareStatus? compositeStatus,
+    ShareStatus? uploadStatus,
+    XFile? file,
+    Uint8List? bytes,
+    String? twitterShareUrl,
+    String? facebookShareUrl,
+    bool? isUploadRequested,
+    bool? isDownloadRequested,
+    ShareUrl? shareUrl,
+  }) {
+    return ShareState(
+      compositeStatus: compositeStatus ?? this.compositeStatus,
+      uploadStatus: uploadStatus ?? this.uploadStatus,
+      file: file ?? this.file,
+      bytes: bytes ?? this.bytes,
+      twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
+      facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
+      isUploadRequested: isUploadRequested ?? this.isUploadRequested,
+      isDownloadRequested: isDownloadRequested ?? this.isDownloadRequested,
+      shareUrl: shareUrl ?? this.shareUrl,
+    );
+  }
 }

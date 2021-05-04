@@ -20,6 +20,7 @@ class SharePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocProvider(
       create: (context) {
         final state = context.read<PhotoboothBloc>().state;
@@ -28,6 +29,7 @@ class SharePage extends StatelessWidget {
           imageId: state.imageId,
           image: state.image!,
           assets: state.assets,
+          shareText: l10n.socialMediaShareLinkText,
         )..add(const ShareViewLoaded());
       },
       child: const ShareView(),

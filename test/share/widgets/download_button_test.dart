@@ -24,7 +24,7 @@ void main() {
     setUp(() {
       shareBloc = MockShareBloc();
 
-      when(() => shareBloc.state).thenReturn(const ShareInitial());
+      when(() => shareBloc.state).thenReturn(const ShareState());
     });
 
     testWidgets('renders OutlinedButton', (tester) async {
@@ -32,16 +32,28 @@ void main() {
       expect(find.byType(OutlinedButton), findsOneWidget);
     });
 
-    testWidgets('renders loading indicator when compositing and tapped',
+    testWidgets(
+        'does not render loading indicator when compositing but not tapped',
         (tester) async {
-      when(() => shareBloc.state).thenReturn(const ShareCompositeInProgress());
+      when(() => shareBloc.state).thenReturn(
+        const ShareState(compositeStatus: ShareStatus.loading),
+      );
 
       await tester.pumpApp(const DownloadButton(), shareBloc: shareBloc);
 
       expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
 
-      await tester.tap(find.byType(OutlinedButton));
-      await tester.pump();
+    testWidgets('renders loading indicator when compositing and tapped',
+        (tester) async {
+      when(() => shareBloc.state).thenReturn(
+        const ShareState(
+          compositeStatus: ShareStatus.loading,
+          isDownloadRequested: true,
+        ),
+      );
+
+      await tester.pumpApp(const DownloadButton(), shareBloc: shareBloc);
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -52,8 +64,12 @@ void main() {
       whenListen(
         shareBloc,
         Stream.fromIterable([
-          const ShareCompositeInProgress(),
-          ShareCompositeSuccess(file: file, bytes: bytes),
+          const ShareState(compositeStatus: ShareStatus.loading),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            file: file,
+            bytes: bytes,
+          ),
         ]),
       );
 

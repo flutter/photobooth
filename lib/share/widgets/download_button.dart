@@ -11,14 +11,15 @@ class DownloadButton extends StatelessWidget {
     final l10n = context.l10n;
     final isLoading = context.select(
       (ShareBloc bloc) =>
-          bloc.state is ShareCompositeInProgressAndDownloadRequested,
+          bloc.state.compositeStatus.isLoading &&
+          bloc.state.isDownloadRequested,
     );
 
     void _onDownloadPressed() {
       final bloc = context.read<ShareBloc>();
       final state = bloc.state;
-      if (state is ShareCompositeSuccess) {
-        state.file.saveTo('');
+      if (state.compositeStatus.isSuccess) {
+        state.file!.saveTo('');
         return;
       }
       bloc.add(const ShareDownloadTapped());
@@ -26,8 +27,8 @@ class DownloadButton extends StatelessWidget {
 
     return BlocListener<ShareBloc, ShareState>(
       listener: (context, state) {
-        if (state is ShareCompositeSuccessAndDownloadRequested) {
-          state.file.saveTo('');
+        if (state.compositeStatus.isSuccess && state.isDownloadRequested) {
+          state.file!.saveTo('');
         }
       },
       child: OutlinedButton(

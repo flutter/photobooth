@@ -13,14 +13,12 @@ class FacebookButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         final state = context.read<ShareBloc>().state;
-        if (state is ShareUploadSuccess) {
+        if (state.uploadStatus.isSuccess) {
           Navigator.of(context).pop();
           openLink(state.facebookShareUrl);
           return;
         }
-        context.read<ShareBloc>().add(
-              ShareOnFacebookTapped(shareText: l10n.socialMediaShareLinkText),
-            );
+        context.read<ShareBloc>().add(const ShareOnFacebookTapped());
 
         Navigator.of(context).pop();
       },

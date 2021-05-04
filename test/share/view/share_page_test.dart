@@ -70,8 +70,8 @@ void main() async {
     shareBloc = MockShareBloc();
     whenListen(
       shareBloc,
-      Stream.fromIterable([ShareInitial()]),
-      initialState: ShareInitial(),
+      Stream.fromIterable([ShareState()]),
+      initialState: ShareState(),
     );
   });
 

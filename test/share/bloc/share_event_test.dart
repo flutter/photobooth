@@ -4,8 +4,6 @@ import 'package:io_photobooth/share/share.dart';
 
 void main() {
   group('ShareEvent', () {
-    final shareText = 'share-text';
-
     group('ShareViewLoaded', () {
       test('support value equality', () {
         final instanceA = ShareViewLoaded();
@@ -14,18 +12,26 @@ void main() {
       });
     });
 
+    group('ShareDownloadTapped', () {
+      test('support value equality', () {
+        final instanceA = ShareDownloadTapped();
+        final instanceB = ShareDownloadTapped();
+        expect(instanceA, equals(instanceB));
+      });
+    });
+
     group('ShareOnTwitterTapped', () {
       test('support value equality', () {
-        final instanceA = ShareOnTwitterTapped(shareText: shareText);
-        final instanceB = ShareOnTwitterTapped(shareText: shareText);
+        final instanceA = ShareOnTwitterTapped();
+        final instanceB = ShareOnTwitterTapped();
         expect(instanceA, equals(instanceB));
       });
     });
 
     group('ShareOnFacebookTapped', () {
       test('support value equality', () {
-        final instanceA = ShareOnFacebookTapped(shareText: shareText);
-        final instanceB = ShareOnFacebookTapped(shareText: shareText);
+        final instanceA = ShareOnFacebookTapped();
+        final instanceB = ShareOnFacebookTapped();
         expect(instanceA, equals(instanceB));
       });
     });

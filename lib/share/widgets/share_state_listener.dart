@@ -26,9 +26,9 @@ class ShareStateListener extends StatelessWidget {
   }
 
   void _onShareStateChange(BuildContext context, ShareState state) {
-    if (state is ShareUploadFailure) {
+    if (state.uploadStatus.isFailure) {
       _onShareError(context, state);
-    } else if (state is ShareUploadSuccess) {
+    } else if (state.uploadStatus.isSuccess) {
       _onShareSuccess(context, state);
     }
   }
@@ -48,9 +48,9 @@ class ShareStateListener extends StatelessWidget {
     }
   }
 
-  void _onShareSuccess(BuildContext context, ShareUploadSuccess state) {
+  void _onShareSuccess(BuildContext context, ShareState state) {
     openLink(
-      state is ShareOnTwitterSuccess
+      state.shareUrl == ShareUrl.twitter
           ? state.twitterShareUrl
           : state.facebookShareUrl,
     );
