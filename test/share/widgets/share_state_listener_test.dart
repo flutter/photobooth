@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -17,11 +20,15 @@ class MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class MockXFile extends Mock implements XFile {}
+
 void main() {
+  const shareUrl = 'http://share-url.com';
+  final bytes = Uint8List.fromList([]);
+
   late ShareBloc shareBloc;
   late PlatformHelper platformHelper;
-
-  setUp(() {});
+  late XFile file;
 
   setUpAll(() {
     registerFallbackValue<ShareEvent>(FakeShareEvent());
@@ -30,8 +37,9 @@ void main() {
 
   setUp(() {
     shareBloc = MockShareBloc();
-    when(() => shareBloc.state).thenReturn(ShareState.initial());
+    when(() => shareBloc.state).thenReturn(ShareState());
 
+    file = MockXFile();
     platformHelper = MockPlatformHelper();
   });
 
@@ -43,7 +51,20 @@ void main() {
           'and platform is mobile', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.error()]),
+          Stream.fromIterable([
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.failure,
+              file: file,
+              bytes: bytes,
+            ),
+          ]),
         );
         when(() => platformHelper.isMobile).thenReturn(true);
         await tester.pumpApp(
@@ -64,7 +85,20 @@ void main() {
           'and platform is desktop', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.error()]),
+          Stream.fromIterable([
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.failure,
+              file: file,
+              bytes: bytes,
+            ),
+          ]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpApp(
@@ -81,11 +115,26 @@ void main() {
 
       testWidgets(
           'does not display ShareErrorBottomSheet '
-          'when ShareBloc emits state different than error '
+          'when ShareBloc emits state other than error '
           'and platform is mobile', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.initial()]),
+          Stream.fromIterable([
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.success,
+              file: file,
+              bytes: bytes,
+              twitterShareUrl: shareUrl,
+              facebookShareUrl: shareUrl,
+            ),
+          ]),
         );
         when(() => platformHelper.isMobile).thenReturn(true);
         await tester.pumpApp(
@@ -106,7 +155,7 @@ void main() {
           'and platform is desktop', (tester) async {
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.initial()]),
+          Stream.fromIterable([ShareState()]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpApp(
@@ -123,45 +172,63 @@ void main() {
     });
 
     group('success', () {
-      const shareUrl = 'http://share-url.com';
-
       testWidgets(
           'opens share link '
           'when ShareBloc emits success', (tester) async {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              shareUrl,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(
+          () => mock.launch(
+            shareUrl,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).thenAnswer((_) async => true);
 
         whenListen(
           shareBloc,
-          Stream.fromIterable([ShareState.success(shareUrl: shareUrl)]),
+          Stream.fromIterable([
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.loading,
+              file: file,
+              bytes: bytes,
+            ),
+            ShareState(
+              compositeStatus: ShareStatus.success,
+              uploadStatus: ShareStatus.success,
+              shareUrl: ShareUrl.twitter,
+              file: file,
+              bytes: bytes,
+              twitterShareUrl: shareUrl,
+              facebookShareUrl: shareUrl,
+            ),
+          ]),
         );
+
         await tester.pumpApp(
-          ShareStateListener(
-            child: SizedBox(),
-          ),
+          ShareStateListener(child: SizedBox()),
           shareBloc: shareBloc,
         );
+
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              shareUrl,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(
+          () => mock.launch(
+            shareUrl,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).called(1);
       });
     });
   });

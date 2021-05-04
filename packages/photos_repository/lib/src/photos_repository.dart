@@ -35,6 +35,23 @@ class CompositePhotoException implements Exception {
   String toString() => message;
 }
 
+/// {@template share_urls}
+/// A list of social share urls which are returned by the `sharePhoto` API.
+/// {@endtemplate}
+class ShareUrls {
+  /// {@macro share_urls}
+  const ShareUrls({
+    required this.facebookShareUrl,
+    required this.twitterShareUrl,
+  });
+
+  /// The share url for sharing on Facebook.
+  final String facebookShareUrl;
+
+  /// The share url for sharing on Twitter.
+  final String twitterShareUrl;
+}
+
 const _shareUrl = 'https://io-photobooth-dev.web.app/share';
 
 /// {@template photos_repository}
@@ -51,37 +68,45 @@ class PhotosRepository {
   final FirebaseStorage _firebaseStorage;
   final ImageCompositor _imageCompositor;
 
-  /// Uploads photo to the [FirebaseStorage].
-  Future<void> uploadPhoto(String photoName, Uint8List photoData) async {
+  /// Uploads photo to the [FirebaseStorage] if it doesn't already exist
+  /// and returns [ShareUrls].
+  Future<ShareUrls> sharePhoto({
+    required String fileName,
+    required Uint8List data,
+    required String shareText,
+  }) async {
     Reference reference;
     try {
-      reference = _firebaseStorage.ref('uploads/$photoName');
+      reference = _firebaseStorage.ref('uploads/$fileName');
     } catch (e, st) {
       throw UploadPhotoException(
-        'Uploading photo $photoName failed. '
-        'Couldn\'t get storage reference \'uploads/$photoName\'.'
+        'Uploading photo $fileName failed. '
+        'Couldn\'t get storage reference \'uploads/$fileName\'.'
         'Error: $e. StackTrace: $st',
       );
     }
-    if (await _photoExists(reference)) return;
+
+    if (await _photoExists(reference)) {
+      return ShareUrls(
+        facebookShareUrl: _facebookShareUrl(fileName, shareText),
+        twitterShareUrl: _twitterShareUrl(fileName, shareText),
+      );
+    }
+
     try {
-      await reference.putData(photoData);
+      await reference.putData(data);
     } catch (error, stackTrace) {
       throw UploadPhotoException(
-        'Uploading photo $photoName failed. '
+        'Uploading photo $fileName failed. '
         'Couldn\'t upload data to ${reference.fullPath}.'
         'Error: $error. StackTrace: $stackTrace',
       );
     }
-  }
 
-  Future<bool> _photoExists(Reference reference) async {
-    try {
-      await reference.getDownloadURL();
-      return true;
-    } catch (_) {
-      return false;
-    }
+    return ShareUrls(
+      facebookShareUrl: _facebookShareUrl(fileName, shareText),
+      twitterShareUrl: _twitterShareUrl(fileName, shareText),
+    );
   }
 
   /// Given an image ([data]) with the provided [layers]
@@ -112,14 +137,21 @@ class PhotosRepository {
     }
   }
 
-  /// Given a [photoName], it returns its Twitter share URL
-  String twitterShareUrl(String photoName, String shareText) {
+  Future<bool> _photoExists(Reference reference) async {
+    try {
+      await reference.getDownloadURL();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  String _twitterShareUrl(String photoName, String shareText) {
     final encodedShareText = Uri.encodeComponent(shareText);
     return 'https://twitter.com/intent/tweet?url=${_getSharePhotoUrl(photoName)}&text=$encodedShareText';
   }
 
-  /// Given a [photoName], it returns its Facebook share URL
-  String facebookShareUrl(String photoName, String shareText) {
+  String _facebookShareUrl(String photoName, String shareText) {
     final encodedShareText = Uri.encodeComponent(shareText);
     return 'https://www.facebook.com/sharer.php?u=${_getSharePhotoUrl(photoName)}&quote=$encodedShareText';
   }

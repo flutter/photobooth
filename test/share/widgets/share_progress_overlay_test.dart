@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:typed_data';
 
-import 'package:bloc_test/bloc_test.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
+
+class MockXFile extends Mock implements XFile {}
 
 extension PhotoboothWidgetTester on WidgetTester {
   void setDisplaySize(Size size) {
@@ -20,7 +23,9 @@ extension PhotoboothWidgetTester on WidgetTester {
 }
 
 void main() {
+  final bytes = Uint8List.fromList([]);
   late ShareBloc shareBloc;
+  late XFile file;
 
   setUpAll(() {
     registerFallbackValue<ShareEvent>(FakeShareEvent());
@@ -29,64 +34,65 @@ void main() {
 
   setUp(() {
     shareBloc = MockShareBloc();
-    when(() => shareBloc.state).thenReturn(ShareState.initial());
+    file = MockXFile();
+    when(() => shareBloc.state).thenReturn(ShareState());
   });
 
   group('ShareProgressOverlay', () {
     testWidgets(
         'displays loading overlay '
-        'when ShareBloc state is loading', (tester) async {
+        'when ShareBloc upload status is loading', (tester) async {
       tester.setDisplaySize(const Size(1920, 1080));
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([ShareState.loading()]),
-        initialState: ShareState.loading(),
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
-
       expect(find.byKey(Key('shareProgressOverlay_loading')), findsOneWidget);
     });
 
     testWidgets(
         'displays mobile loading overlay '
-        'when ShareBloc state is loading '
+        'when ShareBloc upload status is loading '
         'and resolution is mobile', (tester) async {
       tester.setDisplaySize(const Size(320, 800));
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([ShareState.loading()]),
-        initialState: ShareState.loading(),
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
-
       expect(find.byKey(Key('shareProgressOverlay_mobile')), findsOneWidget);
     });
 
     testWidgets(
         'displays desktop loading overlay '
-        'when ShareBloc state is loading '
+        'when ShareBloc upload status is loading '
         'and resolution is desktop', (tester) async {
       tester.setDisplaySize(const Size(1920, 1080));
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([ShareState.loading()]),
-        initialState: ShareState.loading(),
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.loading,
+          file: file,
+          bytes: bytes,
+        ),
       );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
-
       expect(find.byKey(Key('shareProgressOverlay_desktop')), findsOneWidget);
     });
 
     testWidgets(
         'displays nothing '
         'when ShareBloc state is not loading', (tester) async {
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([ShareState.initial()]),
-        initialState: ShareState.initial(),
-      );
       await tester.pumpApp(ShareProgressOverlay(), shareBloc: shareBloc);
-
       expect(find.byKey(Key('shareProgressOverlay_nothing')), findsOneWidget);
     });
   });
