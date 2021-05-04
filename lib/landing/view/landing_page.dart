@@ -39,45 +39,53 @@ class LandingView extends StatelessWidget {
             ),
           ),
         ),
-        Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.landingPageHeading,
-                    key: const Key('landingPage_heading_text'),
-                    style: theme.textTheme.headline1,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    l10n.landingPageSubheading,
-                    key: const Key('landingPage_subheading_text'),
-                    style: theme.textTheme.headline2,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 24),
-                  const TakePhotoButton(),
-                  const SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 48),
-                    child: Image.asset(
-                      'assets/backgrounds/landing_background.png',
-                      height: size.width > PhotoboothBreakpoints.small
-                          ? size.height * 0.6
-                          : size.height * 0.4,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.landingPageHeading,
+                      key: const Key('landingPage_heading_text'),
+                      style: theme.textTheme.headline1,
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  const BlackFooter(),
-                ],
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.landingPageSubheading,
+                      key: const Key('landingPage_subheading_text'),
+                      style: theme.textTheme.headline2,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    const TakePhotoButton(),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 48),
+                      child: Image.asset(
+                        'assets/backgrounds/landing_background.png',
+                        height: size.width <= PhotoboothBreakpoints.small
+                            ? size.height * 0.4
+                            : size.height * 0.5,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  height: size.width - 116 <= PhotoboothBreakpoints.small
+                      ? 200
+                      : 50,
+                  child: const BlackFooter(),
+                ),
+              ),
+            ],
           ),
         ),
       ],
