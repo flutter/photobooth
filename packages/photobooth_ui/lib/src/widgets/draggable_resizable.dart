@@ -258,6 +258,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
         );
 
         final deleteButton = _FloatingActionIcon(
+          key: const Key('draggableResizable_delete_image'),
           iconData: Icons.delete,
           onTap: widget.onDelete,
         );
