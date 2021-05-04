@@ -77,7 +77,7 @@ class PhotoAsset extends Equatable {
 
 class PhotoboothState extends Equatable {
   const PhotoboothState({
-    this.aspectRatio = 4 / 3,
+    this.aspectRatio = PhotoboothAspectRatio.landscape,
     this.characters = const <PhotoAsset>[],
     this.stickers = const <PhotoAsset>[],
     this.selectedAssetId = emptyAssetId,

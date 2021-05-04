@@ -22,7 +22,7 @@ class MockAsset extends Mock implements Asset {}
 void main() {
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: 0, height: 0, data: data);
-  final aspectRatio = 3 / 4;
+  final aspectRatio = PhotoboothAspectRatio.portrait;
   final imageId = 'image-name';
   final shareText = 'share-text';
   final imageData = Uint8List.fromList(transparentImage);

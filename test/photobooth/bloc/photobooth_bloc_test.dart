@@ -15,7 +15,7 @@ void main() async {
   await Assets.load();
 
   group('PhotoboothBloc', () {
-    const aspectRatio = 4 / 3;
+    const aspectRatio = PhotoboothAspectRatio.landscape;
 
     late CameraImage image;
     late String id;

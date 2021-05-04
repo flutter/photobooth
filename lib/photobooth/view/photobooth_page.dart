@@ -8,19 +8,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 
-const _mobileVideoConstraints = VideoConstraints(
-  width: 3072,
+const _videoConstraints = VideoConstraints(
+  width: 4096,
   height: 4096,
   facingMode: FacingMode(
     type: CameraType.user,
-    constrain: Constrain.ideal,
-  ),
-);
-const _desktopVideoConstraints = VideoConstraints(
-  width: 4096,
-  height: 3072,
-  facingMode: FacingMode(
-    type: CameraType.rear,
     constrain: Constrain.ideal,
   ),
 );
@@ -57,9 +49,9 @@ class PhotoboothView extends StatefulWidget {
 
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
-    options: CameraOptions(
-      audio: const AudioConstraints(enabled: false),
-      video: isMobile ? _mobileVideoConstraints : _desktopVideoConstraints,
+    options: const CameraOptions(
+      audio: AudioConstraints(enabled: false),
+      video: _videoConstraints,
     ),
   );
 
@@ -114,19 +106,23 @@ class _PhotoboothViewState extends State<PhotoboothView> {
           return ResponsiveLayoutBuilder(
             small: (_, __) => _PreviewLayout(
               child: AspectRatio(
-                aspectRatio: 3 / 4,
+                aspectRatio: PhotoboothAspectRatio.portrait,
                 child: PhotoboothPreview(
                   preview: preview,
-                  onSnapPressed: () => _onSnapPressed(aspectRatio: 3 / 4),
+                  onSnapPressed: () => _onSnapPressed(
+                    aspectRatio: PhotoboothAspectRatio.portrait,
+                  ),
                 ),
               ),
             ),
             large: (_, __) => _PreviewLayout(
               child: AspectRatio(
-                aspectRatio: 4 / 3,
+                aspectRatio: PhotoboothAspectRatio.landscape,
                 child: PhotoboothPreview(
                   preview: preview,
-                  onSnapPressed: () => _onSnapPressed(aspectRatio: 4 / 3),
+                  onSnapPressed: () => _onSnapPressed(
+                    aspectRatio: PhotoboothAspectRatio.landscape,
+                  ),
                 ),
               ),
             ),

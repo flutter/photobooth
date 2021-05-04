@@ -78,7 +78,7 @@ void main() async {
   group('DesktopStickersDrawer', () {
     testWidgets('adds StickerSelected when StickerChoice tapped',
         (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
+      tester.setDisplaySize(const Size(2500, 2500));
       final sticker = Assets.props.first;
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
@@ -105,8 +105,6 @@ void main() async {
       stickerChoice.onPressed();
       verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
           .called(1);
-
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('can be closed', (tester) async {

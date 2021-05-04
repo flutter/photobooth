@@ -16,7 +16,7 @@ void main() {
   group('PhotoboothEvent', () {
     group('PhotoCaptured', () {
       test('support value equality', () {
-        const aspectRatio = 3 / 4;
+        const aspectRatio = PhotoboothAspectRatio.portrait;
         final image = MockCameraImage();
         final instanceA = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         final instanceB = PhotoCaptured(aspectRatio: aspectRatio, image: image);

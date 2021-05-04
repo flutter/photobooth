@@ -33,11 +33,7 @@ void main() {
     });
 
     testWidgets('renders image on small screens', (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(const LandingView());
       expect(find.byType(Image), findsOneWidget);
     });

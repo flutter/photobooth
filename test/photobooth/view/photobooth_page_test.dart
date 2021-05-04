@@ -187,21 +187,89 @@ void main() async {
       await tester.pumpAndSettle();
 
       final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
-      expect(aspectRatio.aspectRatio, equals(4 / 3));
+      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.landscape));
     });
 
     testWidgets('renders 3/4 aspect ratio on small', (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
 
       final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
-      expect(aspectRatio.aspectRatio, equals(3 / 4));
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
+    });
+
+    testWidgets(
+        'adds PhotoCaptured with mobile aspect ratio '
+        'when CameraButton is tapped', (tester) async {
+      const preview = SizedBox();
+      final image = CameraImage(
+        data: 'data:image/png,${base64.encode(transparentImage)}',
+        width: 1280,
+        height: 720,
+      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 500));
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+      when(
+        () => cameraPlatform.takePicture(cameraId),
+      ).thenAnswer((_) async => image);
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(image: image),
+      );
+
+      await tester.runAsync(() async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        await tester.pump();
+
+        await tester.tap(find.byType(CameraButton));
+        await tester.pumpAndSettle();
+        verify(
+          () => photoboothBloc.add(
+            PhotoCaptured(
+              aspectRatio: PhotoboothAspectRatio.portrait,
+              image: image,
+            ),
+          ),
+        ).called(1);
+      });
+    });
+
+    testWidgets(
+        'adds PhotoCaptured with desktop aspect ratio '
+        'when CameraButton is tapped', (tester) async {
+      const preview = SizedBox();
+      final image = CameraImage(
+        data: 'data:image/png,${base64.encode(transparentImage)}',
+        width: 1280,
+        height: 720,
+      );
+      tester.setDisplaySize(const Size(2500, 2500));
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+      when(
+        () => cameraPlatform.takePicture(cameraId),
+      ).thenAnswer((_) async => image);
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(image: image),
+      );
+
+      await tester.runAsync(() async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        await tester.pump();
+
+        await tester.tap(find.byType(CameraButton));
+        await tester.pumpAndSettle();
+        verify(
+          () => photoboothBloc.add(
+            PhotoCaptured(
+              aspectRatio: PhotoboothAspectRatio.landscape,
+              image: image,
+            ),
+          ),
+        ).called(1);
+      });
     });
 
     testWidgets('navigates to StickersPage when photo is taken',
@@ -212,7 +280,7 @@ void main() async {
         width: 1280,
         height: 720,
       );
-      tester.binding.window.physicalSizeTestValue = const Size(2500, 2500);
+      tester.setDisplaySize(const Size(2500, 2500));
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
       when(
         () => cameraPlatform.takePicture(cameraId),
@@ -237,7 +305,6 @@ void main() async {
         retakeButton.onPressed();
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothView), findsOneWidget);
-        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
       });
     });
   });
@@ -519,10 +586,8 @@ void main() async {
     });
 
     testWidgets('displays a MobileCharactersIconLayout', (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+
       const preview = SizedBox();
 
       await tester.pumpApp(
@@ -533,8 +598,6 @@ void main() async {
       );
       await tester.pumpAndSettle();
       expect(find.byType(MobileCharactersIconLayout), findsOneWidget);
-
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets('tapping on dash button adds PhotoCharacterToggled',
@@ -649,10 +712,7 @@ void main() async {
     testWidgets(
         'renders CharactersCaption on mobile when no character is selected',
         (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
       const preview = SizedBox();
       await tester.pumpApp(
@@ -663,16 +723,12 @@ void main() async {
       );
       await tester.pumpAndSettle();
       expect(find.byType(CharactersCaption), findsOneWidget);
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
     testWidgets(
         'does not render CharactersCaption on mobile when '
         'any character is selected', (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(PhotoboothState(
         characters: [PhotoAsset(id: '0', asset: Assets.android)],
       ));
@@ -685,7 +741,6 @@ void main() async {
       );
       await tester.pump();
       expect(find.byType(CharactersCaption), findsNothing);
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
   });
 }
