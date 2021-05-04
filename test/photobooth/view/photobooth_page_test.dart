@@ -128,6 +128,21 @@ void main() async {
     });
 
     testWidgets(
+        'renders camera not found error '
+        'when cameraPlatform throws CameraNotFound exception', (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraNotAllowedException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_cameraNotFound')),
+        findsOneWidget,
+      );
+      verifyNever(() => cameraPlatform.play(any()));
+    });
+
+    testWidgets(
         'renders unknown error '
         'when cameraPlatform throws CameraUnknownException exception',
         (tester) async {
