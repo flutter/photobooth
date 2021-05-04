@@ -106,6 +106,8 @@ class PhotoboothTheme {
           color: PhotoboothColors.blue,
         ),
       ),
+      labelColor: PhotoboothColors.blue,
+      unselectedLabelColor: PhotoboothColors.black25,
       indicatorSize: TabBarIndicatorSize.tab,
     );
   }

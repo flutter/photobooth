@@ -105,7 +105,12 @@ class StickersTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tab(
       iconMargin: const EdgeInsets.only(bottom: 24),
-      icon: Image.asset(assetPath, width: width, height: height),
+      icon: Image.asset(
+        assetPath,
+        width: width,
+        height: height,
+        color: IconTheme.of(context).color,
+      ),
     );
   }
 }
