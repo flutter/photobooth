@@ -421,7 +421,7 @@ void main() {
           ),
         );
         expect(
-          find.byKey(Key('draggableResizable_delete_image')),
+          find.byKey(Key('draggableResizable_delete_floatingActionIcon')),
           findsNothing,
         );
       });
@@ -438,7 +438,7 @@ void main() {
           ),
         );
         expect(
-          find.byKey(Key('draggableResizable_delete_image')),
+          find.byKey(Key('draggableResizable_delete_floatingActionIcon')),
           findsNothing,
         );
       });
@@ -457,7 +457,7 @@ void main() {
           ),
         );
         expect(
-          find.byKey(Key('draggableResizable_delete_image')),
+          find.byKey(Key('draggableResizable_delete_floatingActionIcon')),
           findsOneWidget,
         );
       });
@@ -498,6 +498,24 @@ void main() {
           transformWidget.transform,
           isNot(equals(Matrix4.diagonal3Values(1, 1, 1))),
         );
+      });
+
+      testWidgets('tapping on rotate icon does nothing', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: DraggableResizable(
+              platformHelper: platformHelper,
+              canTransform: true,
+              child: child,
+            ),
+          ),
+        );
+
+        await tester.tap(
+            find.byKey(Key('draggableResizable_rotate_floatingActionIcon')));
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
       });
     });
 
