@@ -13,7 +13,7 @@ class ShareBackground extends StatelessWidget {
           height: double.infinity,
           child: Image.asset(
             'assets/backgrounds/share_background.jpg',
-            fit: BoxFit.cover,
+            repeat: ImageRepeat.repeat,
             filterQuality: FilterQuality.high,
           ),
         ),

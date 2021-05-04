@@ -11,7 +11,7 @@ class PhotoboothBackground extends StatelessWidget {
       children: [
         Image.asset(
           'assets/backgrounds/photobooth_background.jpg',
-          fit: BoxFit.cover,
+          repeat: ImageRepeat.repeat,
           filterQuality: FilterQuality.high,
         ),
         Positioned(
