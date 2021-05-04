@@ -141,6 +141,10 @@ class _DraggableStickers extends StatelessWidget {
             onDelete: () => context
                 .read<PhotoboothBloc>()
                 .add(const PhotoDeleteSelectedStickerTapped()),
+            size: Size(
+              sticker.asset.image.width.toDouble(),
+              sticker.asset.image.height.toDouble(),
+            ),
             child: Image.memory(
               sticker.asset.bytes,
               gaplessPlayback: true,

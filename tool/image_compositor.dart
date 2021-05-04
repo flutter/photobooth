@@ -88,11 +88,15 @@ Future<List<int>> _composite({
       asset = img.copyRotate(
         asset,
         layer.angle * (180 / math.pi),
-        interpolation: img.Interpolation.average,
+        interpolation: img.Interpolation.cubic,
       );
 
     if (asset.width != assetWidth)
-      asset = img.copyResize(asset, width: assetWidth);
+      asset = img.copyResize(
+        asset,
+        width: assetWidth,
+        interpolation: img.Interpolation.cubic,
+      );
 
     image = img.drawImage(image, asset, dstX: assetDx, dstY: assetDy);
   }
