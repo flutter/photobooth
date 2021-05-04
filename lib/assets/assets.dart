@@ -13,18 +13,23 @@ abstract class Assets {
 
   // Props
   static late final Set<Asset> props;
+  static late final List<Asset> googleProps;
+  static late final List<Asset> hatsProps;
+  static late final List<Asset> eyewearProps;
+  static late final List<Asset> foodProps;
+  static late final List<Asset> shapesProps;
   static bool _initialized = false;
 
   static Future<void> load() async {
     if (_initialized) return;
-    final assets = await Future.wait([
-      // Characters
+    final charactersAssets = [
       _loadAsset('android', 'assets/images/android.png'),
       _loadAsset('dash', 'assets/images/dash.png'),
       _loadAsset('sparky', 'assets/images/sparky.png'),
       _loadAsset('dino', 'assets/images/dino.png'),
+    ];
 
-      // Props
+    final googleAssets = [
       _loadAsset('google01', 'assets/props/google/01_google_v1.png'),
       _loadAsset('google02', 'assets/props/google/02_google_v1.png'),
       _loadAsset('google03', 'assets/props/google/03_google_V1.png'),
@@ -60,7 +65,9 @@ abstract class Assets {
       _loadAsset('google33', 'assets/props/google/33_google_v1.png'),
       _loadAsset('google34', 'assets/props/google/34_google_v1.png'),
       _loadAsset('google35', 'assets/props/google/35_google_v1.png'),
+    ];
 
+    final hatsAssets = [
       _loadAsset('hats01', 'assets/props/hats/01_hats_v1.png'),
       _loadAsset('hats02', 'assets/props/hats/02_hats_v1.png'),
       _loadAsset('hats03', 'assets/props/hats/03_hats_v1.png'),
@@ -87,7 +94,9 @@ abstract class Assets {
       _loadAsset('hats24', 'assets/props/hats/24_hats_v1.png'),
       _loadAsset('hats25', 'assets/props/hats/25_hats_v1.png'),
       _loadAsset('hats26', 'assets/props/hats/26_hats_v1.png'),
+    ];
 
+    final eyeWearAssets = [
       _loadAsset('eyewear01', 'assets/props/eyewear/01_eyewear_v1.png'),
       _loadAsset('eyewear02', 'assets/props/eyewear/02_eyewear_v1.png'),
       _loadAsset('eyewear03', 'assets/props/eyewear/03_eyewear_v1.png'),
@@ -104,7 +113,9 @@ abstract class Assets {
       _loadAsset('eyewear14', 'assets/props/eyewear/14_eyewear_v1.png'),
       _loadAsset('eyewear15', 'assets/props/eyewear/15_eyewear_v1.png'),
       _loadAsset('eyewear16', 'assets/props/eyewear/16_eyewear_v1.png'),
+    ];
 
+    final foodAssets = [
       _loadAsset('food01', 'assets/props/food/01_food_v1.png'),
       _loadAsset('food02', 'assets/props/food/02_food_v1.png'),
       _loadAsset('food03', 'assets/props/food/03_food_v1.png'),
@@ -130,7 +141,9 @@ abstract class Assets {
       _loadAsset('food23', 'assets/props/food/23_food_v1.png'),
       _loadAsset('food24', 'assets/props/food/24_food_v1.png'),
       _loadAsset('food25', 'assets/props/food/25_food_v1.png'),
+    ];
 
+    final shapesAssets = [
       _loadAsset('shapes01', 'assets/props/shapes/01_shapes_v1.png'),
       _loadAsset('shapes02', 'assets/props/shapes/02_shapes_v1.png'),
       _loadAsset('shapes03', 'assets/props/shapes/03_shapes_v1.png'),
@@ -156,14 +169,32 @@ abstract class Assets {
       _loadAsset('shapes23', 'assets/props/shapes/23_shapes_v1.png'),
       _loadAsset('shapes24', 'assets/props/shapes/24_shapes_v1.png'),
       _loadAsset('shapes25', 'assets/props/shapes/25_shapes_v1.png'),
+    ];
+
+    final assets = await Future.wait([
+      // Characters
+      ...charactersAssets,
+
+      // Props
+      ...googleAssets,
+      ...hatsAssets,
+      ...eyeWearAssets,
+      ...foodAssets,
+      ...shapesAssets,
     ]);
 
-    android = assets[0];
-    dash = assets[1];
-    sparky = assets[2];
-    dino = assets[3];
+    android = await charactersAssets[0];
+    dash = await charactersAssets[1];
+    sparky = await charactersAssets[2];
+    dino = await charactersAssets[3];
 
-    props = assets.sublist(4).toSet();
+    googleProps = await Future.wait(googleAssets);
+    hatsProps = await Future.wait(hatsAssets);
+    eyewearProps = await Future.wait(eyeWearAssets);
+    foodProps = await Future.wait(foodAssets);
+    shapesProps = await Future.wait(shapesAssets);
+
+    props = assets.sublist(charactersAssets.length).toSet();
 
     _initialized = true;
   }

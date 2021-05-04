@@ -16,6 +16,8 @@ class PhotoboothTheme {
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
       bottomSheetTheme: _bottomSheetTheme,
+      tabBarTheme: _tabBarTheme,
+      dividerTheme: _dividerTheme,
     );
   }
 
@@ -93,6 +95,26 @@ class PhotoboothTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
+    );
+  }
+
+  static TabBarTheme get _tabBarTheme {
+    return const TabBarTheme(
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(
+          width: 2.0,
+          color: PhotoboothColors.blue,
+        ),
+      ),
+      indicatorSize: TabBarIndicatorSize.tab,
+    );
+  }
+
+  static DividerThemeData get _dividerTheme {
+    return const DividerThemeData(
+      space: 0,
+      thickness: 1,
+      color: PhotoboothColors.black25,
     );
   }
 }
