@@ -13,6 +13,7 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/sounds/sounds.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -42,6 +43,7 @@ class FakeDragUpdate extends Fake implements DragUpdate {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
+  await Sounds.load();
 
   setUpAll(() {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
