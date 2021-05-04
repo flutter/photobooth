@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+@TestOn('chrome')
 
 import 'dart:convert';
 import 'dart:ui' as ui;
