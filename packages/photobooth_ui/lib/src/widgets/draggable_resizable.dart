@@ -258,7 +258,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
         );
 
         final deleteButton = _FloatingActionIcon(
-          key: const Key('draggableResizable_delete_image'),
+          key: const Key('draggableResizable_delete_floatingActionIcon'),
           iconData: Icons.delete,
           onTap: widget.onDelete,
         );
@@ -284,6 +284,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
           },
           onScaleEnd: (_) => setState(() => baseAngle = angle),
           child: _FloatingActionIcon(
+            key: const Key('draggableResizable_rotate_floatingActionIcon'),
             iconData: Icons.rotate_90_degrees_ccw,
             onTap: () {},
           ),
