@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-@TestOn('chrome')
-
 import 'dart:convert';
 import 'dart:ui' as ui;
 
@@ -20,6 +18,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
+import '../../helpers/sound_method_channel.dart';
 
 class MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
@@ -43,6 +42,7 @@ class FakeDragUpdate extends Fake implements DragUpdate {}
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Assets.load();
+  setupSoundpoolMethodChannel();
   await Sounds.load();
 
   setUpAll(() {
