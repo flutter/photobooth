@@ -132,7 +132,7 @@ void main() async {
         'when cameraPlatform throws CameraNotFound exception', (tester) async {
       when(
         () => cameraPlatform.create(any()),
-      ).thenThrow(const CameraNotAllowedException());
+      ).thenThrow(const CameraNotFoundException());
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(
