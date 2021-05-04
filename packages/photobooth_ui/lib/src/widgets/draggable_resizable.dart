@@ -257,20 +257,9 @@ class _DraggableResizableState extends State<DraggableResizable> {
           onDrag: onDragBottomRight,
         );
 
-        final deleteButton = Material(
-          color: PhotoboothColors.transparent,
-          clipBehavior: Clip.hardEdge,
-          shape: const CircleBorder(),
-          child: InkWell(
-            onTap: widget.onDelete,
-            child: Image.asset(
-              'assets/images/delete_circle_icon.png',
-              package: 'photobooth_ui',
-              key: const Key('draggableResizable_delete_image'),
-              width: _floatingActionDiameter,
-              height: _floatingActionDiameter,
-            ),
-          ),
+        final deleteButton = _FloatingActionIcon(
+          iconData: Icons.delete,
+          onTap: widget.onDelete,
         );
 
         final center = Offset(
@@ -293,19 +282,9 @@ class _DraggableResizableState extends State<DraggableResizable> {
             onUpdate();
           },
           onScaleEnd: (_) => setState(() => baseAngle = angle),
-          child: Material(
-            color: PhotoboothColors.transparent,
-            clipBehavior: Clip.hardEdge,
-            shape: const CircleBorder(),
-            child: InkWell(
-              child: Image.asset(
-                'assets/images/rotate_circle_icon.png',
-                package: 'photobooth_ui',
-                key: const Key('draggableResizable_rotate_image'),
-                width: _floatingActionDiameter,
-                height: _floatingActionDiameter,
-              ),
-            ),
+          child: _FloatingActionIcon(
+            iconData: Icons.rotate_90_degrees_ccw,
+            onTap: () {},
           ),
         );
 
@@ -509,6 +488,39 @@ class _DraggablePointState extends State<_DraggablePoint> {
         }
       },
       child: widget.child,
+    );
+  }
+}
+
+class _FloatingActionIcon extends StatelessWidget {
+  const _FloatingActionIcon({
+    Key? key,
+    required this.iconData,
+    this.onTap,
+  }) : super(key: key);
+
+  final IconData iconData;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: PhotoboothColors.white,
+      clipBehavior: Clip.hardEdge,
+      shape: const CircleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: _floatingActionDiameter,
+          width: _floatingActionDiameter,
+          child: Center(
+            child: Icon(
+              iconData,
+              color: PhotoboothColors.blue,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
