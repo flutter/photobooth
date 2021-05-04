@@ -8,7 +8,7 @@ export default `
   </div>
   <div class="right">
     <ul>
-      <li><a href="https://events.google.com/io/adventure/?lng=en">Google I/O</a></li>
+      <li><a href="https://events.google.com/io/">Google I/O</a></li>
       <li><a href="https://flutter.dev/docs/codelabs">Codelab</a></li>
       <li><a href="">How It's Made</a></li>
       <li><a href="https://policies.google.com/terms">Terms of Service</a></li>

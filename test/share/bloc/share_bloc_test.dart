@@ -4,318 +4,709 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:test/test.dart';
 
 import '../../helpers/helpers.dart';
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
 
+class MockPhotoAsset extends Mock implements PhotoAsset {}
+
 class MockAsset extends Mock implements Asset {}
 
 void main() {
-  group('ShareBloc', () {
-    final data = 'data:image/png,${base64.encode(transparentImage)}';
-    final image = CameraImage(width: 0, height: 0, data: data);
-    final imageId = 'image-name';
-    final imageFileName = '$imageId.jpg';
-    final imageData = Uint8List.fromList(transparentImage);
-    final shareText = 'share-text';
-    final twitterShareUrl = 'twitter-share-url';
-    final facebookShareUrl = 'facebook-share-url';
+  final data = 'data:image/png,${base64.encode(transparentImage)}';
+  final image = CameraImage(width: 0, height: 0, data: data);
+  final imageId = 'image-name';
+  final shareText = 'share-text';
+  final imageData = Uint8List.fromList(transparentImage);
+  final twitterShareUrl = 'twitter-share-url';
+  final facebookShareUrl = 'facebook-share-url';
 
-    final photosRepository = MockPhotosRepository();
+  group('ShareBloc', () {
+    late PhotosRepository photosRepository;
+    late Asset asset;
+    late PhotoAsset photoAsset;
+    late ShareBloc shareBloc;
 
     setUpAll(() {
       registerFallbackValue(Uint8List(0));
     });
 
     setUp(() {
-      when(() => photosRepository.uploadPhoto(imageFileName, any()))
-          .thenAnswer((_) => Future.value());
-      when(() => photosRepository.twitterShareUrl(imageFileName, shareText))
-          .thenReturn(twitterShareUrl);
-      when(() => photosRepository.facebookShareUrl(imageFileName, shareText))
-          .thenReturn(facebookShareUrl);
+      photosRepository = MockPhotosRepository();
+      asset = MockAsset();
+
+      when(() => asset.path).thenReturn('assets/path/asset.png');
+      photoAsset = MockPhotoAsset();
+
+      when(() => photoAsset.asset).thenReturn(asset);
+      when(() => photoAsset.angle).thenReturn(0.0);
+      when(() => photoAsset.scale).thenReturn(1.0);
+      when(() => photoAsset.constraint).thenReturn(
+        PhotoConstraint(width: 1, height: 1),
+      );
+      when(() => photoAsset.position).thenReturn(
+        PhotoAssetPosition(dx: 1, dy: 1),
+      );
+      when(() => photoAsset.size).thenReturn(
+        PhotoAssetSize(width: 1, height: 1),
+      );
+      shareBloc = ShareBloc(
+        photosRepository: photosRepository,
+        imageId: imageId,
+        image: image,
+        assets: [photoAsset],
+        shareText: shareText,
+        isSharingEnabled: true,
+      );
     });
 
-    tearDown(() {
-      reset(photosRepository);
+    test('initial state is ShareState', () {
+      expect(shareBloc.state, equals(ShareState()));
+    });
+
+    group('ShareViewLoaded', () {
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, failure] when compositing fails',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        act: (bloc) => bloc.add(ShareViewLoaded()),
+        expect: () => [
+          ShareState(compositeStatus: ShareStatus.loading),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, success] when compositing succeeds',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          return shareBloc;
+        },
+        act: (bloc) => bloc.add(ShareViewLoaded()),
+        expect: () => [
+          ShareState(compositeStatus: ShareStatus.loading),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+        ],
+      );
+    });
+
+    group('ShareDownloadTapped', () {
+      blocTest<ShareBloc, ShareState>(
+        'sets isDownloadRequested to true',
+        build: () => shareBloc,
+        act: (bloc) => bloc.add(ShareDownloadTapped()),
+        expect: () => [
+          ShareState(isDownloadRequested: true),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'attempts to composite if composite status is failure (success)',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareDownloadTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isDownloadRequested: true,
+          ),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'attempts to composite if composite status is failure (failure)',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareDownloadTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isDownloadRequested: true,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
+            isDownloadRequested: true,
+          ),
+        ],
+      );
     });
 
     group('ShareOnTwitterTapped', () {
       blocTest<ShareBloc, ShareState>(
-        'does nothing when isSharingEnabled is false',
-        build: () => ShareBloc(photosRepository: photosRepository),
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
+        'does nothing when sharing is disabled',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          imageId: imageId,
+          image: image,
+          assets: [photoAsset],
+          shareText: shareText,
+          isSharingEnabled: false,
         ),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
         expect: () => [],
-        verify: (_) {
-          verifyNever(() => photosRepository.uploadPhoto(any(), any()));
-          verifyNever(() => photosRepository.twitterShareUrl(any(), any()));
-        },
       );
 
       blocTest<ShareBloc, ShareState>(
-        'calls photosRepository.uploadPhoto with correct arguments',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
-        ),
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        verify: (_) {
-          verify(
-            () => photosRepository.uploadPhoto(imageFileName, imageData),
-          ).called(1);
-        },
-      );
-
-      blocTest<ShareBloc, ShareState>(
-        'emits [loading, error] when photosRepository.uploadPhoto throws',
-        build: () {
-          when(() => photosRepository.uploadPhoto(imageFileName, any()))
-              .thenThrow(Exception('e'));
-          return ShareBloc(
-            photosRepository: photosRepository,
-            isSharingEnabled: true,
-          );
-        },
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        errors: () => [
-          isA<Exception>(),
-        ],
+        'sets isUploadRequested to true with correct shareUrl',
+        build: () => shareBloc,
+        seed: () => ShareState(compositeStatus: ShareStatus.loading),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.error(),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
         ],
       );
 
       blocTest<ShareBloc, ShareState>(
-        'calls sharePhotoRepository.getShareOnTwitterUrl',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
-        ),
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        verify: (_) {
-          verify(
-            () => photosRepository.twitterShareUrl(imageFileName, shareText),
-          ).called(1);
-        },
-      );
-
-      blocTest<ShareBloc, ShareState>(
-        'emits [loading, error] when twitterShareUrl throws',
+        'emits [loading, failure] '
+        'when composite status is success and upload fails',
         build: () {
           when(
-            () => photosRepository.twitterShareUrl(imageFileName, shareText),
-          ).thenThrow(Exception('oops'));
-          return ShareBloc(
-            photosRepository: photosRepository,
-            isSharingEnabled: true,
-          );
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
         },
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        errors: () => [
-          isA<Exception>(),
-        ],
+        seed: () => ShareState(compositeStatus: ShareStatus.success),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.error(),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.failure,
+          ),
         ],
       );
 
       blocTest<ShareBloc, ShareState>(
-        'emits [loading, success] when operations successfully finish',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
+        'emits [loading, success] '
+        'when composite status is success and upload succeeds',
+        build: () {
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenAnswer(
+            (_) async => ShareUrls(
+              facebookShareUrl: facebookShareUrl,
+              twitterShareUrl: twitterShareUrl,
+            ),
+          );
+          return shareBloc;
+        },
+        seed: () => ShareState(
+          compositeStatus: ShareStatus.success,
+          bytes: imageData,
         ),
-        act: (b) => b.add(
-          ShareOnTwitterTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.success(shareUrl: twitterShareUrl),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            bytes: imageData,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.loading,
+            bytes: imageData,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.success,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, failure] '
+        'when composite status is failure and compositing fails',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, failure] '
+        'when composite status is failure and compositing succeeds '
+        'but upload fails.',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.loading,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.failure,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, success] '
+        'when composite status is failure and compositing succeeds '
+        'and upload succeeds.',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenAnswer(
+            (_) async => ShareUrls(
+              facebookShareUrl: facebookShareUrl,
+              twitterShareUrl: twitterShareUrl,
+            ),
+          );
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.twitter,
+          ),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.loading,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.success,
+          ),
         ],
       );
     });
 
     group('ShareOnFacebookTapped', () {
       blocTest<ShareBloc, ShareState>(
-        'does nothing when isSharingEnabled is false',
-        build: () => ShareBloc(photosRepository: photosRepository),
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
+        'does nothing when sharing is disabled',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          imageId: imageId,
+          image: image,
+          assets: [photoAsset],
+          shareText: shareText,
+          isSharingEnabled: false,
         ),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
         expect: () => [],
-        verify: (_) {
-          verifyNever(() => photosRepository.uploadPhoto(any(), any()));
-          verifyNever(() => photosRepository.facebookShareUrl(any(), any()));
-        },
-      );
-      blocTest<ShareBloc, ShareState>(
-        'calls photosRepository.uploadPhoto with correct arguments',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
-        ),
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        verify: (_) {
-          verify(
-            () => photosRepository.uploadPhoto(imageFileName, imageData),
-          ).called(1);
-        },
       );
 
       blocTest<ShareBloc, ShareState>(
-        'emits [loading, error] when photosRepository.uploadPhoto throws',
-        build: () {
-          when(() => photosRepository.uploadPhoto(imageFileName, any()))
-              .thenThrow(Exception('e'));
-          return ShareBloc(
-            photosRepository: photosRepository,
-            isSharingEnabled: true,
-          );
-        },
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        errors: () => [
-          isA<Exception>(),
-        ],
+        'sets isUploadRequested to true with correct shareUrl',
+        build: () => shareBloc,
+        seed: () => ShareState(compositeStatus: ShareStatus.loading),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.error(),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
         ],
       );
 
       blocTest<ShareBloc, ShareState>(
-        'calls sharePhotoRepository.getShareOnFacebookUrl',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
-        ),
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
-        verify: (_) {
-          verify(
-            () => photosRepository.facebookShareUrl(imageFileName, shareText),
-          );
-        },
-      );
-
-      blocTest<ShareBloc, ShareState>(
-        'emits [loading, error] '
-        'when sharePhotoRepository.getShareOnFacebookUrl throws',
+        'emits [loading, failure] '
+        'when composite status is success and upload fails',
         build: () {
           when(
-            () => photosRepository.facebookShareUrl(imageFileName, shareText),
-          ).thenThrow(Exception('e'));
-          return ShareBloc(
-            photosRepository: photosRepository,
-            isSharingEnabled: true,
-          );
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
         },
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
+        seed: () => ShareState(compositeStatus: ShareStatus.success),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.error(),
-        ],
-        errors: () => [
-          isA<Exception>(),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.failure,
+          ),
         ],
       );
 
       blocTest<ShareBloc, ShareState>(
-        'emits [loading, success] when operations successfully finish',
-        build: () => ShareBloc(
-          photosRepository: photosRepository,
-          isSharingEnabled: true,
+        'emits [loading, success] '
+        'when composite status is success and upload succeeds',
+        build: () {
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenAnswer(
+            (_) async => ShareUrls(
+              facebookShareUrl: facebookShareUrl,
+              twitterShareUrl: twitterShareUrl,
+            ),
+          );
+          return shareBloc;
+        },
+        seed: () => ShareState(
+          compositeStatus: ShareStatus.success,
+          bytes: imageData,
         ),
-        act: (b) => b.add(
-          ShareOnFacebookTapped(
-            image: image,
-            imageId: imageId,
-            shareText: shareText,
-            assets: [],
-          ),
-        ),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
         expect: () => [
-          ShareState.loading(),
-          ShareState.success(shareUrl: facebookShareUrl),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            bytes: imageData,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.loading,
+            bytes: imageData,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.success,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, failure] '
+        'when composite status is failure and compositing fails',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, failure] '
+        'when composite status is failure and compositing succeeds '
+        'but upload fails.',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenThrow(Exception());
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.loading,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.failure,
+          ),
+        ],
+      );
+
+      blocTest<ShareBloc, ShareState>(
+        'emits [loading, success] '
+        'when composite status is failure and compositing succeeds '
+        'and upload succeeds.',
+        build: () {
+          when(
+            () => photosRepository.composite(
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+              data: any(named: 'data'),
+              layers: any(named: 'layers'),
+              aspectRatio: any(named: 'aspectRatio'),
+            ),
+          ).thenAnswer((_) async => imageData);
+          when(
+            () => photosRepository.sharePhoto(
+              fileName: any(named: 'fileName'),
+              data: any(named: 'data'),
+              shareText: any(named: 'shareText'),
+            ),
+          ).thenAnswer(
+            (_) async => ShareUrls(
+              facebookShareUrl: facebookShareUrl,
+              twitterShareUrl: twitterShareUrl,
+            ),
+          );
+          return shareBloc;
+        },
+        seed: () => ShareState(compositeStatus: ShareStatus.failure),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
+        expect: () => [
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.loading,
+            isUploadRequested: true,
+            shareUrl: ShareUrl.facebook,
+          ),
+          isA<ShareState>().having(
+            (s) => s.compositeStatus,
+            'compositeStatus',
+            ShareStatus.success,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.loading,
+          ),
+          isA<ShareState>().having(
+            (s) => s.uploadStatus,
+            'uploadStatus',
+            ShareStatus.success,
+          ),
         ],
       );
     });

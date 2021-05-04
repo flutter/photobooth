@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -7,7 +8,7 @@ void main() {
     testWidgets('renders Tooltip by default', (tester) async {
       const target = Key('__key__');
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Material(
             child: AppTooltip(
               message: 'message',

@@ -61,10 +61,11 @@ void main() {
     late firebase_storage.UploadTask uploadTask;
     late firebase_storage.TaskSnapshot taskSnapshot;
 
-    const photoName = 'photo-name.jpg';
+    const photoName = 'photo.jpg';
     final photoData = Uint8List(0);
 
     const referenceFullPath = 'uploads/$photoName';
+    const shareText = 'Share text';
 
     setUp(() {
       imageCompositor = MockImageCompositor();
@@ -91,21 +92,53 @@ void main() {
       });
     });
 
-    group('uploadPhoto', () {
+    group('sharePhoto', () {
       test('calls firebaseStorage.ref with appropriate path', () async {
-        await photosRepository.uploadPhoto(photoName, photoData);
+        await photosRepository.sharePhoto(
+          fileName: photoName,
+          data: photoData,
+          shareText: shareText,
+        );
         verify(() => firebaseStorage.ref('uploads/$photoName')).called(1);
       });
 
       test('calls putData on reference', () async {
-        await photosRepository.uploadPhoto(photoName, photoData);
+        await photosRepository.sharePhoto(
+          fileName: photoName,
+          data: photoData,
+          shareText: shareText,
+        );
         verify(() => reference.putData(photoData)).called(1);
       });
 
       test('does not putData when reference already exists', () async {
         when(() => reference.getDownloadURL()).thenAnswer((_) async => 'url');
-        await photosRepository.uploadPhoto(photoName, photoData);
+        await photosRepository.sharePhoto(
+          fileName: photoName,
+          data: photoData,
+          shareText: shareText,
+        );
         verifyNever(() => reference.putData(photoData));
+      });
+
+      test('returns correct share urls', () async {
+        final shareUrls = await photosRepository.sharePhoto(
+          fileName: photoName,
+          data: photoData,
+          shareText: shareText,
+        );
+        expect(
+          shareUrls.facebookShareUrl,
+          equals(
+            'https://www.facebook.com/sharer.php?u=https://io-photobooth-dev.web.app/share/photo.jpg&quote=Share%20text',
+          ),
+        );
+        expect(
+          shareUrls.twitterShareUrl,
+          equals(
+            'https://twitter.com/intent/tweet?url=https://io-photobooth-dev.web.app/share/photo.jpg&text=Share%20text',
+          ),
+        );
       });
 
       test(
@@ -114,7 +147,11 @@ void main() {
         when(() => firebaseStorage.ref(any())).thenThrow(() => Exception());
 
         expect(
-          () async => await photosRepository.uploadPhoto(photoName, photoData),
+          () async => await photosRepository.sharePhoto(
+            fileName: photoName,
+            data: photoData,
+            shareText: shareText,
+          ),
           throwsA(isA<UploadPhotoException>()),
         );
       });
@@ -124,7 +161,11 @@ void main() {
           'when reference.putData throws', () async {
         when(() => reference.putData(photoData)).thenThrow(() => Exception());
         expect(
-          () async => await photosRepository.uploadPhoto(photoName, photoData),
+          () async => await photosRepository.sharePhoto(
+            fileName: photoName,
+            data: photoData,
+            shareText: shareText,
+          ),
           throwsA(isA<UploadPhotoException>()),
         );
       });
@@ -217,34 +258,6 @@ void main() {
               'toString',
               contains('compositing photo failed.'),
             ),
-          ),
-        );
-      });
-    });
-
-    group('twitterShareUrl', () {
-      const photoName = 'photo.jpg';
-      const shareText = 'Share text';
-
-      test('returns correct url', () {
-        expect(
-          photosRepository.twitterShareUrl(photoName, shareText),
-          equals(
-            'https://twitter.com/intent/tweet?url=https://io-photobooth-dev.web.app/share/photo.jpg&text=Share%20text',
-          ),
-        );
-      });
-    });
-
-    group('facebookShareUrl', () {
-      const photoName = 'photo.jpg';
-      const shareText = 'Share text';
-
-      test('returns correct url', () {
-        expect(
-          photosRepository.facebookShareUrl(photoName, shareText),
-          equals(
-            'https://www.facebook.com/sharer.php?u=https://io-photobooth-dev.web.app/share/photo.jpg&quote=Share%20text',
           ),
         );
       });

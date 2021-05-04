@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 /// {@template tooltip_mode}
 /// The tooltip mode which determines when the tooltip is visible
@@ -24,10 +23,8 @@ class AppTooltipButton extends StatefulWidget {
     required this.onPressed,
     required this.message,
     this.mode = TooltipMode.normal,
-    PlatformHelper? platformHelper,
     required this.child,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+  }) : super(key: key);
 
   /// [VoidCallback] which is invoked when the user taps the [child].
   final VoidCallback onPressed;
@@ -37,10 +34,6 @@ class AppTooltipButton extends StatefulWidget {
 
   /// {@macro tooltip_mode}
   final TooltipMode mode;
-
-  /// An instance of [PlatformHelper] which is used to determine the tooltip
-  /// visibility based on the underlying platform.
-  final PlatformHelper platformHelper;
 
   /// The widget which will be rendered.
   final Widget child;
@@ -66,13 +59,11 @@ class _AppTooltipButtonState extends State<AppTooltipButton> {
     );
     return Material(
       color: PhotoboothColors.transparent,
-      child: widget.platformHelper.isMobile
-          ? AppTooltip.custom(
-              visible: _isTooltipVisible,
-              message: widget.message,
-              child: child,
-            )
-          : AppTooltip(message: widget.message, child: child),
+      child: AppTooltip.custom(
+        visible: _isTooltipVisible,
+        message: widget.message,
+        child: child,
+      ),
     );
   }
 }

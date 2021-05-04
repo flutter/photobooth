@@ -1,29 +1,72 @@
 part of 'share_bloc.dart';
 
-enum ShareStatus { initial, loading, success, error }
+enum ShareStatus { initial, loading, success, failure }
+
+enum ShareUrl { none, twitter, facebook }
+
+extension ShareStatusX on ShareStatus {
+  bool get isLoading => this == ShareStatus.loading;
+  bool get isSuccess => this == ShareStatus.success;
+  bool get isFailure => this == ShareStatus.failure;
+}
 
 class ShareState extends Equatable {
-  const ShareState._({
-    required this.status,
-    this.shareUrl = '',
+  const ShareState({
+    this.compositeStatus = ShareStatus.initial,
+    this.uploadStatus = ShareStatus.initial,
+    this.file,
+    this.bytes,
+    this.facebookShareUrl = '',
+    this.twitterShareUrl = '',
+    this.isDownloadRequested = false,
+    this.isUploadRequested = false,
+    this.shareUrl = ShareUrl.none,
   });
 
-  const ShareState.initial() : this._(status: ShareStatus.initial);
-
-  const ShareState.loading() : this._(status: ShareStatus.loading);
-
-  const ShareState.success({required String shareUrl})
-      : this._(
-          status: ShareStatus.success,
-          shareUrl: shareUrl,
-        );
-
-  const ShareState.error() : this._(status: ShareStatus.error);
-
-  final ShareStatus status;
-
-  final String shareUrl;
+  final ShareStatus compositeStatus;
+  final ShareStatus uploadStatus;
+  final XFile? file;
+  final Uint8List? bytes;
+  final String twitterShareUrl;
+  final String facebookShareUrl;
+  final bool isUploadRequested;
+  final bool isDownloadRequested;
+  final ShareUrl shareUrl;
 
   @override
-  List<Object> get props => [status];
+  List<Object?> get props => [
+        compositeStatus,
+        uploadStatus,
+        file,
+        bytes,
+        twitterShareUrl,
+        facebookShareUrl,
+        isUploadRequested,
+        isDownloadRequested,
+        shareUrl,
+      ];
+
+  ShareState copyWith({
+    ShareStatus? compositeStatus,
+    ShareStatus? uploadStatus,
+    XFile? file,
+    Uint8List? bytes,
+    String? twitterShareUrl,
+    String? facebookShareUrl,
+    bool? isUploadRequested,
+    bool? isDownloadRequested,
+    ShareUrl? shareUrl,
+  }) {
+    return ShareState(
+      compositeStatus: compositeStatus ?? this.compositeStatus,
+      uploadStatus: uploadStatus ?? this.uploadStatus,
+      file: file ?? this.file,
+      bytes: bytes ?? this.bytes,
+      twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
+      facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
+      isUploadRequested: isUploadRequested ?? this.isUploadRequested,
+      isDownloadRequested: isDownloadRequested ?? this.isDownloadRequested,
+      shareUrl: shareUrl ?? this.shareUrl,
+    );
+  }
 }
