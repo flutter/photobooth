@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,24 +19,30 @@ void main() async {
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
     print(details.stack.toString());
-    log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  unawaited(Firebase.initializeApp()
-      .then((_) => FirebaseAuth.instance.signInAnonymously()));
-
+  final authenticationRepository = AuthenticationRepository(
+    firebaseAuth: FirebaseAuth.instance,
+  );
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
   );
 
+  unawaited(
+    Firebase.initializeApp().then(
+      (_) => authenticationRepository.signInAnonymously(),
+    ),
+  );
   unawaited(Assets.load());
 
   runZonedGuarded(
-    () => runApp(App(photosRepository: photosRepository)),
+    () => runApp(App(
+      authenticationRepository: authenticationRepository,
+      photosRepository: photosRepository,
+    )),
     (error, stackTrace) {
       print(error.toString());
       print(stackTrace.toString());
-      log(error.toString(), stackTrace: stackTrace);
     },
   );
 }

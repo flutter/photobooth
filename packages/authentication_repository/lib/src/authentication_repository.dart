@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 /// Thrown when signing in anonymously process fails.
@@ -15,14 +14,6 @@ class AuthenticationRepository {
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
-  /// Stream of [User] which will emit the current user when
-  /// the authentication state changes.
-  Stream<User> get user {
-    return _firebaseAuth
-        .authStateChanges()
-        .map((user) => user == null ? User.none : user.toUser);
-  }
-
   /// Logs in into the app as an anonymous user.
   ///
   /// Throws [SignInAnonymouslyException] when operation fails.
@@ -32,11 +23,5 @@ class AuthenticationRepository {
     } catch (_) {
       throw SignInAnonymouslyException();
     }
-  }
-}
-
-extension on firebase_auth.User {
-  User get toUser {
-    return User(id: uid);
   }
 }
