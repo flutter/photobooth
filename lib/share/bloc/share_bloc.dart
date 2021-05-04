@@ -43,7 +43,10 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     } else if (event is _ShareCompositeSucceeded) {
       yield* _mapShareCompositeSucceededToState(event, state);
     } else if (event is _ShareCompositeFailed) {
-      yield state.copyWith(compositeStatus: ShareStatus.failure);
+      yield state.copyWith(
+        compositeStatus: ShareStatus.failure,
+        uploadStatus: ShareStatus.failure,
+      );
     }
   }
 
@@ -85,6 +88,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
         event is ShareOnTwitterTapped ? ShareUrl.twitter : ShareUrl.facebook;
 
     yield state.copyWith(
+      uploadStatus: ShareStatus.initial,
       isDownloadRequested: false,
       isUploadRequested: true,
       shareUrl: shareUrl,
@@ -97,6 +101,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     if (state.compositeStatus.isFailure) {
       yield state.copyWith(
         compositeStatus: ShareStatus.loading,
+        uploadStatus: ShareStatus.initial,
         isDownloadRequested: false,
         isUploadRequested: true,
         shareUrl: shareUrl,

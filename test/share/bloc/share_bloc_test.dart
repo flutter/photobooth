@@ -88,7 +88,10 @@ void main() {
         act: (bloc) => bloc.add(ShareViewLoaded()),
         expect: () => [
           ShareState(compositeStatus: ShareStatus.loading),
-          ShareState(compositeStatus: ShareStatus.failure),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
+          ),
         ],
       );
 
@@ -176,6 +179,11 @@ void main() {
         expect: () => [
           ShareState(
             compositeStatus: ShareStatus.failure,
+            isDownloadRequested: true,
+          ),
+          ShareState(
+            compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
             isDownloadRequested: true,
           ),
         ],
@@ -307,6 +315,7 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
             isUploadRequested: true,
             shareUrl: ShareUrl.twitter,
           ),
@@ -552,6 +561,7 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.failure,
             isUploadRequested: true,
             shareUrl: ShareUrl.facebook,
           ),
