@@ -1,16 +1,24 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _shutterCountdownDuration = Duration(seconds: 3);
+const _countdownInterval = Duration(seconds: 1);
+
+AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
     Key? key,
     required this.onCountdownComplete,
-  }) : super(key: key);
+    ValueGetter<AudioPlayer>? audioPlayer,
+  })  : _audioPlayer = audioPlayer ?? _getAudioPlayer,
+        super(key: key);
 
   final VoidCallback onCountdownComplete;
+  final ValueGetter<AudioPlayer> _audioPlayer;
 
   @override
   _ShutterButtonState createState() => _ShutterButtonState();
@@ -18,17 +26,50 @@ class ShutterButton extends StatefulWidget {
 
 class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
+  final countdownAudioSource = AudioSource.uri(
+    Uri.parse('asset:///audio/countdown.mp3'),
+  );
+  final captureAudioSource = AudioSource.uri(
+    Uri.parse('asset:///audio/capture.mp3'),
+  );
   late final AnimationController controller;
+  late final AudioPlayer countdownPlayer;
+  late final AudioPlayer capturePlayer;
 
-  void _onAnimationStatusChanged(AnimationStatus status) {
+  void _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
+      _playShutterSound();
       widget.onCountdownComplete();
     }
+  }
+
+  void _playCountdownSequence() async {
+    void _playCountdownSound() {
+      if (countdownPlayer.position != Duration.zero) countdownPlayer.setClip();
+      countdownPlayer.play();
+    }
+
+    for (var i = 0; i < _shutterCountdownDuration.inSeconds; i++) {
+      _playCountdownSound();
+      await Future.delayed(_countdownInterval);
+    }
+  }
+
+  void _playShutterSound() {
+    if (capturePlayer.position != Duration.zero) capturePlayer.setClip();
+    capturePlayer.play();
   }
 
   @override
   void initState() {
     super.initState();
+    countdownPlayer = widget._audioPlayer()
+      ..setAudioSource(countdownAudioSource)
+      ..load();
+    capturePlayer = widget._audioPlayer()
+      ..setAudioSource(captureAudioSource)
+      ..load();
+
     controller = AnimationController(
       vsync: this,
       duration: _shutterCountdownDuration,
@@ -40,7 +81,14 @@ class _ShutterButtonState extends State<ShutterButton>
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
+    countdownPlayer.dispose();
+    capturePlayer.dispose();
     super.dispose();
+  }
+
+  void _onShutterPressed() {
+    controller.reverse(from: 1);
+    _playCountdownSequence();
   }
 
   @override
@@ -50,7 +98,7 @@ class _ShutterButtonState extends State<ShutterButton>
       builder: (context, child) {
         return controller.isAnimating
             ? CountdownTimer(controller: controller)
-            : CameraButton(onPressed: () => controller.reverse(from: 1));
+            : CameraButton(onPressed: _onShutterPressed);
       },
     );
   }
@@ -84,10 +132,11 @@ class CountdownTimer extends StatelessWidget {
           ),
           Positioned.fill(
             child: CustomPaint(
-                painter: TimerPainter(
-              animation: controller,
-              countdown: seconds,
-            )),
+              painter: TimerPainter(
+                animation: controller,
+                countdown: seconds,
+              ),
+            ),
           )
         ],
       ),
