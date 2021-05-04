@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
 import '../../helpers/helpers.dart';
 
 class MockAnimationController extends Mock implements AnimationController {}
@@ -13,32 +15,52 @@ class MockPaint extends Mock implements Paint {}
 
 class RectFake extends Fake implements Rect {}
 
+class MockAudioPlayer extends Mock implements AudioPlayer {}
+
 void main() {
+  late AudioPlayer audioPlayer;
+
+  setUpAll(() {
+    registerFallbackValue(AudioSource.uri(Uri.parse('')));
+  });
+
+  setUp(() {
+    audioPlayer = MockAudioPlayer();
+    when(() => audioPlayer.setAudioSource(any())).thenAnswer((_) async => null);
+    when(() => audioPlayer.load()).thenAnswer((_) async => null);
+    when(() => audioPlayer.play()).thenAnswer((_) async => null);
+    when(() => audioPlayer.setClip()).thenAnswer((_) async => null);
+    when(() => audioPlayer.position).thenReturn(Duration.zero);
+    when(() => audioPlayer.dispose()).thenAnswer((_) async => null);
+  });
+
   group('ShutterButton', () {
     testWidgets('renders', (tester) async {
-      await tester.pumpApp(ShutterButton(
-        onCountdownComplete: () {},
-      ));
+      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
       expect(find.byType(ShutterButton), findsOneWidget);
     });
 
-    testWidgets('renders CameraButton when animation didnt start',
+    testWidgets('renders CameraButton when animation has not started',
         (tester) async {
-      await tester.pumpApp(ShutterButton(
-        onCountdownComplete: () {},
-      ));
+      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
       expect(find.byType(CameraButton), findsOneWidget);
       expect(find.byType(CountdownTimer), findsNothing);
     });
 
-    testWidgets('renders CountdownTimer when clicks on CameraButton',
+    testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
         (tester) async {
-      await tester.pumpApp(ShutterButton(
-        onCountdownComplete: () {},
-      ));
-      await tester.tap(find.byType(CameraButton));
-      await tester.pump();
-      expect(find.byType(CountdownTimer), findsOneWidget);
+      await tester.runAsync(() async {
+        await tester.pumpApp(ShutterButton(
+          onCountdownComplete: () {},
+          audioPlayer: () => audioPlayer,
+        ));
+        await tester.tap(find.byType(CameraButton));
+        await tester.pump();
+        expect(find.byType(CountdownTimer), findsOneWidget);
+        await tester.pumpAndSettle();
+        verify(() => audioPlayer.load()).called(2);
+        verify(() => audioPlayer.play()).called(2);
+      });
     });
   });
 
