@@ -5,7 +5,6 @@ enum ShareStatus { initial, loading, success, failure }
 enum ShareUrl { none, twitter, facebook }
 
 extension ShareStatusX on ShareStatus {
-  bool get isInitial => this == ShareStatus.initial;
   bool get isLoading => this == ShareStatus.loading;
   bool get isSuccess => this == ShareStatus.success;
   bool get isFailure => this == ShareStatus.failure;
@@ -23,10 +22,6 @@ class ShareState extends Equatable {
     this.isUploadRequested = false,
     this.shareUrl = ShareUrl.none,
   });
-
-  @override
-  String toString() =>
-      '''ShareState(compositeStatus: $compositeStatus, uploadStatus: $uploadStatus, shareUrl: $shareUrl)''';
 
   final ShareStatus compositeStatus;
   final ShareStatus uploadStatus;

@@ -58,7 +58,27 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('downloads file on success', (tester) async {
+    testWidgets('downloads file on tap when compositing is success',
+        (tester) async {
+      final file = MockXFile();
+      when(() => file.saveTo(any())).thenAnswer((_) async => null);
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          file: file,
+          bytes: bytes,
+        ),
+      );
+
+      await tester.pumpApp(const DownloadButton(), shareBloc: shareBloc);
+
+      await tester.tap(find.byType(OutlinedButton));
+
+      verify(() => file.saveTo('')).called(1);
+    });
+
+    testWidgets('downloads file after tap when compositing succeeds',
+        (tester) async {
       final file = MockXFile();
       when(() => file.saveTo(any())).thenAnswer((_) async => null);
       whenListen(
@@ -67,17 +87,27 @@ void main() {
           const ShareState(compositeStatus: ShareStatus.loading),
           ShareState(
             compositeStatus: ShareStatus.success,
+            isDownloadRequested: true,
             file: file,
             bytes: bytes,
           ),
         ]),
       );
+      await tester.pumpApp(const DownloadButton(), shareBloc: shareBloc);
+      verify(() => file.saveTo('')).called(1);
+    });
+
+    testWidgets(
+        'adds ShareDownloadTapped when button is tapped '
+        'and compositing has not finished', (tester) async {
+      when(() => shareBloc.state).thenReturn(
+        const ShareState(compositeStatus: ShareStatus.loading),
+      );
 
       await tester.pumpApp(const DownloadButton(), shareBloc: shareBloc);
-
       await tester.tap(find.byType(OutlinedButton));
 
-      verify(() => file.saveTo('')).called(1);
+      verify(() => shareBloc.add(const ShareDownloadTapped())).called(1);
     });
   });
 }

@@ -202,6 +202,7 @@ void main() {
             ShareState(
               compositeStatus: ShareStatus.success,
               uploadStatus: ShareStatus.success,
+              shareUrl: ShareUrl.twitter,
               file: file,
               bytes: bytes,
               twitterShareUrl: shareUrl,

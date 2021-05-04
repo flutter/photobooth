@@ -33,12 +33,6 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final String shareText;
 
   @override
-  void onTransition(Transition<ShareEvent, ShareState> transition) {
-    super.onTransition(transition);
-    print(transition);
-  }
-
-  @override
   Stream<ShareState> mapEventToState(ShareEvent event) async* {
     if (event is ShareViewLoaded) {
       yield* _mapShareViewLoadedToState(event, state);
