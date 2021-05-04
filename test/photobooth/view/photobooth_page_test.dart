@@ -312,7 +312,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(
         find.byKey(
@@ -337,7 +337,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       await tester.drag(
         find.byKey(
@@ -365,7 +365,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(
         find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
@@ -386,7 +386,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       await tester.drag(
         find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
@@ -413,7 +413,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(
         find.byKey(
@@ -436,7 +436,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(
         find.byKey(
@@ -461,7 +461,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       await tester.drag(
         find.byKey(
@@ -493,7 +493,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(find.byType(DraggableResizable), findsNWidgets(4));
       expect(find.byType(AnimatedAndroid), findsOneWidget);
@@ -683,7 +683,7 @@ void main() async {
           child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
       expect(find.byType(CharactersCaption), findsNothing);
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });

@@ -22,11 +22,19 @@ abstract class Assets {
 
   static Future<void> load() async {
     if (_initialized) return;
+
     final charactersAssets = [
       _loadAsset('android', 'assets/images/android.png'),
       _loadAsset('dash', 'assets/images/dash.png'),
       _loadAsset('sparky', 'assets/images/sparky.png'),
       _loadAsset('dino', 'assets/images/dino.png'),
+    ];
+
+    final animatedCharacterAssets = [
+      'android_spritesheet.png',
+      'dash_spritesheet.png',
+      'sparky_spritesheet.png',
+      'dino_spritesheet.png',
     ];
 
     final googleAssets = [
@@ -182,6 +190,9 @@ abstract class Assets {
       ...foodAssets,
       ...shapesAssets,
     ]);
+
+    // Animated Characters
+    await Flame.images.loadAll(animatedCharacterAssets);
 
     android = await charactersAssets[0];
     dash = await charactersAssets[1];
