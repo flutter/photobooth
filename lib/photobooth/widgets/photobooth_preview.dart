@@ -91,6 +91,10 @@ class PhotoboothPreview extends StatelessWidget {
                     PhotoCharacterDragged(character: character, update: update),
                   );
             },
+            size: Size(
+              character.asset.image.width.toDouble(),
+              character.asset.image.height.toDouble(),
+            ),
             child: _AnimatedCharacter(name: character.asset.name),
           ),
         ResponsiveLayoutBuilder(

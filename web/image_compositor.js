@@ -4641,10 +4641,10 @@
               assetDy = C.JSNumber_methods.round$0(t4.y * (image.height / t3.y) * t5);
               t3 = layer.angle;
               if (t3 !== 0)
-                asset = G.copyRotate(t2, t3 * 57.29577951308232, C.Interpolation_3);
+                asset = G.copyRotate(t2, t3 * 57.29577951308232, C.Interpolation_2);
               else
                 asset = t2;
-              image = K.drawImage(image, asset.width !== assetWidth ? K.copyResize(asset, C.Interpolation_0, assetWidth) : asset, null, null, assetDx, assetDy);
+              image = K.drawImage(image, asset.width !== assetWidth ? K.copyResize(asset, C.Interpolation_2, assetWidth) : asset, null, null, assetDx, assetDy);
             case 5:
               // for update
               ++_i;
