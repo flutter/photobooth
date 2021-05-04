@@ -10,6 +10,7 @@ class MockPlatformHelper extends Mock implements PlatformHelper {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final childKey = UniqueKey();
+  const size = Size(500, 500);
   final child = SizedBox(key: childKey, width: 100, height: 100);
   late PlatformHelper platformHelper;
 
@@ -22,7 +23,7 @@ void main() {
 
     testWidgets('renders child by (default)', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: DraggableResizable(child: child)),
+        MaterialApp(home: DraggableResizable(size: size, child: child)),
       );
       expect(find.byKey(childKey), findsOneWidget);
     });
@@ -37,6 +38,7 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
+              size: size,
               child: child,
             ),
           ),
@@ -54,6 +56,7 @@ void main() {
             home: DraggableResizable(
               platformHelper: platformHelper,
               onUpdate: onUpdateCalls.add,
+              size: size,
               child: child,
             ),
           ),
@@ -78,6 +81,7 @@ void main() {
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: true,
+              size: size,
               child: child,
             ),
           ),
@@ -96,6 +100,7 @@ void main() {
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: false,
+              size: size,
               child: child,
             ),
           ),
@@ -118,6 +123,7 @@ void main() {
                     platformHelper: platformHelper,
                     onUpdate: onUpdateCalls.add,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -156,6 +162,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -181,6 +188,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: false,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -206,6 +214,7 @@ void main() {
                     platformHelper: platformHelper,
                     onUpdate: onUpdateCalls.add,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -244,6 +253,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -269,6 +279,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: false,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -294,6 +305,7 @@ void main() {
                     platformHelper: platformHelper,
                     onUpdate: onUpdateCalls.add,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -332,6 +344,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -357,6 +370,7 @@ void main() {
                   child: DraggableResizable(
                     platformHelper: platformHelper,
                     canTransform: false,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -382,6 +396,7 @@ void main() {
                     platformHelper: platformHelper,
                     onUpdate: onUpdateCalls.add,
                     canTransform: true,
+                    size: size,
                     child: child,
                   ),
                 ),
@@ -416,6 +431,7 @@ void main() {
               platformHelper: platformHelper,
               canTransform: false,
               onDelete: () {},
+              size: size,
               child: child,
             ),
           ),
@@ -433,6 +449,7 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
+              size: size,
               child: child,
             ),
           ),
@@ -452,6 +469,7 @@ void main() {
               platformHelper: platformHelper,
               canTransform: true,
               onDelete: () {},
+              size: size,
               child: child,
             ),
           ),
@@ -468,6 +486,7 @@ void main() {
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: true,
+              size: size,
               child: child,
             ),
           ),
@@ -506,6 +525,7 @@ void main() {
             home: DraggableResizable(
               platformHelper: platformHelper,
               canTransform: true,
+              size: size,
               child: child,
             ),
           ),
@@ -533,6 +553,7 @@ void main() {
                   onUpdate: onUpdateCalls.add,
                   canTransform: true,
                   platformHelper: platformHelper,
+                  size: size,
                   child: child,
                 ),
               ],
@@ -562,6 +583,7 @@ void main() {
                   onUpdate: onUpdateCalls.add,
                   canTransform: true,
                   platformHelper: platformHelper,
+                  size: size,
                   child: child,
                 ),
               ],
@@ -607,6 +629,7 @@ void main() {
                   onUpdate: onUpdateCalls.add,
                   canTransform: true,
                   platformHelper: platformHelper,
+                  size: size,
                   child: child,
                 ),
               ],
@@ -652,6 +675,7 @@ void main() {
                   onUpdate: onUpdateCalls.add,
                   canTransform: true,
                   platformHelper: platformHelper,
+                  size: size,
                   child: child,
                 ),
               ],

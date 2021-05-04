@@ -43,6 +43,7 @@ class DraggableResizable extends StatefulWidget {
   DraggableResizable({
     Key? key,
     required this.child,
+    required this.size,
     this.onUpdate,
     this.onDelete,
     this.canTransform = false,
@@ -62,6 +63,9 @@ class DraggableResizable extends StatefulWidget {
   /// Whether or not the asset can be dragged or resized.
   /// Defaults to false.
   final bool canTransform;
+
+  /// The child's original size.
+  final Size size;
 
   /// Optional [PlatformHelper] instance.
   final PlatformHelper platformHelper;
@@ -89,8 +93,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
   void initState() {
     super.initState();
     maxHeight = 1000;
-    minHeight = maxHeight * 0.1;
-    size = Size(maxHeight * 0.25, maxHeight * 0.25);
+    minHeight = maxHeight * 0.05;
+    size = widget.size * 0.25;
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
     baseAngle = 0;
