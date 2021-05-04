@@ -18,7 +18,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
-import '../../helpers/sound_method_channel.dart';
 
 class MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin

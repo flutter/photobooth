@@ -5,7 +5,6 @@ import 'package:io_photobooth/sounds/sounds.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
-import '../../helpers/sound_method_channel.dart';
 
 class MockAnimationController extends Mock implements AnimationController {}
 
