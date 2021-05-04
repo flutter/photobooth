@@ -93,9 +93,11 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     await _play();
   }
 
-  void _onSnapPressed() async {
+  void _onSnapPressed({required double aspectRatio}) async {
     final picture = await _controller.takePicture();
-    context.read<PhotoboothBloc>().add(PhotoCaptured(image: picture));
+    context
+        .read<PhotoboothBloc>()
+        .add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
     final stickersPage = StickersPage.route();
     await _stop();
     await Navigator.of(context).push(stickersPage);
@@ -110,15 +112,23 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return ResponsiveLayoutBuilder(
-            small: (_, child) => _PreviewLayout(
-              child: AspectRatio(aspectRatio: 3 / 4, child: child),
+            small: (_, __) => _PreviewLayout(
+              child: AspectRatio(
+                aspectRatio: 3 / 4,
+                child: PhotoboothPreview(
+                  preview: preview,
+                  onSnapPressed: () => _onSnapPressed(aspectRatio: 3 / 4),
+                ),
+              ),
             ),
-            large: (_, child) => _PreviewLayout(
-              child: AspectRatio(aspectRatio: 4 / 3, child: child),
-            ),
-            child: PhotoboothPreview(
-              preview: preview,
-              onSnapPressed: _onSnapPressed,
+            large: (_, __) => _PreviewLayout(
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: PhotoboothPreview(
+                  preview: preview,
+                  onSnapPressed: () => _onSnapPressed(aspectRatio: 4 / 3),
+                ),
+              ),
             ),
           );
         },

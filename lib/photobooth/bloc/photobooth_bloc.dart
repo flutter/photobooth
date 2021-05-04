@@ -22,6 +22,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
     if (event is PhotoCaptured) {
       yield state.copyWith(
+        aspectRatio: event.aspectRatio,
         image: event.image,
         imageId: uuid(),
         selectedAssetId: emptyAssetId,

@@ -22,6 +22,7 @@ class MockAsset extends Mock implements Asset {}
 void main() {
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: 0, height: 0, data: data);
+  final aspectRatio = 3 / 4;
   final imageId = 'image-name';
   final shareText = 'share-text';
   final imageData = Uint8List.fromList(transparentImage);
@@ -63,6 +64,7 @@ void main() {
         image: image,
         assets: [photoAsset],
         shareText: shareText,
+        aspectRatio: aspectRatio,
         isSharingEnabled: true,
       );
     });
@@ -200,6 +202,7 @@ void main() {
           image: image,
           assets: [photoAsset],
           shareText: shareText,
+          aspectRatio: aspectRatio,
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnTwitterTapped()),
@@ -460,6 +463,7 @@ void main() {
           image: image,
           assets: [photoAsset],
           shareText: shareText,
+          aspectRatio: aspectRatio,
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnFacebookTapped()),

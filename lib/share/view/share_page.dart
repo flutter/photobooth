@@ -29,6 +29,7 @@ class SharePage extends StatelessWidget {
           imageId: state.imageId,
           image: state.image!,
           assets: state.assets,
+          aspectRatio: state.aspectRatio,
           shareText: l10n.socialMediaShareLinkText,
         )..add(const ShareViewLoaded());
       },

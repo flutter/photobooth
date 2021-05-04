@@ -15,6 +15,8 @@ void main() async {
   await Assets.load();
 
   group('PhotoboothBloc', () {
+    const aspectRatio = 4 / 3;
+
     late CameraImage image;
     late String id;
 
@@ -33,16 +35,24 @@ void main() async {
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with image',
         build: () => PhotoboothBloc(uuid),
-        act: (bloc) => bloc.add(PhotoCaptured(image: image)),
-        expect: () => [PhotoboothState(image: image, imageId: id)],
+        act: (bloc) => bloc.add(
+          PhotoCaptured(aspectRatio: aspectRatio, image: image),
+        ),
+        expect: () => [
+          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
+        ],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
         'emits updated state with image and no selected asset',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(selectedAssetId: '0'),
-        act: (bloc) => bloc.add(PhotoCaptured(image: image)),
-        expect: () => [PhotoboothState(image: image, imageId: id)],
+        act: (bloc) => bloc.add(
+          PhotoCaptured(aspectRatio: aspectRatio, image: image),
+        ),
+        expect: () => [
+          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
+        ],
       );
     });
 

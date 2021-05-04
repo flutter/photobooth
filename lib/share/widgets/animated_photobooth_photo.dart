@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -41,16 +42,22 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 
   @override
   Widget build(BuildContext context) {
+    final aspectRatio = context.select(
+      (PhotoboothBloc bloc) => bloc.state.aspectRatio,
+    );
     return ResponsiveLayoutBuilder(
       small: (_, __) => AnimatedPhotoboothPhotoSmall(
+        aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
       large: (_, __) => AnimatedPhotoboothPhotoLarge(
+        aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
       xLarge: (_, __) => AnimatedPhotoboothPhotoXLarge(
+        aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       ),
@@ -62,10 +69,12 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
   const AnimatedPhotoboothPhotoXLarge({
     Key? key,
+    required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
   }) : super(key: key);
 
+  final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
 
@@ -103,10 +112,8 @@ class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
                       duration: const Duration(seconds: 2),
                       opacity: isPhotoVisible ? 1 : 0,
                       child: AspectRatio(
-                        aspectRatio: 4 / 3,
-                        child: PhotoboothPhoto(
-                          image: image.data,
-                        ),
+                        aspectRatio: aspectRatio,
+                        child: PhotoboothPhoto(image: image.data),
                       ),
                     ),
                   ),
@@ -122,10 +129,12 @@ class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
 class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
   const AnimatedPhotoboothPhotoLarge({
     Key? key,
+    required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
   }) : super(key: key);
 
+  final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
 
@@ -161,10 +170,8 @@ class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
                       duration: const Duration(seconds: 2),
                       opacity: isPhotoVisible ? 1 : 0,
                       child: AspectRatio(
-                        aspectRatio: 4 / 3,
-                        child: PhotoboothPhoto(
-                          image: image.data,
-                        ),
+                        aspectRatio: aspectRatio,
+                        child: PhotoboothPhoto(image: image.data),
                       ),
                     ),
                   ),
@@ -180,10 +187,12 @@ class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
 class AnimatedPhotoboothPhotoSmall extends StatelessWidget {
   const AnimatedPhotoboothPhotoSmall({
     Key? key,
+    required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
   }) : super(key: key);
 
+  final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
 
@@ -220,10 +229,8 @@ class AnimatedPhotoboothPhotoSmall extends StatelessWidget {
                       duration: const Duration(seconds: 2),
                       opacity: isPhotoVisible ? 1 : 0,
                       child: AspectRatio(
-                        aspectRatio: 3 / 4,
-                        child: PhotoboothPhoto(
-                          image: image.data,
-                        ),
+                        aspectRatio: aspectRatio,
+                        child: PhotoboothPhoto(image: image.data),
                       ),
                     ),
                   ),

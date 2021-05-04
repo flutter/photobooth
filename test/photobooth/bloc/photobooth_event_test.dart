@@ -16,9 +16,10 @@ void main() {
   group('PhotoboothEvent', () {
     group('PhotoCaptured', () {
       test('support value equality', () {
+        const aspectRatio = 3 / 4;
         final image = MockCameraImage();
-        final instanceA = PhotoCaptured(image: image);
-        final instanceB = PhotoCaptured(image: image);
+        final instanceA = PhotoCaptured(aspectRatio: aspectRatio, image: image);
+        final instanceB = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         expect(instanceA, equals(instanceB));
       });
     });
