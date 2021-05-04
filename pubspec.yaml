@@ -26,6 +26,7 @@ dependencies:
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
+  just_audio: ^0.7.4
   photos_repository:
     path: packages/photos_repository
   authentication_repository:
