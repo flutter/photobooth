@@ -5,8 +5,11 @@ abstract class PhotoboothColors {
   /// Black
   static const Color black = Color(0xFF202124);
 
-  /// Black Inactive
+  /// Black 54% opacity
   static const Color black54 = Color(0x8A000000);
+
+  /// Black 25% opacity
+  static const Color black25 = Color(0x40202124);
 
   /// Gray
   static const Color gray = Color(0xFFCFCFCF);

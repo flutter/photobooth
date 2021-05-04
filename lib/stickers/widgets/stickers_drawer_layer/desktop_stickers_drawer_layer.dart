@@ -70,7 +70,7 @@ class DesktopStickersDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           Flexible(
-            child: StickersGrid(
+            child: StickersTabs(
               onStickerSelected: (sticker) => context
                   .read<PhotoboothBloc>()
                   .add(PhotoStickerTapped(sticker: sticker)),
