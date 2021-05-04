@@ -63,6 +63,7 @@ void main() {
         image: image,
         assets: [photoAsset],
         shareText: shareText,
+        isSharingEnabled: true,
       );
     });
 
@@ -191,6 +192,20 @@ void main() {
     });
 
     group('ShareOnTwitterTapped', () {
+      blocTest<ShareBloc, ShareState>(
+        'does nothing when sharing is disabled',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          imageId: imageId,
+          image: image,
+          assets: [photoAsset],
+          shareText: shareText,
+          isSharingEnabled: false,
+        ),
+        act: (bloc) => bloc.add(ShareOnTwitterTapped()),
+        expect: () => [],
+      );
+
       blocTest<ShareBloc, ShareState>(
         'sets isUploadRequested to true with correct shareUrl',
         build: () => shareBloc,
@@ -437,6 +452,20 @@ void main() {
     });
 
     group('ShareOnFacebookTapped', () {
+      blocTest<ShareBloc, ShareState>(
+        'does nothing when sharing is disabled',
+        build: () => ShareBloc(
+          photosRepository: photosRepository,
+          imageId: imageId,
+          image: image,
+          assets: [photoAsset],
+          shareText: shareText,
+          isSharingEnabled: false,
+        ),
+        act: (bloc) => bloc.add(ShareOnFacebookTapped()),
+        expect: () => [],
+      );
+
       blocTest<ShareBloc, ShareState>(
         'sets isUploadRequested to true with correct shareUrl',
         build: () => shareBloc,
