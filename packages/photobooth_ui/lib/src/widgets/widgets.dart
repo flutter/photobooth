@@ -1,4 +1,5 @@
 export 'animated_sprite.dart';
+export 'app_circular_progress_indicator.dart';
 export 'app_dialog.dart';
 export 'app_tooltip.dart';
 export 'app_tooltip_button.dart';
