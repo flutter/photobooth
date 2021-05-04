@@ -124,6 +124,18 @@
     "@photoBoothCameraAccessDeniedSubheadline": {
         "description": "Text displayed on subheadline on the photobooth page when camera permissions is not granted"
     },
+    "photoBoothCameraNotFoundHeadline": "We can’t find your camera",
+    "@photoBoothCameraNotFoundHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera is not found"
+    },
+    "photoBoothCameraNotFoundSubheadline1": "Looks like your device does not have a camera or it is not working.",
+    "@photoBoothCameraNotFoundSubheadline1": {
+        "description": "Text displayed on the first subheadline on the photobooth page when camera is not found"
+    },
+    "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I/O Photo Booth from a device with a camera.",
+    "@photoBoothCameraNotFoundSubheadline2": {
+        "description": "Text displayed on the second subheadline on the photobooth page when camera is not found"
+    },
     "photoBoothCameraErrorHeadline": "Oops! Something went wrong",
     "@photoBoothCameraErrorHeadline": {
         "description": "Text displayed on headline on the photobooth page when unknown error occurs"

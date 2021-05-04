@@ -28,13 +28,7 @@ class PhotoboothError extends StatelessWidget {
                       ? size.height * 0.4
                       : 0,
                 ),
-                error is CameraNotAllowedException
-                    ? _PhotoboothCameraAccessDeniedError(
-                        key: const Key('photoboothError_cameraAccessDenied'),
-                      )
-                    : _PhotoboothCameraUnknownError(
-                        key: const Key('photoboothError_unknown'),
-                      ),
+                _PhotoboothCameraError(error: error),
                 SizedBox(
                   height: size.height * 0.4,
                 ),
@@ -44,6 +38,34 @@ class PhotoboothError extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PhotoboothCameraError extends StatelessWidget {
+  const _PhotoboothCameraError({
+    Key? key,
+    required this.error,
+  }) : super(key: key);
+
+  final CameraException error;
+
+  @override
+  Widget build(BuildContext context) {
+    if (error is CameraNotAllowedException) {
+      return _PhotoboothCameraAccessDeniedError(
+        key: const Key('photoboothError_cameraAccessDenied'),
+      );
+    }
+
+    if (error is CameraNotFoundException) {
+      return _PhotoboothCameraNotFoundError(
+        key: const Key('photoboothError_cameraNotFound'),
+      );
+    }
+
+    return _PhotoboothCameraUnknownError(
+      key: const Key('photoboothError_unknown'),
     );
   }
 }
@@ -69,6 +91,45 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
         const SizedBox(height: 24),
         Text(
           l10n.photoBoothCameraAccessDeniedSubheadline,
+          style: theme.textTheme.headline2?.copyWith(
+            color: PhotoboothColors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
+class _PhotoboothCameraNotFoundError extends StatelessWidget {
+  _PhotoboothCameraNotFoundError({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          l10n.photoBoothCameraNotFoundHeadline,
+          style: theme.textTheme.headline1?.copyWith(
+            color: PhotoboothColors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 24),
+        Text(
+          l10n.photoBoothCameraNotFoundSubheadline1,
+          style: theme.textTheme.headline2?.copyWith(
+            color: PhotoboothColors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 24),
+        Text(
+          l10n.photoBoothCameraNotFoundSubheadline2,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
           ),
