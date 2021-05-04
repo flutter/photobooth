@@ -38,6 +38,7 @@ void main() {
 }
 
 const _frameBorderSize = 8;
+const _frameHorizontalPadding = 16;
 
 Future<List<int>> _composite({
   required int width,
@@ -100,10 +101,17 @@ Future<List<int>> _composite({
       ? 'assets/assets/images/photo_frame_mobile_download.png'
       : 'assets/assets/images/photo_frame_download.png';
   final frameBytes = await getBytes(frameAssetPath);
-  final frame = img.decodePng(frameBytes)!;
+  var frame = img.decodePng(frameBytes)!;
 
-  final frameHorizontalPadding = (2 * _frameBorderSize);
-  final framedImageWidth = frame.width - frameHorizontalPadding;
+  if (frame.width > croppedWidth) {
+    frame = img.copyResize(
+      frame,
+      width: (croppedWidth + _frameHorizontalPadding).round(),
+      interpolation: img.Interpolation.cubic,
+    );
+  }
+
+  final framedImageWidth = frame.width - _frameHorizontalPadding;
   image = img.drawImage(
     frame,
     image,
