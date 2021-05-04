@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DownloadButton extends StatelessWidget {
   const DownloadButton({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class DownloadButton extends StatelessWidget {
         key: const Key('downloadButton_download_outlinedButton'),
         onPressed: !isLoading ? _onDownloadPressed : null,
         child: isLoading
-            ? const CircularProgressIndicator()
+            ? const AppCircularProgressIndicator()
             : Text(l10n.sharePageDownloadButtonText),
       ),
     );

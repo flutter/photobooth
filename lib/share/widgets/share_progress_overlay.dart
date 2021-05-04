@@ -103,6 +103,7 @@ class _MobileShareProgressOverlay extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const AppCircularProgressIndicator(),
         const CircularProgressIndicator(
           color: PhotoboothColors.orange,
         ),
