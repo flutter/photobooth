@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,14 +8,20 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, required this.photosRepository}) : super(key: key);
+  const App({
+    Key? key,
+    required this.authenticationRepository,
+    required this.photosRepository,
+  }) : super(key: key);
 
+  final AuthenticationRepository authenticationRepository;
   final PhotosRepository photosRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: photosRepository),
       ],
       child: MaterialApp(
