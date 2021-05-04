@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/sounds/sounds.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
@@ -30,6 +31,7 @@ void main() async {
   );
 
   unawaited(Assets.load());
+  unawaited(Sounds.load());
 
   runZonedGuarded(
     () => runApp(App(photosRepository: photosRepository)),

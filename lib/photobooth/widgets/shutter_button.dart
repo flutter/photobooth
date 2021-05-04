@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/sounds/sounds.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _shutterCountdownDuration = Duration(seconds: 3);
@@ -20,9 +21,12 @@ class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
   late final AnimationController controller;
 
-  void _onAnimationStatusChanged(AnimationStatus status) {
+  Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
+      await Sounds.playShutterCountdownFinished();
       widget.onCountdownComplete();
+    } else if (status == AnimationStatus.reverse) {
+      await Sounds.playShutterCountdown();
     }
   }
 

@@ -34,6 +34,7 @@ dependencies:
     path: packages/photobooth_ui
   uuid: ^3.0.3
   very_good_analysis: ^2.0.3
+  soundpool: ^2.0.0-nullsafety.0
 
 dev_dependencies:
   flutter_test:
@@ -54,3 +55,4 @@ flutter:
     - assets/props/eyewear/
     - assets/props/food/
     - assets/props/shapes/
+    - assets/sounds/
