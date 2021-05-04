@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/sounds/sounds.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import '../../helpers/helpers.dart';
@@ -13,7 +14,10 @@ class MockPaint extends Mock implements Paint {}
 
 class RectFake extends Fake implements Rect {}
 
-void main() {
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await Sounds.load();
+
   group('ShutterButton', () {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(ShutterButton(
