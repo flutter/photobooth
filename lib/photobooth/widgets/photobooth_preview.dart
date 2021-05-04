@@ -91,10 +91,7 @@ class PhotoboothPreview extends StatelessWidget {
                     PhotoCharacterDragged(character: character, update: update),
                   );
             },
-            size: Size(
-              character.asset.image.width.toDouble(),
-              character.asset.image.height.toDouble(),
-            ),
+            size: character.asset.name.toAnimatedSprite().sprites.size,
             child: _AnimatedCharacter(name: character.asset.name),
           ),
         ResponsiveLayoutBuilder(
@@ -116,14 +113,9 @@ class PhotoboothPreview extends StatelessWidget {
   }
 }
 
-class _AnimatedCharacter extends StatelessWidget {
-  const _AnimatedCharacter({Key? key, required this.name}) : super(key: key);
-
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (name) {
+extension on String {
+  AnimatedSprite toAnimatedSprite() {
+    switch (this) {
       case 'android':
         return const AnimatedAndroid();
       case 'dash':
@@ -131,11 +123,19 @@ class _AnimatedCharacter extends StatelessWidget {
       case 'dino':
         return const AnimatedDino();
       case 'sparky':
-        return const AnimatedSparky();
       default:
-        return const SizedBox();
+        return const AnimatedSparky();
     }
   }
+}
+
+class _AnimatedCharacter extends StatelessWidget {
+  const _AnimatedCharacter({Key? key, required this.name}) : super(key: key);
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) => name.toAnimatedSprite();
 }
 
 class DesktopCharactersIconLayout extends StatelessWidget {
