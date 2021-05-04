@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class TwitterButton extends StatelessWidget {
   const TwitterButton({Key? key}) : super(key: key);
@@ -12,21 +12,15 @@ class TwitterButton extends StatelessWidget {
     final l10n = context.l10n;
     return ElevatedButton(
       onPressed: () {
-        final photoboothState = context.read<PhotoboothBloc>().state;
-
-        final photoboothImage = photoboothState.image;
-        final photoboothImageId = photoboothState.imageId;
-        final photoboothAssets = photoboothState.assets;
-
-        if (photoboothImage == null) return;
+        final state = context.read<ShareBloc>().state;
+        if (state is ShareUploadSuccess) {
+          Navigator.of(context).pop();
+          openLink(state.twitterShareUrl);
+          return;
+        }
 
         context.read<ShareBloc>().add(
-              ShareOnTwitterTapped(
-                image: photoboothImage,
-                imageId: photoboothImageId,
-                assets: photoboothAssets,
-                shareText: l10n.socialMediaShareLinkText,
-              ),
+              ShareOnTwitterTapped(shareText: l10n.socialMediaShareLinkText),
             );
 
         Navigator.of(context).pop();

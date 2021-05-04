@@ -7,7 +7,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 /// Overlay displayed on top of the [SharePage] when [ShareBloc] is
-/// in the [ShareStatus.loading] state.
+/// in the [ShareUploadInProgress] state.
 class ShareProgressOverlay extends StatelessWidget {
   ShareProgressOverlay({
     Key? key,
@@ -16,13 +16,13 @@ class ShareProgressOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ShareBloc, ShareState>(
-      builder: (context, state) => state.status == ShareStatus.loading
-          ? _ShareProgressOverlay(
-              key: const Key('shareProgressOverlay_loading'),
-            )
-          : const SizedBox(
-              key: Key('shareProgressOverlay_nothing'),
-            ),
+      builder: (context, state) =>
+          state is ShareCompositeInProgressAndUploadRequested ||
+                  state is ShareUploadInProgress
+              ? _ShareProgressOverlay(
+                  key: const Key('shareProgressOverlay_loading'),
+                )
+              : const SizedBox(key: Key('shareProgressOverlay_nothing')),
     );
   }
 }

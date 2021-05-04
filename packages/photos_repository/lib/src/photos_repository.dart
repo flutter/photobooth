@@ -35,13 +35,20 @@ class CompositePhotoException implements Exception {
   String toString() => message;
 }
 
+/// {@template share_urls}
+/// A list of social share urls which are returned by the `sharePhoto` API.
+/// {@endtemplate}
 class ShareUrls {
+  /// {@macro share_urls}
   const ShareUrls({
     required this.facebookShareUrl,
     required this.twitterShareUrl,
   });
 
+  /// The share url for sharing on Facebook.
   final String facebookShareUrl;
+
+  /// The share url for sharing on Twitter.
   final String twitterShareUrl;
 }
 

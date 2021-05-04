@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/common/common.dart';
-import 'package:io_photobooth/download/download.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -13,18 +12,31 @@ import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
 
 class SharePage extends StatelessWidget {
-  SharePage({Key? key}) : super(key: key);
+  const SharePage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(
-      builder: (_) => BlocProvider(
-        create: (context) => ShareBloc(
+    return MaterialPageRoute(builder: (_) => const SharePage());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        final state = context.read<PhotoboothBloc>().state;
+        return ShareBloc(
           photosRepository: context.read<PhotosRepository>(),
-        ),
-        child: SharePage(),
-      ),
+          imageId: state.imageId,
+          image: state.image!,
+          assets: state.assets,
+        )..add(const ShareViewLoaded());
+      },
+      child: const ShareView(),
     );
   }
+}
+
+class ShareView extends StatelessWidget {
+  const ShareView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

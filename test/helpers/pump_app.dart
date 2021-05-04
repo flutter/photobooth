@@ -30,6 +30,7 @@ class MockPhotosRepository extends Mock implements PhotosRepository {}
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
+    PhotosRepository? photosRepository,
     PhotoboothBloc? photoboothBloc,
     ShareBloc? shareBloc,
   }) async {
@@ -44,7 +45,7 @@ extension PumpApp on WidgetTester {
         MultiRepositoryProvider(
           providers: [
             RepositoryProvider<PhotosRepository>.value(
-              value: MockPhotosRepository(),
+              value: photosRepository ?? MockPhotosRepository(),
             ),
           ],
           child: MultiBlocProvider(
