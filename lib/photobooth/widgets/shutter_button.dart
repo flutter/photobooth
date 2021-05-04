@@ -27,10 +27,10 @@ class ShutterButton extends StatefulWidget {
 class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
   final countdownAudioSource = AudioSource.uri(
-    Uri.parse('asset:///audio/countdown.mp3'),
+    Uri.parse('asset:///assets/audio/countdown.mp3'),
   );
   final captureAudioSource = AudioSource.uri(
-    Uri.parse('asset:///audio/capture.mp3'),
+    Uri.parse('asset:///assets/audio/capture.mp3'),
   );
   late final AnimationController controller;
   late final AudioPlayer countdownPlayer;
