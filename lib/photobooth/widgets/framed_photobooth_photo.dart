@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _mobileMargin = EdgeInsets.all(15);
 const _mobilePadding = EdgeInsets.only(
@@ -28,17 +27,20 @@ class FramedPhotoboothPhoto extends StatelessWidget {
   const FramedPhotoboothPhoto({
     Key? key,
     required this.image,
+    required this.aspectRatio,
     this.isTilted = true,
   }) : super(key: key);
 
+  final double aspectRatio;
   final String image;
   final bool isTilted;
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = aspectRatio < 1;
     var photo = Center(
       child: AspectRatio(
-        aspectRatio: isMobile ? 3 / 4 : 4 / 3,
+        aspectRatio: aspectRatio,
         child: Container(
           margin: isMobile ? _mobileMargin : _desktopMargin,
           padding: isMobile ? _mobilePadding : _desktopPadding,

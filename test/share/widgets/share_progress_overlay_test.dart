@@ -11,17 +11,6 @@ import '../../helpers/helpers.dart';
 
 class MockXFile extends Mock implements XFile {}
 
-extension PhotoboothWidgetTester on WidgetTester {
-  void setDisplaySize(Size size) {
-    binding.window.physicalSizeTestValue = size;
-    binding.window.devicePixelRatioTestValue = 1.0;
-    addTearDown(() {
-      binding.window.clearPhysicalSizeTestValue();
-      binding.window.clearDevicePixelRatioTestValue();
-    });
-  }
-}
-
 void main() {
   final bytes = Uint8List.fromList([]);
   late ShareBloc shareBloc;

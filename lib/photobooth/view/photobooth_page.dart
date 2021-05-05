@@ -8,19 +8,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 
-const _mobileVideoConstraints = VideoConstraints(
-  width: 3072,
+const _videoConstraints = VideoConstraints(
+  width: 4096,
   height: 4096,
   facingMode: FacingMode(
     type: CameraType.user,
-    constrain: Constrain.ideal,
-  ),
-);
-const _desktopVideoConstraints = VideoConstraints(
-  width: 4096,
-  height: 3072,
-  facingMode: FacingMode(
-    type: CameraType.rear,
     constrain: Constrain.ideal,
   ),
 );
@@ -57,9 +49,9 @@ class PhotoboothView extends StatefulWidget {
 
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
-    options: CameraOptions(
-      audio: const AudioConstraints(enabled: false),
-      video: isMobile ? _mobileVideoConstraints : _desktopVideoConstraints,
+    options: const CameraOptions(
+      audio: AudioConstraints(enabled: false),
+      video: _videoConstraints,
     ),
   );
 
@@ -93,9 +85,11 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     await _play();
   }
 
-  void _onSnapPressed() async {
+  void _onSnapPressed({required double aspectRatio}) async {
     final picture = await _controller.takePicture();
-    context.read<PhotoboothBloc>().add(PhotoCaptured(image: picture));
+    context
+        .read<PhotoboothBloc>()
+        .add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
     final stickersPage = StickersPage.route();
     await _stop();
     await Navigator.of(context).push(stickersPage);
@@ -110,15 +104,27 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
           return ResponsiveLayoutBuilder(
-            small: (_, child) => _PreviewLayout(
-              child: AspectRatio(aspectRatio: 3 / 4, child: child),
+            small: (_, __) => _PreviewLayout(
+              child: AspectRatio(
+                aspectRatio: PhotoboothAspectRatio.portrait,
+                child: PhotoboothPreview(
+                  preview: preview,
+                  onSnapPressed: () => _onSnapPressed(
+                    aspectRatio: PhotoboothAspectRatio.portrait,
+                  ),
+                ),
+              ),
             ),
-            large: (_, child) => _PreviewLayout(
-              child: AspectRatio(aspectRatio: 4 / 3, child: child),
-            ),
-            child: PhotoboothPreview(
-              preview: preview,
-              onSnapPressed: _onSnapPressed,
+            large: (_, __) => _PreviewLayout(
+              child: AspectRatio(
+                aspectRatio: PhotoboothAspectRatio.landscape,
+                child: PhotoboothPreview(
+                  preview: preview,
+                  onSnapPressed: () => _onSnapPressed(
+                    aspectRatio: PhotoboothAspectRatio.landscape,
+                  ),
+                ),
+              ),
             ),
           );
         },

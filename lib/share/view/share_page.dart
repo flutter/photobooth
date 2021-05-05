@@ -29,6 +29,7 @@ class SharePage extends StatelessWidget {
           imageId: state.imageId,
           image: state.image!,
           assets: state.assets,
+          aspectRatio: state.aspectRatio,
           shareText: l10n.socialMediaShareLinkText,
         )..add(const ShareViewLoaded());
       },
@@ -64,9 +65,7 @@ class ShareView extends StatelessWidget {
                     if (image != null)
                       ResponsiveLayoutBuilder(
                         small: (_, __) => MobileButtonsLayout(image: image),
-                        large: (_, __) => DesktopButtonsLayout(
-                          image: image,
-                        ),
+                        large: (_, __) => DesktopButtonsLayout(image: image),
                       ),
                     const SizedBox(height: 70),
                     const WhiteFooter()
@@ -129,7 +128,12 @@ class DesktopButtonsLayout extends StatelessWidget {
       children: [
         const Flexible(child: DownloadButton()),
         const SizedBox(width: 36),
-        Flexible(child: ShareButton(image: image)),
+        Flexible(
+          child: ShareButton(
+            aspectRatio: PhotoboothAspectRatio.landscape,
+            image: image,
+          ),
+        ),
         const SizedBox(width: 36),
         const _GoToGoogleIOButton(),
       ],
@@ -150,7 +154,7 @@ class MobileButtonsLayout extends StatelessWidget {
       children: [
         const DownloadButton(),
         gap,
-        ShareButton(image: image),
+        ShareButton(aspectRatio: PhotoboothAspectRatio.portrait, image: image),
         gap,
         const _GoToGoogleIOButton(),
       ],

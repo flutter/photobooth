@@ -285,17 +285,13 @@ void main() async {
       });
 
       testWidgets('displays a MobileButtonsLayout', (tester) async {
-        tester.binding.window.physicalSizeTestValue = const Size(
-          PhotoboothBreakpoints.small,
-          1000,
-        );
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
         expect(find.byType(MobileButtonsLayout), findsOneWidget);
-        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
       });
     });
   });

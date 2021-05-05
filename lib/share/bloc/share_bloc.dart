@@ -19,6 +19,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     required this.imageId,
     required this.image,
     required this.assets,
+    required this.aspectRatio,
     required this.shareText,
     bool isSharingEnabled = false,
   })  : _photosRepository = photosRepository,
@@ -29,6 +30,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final String imageId;
   final CameraImage image;
   final List<PhotoAsset> assets;
+  final double aspectRatio;
   final bool _isSharingEnabled;
   final String shareText;
 
@@ -203,7 +205,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
   Future<Uint8List> _composite() async {
     final composite = await _photosRepository.composite(
-      aspectRatio: image.aspectRatio(),
+      aspectRatio: aspectRatio,
       data: image.data,
       width: image.width,
       height: image.height,
@@ -224,8 +226,4 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   }
 
   String _getPhotoFileName(String photoName) => '$photoName.jpg';
-}
-
-extension on CameraImage {
-  double aspectRatio() => width > height ? 4 / 3 : 3 / 4;
 }

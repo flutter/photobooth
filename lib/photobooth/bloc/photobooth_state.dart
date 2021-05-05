@@ -77,6 +77,7 @@ class PhotoAsset extends Equatable {
 
 class PhotoboothState extends Equatable {
   const PhotoboothState({
+    this.aspectRatio = PhotoboothAspectRatio.landscape,
     this.characters = const <PhotoAsset>[],
     this.stickers = const <PhotoAsset>[],
     this.selectedAssetId = emptyAssetId,
@@ -96,6 +97,7 @@ class PhotoboothState extends Equatable {
 
   List<PhotoAsset> get assets => characters + stickers;
 
+  final double aspectRatio;
   final CameraImage? image;
   final String imageId;
   final List<PhotoAsset> characters;
@@ -104,6 +106,7 @@ class PhotoboothState extends Equatable {
 
   @override
   List<Object?> get props => [
+        aspectRatio,
         image,
         imageId,
         characters,
@@ -112,6 +115,7 @@ class PhotoboothState extends Equatable {
       ];
 
   PhotoboothState copyWith({
+    double? aspectRatio,
     CameraImage? image,
     String? imageId,
     List<PhotoAsset>? characters,
@@ -119,6 +123,7 @@ class PhotoboothState extends Equatable {
     String? selectedAssetId,
   }) {
     return PhotoboothState(
+      aspectRatio: aspectRatio ?? this.aspectRatio,
       image: image ?? this.image,
       imageId: imageId ?? this.imageId,
       characters: characters ?? this.characters,

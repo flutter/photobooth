@@ -39,7 +39,10 @@ class ShareBottomSheet extends StatelessWidget {
                   const SizedBox(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: FramedPhotoboothPhoto(image: image.data),
+                    child: FramedPhotoboothPhoto(
+                      aspectRatio: PhotoboothAspectRatio.portrait,
+                      image: image.data,
+                    ),
                   ),
                   const SizedBox(height: 60),
                   Text(
