@@ -81,7 +81,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraAccessDeniedHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -89,7 +89,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraAccessDeniedSubheadline,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -112,7 +112,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -120,7 +120,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline1,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -128,7 +128,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline2,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -151,7 +151,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -159,7 +159,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorSubheadline1,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -167,7 +167,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorSubheadline2,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,

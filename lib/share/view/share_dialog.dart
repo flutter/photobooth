@@ -53,14 +53,14 @@ class ShareDialog extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 60),
-                    Text(
+                    SelectableText(
                       l10n.shareDialogHeading,
                       key: const Key('shareDialog_heading'),
                       style: theme.textTheme.headline1,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-                    Text(
+                    SelectableText(
                       l10n.shareDialogSubheading,
                       key: const Key('shareDialog_subheading'),
                       style: theme.textTheme.headline2,

@@ -102,7 +102,7 @@ class _Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Text(
+    return SelectableText(
       l10n.sharePageHeading,
       style: theme.textTheme.headline1?.copyWith(
         color: PhotoboothColors.white,

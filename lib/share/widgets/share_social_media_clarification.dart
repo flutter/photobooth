@@ -10,7 +10,7 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
 
-    return Text(
+    return SelectableText(
       l10n.sharePageSocialMediaShareClarification,
       textAlign: TextAlign.center,
       style: theme.textTheme.caption?.copyWith(

@@ -12,9 +12,8 @@ class LearnMoreAboutText extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
+    return SelectableText.rich(
+      TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
         style: theme.textTheme.bodyText1?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
@@ -50,6 +49,7 @@ class LearnMoreAboutText extends StatelessWidget {
           ),
         ],
       ),
+      textAlign: TextAlign.center,
     );
   }
 }
