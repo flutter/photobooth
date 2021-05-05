@@ -202,7 +202,7 @@ void main() async {
 
     testWidgets(
         'adds PhotoCaptured with mobile aspect ratio '
-        'when CameraButton is tapped', (tester) async {
+        'when photo is snapped', (tester) async {
       const preview = SizedBox();
       final image = CameraImage(
         data: 'data:image/png,${base64.encode(transparentImage)}',
@@ -218,27 +218,29 @@ void main() async {
         PhotoboothState(image: image),
       );
 
-      await tester.runAsync(() async {
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        await tester.pump();
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
 
-        await tester.tap(find.byType(CameraButton));
-        await tester.pumpAndSettle();
-        verify(
-          () => photoboothBloc.add(
-            PhotoCaptured(
-              aspectRatio: PhotoboothAspectRatio.portrait,
-              image: image,
-            ),
+      final photoboothPreview = tester.widget<PhotoboothPreview>(
+        find.byType(PhotoboothPreview),
+      );
+
+      photoboothPreview.onSnapPressed();
+
+      await tester.pumpAndSettle();
+      verify(
+        () => photoboothBloc.add(
+          PhotoCaptured(
+            aspectRatio: PhotoboothAspectRatio.portrait,
+            image: image,
           ),
-        ).called(1);
-      });
+        ),
+      ).called(1);
     });
 
     testWidgets(
         'adds PhotoCaptured with desktop aspect ratio '
-        'when CameraButton is tapped', (tester) async {
+        'when photo is snapped', (tester) async {
       const preview = SizedBox();
       final image = CameraImage(
         data: 'data:image/png,${base64.encode(transparentImage)}',
@@ -254,22 +256,25 @@ void main() async {
         PhotoboothState(image: image),
       );
 
-      await tester.runAsync(() async {
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        await tester.pump();
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
 
-        await tester.tap(find.byType(CameraButton));
-        await tester.pumpAndSettle();
-        verify(
-          () => photoboothBloc.add(
-            PhotoCaptured(
-              aspectRatio: PhotoboothAspectRatio.landscape,
-              image: image,
-            ),
+      final photoboothPreview = tester.widget<PhotoboothPreview>(
+        find.byType(PhotoboothPreview),
+      );
+
+      photoboothPreview.onSnapPressed();
+
+      await tester.pumpAndSettle();
+
+      verify(
+        () => photoboothBloc.add(
+          PhotoCaptured(
+            aspectRatio: PhotoboothAspectRatio.landscape,
+            image: image,
           ),
-        ).called(1);
-      });
+        ),
+      ).called(1);
     });
 
     testWidgets('navigates to StickersPage when photo is taken',
@@ -289,23 +294,25 @@ void main() async {
         PhotoboothState(image: image),
       );
 
-      await tester.runAsync(() async {
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        await tester.pump();
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
 
-        await tester.tap(find.byType(CameraButton));
-        await tester.pumpAndSettle();
+      final photoboothPreview = tester.widget<PhotoboothPreview>(
+        find.byType(PhotoboothPreview),
+      );
 
-        expect(find.byType(StickersPage), findsOneWidget);
+      photoboothPreview.onSnapPressed();
 
-        final retakeButton = tester.widget<RetakeButton>(
-          find.byType(RetakeButton),
-        );
-        retakeButton.onPressed();
-        await tester.pumpAndSettle();
-        expect(find.byType(PhotoboothView), findsOneWidget);
-      });
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersPage), findsOneWidget);
+
+      final retakeButton = tester.widget<RetakeButton>(
+        find.byType(RetakeButton),
+      );
+      retakeButton.onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(PhotoboothView), findsOneWidget);
     });
   });
 
