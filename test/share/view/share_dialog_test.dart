@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -17,6 +18,7 @@ void main() {
   const height = 1;
   const data = '';
   const image = CameraImage(width: width, height: height, data: data);
+  const aspectRatio = PhotoboothAspectRatio.landscape;
 
   late PhotoboothBloc photoboothBloc;
 
@@ -33,7 +35,7 @@ void main() {
   group('ShareDialog', () {
     testWidgets('displays heading', (tester) async {
       await tester.pumpApp(
-        Material(child: ShareDialog(image: image)),
+        Material(child: ShareDialog(aspectRatio: aspectRatio, image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareDialog_heading')), findsOneWidget);
@@ -41,7 +43,7 @@ void main() {
 
     testWidgets('displays subheading', (tester) async {
       await tester.pumpApp(
-        Material(child: ShareDialog(image: image)),
+        Material(child: ShareDialog(aspectRatio: aspectRatio, image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareDialog_subheading')), findsOneWidget);
@@ -49,7 +51,7 @@ void main() {
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(
-        Material(child: ShareDialog(image: image)),
+        Material(child: ShareDialog(aspectRatio: aspectRatio, image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(TwitterButton), findsOneWidget);
@@ -57,7 +59,7 @@ void main() {
 
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(
-        Material(child: ShareDialog(image: image)),
+        Material(child: ShareDialog(aspectRatio: aspectRatio, image: image)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(FacebookButton), findsOneWidget);
@@ -65,7 +67,7 @@ void main() {
 
     testWidgets('taps on close will dismiss the popup', (tester) async {
       await tester.pumpApp(
-        Material(child: ShareDialog(image: image)),
+        Material(child: ShareDialog(aspectRatio: aspectRatio, image: image)),
         photoboothBloc: photoboothBloc,
       );
       await tester.tap(find.byIcon(Icons.clear));

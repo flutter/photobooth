@@ -21,32 +21,22 @@ class StickersTabs extends StatelessWidget {
               StickersTab(
                 key: Key('stickersTabs_googleTab'),
                 assetPath: 'assets/icons/google_icon.png',
-                width: 17.64,
-                height: 18,
               ),
               StickersTab(
                 key: Key('stickersTabs_hatsTab'),
                 assetPath: 'assets/icons/hats_icon.png',
-                width: 30,
-                height: 13.85,
               ),
               StickersTab(
                 key: Key('stickersTabs_eyewearTab'),
                 assetPath: 'assets/icons/eyewear_icon.png',
-                width: 30,
-                height: 11.24,
               ),
               StickersTab(
                 key: Key('stickersTabs_foodTab'),
                 assetPath: 'assets/icons/food_icon.png',
-                width: 22,
-                height: 21.99,
               ),
               StickersTab(
                 key: Key('stickersTabs_shapesTab'),
                 assetPath: 'assets/icons/shapes_icon.png',
-                width: 21,
-                height: 21,
               ),
             ],
           ),
@@ -93,13 +83,9 @@ class StickersTab extends StatelessWidget {
   const StickersTab({
     Key? key,
     required this.assetPath,
-    required this.width,
-    required this.height,
   }) : super(key: key);
 
   final String assetPath;
-  final double width;
-  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +93,8 @@ class StickersTab extends StatelessWidget {
       iconMargin: const EdgeInsets.only(bottom: 24),
       icon: Image.asset(
         assetPath,
-        width: width,
-        height: height,
+        width: 30,
+        height: 30,
         color: IconTheme.of(context).color,
       ),
     );

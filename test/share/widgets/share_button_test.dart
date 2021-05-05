@@ -5,11 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:platform_helper/platform_helper.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
-
-class MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
@@ -40,13 +38,8 @@ void main() {
     testWidgets(
         'tapping on share photo button opens ShareBottomSheet '
         'when platform is mobile', (tester) async {
-      final platformHelper = MockPlatformHelper();
-      when(() => platformHelper.isMobile).thenReturn(true);
       await tester.pumpApp(
-        ShareButton(
-          image: image,
-          platformHelper: platformHelper,
-        ),
+        ShareButton(image: image, aspectRatio: PhotoboothAspectRatio.portrait),
         photoboothBloc: photoboothBloc,
       );
 
@@ -59,13 +52,8 @@ void main() {
     testWidgets(
         'tapping on share photo button opens ShareDialog '
         'when platform is not mobile', (tester) async {
-      final platformHelper = MockPlatformHelper();
-      when(() => platformHelper.isMobile).thenReturn(false);
       await tester.pumpApp(
-        ShareButton(
-          image: image,
-          platformHelper: platformHelper,
-        ),
+        ShareButton(image: image, aspectRatio: PhotoboothAspectRatio.landscape),
         photoboothBloc: photoboothBloc,
       );
 

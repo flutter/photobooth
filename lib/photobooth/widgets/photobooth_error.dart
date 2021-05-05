@@ -12,32 +12,15 @@ class PhotoboothError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const PermissionsBackground(),
-        Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.width > PhotoboothBreakpoints.small
-                      ? size.height * 0.4
-                      : 0,
-                ),
-                _PhotoboothCameraError(error: error),
-                SizedBox(
-                  height: size.height * 0.4,
-                ),
-                const WhiteFooter(),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return AppPageView(
+      background: const PermissionsBackground(),
+      body: Column(
+        children: [
+          const SizedBox(height: 200),
+          _PhotoboothCameraError(error: error),
+        ],
+      ),
+      footer: const WhiteFooter(),
     );
   }
 }
@@ -79,9 +62,8 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraAccessDeniedHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -89,7 +71,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraAccessDeniedSubheadline,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -112,7 +94,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -120,7 +102,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline1,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -128,7 +110,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline2,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -149,9 +131,8 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorHeadline,
           style: theme.textTheme.headline1?.copyWith(
             color: PhotoboothColors.white,
@@ -159,7 +140,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorSubheadline1,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,
@@ -167,7 +148,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           l10n.photoBoothCameraErrorSubheadline2,
           style: theme.textTheme.headline2?.copyWith(
             color: PhotoboothColors.white,

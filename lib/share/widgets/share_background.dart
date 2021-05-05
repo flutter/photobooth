@@ -12,9 +12,23 @@ class ShareBackground extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Image.asset(
-            'assets/backgrounds/share_background.jpg',
+            'assets/backgrounds/photobooth_background.jpg',
             repeat: ImageRepeat.repeat,
             filterQuality: FilterQuality.high,
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                PhotoboothColors.transparent,
+                PhotoboothColors.black54,
+              ],
+            ),
           ),
         ),
         ResponsiveLayoutBuilder(

@@ -8,12 +8,13 @@ abstract class PhotoboothEvent extends Equatable {
 }
 
 class PhotoCaptured extends PhotoboothEvent {
-  const PhotoCaptured({required this.image});
+  const PhotoCaptured({required this.aspectRatio, required this.image});
 
+  final double aspectRatio;
   final CameraImage image;
 
   @override
-  List<Object> get props => [image];
+  List<Object> get props => [aspectRatio, image];
 }
 
 class PhotoCharacterToggled extends PhotoboothEvent {

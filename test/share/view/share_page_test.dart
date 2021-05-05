@@ -5,10 +5,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -101,6 +101,55 @@ void main() async {
       expect(find.byType(ShareBackground), findsOneWidget);
     });
 
+    testWidgets('displays a ShareBody', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(ShareBody), findsOneWidget);
+    });
+
+    testWidgets('displays a WhiteFooter', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      await tester.ensureVisible(find.byType(WhiteFooter, skipOffstage: false));
+      await tester.pumpAndSettle();
+      expect(find.byType(WhiteFooter), findsOneWidget);
+    });
+
+    testWidgets('displays a ShareRetakeButton', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(ShareRetakeButton), findsOneWidget);
+    });
+
+    testWidgets('displays a ShareProgressOverlay', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(ShareProgressOverlay), findsOneWidget);
+    });
+  });
+
+  group('ShareBody', () {
+    testWidgets('renders', (tester) async {
+      await tester.pumpApp(
+        SingleChildScrollView(child: ShareBody()),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+      expect(find.byType(ShareBody), findsOneWidget);
+    });
+
     testWidgets('displays a AnimatedPhotoIndicator', (tester) async {
       await tester.pumpApp(
         ShareView(),
@@ -117,6 +166,32 @@ void main() async {
         shareBloc: shareBloc,
       );
       expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
+    });
+
+    testWidgets('displays a Heading', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(Heading),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays a LearnMoreAboutText', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(LearnMoreAboutText),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
@@ -168,18 +243,6 @@ void main() async {
       );
     });
 
-    testWidgets('displays white footer', (tester) async {
-      await tester.pumpApp(
-        ShareView(),
-        photoboothBloc: photoboothBloc,
-        shareBloc: shareBloc,
-      );
-      expect(
-        find.byType(WhiteFooter),
-        findsOneWidget,
-      );
-    });
-
     group('GoToGoogleIOButton', () {
       testWidgets('opens link when tapped', (tester) async {
         final mock = MockUrlLauncher();
@@ -195,17 +258,19 @@ void main() async {
               universalLinksOnly: false,
               headers: const {},
             )).thenAnswer((_) async => true);
-        final googleIOButton = find.byKey(
-          const Key('sharePage_goToGoogleIO_elevatedButton'),
-        );
+        const googleIOButtonKey = Key('sharePage_goToGoogleIO_elevatedButton');
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
 
-        await tester.ensureVisible(googleIOButton);
-        await tester.tap(googleIOButton);
+        await tester.ensureVisible(find.byKey(
+          googleIOButtonKey,
+          skipOffstage: false,
+        ));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(googleIOButtonKey));
         await tester.pumpAndSettle();
 
         verify(
@@ -260,14 +325,14 @@ void main() async {
         await tester.tap(find.byType(ElevatedButton));
         await tester.pumpAndSettle();
 
-        expect(find.byType(ShareView), findsOneWidget);
+        expect(find.byType(ShareBody), findsOneWidget);
 
         final backButton =
             tester.widget<RetakeButton>(find.byType(RetakeButton));
         backButton.onPressed();
         await tester.pumpAndSettle();
 
-        expect(find.byType(ShareView), findsNothing);
+        expect(find.byType(ShareBody), findsNothing);
         expect(find.byKey(photoboothPage), findsOneWidget);
 
         verify(() => photoboothBloc.add(PhotoClearAllTapped())).called(1);
@@ -285,17 +350,13 @@ void main() async {
       });
 
       testWidgets('displays a MobileButtonsLayout', (tester) async {
-        tester.binding.window.physicalSizeTestValue = const Size(
-          PhotoboothBreakpoints.small,
-          1000,
-        );
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
         expect(find.byType(MobileButtonsLayout), findsOneWidget);
-        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
       });
     });
   });

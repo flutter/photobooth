@@ -10,17 +10,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-extension PhotoboothWidgetTester on WidgetTester {
-  void setDisplaySize(Size size) {
-    binding.window.physicalSizeTestValue = size;
-    binding.window.devicePixelRatioTestValue = 1.0;
-    addTearDown(() {
-      binding.window.clearPhysicalSizeTestValue();
-      binding.window.clearDevicePixelRatioTestValue();
-    });
-  }
-}
-
 class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}

@@ -39,17 +39,20 @@ class ShareBottomSheet extends StatelessWidget {
                   const SizedBox(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: FramedPhotoboothPhoto(image: image.data),
+                    child: FramedPhotoboothPhoto(
+                      aspectRatio: PhotoboothAspectRatio.portrait,
+                      image: image.data,
+                    ),
                   ),
                   const SizedBox(height: 60),
-                  Text(
+                  SelectableText(
                     l10n.shareDialogHeading,
                     key: const Key('shareBottomSheet_heading'),
                     style: theme.textTheme.headline1?.copyWith(fontSize: 32),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
-                  Text(
+                  SelectableText(
                     l10n.shareDialogSubheading,
                     key: const Key('shareBottomSheet_subheading'),
                     style: theme.textTheme.headline2?.copyWith(fontSize: 18),

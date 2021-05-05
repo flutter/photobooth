@@ -20,17 +20,13 @@ class MockAudioPlayer extends Mock implements AudioPlayer {}
 void main() {
   late AudioPlayer audioPlayer;
 
-  setUpAll(() {
-    registerFallbackValue(AudioSource.uri(Uri.parse('')));
-  });
-
   setUp(() {
     audioPlayer = MockAudioPlayer();
-    when(() => audioPlayer.setAudioSource(any())).thenAnswer((_) async => null);
+    when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.load()).thenAnswer((_) async => null);
     when(() => audioPlayer.play()).thenAnswer((_) async => null);
-    when(() => audioPlayer.setClip()).thenAnswer((_) async => null);
-    when(() => audioPlayer.position).thenReturn(Duration.zero);
+    when(() => audioPlayer.stop()).thenAnswer((_) async => null);
+    when(() => audioPlayer.seek(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.dispose()).thenAnswer((_) async => null);
   });
 
@@ -58,8 +54,8 @@ void main() {
         await tester.pump();
         expect(find.byType(CountdownTimer), findsOneWidget);
         await tester.pumpAndSettle();
-        verify(() => audioPlayer.load()).called(2);
-        verify(() => audioPlayer.play()).called(2);
+        verify(() => audioPlayer.setAsset(any())).called(1);
+        verify(() => audioPlayer.play()).called(1);
       });
     });
   });

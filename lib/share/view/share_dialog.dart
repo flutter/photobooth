@@ -8,9 +8,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class ShareDialog extends StatelessWidget {
   const ShareDialog({
     Key? key,
+    required this.aspectRatio,
     required this.image,
   }) : super(key: key);
 
+  final double aspectRatio;
   final CameraImage image;
 
   @override
@@ -45,17 +47,20 @@ class ShareDialog extends StatelessWidget {
                     Container(
                       height: 430,
                       width: 600,
-                      child: FramedPhotoboothPhoto(image: image.data),
+                      child: FramedPhotoboothPhoto(
+                        aspectRatio: aspectRatio,
+                        image: image.data,
+                      ),
                     ),
                     const SizedBox(height: 60),
-                    Text(
+                    SelectableText(
                       l10n.shareDialogHeading,
                       key: const Key('shareDialog_heading'),
                       style: theme.textTheme.headline1,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-                    Text(
+                    SelectableText(
                       l10n.shareDialogSubheading,
                       key: const Key('shareDialog_subheading'),
                       style: theme.textTheme.headline2,

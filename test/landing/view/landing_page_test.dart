@@ -33,11 +33,7 @@ void main() {
     });
 
     testWidgets('renders image on small screens', (tester) async {
-      tester.binding.window.physicalSizeTestValue = const Size(
-        PhotoboothBreakpoints.small,
-        1000,
-      );
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(const LandingView());
       expect(find.byType(Image), findsOneWidget);
     });
@@ -49,11 +45,13 @@ void main() {
 
     testWidgets('renders take photo button', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byType(TakePhotoButton), findsOneWidget);
+      expect(find.byType(LandingTakePhotoButton), findsOneWidget);
     });
 
     testWidgets('renders black footer', (tester) async {
       await tester.pumpApp(const LandingView());
+      await tester.ensureVisible(find.byType(BlackFooter, skipOffstage: false));
+      await tester.pumpAndSettle();
       expect(find.byType(BlackFooter), findsOneWidget);
     });
 
@@ -61,8 +59,15 @@ void main() {
         (tester) async {
       await runZonedGuarded(() async {
         await tester.pumpApp(const LandingView());
-        await tester.ensureVisible(find.byType(TakePhotoButton));
-        await tester.tap(find.byType(TakePhotoButton));
+        await tester.ensureVisible(find.byType(
+          LandingTakePhotoButton,
+          skipOffstage: false,
+        ));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byType(
+          LandingTakePhotoButton,
+          skipOffstage: false,
+        ));
         await tester.pumpAndSettle();
       }, (_, __) {});
 

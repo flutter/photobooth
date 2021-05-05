@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _shutterCountdownDuration = Duration(seconds: 3);
-const _countdownInterval = Duration(seconds: 1);
 
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
@@ -26,49 +25,19 @@ class ShutterButton extends StatefulWidget {
 
 class _ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin {
-  final countdownAudioSource = AudioSource.uri(
-    Uri.parse('asset:///assets/audio/countdown.mp3'),
-  );
-  final captureAudioSource = AudioSource.uri(
-    Uri.parse('asset:///assets/audio/capture.mp3'),
-  );
   late final AnimationController controller;
-  late final AudioPlayer countdownPlayer;
-  late final AudioPlayer capturePlayer;
+  late final AudioPlayer audioPlayer;
 
   void _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
-      _playShutterSound();
       widget.onCountdownComplete();
     }
-  }
-
-  void _playCountdownSequence() async {
-    void _playCountdownSound() {
-      if (countdownPlayer.position != Duration.zero) countdownPlayer.setClip();
-      countdownPlayer.play();
-    }
-
-    for (var i = 0; i < _shutterCountdownDuration.inSeconds; i++) {
-      _playCountdownSound();
-      await Future.delayed(_countdownInterval);
-    }
-  }
-
-  void _playShutterSound() {
-    if (capturePlayer.position != Duration.zero) capturePlayer.setClip();
-    capturePlayer.play();
   }
 
   @override
   void initState() {
     super.initState();
-    countdownPlayer = widget._audioPlayer()
-      ..setAudioSource(countdownAudioSource)
-      ..load();
-    capturePlayer = widget._audioPlayer()
-      ..setAudioSource(captureAudioSource)
-      ..load();
+    audioPlayer = widget._audioPlayer()..setAsset('assets/audio/camera.mp3');
 
     controller = AnimationController(
       vsync: this,
@@ -81,14 +50,15 @@ class _ShutterButtonState extends State<ShutterButton>
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
-    countdownPlayer.dispose();
-    capturePlayer.dispose();
+    audioPlayer.dispose();
     super.dispose();
   }
 
-  void _onShutterPressed() {
-    controller.reverse(from: 1);
-    _playCountdownSequence();
+  void _onShutterPressed() async {
+    await audioPlayer.stop();
+    await audioPlayer.seek(null);
+    unawaited(audioPlayer.play());
+    unawaited(controller.reverse(from: 1));
   }
 
   @override

@@ -31,7 +31,8 @@ class StickersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
+    final state = context.watch<PhotoboothBloc>().state;
+    final image = state.image;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -39,7 +40,7 @@ class StickersView extends StatelessWidget {
           const PhotoboothBackground(),
           Center(
             child: AspectRatio(
-              aspectRatio: isMobile ? 3 / 4 : 4 / 3,
+              aspectRatio: state.aspectRatio,
               child: Stack(
                 fit: StackFit.expand,
                 children: [

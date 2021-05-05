@@ -110,6 +110,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
   @override
   Widget build(BuildContext context) {
+    final aspectRatio = widget.size.width / widget.size.height;
     return LayoutBuilder(
       builder: (context, constraints) {
         initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
@@ -124,7 +125,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
         final heightFactor = constraints.maxHeight / initialSize!.height;
 
         final normalizedWidth = size.width * widthFactor;
-        final normalizedHeight = size.height * heightFactor;
+        final normalizedHeight = size.width / aspectRatio;
 
         final normalizedLeft = position.dx * widthFactor;
         final normalizedTop = position.dy * heightFactor;
@@ -237,7 +238,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
                     : PhotoboothColors.transparent,
               ),
             ),
-            child: widget.child,
+            child: Center(child: widget.child),
           ),
         );
 
