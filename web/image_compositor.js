@@ -4589,7 +4589,7 @@
     _composite: function(aspectRatio, data, height, rawLayers, width) {
       var $async$goto = 0,
         $async$completer = P._makeAsyncAwaitCompleter(type$.List_int),
-        $async$returnValue, inputImageAspectRatio, croppedWidth, croppedHeight, image, layers, _i, layer, t2, t3, widthFactor, t4, t5, assetWidth, assetDx, assetDy, asset, frame, framedImageWidth, t6, t7, t8, t9, t10, t11, t1, $async$temp1;
+        $async$returnValue, inputImageAspectRatio, croppedWidth, croppedHeight, image, layers, _i, layer, t2, t3, widthFactor, t4, t5, assetWidth, assetDx, assetDy, asset, asset0, rotationOffset, frame, framedImageWidth, t6, t7, t8, t9, t10, t11, t1, $async$temp1;
       var $async$_composite = P._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
         if ($async$errorCode === 1)
           return P._asyncRethrow($async$result, $async$completer);
@@ -4644,7 +4644,13 @@
               else
                 asset = t2;
               t2 = layer.angle;
-              image = K.drawImage(image, t2 !== 0 ? G.copyRotate(asset, t2 * 57.29577951308232, C.Interpolation_2) : asset, null, null, assetDx, assetDy);
+              if (t2 !== 0) {
+                asset0 = G.copyRotate(asset, t2 * 57.29577951308232, C.Interpolation_2);
+                rotationOffset = new X.Vector2D((asset0.width - asset.width) / 2, (asset0.height - asset.height) / 2);
+                asset = asset0;
+              } else
+                rotationOffset = C.Vector2D_0_0;
+              image = K.drawImage(image, asset, null, null, C.JSNumber_methods.round$0(assetDx - rotationOffset.x), C.JSNumber_methods.round$0(assetDy - rotationOffset.y));
             case 5:
               // for update
               ++_i;
@@ -9775,6 +9781,7 @@
     C.List_kcl1 = H.setRuntimeTypeInfo(makeConstList([17, 18, 24, 47, 99, 99, 99, 99, 18, 21, 26, 66, 99, 99, 99, 99, 24, 26, 56, 99, 99, 99, 99, 99, 47, 66, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99]), type$.JSArray_int);
     C.List_qQn = H.setRuntimeTypeInfo(makeConstList([3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258]), type$.JSArray_int);
     C.List_uSC = H.setRuntimeTypeInfo(makeConstList([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]), type$.JSArray_int);
+    C.Vector2D_0_0 = new X.Vector2D(0, 0);
   })();
   (function staticFields() {
     $._JS_INTEROP_INTERCEPTOR_TAG = null;
