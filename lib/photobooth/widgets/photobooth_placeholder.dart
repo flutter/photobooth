@@ -10,45 +10,29 @@ class PhotoboothPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const PermissionsBackground(),
-        Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.width > PhotoboothBreakpoints.small
-                      ? size.height * 0.4
-                      : 0,
-                ),
-                Text(
-                  l10n.photoBoothPlaceholderHeadline,
-                  style: theme.textTheme.headline1?.copyWith(
-                    color: PhotoboothColors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  l10n.photoBoothPlaceholderSubheadline,
-                  style: theme.textTheme.headline2?.copyWith(
-                    color: PhotoboothColors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: size.height * 0.4,
-                ),
-                const WhiteFooter(),
-              ],
+    return AppPageView(
+      background: const PermissionsBackground(),
+      body: Column(
+        children: [
+          const SizedBox(height: 200),
+          Text(
+            l10n.photoBoothPlaceholderHeadline,
+            style: theme.textTheme.headline1?.copyWith(
+              color: PhotoboothColors.white,
             ),
+            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          const SizedBox(height: 24),
+          Text(
+            l10n.photoBoothPlaceholderSubheadline,
+            style: theme.textTheme.headline2?.copyWith(
+              color: PhotoboothColors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      footer: const WhiteFooter(),
     );
   }
 }
