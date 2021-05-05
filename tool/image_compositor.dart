@@ -84,17 +84,17 @@ Future<List<int>> _composite({
     final assetDx = ((layer.position.x * widthFactor * layer.scale)).round();
     final assetDy = (layer.position.y * heightFactor * layer.scale).round();
 
-    if (layer.angle != 0)
-      asset = img.copyRotate(
-        asset,
-        layer.angle * (180 / math.pi),
-        interpolation: img.Interpolation.cubic,
-      );
-
     if (asset.width != assetWidth)
       asset = img.copyResize(
         asset,
         width: assetWidth,
+        interpolation: img.Interpolation.cubic,
+      );
+
+    if (layer.angle != 0)
+      asset = img.copyRotate(
+        asset,
+        layer.angle * (180 / math.pi),
         interpolation: img.Interpolation.cubic,
       );
 
