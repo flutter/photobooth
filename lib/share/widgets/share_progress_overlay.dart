@@ -9,7 +9,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 /// Overlay displayed on top of the [SharePage] when [ShareBloc] is
 /// in the in progress state.
 class ShareProgressOverlay extends StatelessWidget {
-  ShareProgressOverlay({
+  const ShareProgressOverlay({
     Key? key,
   }) : super(key: key);
 

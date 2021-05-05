@@ -12,32 +12,15 @@ class PhotoboothError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const PermissionsBackground(),
-        Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.width > PhotoboothBreakpoints.small
-                      ? size.height * 0.4
-                      : 0,
-                ),
-                _PhotoboothCameraError(error: error),
-                SizedBox(
-                  height: size.height * 0.4,
-                ),
-                const WhiteFooter(),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return AppPageView(
+      background: const PermissionsBackground(),
+      body: Column(
+        children: [
+          const SizedBox(height: 200),
+          _PhotoboothCameraError(error: error),
+        ],
+      ),
+      footer: const WhiteFooter(),
     );
   }
 }
@@ -79,7 +62,6 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           l10n.photoBoothCameraAccessDeniedHeadline,
@@ -149,7 +131,6 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           l10n.photoBoothCameraErrorHeadline,

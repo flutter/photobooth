@@ -3,6 +3,7 @@ export 'app_circular_progress_indicator.dart';
 export 'app_dialog.dart';
 export 'app_tooltip.dart';
 export 'app_tooltip_button.dart';
+export 'app_view.dart';
 export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'platform_builder.dart';
