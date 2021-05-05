@@ -398,11 +398,7 @@ void main() async {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(
-            assetPath: googleTabAssetPath,
-            width: 24,
-            height: 24,
-          ),
+          body: StickersTab(assetPath: googleTabAssetPath),
         ),
       );
       expect(find.byType(StickersTab), findsOneWidget);
@@ -411,11 +407,7 @@ void main() async {
     testWidgets('renders tab widget', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(
-            assetPath: googleTabAssetPath,
-            width: 24,
-            height: 24,
-          ),
+          body: StickersTab(assetPath: googleTabAssetPath),
         ),
       );
       expect(find.byType(Tab), findsOneWidget);
@@ -424,11 +416,7 @@ void main() async {
     testWidgets('renders image widget', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(
-            assetPath: googleTabAssetPath,
-            width: 24,
-            height: 24,
-          ),
+          body: StickersTab(assetPath: googleTabAssetPath),
         ),
       );
       expect(find.byType(Image), findsOneWidget);
