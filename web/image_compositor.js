@@ -4661,7 +4661,7 @@
               // after for
               $async$temp1 = new G.PngDecoder();
               $async$goto = 8;
-              return P._asyncAwait(L.getBytes(aspectRatio === 0.75 ? "assets/assets/images/photo_frame_mobile_download.png" : "assets/assets/images/photo_frame_download.png"), $async$_composite);
+              return P._asyncAwait(L.getBytes(aspectRatio < 1 ? "assets/assets/images/photo_frame_mobile_download.png" : "assets/assets/images/photo_frame_download.png"), $async$_composite);
             case 8:
               // returning from await.
               frame = $async$temp1.decodeImage$1($async$result);

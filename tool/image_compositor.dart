@@ -113,7 +113,7 @@ Future<List<int>> _composite({
     );
   }
 
-  final frameAssetPath = aspectRatio == 3 / 4
+  final frameAssetPath = aspectRatio < 1
       ? 'assets/assets/images/photo_frame_mobile_download.png'
       : 'assets/assets/images/photo_frame_download.png';
   final frameBytes = await getBytes(frameAssetPath);
