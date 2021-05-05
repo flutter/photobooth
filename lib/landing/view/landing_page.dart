@@ -48,14 +48,14 @@ class LandingView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const SizedBox(height: 24),
-                  Text(
+                  SelectableText(
                     l10n.landingPageHeading,
                     key: const Key('landingPage_heading_text'),
                     style: theme.textTheme.headline1,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
-                  Text(
+                  SelectableText(
                     l10n.landingPageSubheading,
                     key: const Key('landingPage_subheading_text'),
                     style: theme.textTheme.headline2,
