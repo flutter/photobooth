@@ -4639,12 +4639,12 @@
               t4 = layer.position;
               assetDx = C.JSNumber_methods.round$0(t4.x * widthFactor * t5);
               assetDy = C.JSNumber_methods.round$0(t4.y * (image.height / t3.y) * t5);
-              t3 = layer.angle;
-              if (t3 !== 0)
-                asset = G.copyRotate(t2, t3 * 57.29577951308232, C.Interpolation_2);
+              if (t2.width !== assetWidth)
+                asset = K.copyResize(t2, C.Interpolation_2, assetWidth);
               else
                 asset = t2;
-              image = K.drawImage(image, asset.width !== assetWidth ? K.copyResize(asset, C.Interpolation_2, assetWidth) : asset, null, null, assetDx, assetDy);
+              t2 = layer.angle;
+              image = K.drawImage(image, t2 !== 0 ? G.copyRotate(asset, t2 * 57.29577951308232, C.Interpolation_2) : asset, null, null, assetDx, assetDy);
             case 5:
               // for update
               ++_i;
