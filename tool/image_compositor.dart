@@ -91,17 +91,29 @@ Future<List<int>> _composite({
         interpolation: img.Interpolation.cubic,
       );
 
-    if (layer.angle != 0)
+    var rotationOffset = const Vector2D(0, 0);
+    if (layer.angle != 0) {
+      final oldWidth = asset.width;
+      final oldHeight = asset.height;
       asset = img.copyRotate(
         asset,
         layer.angle * (180 / math.pi),
         interpolation: img.Interpolation.cubic,
       );
+      final offsetX = (asset.width - oldWidth) / 2;
+      final offsetY = (asset.height - oldHeight) / 2;
+      rotationOffset = Vector2D(offsetX, offsetY);
+    }
 
-    image = img.drawImage(image, asset, dstX: assetDx, dstY: assetDy);
+    image = img.drawImage(
+      image,
+      asset,
+      dstX: (assetDx - rotationOffset.x).round(),
+      dstY: (assetDy - rotationOffset.y).round(),
+    );
   }
 
-  final frameAssetPath = aspectRatio == 3 / 4
+  final frameAssetPath = aspectRatio < 1
       ? 'assets/assets/images/photo_frame_mobile_download.png'
       : 'assets/assets/images/photo_frame_download.png';
   final frameBytes = await getBytes(frameAssetPath);
