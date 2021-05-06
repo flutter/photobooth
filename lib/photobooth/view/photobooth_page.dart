@@ -103,26 +103,17 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         controller: _controller,
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
-          return ResponsiveLayoutBuilder(
-            small: (_, __) => _PreviewLayout(
-              child: AspectRatio(
-                aspectRatio: PhotoboothAspectRatio.portrait,
-                child: PhotoboothPreview(
-                  preview: preview,
-                  onSnapPressed: () => _onSnapPressed(
-                    aspectRatio: PhotoboothAspectRatio.portrait,
-                  ),
-                ),
-              ),
-            ),
-            large: (_, __) => _PreviewLayout(
-              child: AspectRatio(
-                aspectRatio: PhotoboothAspectRatio.landscape,
-                child: PhotoboothPreview(
-                  preview: preview,
-                  onSnapPressed: () => _onSnapPressed(
-                    aspectRatio: PhotoboothAspectRatio.landscape,
-                  ),
+          final size = MediaQuery.of(context).size;
+          final aspectRatio = size.width > size.height
+              ? PhotoboothAspectRatio.landscape
+              : PhotoboothAspectRatio.portrait;
+          return _PreviewLayout(
+            child: AspectRatio(
+              aspectRatio: aspectRatio,
+              child: PhotoboothPreview(
+                preview: preview,
+                onSnapPressed: () => _onSnapPressed(
+                  aspectRatio: aspectRatio,
                 ),
               ),
             ),
