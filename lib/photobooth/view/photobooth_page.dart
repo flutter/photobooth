@@ -103,20 +103,23 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         controller: _controller,
         placeholder: (_) => const PhotoboothPlaceholder(),
         preview: (context, preview) {
-          final size = MediaQuery.of(context).size;
-          final aspectRatio = size.width > size.height
-              ? PhotoboothAspectRatio.landscape
-              : PhotoboothAspectRatio.portrait;
-          return _PreviewLayout(
-            child: AspectRatio(
-              aspectRatio: aspectRatio,
-              child: PhotoboothPreview(
-                preview: preview,
-                onSnapPressed: () => _onSnapPressed(
+          return OrientationBuilder(
+            builder: (context, orientation) {
+              final aspectRatio = orientation == Orientation.portrait
+                  ? PhotoboothAspectRatio.portrait
+                  : PhotoboothAspectRatio.landscape;
+              return _PreviewLayout(
+                child: AspectRatio(
                   aspectRatio: aspectRatio,
+                  child: PhotoboothPreview(
+                    preview: preview,
+                    onSnapPressed: () => _onSnapPressed(
+                      aspectRatio: aspectRatio,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
         error: (_, error) => PhotoboothError(error: error),
