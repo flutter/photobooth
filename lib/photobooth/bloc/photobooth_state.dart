@@ -50,8 +50,7 @@ class PhotoAsset extends Equatable {
   final PhotoAssetSize size;
 
   @override
-  List<Object> get props =>
-      [id, asset.name, angle, constraint, position, size];
+  List<Object> get props => [id, asset.name, angle, constraint, position, size];
 
   PhotoAsset copyWith({
     Asset? asset,
