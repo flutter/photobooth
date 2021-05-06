@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 part 'photobooth_event.dart';
@@ -11,12 +12,33 @@ part 'photobooth_state.dart';
 
 typedef UuidGetter = String Function();
 
+const _debounceDuration = Duration(milliseconds: 100);
+
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   PhotoboothBloc([UuidGetter? uuid])
       : uuid = uuid ?? const Uuid().v4,
         super(const PhotoboothState());
 
   final UuidGetter uuid;
+
+  bool _isDragEvent(PhotoboothEvent e) {
+    return e is PhotoCharacterDragged || e is PhotoStickerDragged;
+  }
+
+  bool _isNotDragEvent(PhotoboothEvent e) {
+    return e is! PhotoCharacterDragged && e is! PhotoStickerDragged;
+  }
+
+  @override
+  Stream<Transition<PhotoboothEvent, PhotoboothState>> transformEvents(
+    Stream<PhotoboothEvent> events,
+    TransitionFunction<PhotoboothEvent, PhotoboothState> transitionFn,
+  ) {
+    return Rx.merge([
+      events.where(_isDragEvent).debounceTime(_debounceDuration),
+      events.where(_isNotDragEvent),
+    ]).asyncExpand(transitionFn);
+  }
 
   @override
   Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
@@ -93,7 +115,6 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
           dx: event.update.position.dx,
           dy: event.update.position.dy,
         ),
-        scale: event.update.scale,
         size: PhotoAssetSize(
           width: event.update.size.width,
           height: event.update.size.height,
@@ -134,7 +155,6 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
           dx: event.update.position.dx,
           dy: event.update.position.dy,
         ),
-        scale: event.update.scale,
         size: PhotoAssetSize(
           width: event.update.size.width,
           height: event.update.size.height,

@@ -48,7 +48,6 @@ void main() {
 
       when(() => photoAsset.asset).thenReturn(asset);
       when(() => photoAsset.angle).thenReturn(0.0);
-      when(() => photoAsset.scale).thenReturn(1.0);
       when(() => photoAsset.constraint).thenReturn(
         PhotoConstraint(width: 1, height: 1),
       );

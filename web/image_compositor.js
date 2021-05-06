@@ -4533,14 +4533,13 @@
       this.x = t0;
       this.y = t1;
     },
-    CompositeLayer: function CompositeLayer(t0, t1, t2, t3, t4, t5) {
+    CompositeLayer: function CompositeLayer(t0, t1, t2, t3, t4) {
       var _ = this;
       _.angle = t0;
       _.assetPath = t1;
       _.constraints = t2;
       _.position = t3;
-      _.scale = t4;
-      _.size = t5;
+      _.size = t4;
     },
     getCrc32: function(array, crc) {
       var ip, ip0,
@@ -4589,7 +4588,7 @@
     _composite: function(aspectRatio, data, height, rawLayers, width) {
       var $async$goto = 0,
         $async$completer = P._makeAsyncAwaitCompleter(type$.List_int),
-        $async$returnValue, inputImageAspectRatio, croppedWidth, croppedHeight, image, layers, _i, layer, t2, t3, widthFactor, t4, t5, assetWidth, assetDx, assetDy, asset, asset0, rotationOffset, frame, framedImageWidth, t6, t7, t8, t9, t10, t11, t1, $async$temp1;
+        $async$returnValue, inputImageAspectRatio, croppedWidth, croppedHeight, image, layers, _i, layer, t2, t3, widthFactor, assetWidth, t4, assetDx, assetDy, asset, asset0, rotationOffset, frame, framedImageWidth, t5, t6, t7, t8, t9, t10, t11, t1, $async$temp1;
       var $async$_composite = P._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
         if ($async$errorCode === 1)
           return P._asyncRethrow($async$result, $async$completer);
@@ -4633,12 +4632,10 @@
               t2.toString;
               t3 = layer.constraints;
               widthFactor = image.width / t3.x;
-              t4 = layer.size;
-              t5 = layer.scale;
-              assetWidth = C.JSNumber_methods.round$0(t4.x * widthFactor * t5);
+              assetWidth = C.JSNumber_methods.round$0(layer.size.x * widthFactor);
               t4 = layer.position;
-              assetDx = C.JSNumber_methods.round$0(t4.x * widthFactor * t5);
-              assetDy = C.JSNumber_methods.round$0(t4.y * (image.height / t3.y) * t5);
+              assetDx = C.JSNumber_methods.round$0(t4.x * widthFactor);
+              assetDy = C.JSNumber_methods.round$0(t4.y * (image.height / t3.y));
               if (t2.width !== assetWidth)
                 asset = K.copyResize(t2, C.Interpolation_2, assetWidth);
               else
@@ -9443,7 +9440,7 @@
     call$1: function(l) {
       var t1 = type$.Map_dynamic_dynamic;
       t1._as(l);
-      return new X.CompositeLayer(P.double_parse(H._asString(l.$index(0, "angle"))), H._asString(l.$index(0, "assetPath")), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "constraints"))), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "position"))), P.double_parse(H._asString(l.$index(0, "scale"))), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "size"))));
+      return new X.CompositeLayer(P.double_parse(H._asString(l.$index(0, "angle"))), H._asString(l.$index(0, "assetPath")), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "constraints"))), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "position"))), X.Vector2D_Vector2D$fromJson(t1._as(l.$index(0, "size"))));
     },
     $signature: 25
   };

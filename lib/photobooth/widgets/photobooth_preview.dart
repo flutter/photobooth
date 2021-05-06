@@ -114,7 +114,9 @@ class PhotoboothPreview extends StatelessWidget {
 }
 
 Size _getAnimatedSpriteSize(String name) {
-  return _getAnimatedSprite(name)?.sprites.size ?? Size.zero;
+  final sprite = _getAnimatedSprite(name);
+  if (sprite != null) return sprite.sprites.size / 4;
+  return Size.zero;
 }
 
 AnimatedSprite? _getAnimatedSprite(String name) {
