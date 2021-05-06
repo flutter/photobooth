@@ -36,7 +36,7 @@ void main() {
   group('AnimatedPhotoboothPhoto', () {
     group('portrait', () {
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait small'
+          'displays AnimatedPhotoboothPhotoPortrait'
           'when aspect ratio is portrait '
           'and screen size is small', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -50,13 +50,13 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoPortrait_small')),
+          find.byType(AnimatedPhotoboothPhotoPortrait),
           findsOneWidget,
         );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait large'
+          'displays AnimatedPhotoboothPhotoPortrait'
           'when aspect ratio is portrait '
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -70,13 +70,13 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoPortrait_large')),
+          find.byType(AnimatedPhotoboothPhotoPortrait),
           findsOneWidget,
         );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait large'
+          'displays AnimatedPhotoboothPhotoPortrait'
           'when aspect ratio is portrait '
           'and screen size is xLarge', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -93,7 +93,7 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoPortrait_large')),
+          find.byType(AnimatedPhotoboothPhotoPortrait),
           findsOneWidget,
         );
       });
@@ -141,7 +141,7 @@ void main() {
 
     group('landscape', () {
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape small'
+          'displays AnimatedPhotoboothPhotoLandscape'
           'when aspect ratio is landscape '
           'and screen size is small', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -155,13 +155,13 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoLandscape_small')),
+          find.byType(AnimatedPhotoboothPhotoLandscape),
           findsOneWidget,
         );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape large'
+          'displays AnimatedPhotoboothPhotoLandscape'
           'when aspect ratio is landscape '
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -175,13 +175,13 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoLandscape_large')),
+          find.byType(AnimatedPhotoboothPhotoLandscape),
           findsOneWidget,
         );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape xLarge'
+          'displays AnimatedPhotoboothPhotoLandscape'
           'when aspect ratio is landscape '
           'and screen size is xLarge', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -198,7 +198,7 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         expect(
-          find.byKey(Key('animatedPhotoboothPhotoLandscape_xLarge')),
+          find.byType(AnimatedPhotoboothPhotoLandscape),
           findsOneWidget,
         );
       });
