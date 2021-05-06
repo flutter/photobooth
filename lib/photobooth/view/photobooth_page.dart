@@ -21,7 +21,7 @@ class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const PhotoboothPage());
+    return AppPageRoute(builder: (_) => const PhotoboothPage());
   }
 
   static const String name = 'PhotoboothPage';
@@ -31,7 +31,7 @@ class PhotoboothPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PhotoboothBloc(),
       child: Navigator(
-        onGenerateRoute: (_) => MaterialPageRoute(
+        onGenerateRoute: (_) => AppPageRoute(
           builder: (_) => const PhotoboothView(),
           settings: const RouteSettings(name: name),
         ),

@@ -14,7 +14,7 @@ class StickersPage extends StatelessWidget {
   }) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const StickersPage());
+    return AppPageRoute(builder: (_) => const StickersPage());
   }
 
   @override
