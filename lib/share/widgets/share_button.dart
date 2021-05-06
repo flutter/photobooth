@@ -32,12 +32,8 @@ class ShareButton extends StatelessWidget {
             backgroundColor: PhotoboothColors.transparent,
             builder: (_) => MultiBlocProvider(
               providers: [
-                BlocProvider.value(
-                  value: context.read<PhotoboothBloc>(),
-                ),
-                BlocProvider.value(
-                  value: context.read<ShareBloc>(),
-                ),
+                BlocProvider.value(value: context.read<PhotoboothBloc>()),
+                BlocProvider.value(value: context.read<ShareBloc>()),
               ],
               child: ShareBottomSheet(image: image),
             ),
