@@ -45,29 +45,26 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
     final aspectRatio = context.select(
       (PhotoboothBloc bloc) => bloc.state.aspectRatio,
     );
-    return ResponsiveLayoutBuilder(
-      small: (_, __) => AnimatedPhotoboothPhotoSmall(
+
+    if (aspectRatio <= PhotoboothAspectRatio.portrait) {
+      return AnimatedPhotoboothPhotoPortrait(
         aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
-      ),
-      large: (_, __) => AnimatedPhotoboothPhotoLarge(
+      );
+    } else {
+      return AnimatedPhotoboothPhotoLandscape(
         aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
-      ),
-      xLarge: (_, __) => AnimatedPhotoboothPhotoXLarge(
-        aspectRatio: aspectRatio,
-        image: widget.image,
-        isPhotoVisible: _isPhotoVisible,
-      ),
-    );
+      );
+    }
   }
 }
 
 @visibleForTesting
-class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
-  const AnimatedPhotoboothPhotoXLarge({
+class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
+  const AnimatedPhotoboothPhotoLandscape({
     Key? key,
     required this.aspectRatio,
     required this.image,
@@ -81,156 +78,178 @@ class AnimatedPhotoboothPhotoXLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final image = this.image;
+
+    const sprite = AnimatedSprite(
+      mode: AnimationMode.oneTime,
+      sprites: Sprites(
+        asset: 'photo_frame_spritesheet_landscape.png',
+        size: Size(521, 420),
+        frames: 28,
+        stepTime: 0.05,
+      ),
+    );
+
+    final small = _AnimatedPhotoboothPhoto(
+      key: const Key('animatedPhotoboothPhotoLandscape_small'),
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      containerHeight: 301,
+      containerWidth: 420,
+      sprite: sprite,
+      padding: const EdgeInsets.only(
+        left: 55,
+        right: 47,
+        bottom: 32,
+      ),
+    );
+
+    final large = _AnimatedPhotoboothPhoto(
+      key: const Key('animatedPhotoboothPhotoLandscape_large'),
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      containerHeight: 430,
+      containerWidth: 600,
+      sprite: sprite,
+      padding: const EdgeInsets.only(
+        left: 77,
+        right: 68,
+        bottom: 45,
+      ),
+    );
+
+    final xLarge = _AnimatedPhotoboothPhoto(
+      key: const Key('animatedPhotoboothPhotoLandscape_xLarge'),
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      containerHeight: 688,
+      containerWidth: 960,
+      sprite: sprite,
+      padding: const EdgeInsets.only(
+        left: 122.0,
+        right: 105.0,
+        bottom: 82.0,
+      ),
+    );
+
+    return ResponsiveLayoutBuilder(
+      small: (context, _) => small,
+      large: (context, _) => large,
+      xLarge: (context, _) => xLarge,
+    );
+  }
+}
+
+@visibleForTesting
+class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
+  const AnimatedPhotoboothPhotoPortrait({
+    Key? key,
+    required this.aspectRatio,
+    required this.image,
+    required this.isPhotoVisible,
+  }) : super(key: key);
+
+  final double aspectRatio;
+  final CameraImage? image;
+  final bool isPhotoVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = this.image;
+
+    const sprite = AnimatedSprite(
+      mode: AnimationMode.oneTime,
+      sprites: Sprites(
+        asset: 'photo_frame_spritesheet_portrait.png',
+        size: Size(520, 698),
+        frames: 38,
+        stepTime: 0.05,
+      ),
+    );
+
+    final small = _AnimatedPhotoboothPhoto(
+      key: const Key('animatedPhotoboothPhotoPortrait_small'),
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      containerHeight: 330,
+      containerWidth: 250,
+      sprite: sprite,
+      padding: const EdgeInsets.only(
+        left: 43.0,
+        right: 38.0,
+        top: 5,
+      ),
+    );
+
+    final large = _AnimatedPhotoboothPhoto(
+      key: const Key('animatedPhotoboothPhotoPortrait_large'),
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      containerHeight: 660,
+      containerWidth: 500,
+      sprite: sprite,
+      padding: const EdgeInsets.only(
+        left: 85.0,
+        right: 75.0,
+        top: 10.0,
+      ),
+    );
+
+    return ResponsiveLayoutBuilder(
+      small: (context, _) => small,
+      large: (context, _) => large,
+    );
+  }
+}
+
+class _AnimatedPhotoboothPhoto extends StatelessWidget {
+  const _AnimatedPhotoboothPhoto({
+    Key? key,
+    required this.containerHeight,
+    required this.containerWidth,
+    required this.sprite,
+    required this.padding,
+    required this.isPhotoVisible,
+    required this.aspectRatio,
+    required this.image,
+  }) : super(key: key);
+
+  final double containerHeight;
+  final double containerWidth;
+  final AnimatedSprite sprite;
+  final EdgeInsetsGeometry padding;
+  final bool isPhotoVisible;
+  final double aspectRatio;
+  final CameraImage? image;
+
+  @override
+  Widget build(BuildContext context) {
+    final _image = image;
     return Container(
-      height: 688,
-      width: 960,
+      height: containerHeight,
+      width: containerWidth,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          const FittedBox(
+          FittedBox(
             fit: BoxFit.cover,
             alignment: Alignment.center,
-            child: AnimatedSprite(
-              mode: AnimationMode.oneTime,
-              sprites: Sprites(
-                asset: 'photo_frame_spritesheet_desktop.png',
-                size: Size(521, 420),
-                frames: 28,
-                stepTime: 0.05,
-              ),
-            ),
+            child: sprite,
           ),
-          image != null
+          _image != null
               ? Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 122.0,
-                      right: 105.0,
-                      bottom: 82.0,
-                    ),
+                    padding: padding,
                     child: AnimatedOpacity(
                       duration: const Duration(seconds: 2),
                       opacity: isPhotoVisible ? 1 : 0,
                       child: AspectRatio(
                         aspectRatio: aspectRatio,
-                        child: PhotoboothPhoto(image: image.data),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-        ],
-      ),
-    );
-  }
-}
-
-@visibleForTesting
-class AnimatedPhotoboothPhotoLarge extends StatelessWidget {
-  const AnimatedPhotoboothPhotoLarge({
-    Key? key,
-    required this.aspectRatio,
-    required this.image,
-    required this.isPhotoVisible,
-  }) : super(key: key);
-
-  final double aspectRatio;
-  final CameraImage? image;
-  final bool isPhotoVisible;
-
-  @override
-  Widget build(BuildContext context) {
-    final image = this.image;
-    return Container(
-      height: 430,
-      width: 600,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          const Center(
-            child: AnimatedSprite(
-              mode: AnimationMode.oneTime,
-              sprites: Sprites(
-                asset: 'photo_frame_spritesheet_desktop.png',
-                size: Size(521, 420),
-                frames: 28,
-                stepTime: 0.05,
-              ),
-            ),
-          ),
-          image != null
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 106.0,
-                      right: 98.0,
-                      bottom: 45.0,
-                    ),
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: isPhotoVisible ? 1 : 0,
-                      child: AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: PhotoboothPhoto(image: image.data),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-        ],
-      ),
-    );
-  }
-}
-
-@visibleForTesting
-class AnimatedPhotoboothPhotoSmall extends StatelessWidget {
-  const AnimatedPhotoboothPhotoSmall({
-    Key? key,
-    required this.aspectRatio,
-    required this.image,
-    required this.isPhotoVisible,
-  }) : super(key: key);
-
-  final double aspectRatio;
-  final CameraImage? image;
-  final bool isPhotoVisible;
-
-  @override
-  Widget build(BuildContext context) {
-    final image = this.image;
-    return Container(
-      height: 330,
-      width: 250,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          const Center(
-            child: AnimatedSprite(
-              mode: AnimationMode.oneTime,
-              sprites: Sprites(
-                asset: 'photo_frame_spritesheet_mobile.png',
-                size: Size(520, 698),
-                frames: 38,
-                stepTime: 0.05,
-              ),
-            ),
-          ),
-          image != null
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 45.0,
-                      right: 40.0,
-                      top: 15.0,
-                      bottom: 10.0,
-                    ),
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: isPhotoVisible ? 1 : 0,
-                      child: AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: PhotoboothPhoto(image: image.data),
+                        child: PhotoboothPhoto(image: _image.data),
                       ),
                     ),
                   ),
