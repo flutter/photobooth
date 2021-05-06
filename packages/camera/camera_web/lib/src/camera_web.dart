@@ -95,8 +95,9 @@ class Camera {
 
     videoElement = html.VideoElement()..applyDefaultStyles();
     divElement = html.DivElement()
-      ..append(videoElement)
-      ..style.setProperty('object-fit', 'cover');
+      ..style.setProperty('background', 'black')
+      ..style.setProperty('object-fit', 'cover')
+      ..append(videoElement);
     // ignore: avoid_dynamic_calls
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
