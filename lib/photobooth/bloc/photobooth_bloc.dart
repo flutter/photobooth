@@ -12,6 +12,8 @@ part 'photobooth_state.dart';
 
 typedef UuidGetter = String Function();
 
+const _debounceDuration = Duration(milliseconds: 100);
+
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   PhotoboothBloc([UuidGetter? uuid])
       : uuid = uuid ?? const Uuid().v4,
@@ -19,22 +21,22 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   final UuidGetter uuid;
 
+  bool _isDragEvent(PhotoboothEvent e) {
+    return e is PhotoCharacterDragged || e is PhotoStickerDragged;
+  }
+
+  bool _isNotDragEvent(PhotoboothEvent e) {
+    return e is! PhotoCharacterDragged && e is! PhotoStickerDragged;
+  }
+
   @override
   Stream<Transition<PhotoboothEvent, PhotoboothState>> transformEvents(
     Stream<PhotoboothEvent> events,
     TransitionFunction<PhotoboothEvent, PhotoboothState> transitionFn,
   ) {
-    bool isDragEvent(PhotoboothEvent e) {
-      return e is PhotoCharacterDragged || e is PhotoStickerDragged;
-    }
-
-    bool isNotDragEvent(PhotoboothEvent e) {
-      return e is! PhotoCharacterDragged && e is! PhotoStickerDragged;
-    }
-
     return Rx.merge([
-      events.where(isDragEvent).debounceTime(const Duration(milliseconds: 100)),
-      events.where(isNotDragEvent),
+      events.where(_isDragEvent).debounceTime(_debounceDuration),
+      events.where(_isNotDragEvent),
     ]).asyncExpand(transitionFn);
   }
 
