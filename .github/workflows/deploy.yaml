@@ -13,7 +13,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1.4.0
         with:
-          flutter-version: 2.2.0-10.2.pre
           channel: master
       - run: flutter packages get
       - run: flutter build web --web-renderer html
