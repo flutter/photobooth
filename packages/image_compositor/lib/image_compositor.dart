@@ -37,7 +37,6 @@ class CompositeLayer {
     required this.assetPath,
     required this.constraints,
     required this.position,
-    required this.scale,
     required this.size,
   });
 
@@ -48,7 +47,6 @@ class CompositeLayer {
       assetPath: json['assetPath'] as String,
       constraints: Vector2D.fromJson(json['constraints'] as Map),
       position: Vector2D.fromJson(json['position'] as Map),
-      scale: double.parse(json['scale'] as String),
       size: Vector2D.fromJson(json['size'] as Map),
     );
   }
@@ -60,7 +58,6 @@ class CompositeLayer {
       'assetPath': assetPath,
       'constraints': constraints.toJson(),
       'position': position.toJson(),
-      'scale': '$scale',
       'size': size.toJson(),
     };
   }
@@ -76,9 +73,6 @@ class CompositeLayer {
 
   /// The relative position of the asset.
   final Vector2D position;
-
-  /// The scale factor.
-  final double scale;
 
   /// The size of the asset.
   final Vector2D size;

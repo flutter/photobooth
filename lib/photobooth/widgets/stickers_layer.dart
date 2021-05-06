@@ -25,11 +25,9 @@ class StickersLayer extends StatelessWidget {
                     ),
                     top: sticker.position.dy * heightFactor,
                     left: sticker.position.dx * widthFactor,
-                    child: Transform(
+                    child: Transform.rotate(
                       alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..scale(sticker.scale)
-                        ..rotateZ(sticker.angle),
+                      angle: sticker.angle,
                       child: Image.memory(
                         sticker.asset.bytes,
                         height: sticker.size.height * heightFactor,

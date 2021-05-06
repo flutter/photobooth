@@ -216,7 +216,6 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
             assetPath: 'assets/${l.asset.path}',
             constraints: Vector2D(l.constraint.width, l.constraint.height),
             position: Vector2D(l.position.dx, l.position.dy),
-            scale: l.scale,
             size: Vector2D(l.size.width, l.size.height),
           ),
         )

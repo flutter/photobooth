@@ -8,15 +8,11 @@ import 'package:platform_helper/platform_helper.dart';
 class DragUpdate {
   /// {@macro drag_update}
   const DragUpdate({
-    required this.scale,
     required this.angle,
     required this.position,
     required this.size,
     required this.constraints,
   });
-
-  /// The scale of the draggable asset.
-  final double scale;
 
   /// The angle of the draggable asset.
   final double angle;
@@ -82,7 +78,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
   late double angle;
   late double angleDelta;
   late double baseAngle;
-  late double scale;
 
   bool get isTouchInputSupported => widget.platformHelper.isMobile;
 
@@ -94,12 +89,11 @@ class _DraggableResizableState extends State<DraggableResizable> {
     super.initState();
     maxHeight = 1000;
     minHeight = maxHeight * 0.05;
-    size = widget.size * 0.25;
+    size = widget.size;
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
     baseAngle = 0;
     angleDelta = 0;
-    scale = 1;
   }
 
   double clampHeight(double value) {
@@ -145,7 +139,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
               size: Size(normalizedWidth, normalizedHeight),
               constraints: Size(constraints.maxWidth, constraints.maxHeight),
               angle: angle,
-              scale: scale,
             ),
           );
         }
@@ -308,7 +301,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
-                  ..scale(scale)
+                  ..scale(1.0)
                   ..rotateZ(angle),
                 child: _DraggablePoint(
                   key: const Key('draggableResizable_child_draggablePoint'),
@@ -323,7 +316,21 @@ class _DraggableResizableState extends State<DraggableResizable> {
                     onUpdate();
                   },
                   onScale: (s) {
-                    setState(() => scale = s);
+                    final updatedSize = Size(
+                      widget.size.width * s,
+                      widget.size.height * s,
+                    );
+                    final midX = position.dx + (size.width / 2);
+                    final midY = position.dy + (size.height / 2);
+                    final updatedPosition = Offset(
+                      midX - (updatedSize.width / 2),
+                      midY - (updatedSize.height / 2),
+                    );
+
+                    setState(() {
+                      size = updatedSize;
+                      position = updatedPosition;
+                    });
                     onUpdate();
                   },
                   onRotate: (a) {

@@ -80,9 +80,9 @@ Future<List<int>> _composite({
     final widthFactor = image.width / layer.constraints.x;
     final heightFactor = image.height / layer.constraints.y;
 
-    final assetWidth = (layer.size.x * widthFactor * layer.scale).round();
-    final assetDx = ((layer.position.x * widthFactor * layer.scale)).round();
-    final assetDy = (layer.position.y * heightFactor * layer.scale).round();
+    final assetWidth = (layer.size.x * widthFactor).round();
+    final assetDx = ((layer.position.x * widthFactor)).round();
+    final assetDy = (layer.position.y * heightFactor).round();
 
     if (asset.width != assetWidth)
       asset = img.copyResize(

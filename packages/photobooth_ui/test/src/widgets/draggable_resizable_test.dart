@@ -10,7 +10,7 @@ class MockPlatformHelper extends Mock implements PlatformHelper {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final childKey = UniqueKey();
-  const size = Size(500, 500);
+  const size = Size(300, 300);
   final child = SizedBox(key: childKey, width: 100, height: 100);
   late PlatformHelper platformHelper;
 
@@ -607,15 +607,6 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        final transformFinder = find.ancestor(
-          of: childFinder,
-          matching: find.byType(Transform),
-        );
-        final transformWidget = tester.widget<Transform>(transformFinder);
-        expect(
-          transformWidget.transform,
-          isNot(equals(Matrix4.diagonal3Values(1, 1, 1))),
-        );
         expect(onUpdateCalls, isNotEmpty);
       });
 
