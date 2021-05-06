@@ -12,7 +12,7 @@ class SharePage extends StatelessWidget {
   const SharePage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const SharePage());
+    return AppPageRoute(builder: (_) => const SharePage());
   }
 
   @override
