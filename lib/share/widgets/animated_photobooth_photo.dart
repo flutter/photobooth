@@ -89,55 +89,46 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       ),
     );
 
-    final small = _AnimatedPhotoboothPhoto(
-      key: const Key('animatedPhotoboothPhotoLandscape_small'),
-      aspectRatio: aspectRatio,
-      image: image,
-      isPhotoVisible: isPhotoVisible,
-      containerHeight: 301,
-      containerWidth: 420,
-      sprite: sprite,
-      padding: const EdgeInsets.only(
-        left: 55,
-        right: 47,
-        bottom: 32,
-      ),
-    );
-
-    final large = _AnimatedPhotoboothPhoto(
-      key: const Key('animatedPhotoboothPhotoLandscape_large'),
-      aspectRatio: aspectRatio,
-      image: image,
-      isPhotoVisible: isPhotoVisible,
-      containerHeight: 430,
-      containerWidth: 600,
-      sprite: sprite,
-      padding: const EdgeInsets.only(
-        left: 77,
-        right: 68,
-        bottom: 45,
-      ),
-    );
-
-    final xLarge = _AnimatedPhotoboothPhoto(
-      key: const Key('animatedPhotoboothPhotoLandscape_xLarge'),
-      aspectRatio: aspectRatio,
-      image: image,
-      isPhotoVisible: isPhotoVisible,
-      containerHeight: 688,
-      containerWidth: 960,
-      sprite: sprite,
-      padding: const EdgeInsets.only(
-        left: 122.0,
-        right: 105.0,
-        bottom: 82.0,
-      ),
-    );
-
     return ResponsiveLayoutBuilder(
-      small: (context, _) => small,
-      large: (context, _) => large,
-      xLarge: (context, _) => xLarge,
+      small: (context, _) => _AnimatedPhotoboothPhoto(
+        aspectRatio: aspectRatio,
+        image: image,
+        isPhotoVisible: isPhotoVisible,
+        containerHeight: 301,
+        containerWidth: 420,
+        sprite: sprite,
+        padding: const EdgeInsets.only(
+          left: 55,
+          right: 47,
+          bottom: 32,
+        ),
+      ),
+      large: (context, _) => _AnimatedPhotoboothPhoto(
+        aspectRatio: aspectRatio,
+        image: image,
+        isPhotoVisible: isPhotoVisible,
+        containerHeight: 430,
+        containerWidth: 600,
+        sprite: sprite,
+        padding: const EdgeInsets.only(
+          left: 77,
+          right: 68,
+          bottom: 45,
+        ),
+      ),
+      xLarge: (context, _) => _AnimatedPhotoboothPhoto(
+        aspectRatio: aspectRatio,
+        image: image,
+        isPhotoVisible: isPhotoVisible,
+        containerHeight: 688,
+        containerWidth: 960,
+        sprite: sprite,
+        padding: const EdgeInsets.only(
+          left: 122.0,
+          right: 105.0,
+          bottom: 82.0,
+        ),
+      ),
     );
   }
 }
@@ -169,39 +160,33 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
       ),
     );
 
-    final small = _AnimatedPhotoboothPhoto(
-      key: const Key('animatedPhotoboothPhotoPortrait_small'),
-      aspectRatio: aspectRatio,
-      image: image,
-      isPhotoVisible: isPhotoVisible,
-      containerHeight: 330,
-      containerWidth: 250,
-      sprite: sprite,
-      padding: const EdgeInsets.only(
-        left: 43.0,
-        right: 38.0,
-        top: 5,
-      ),
-    );
-
-    final large = _AnimatedPhotoboothPhoto(
-      key: const Key('animatedPhotoboothPhotoPortrait_large'),
-      aspectRatio: aspectRatio,
-      image: image,
-      isPhotoVisible: isPhotoVisible,
-      containerHeight: 660,
-      containerWidth: 500,
-      sprite: sprite,
-      padding: const EdgeInsets.only(
-        left: 85.0,
-        right: 75.0,
-        top: 10.0,
-      ),
-    );
-
     return ResponsiveLayoutBuilder(
-      small: (context, _) => small,
-      large: (context, _) => large,
+      small: (context, _) => _AnimatedPhotoboothPhoto(
+        aspectRatio: aspectRatio,
+        image: image,
+        isPhotoVisible: isPhotoVisible,
+        containerHeight: 330,
+        containerWidth: 250,
+        sprite: sprite,
+        padding: const EdgeInsets.only(
+          left: 43.0,
+          right: 38.0,
+          top: 5,
+        ),
+      ),
+      large: (context, _) => _AnimatedPhotoboothPhoto(
+        aspectRatio: aspectRatio,
+        image: image,
+        isPhotoVisible: isPhotoVisible,
+        containerHeight: 660,
+        containerWidth: 500,
+        sprite: sprite,
+        padding: const EdgeInsets.only(
+          left: 85.0,
+          right: 75.0,
+          top: 10.0,
+        ),
+      ),
     );
   }
 }
