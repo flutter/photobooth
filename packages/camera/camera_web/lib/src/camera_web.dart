@@ -93,8 +93,7 @@ class Camera {
       throw const CameraNotSupportedException();
     }
 
-    videoElement = html.VideoElement()
-      ..style.setProperty('pointer-events', 'none');
+    videoElement = html.VideoElement()..applyDefaultStyles();
     divElement = html.DivElement()
       ..append(videoElement)
       ..style.setProperty('object-fit', 'cover');
@@ -148,7 +147,6 @@ class Camera {
       videoElement.srcObject = stream;
     }
     await videoElement.play();
-    videoElement.mirror();
   }
 
   void stop() {
@@ -186,9 +184,10 @@ class Camera {
 }
 
 extension on html.VideoElement {
-  void mirror() {
+  void applyDefaultStyles() {
     style
       ..removeProperty('transform-origin')
+      ..setProperty('pointer-events', 'none')
       ..setProperty('width', '100%')
       ..setProperty('height', '100%')
       ..setProperty('transform', 'scaleX(-1)')
