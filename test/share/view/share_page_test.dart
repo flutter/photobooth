@@ -185,11 +185,7 @@ void main() async {
         'displays a ShareSuccessHeading '
         'when uploadStatus is success', (tester) async {
       const successState = ShareState(uploadStatus: ShareStatus.success);
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([successState]),
-        initialState: successState,
-      );
+      when(() => shareBloc.state).thenReturn(successState);
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -219,6 +215,7 @@ void main() async {
         'displays a ShareSuccessSubheading '
         'when uploadStatus is success', (tester) async {
       const successState = ShareState(uploadStatus: ShareStatus.success);
+      when(() => shareBloc.state).thenReturn(successState);
       whenListen(
         shareBloc,
         Stream.fromIterable([successState]),
@@ -240,11 +237,7 @@ void main() async {
         'displays a ShareSuccessCaption '
         'when uploadStatus is success', (tester) async {
       const successState = ShareState(uploadStatus: ShareStatus.success);
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([successState]),
-        initialState: successState,
-      );
+      when(() => shareBloc.state).thenReturn(successState);
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
