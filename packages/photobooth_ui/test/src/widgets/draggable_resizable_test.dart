@@ -10,7 +10,7 @@ class MockPlatformHelper extends Mock implements PlatformHelper {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final childKey = UniqueKey();
-  const size = Size(500, 500);
+  const size = Size(300, 300);
   final child = SizedBox(key: childKey, width: 100, height: 100);
   late PlatformHelper platformHelper;
 
@@ -69,7 +69,7 @@ void main() {
         final destination = tester.getCenter(
           find.byKey(Key('draggableResizable_child_draggablePoint')),
         );
-        expect(firstLocation == destination, false);
+        expect(firstLocation == destination, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -117,15 +117,12 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    onUpdate: onUpdateCalls.add,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -146,7 +143,7 @@ void main() {
         );
         await tester.pump(kThemeAnimationDuration);
         final newSize = tester.getSize(childFinder);
-        expect(originalSize == newSize, false);
+        expect(originalSize == newSize, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -157,14 +154,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -183,14 +177,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: false,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: false,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -208,15 +199,12 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    onUpdate: onUpdateCalls.add,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -237,7 +225,7 @@ void main() {
         );
         await tester.pump(kThemeAnimationDuration);
         final newSize = tester.getSize(childFinder);
-        expect(originalSize == newSize, false);
+        expect(originalSize == newSize, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -248,14 +236,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -274,14 +259,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: false,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: false,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -299,15 +281,12 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    onUpdate: onUpdateCalls.add,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -328,7 +307,7 @@ void main() {
         );
         await tester.pump(kThemeAnimationDuration);
         final newSize = tester.getSize(childFinder);
-        expect(originalSize == newSize, false);
+        expect(originalSize == newSize, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -339,14 +318,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -365,14 +341,11 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    canTransform: false,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  canTransform: false,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -390,15 +363,12 @@ void main() {
           MaterialApp(
             home: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: DraggableResizable(
-                    platformHelper: platformHelper,
-                    onUpdate: onUpdateCalls.add,
-                    canTransform: true,
-                    size: size,
-                    child: child,
-                  ),
+                DraggableResizable(
+                  platformHelper: platformHelper,
+                  onUpdate: onUpdateCalls.add,
+                  canTransform: true,
+                  size: size,
+                  child: child,
                 ),
               ],
             ),
@@ -419,7 +389,7 @@ void main() {
         );
         await tester.pump(kThemeAnimationDuration);
         final newSize = tester.getSize(childFinder);
-        expect(originalSize == newSize, false);
+        expect(originalSize == newSize, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -569,7 +539,7 @@ void main() {
         await tester.pumpAndSettle();
 
         final destination = tester.getCenter(childFinder);
-        expect(origin == destination, false);
+        expect(origin == destination, isFalse);
         expect(onUpdateCalls, isNotEmpty);
       });
 
@@ -607,15 +577,6 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        final transformFinder = find.ancestor(
-          of: childFinder,
-          matching: find.byType(Transform),
-        );
-        final transformWidget = tester.widget<Transform>(transformFinder);
-        expect(
-          transformWidget.transform,
-          isNot(equals(Matrix4.diagonal3Values(1, 1, 1))),
-        );
         expect(onUpdateCalls, isNotEmpty);
       });
 

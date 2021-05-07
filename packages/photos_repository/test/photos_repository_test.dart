@@ -182,7 +182,6 @@ void main() {
           assetPath: 'path',
           constraints: Vector2D(1, 2),
           position: Vector2D(3, 4),
-          scale: 4.2,
           size: Vector2D(5, 6),
         ),
       ];

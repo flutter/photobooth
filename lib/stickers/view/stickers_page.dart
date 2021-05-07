@@ -8,13 +8,16 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+const _initialStickerScale = 0.25;
+const _minStickerScale = 0.1;
+
 class StickersPage extends StatelessWidget {
   const StickersPage({
     Key? key,
   }) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute(builder: (_) => const StickersPage());
+    return AppPageRoute(builder: (_) => const StickersPage());
   }
 
   @override
@@ -44,6 +47,9 @@ class StickersView extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
+                  const Positioned.fill(
+                    child: ColoredBox(color: PhotoboothColors.black),
+                  ),
                   if (image != null) PreviewImage(data: image.data),
                   const Align(
                     alignment: Alignment.bottomLeft,
@@ -142,16 +148,37 @@ class _DraggableStickers extends StatelessWidget {
             onDelete: () => context
                 .read<PhotoboothBloc>()
                 .add(const PhotoDeleteSelectedStickerTapped()),
-            size: Size(
-              sticker.asset.image.width.toDouble(),
-              sticker.asset.image.height.toDouble(),
-            ),
-            child: Image.memory(
-              sticker.asset.bytes,
-              gaplessPlayback: true,
+            size: sticker.getImageSize() * _initialStickerScale,
+            constraints: sticker.getImageConstraints(),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.memory(
+                sticker.asset.bytes,
+                fit: BoxFit.fill,
+                gaplessPlayback: true,
+              ),
             ),
           ),
       ],
+    );
+  }
+}
+
+extension on PhotoAsset {
+  Size getImageSize() {
+    return Size(
+      asset.image.width.toDouble(),
+      asset.image.height.toDouble(),
+    );
+  }
+
+  BoxConstraints getImageConstraints() {
+    return BoxConstraints(
+      minWidth: asset.image.width * _minStickerScale,
+      minHeight: asset.image.height * _minStickerScale,
+      maxWidth: double.infinity,
+      maxHeight: double.infinity,
     );
   }
 }

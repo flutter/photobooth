@@ -180,9 +180,10 @@ void main() async {
       expect(find.byKey(key), findsOneWidget);
     });
 
-    testWidgets('renders 4/3 aspect ratio on large', (tester) async {
+    testWidgets('renders landscape camera when orientation is landscape',
+        (tester) async {
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
 
@@ -190,18 +191,8 @@ void main() async {
       expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.landscape));
     });
 
-    testWidgets('renders 3/4 aspect ratio on small', (tester) async {
-      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-      await tester.pumpApp(PhotoboothPage());
-      await tester.pumpAndSettle();
-
-      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
-      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
-    });
-
     testWidgets(
-        'adds PhotoCaptured with mobile aspect ratio '
+        'adds PhotoCaptured with landscape aspect ratio '
         'when photo is snapped', (tester) async {
       const preview = SizedBox();
       final image = CameraImage(
@@ -209,45 +200,7 @@ void main() async {
         width: 1280,
         height: 720,
       );
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 500));
-      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
-      when(
-        () => cameraPlatform.takePicture(cameraId),
-      ).thenAnswer((_) async => image);
-      when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(image: image),
-      );
-
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-
-      final photoboothPreview = tester.widget<PhotoboothPreview>(
-        find.byType(PhotoboothPreview),
-      );
-
-      photoboothPreview.onSnapPressed();
-
-      await tester.pumpAndSettle();
-      verify(
-        () => photoboothBloc.add(
-          PhotoCaptured(
-            aspectRatio: PhotoboothAspectRatio.portrait,
-            image: image,
-          ),
-        ),
-      ).called(1);
-    });
-
-    testWidgets(
-        'adds PhotoCaptured with desktop aspect ratio '
-        'when photo is snapped', (tester) async {
-      const preview = SizedBox();
-      final image = CameraImage(
-        data: 'data:image/png,${base64.encode(transparentImage)}',
-        width: 1280,
-        height: 720,
-      );
-      tester.setDisplaySize(const Size(2500, 2500));
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
       when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
       when(
         () => cameraPlatform.takePicture(cameraId),
@@ -271,6 +224,55 @@ void main() async {
         () => photoboothBloc.add(
           PhotoCaptured(
             aspectRatio: PhotoboothAspectRatio.landscape,
+            image: image,
+          ),
+        ),
+      ).called(1);
+    });
+
+    testWidgets('renders portrait camera when orientation is portrait',
+        (tester) async {
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+      await tester.pumpApp(PhotoboothPage());
+      await tester.pumpAndSettle();
+
+      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
+      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
+    });
+
+    testWidgets(
+        'adds PhotoCaptured with portrait aspect ratio '
+        'when photo is snapped', (tester) async {
+      const preview = SizedBox();
+      final image = CameraImage(
+        data: 'data:image/png,${base64.encode(transparentImage)}',
+        width: 1280,
+        height: 720,
+      );
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+      when(() => cameraPlatform.buildView(cameraId)).thenReturn(preview);
+      when(
+        () => cameraPlatform.takePicture(cameraId),
+      ).thenAnswer((_) async => image);
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(image: image),
+      );
+
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+
+      final photoboothPreview = tester.widget<PhotoboothPreview>(
+        find.byType(PhotoboothPreview),
+      );
+
+      photoboothPreview.onSnapPressed();
+
+      await tester.pumpAndSettle();
+      verify(
+        () => photoboothBloc.add(
+          PhotoCaptured(
+            aspectRatio: PhotoboothAspectRatio.portrait,
             image: image,
           ),
         ),

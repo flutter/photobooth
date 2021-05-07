@@ -7,7 +7,7 @@ class PhotoboothTheme {
   /// Default `ThemeData` for Photobooth UI.
   static ThemeData get themeData {
     return ThemeData(
-      accentColor: PhotoboothColors.blue,
+      colorScheme: ColorScheme.fromSwatch(accentColor: PhotoboothColors.blue),
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,

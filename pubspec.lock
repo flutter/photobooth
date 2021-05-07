@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   audio_session:
     dependency: transitive
     description:
@@ -142,7 +142,7 @@ packages:
     source: hosted
     version: "1.0.2"
   cross_file:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cross_file
       url: "https://pub.dartlang.org"
@@ -183,27 +183,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-  file_selector:
-    dependency: "direct main"
-    description:
-      name: file_selector
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.2"
-  file_selector_platform_interface:
-    dependency: transitive
-    description:
-      name: file_selector_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
-  file_selector_web:
-    dependency: transitive
-    description:
-      name: file_selector_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.1"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -812,4 +791,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=2.0.4"
+  flutter: ">=2.3.0-1.0.pre.227"

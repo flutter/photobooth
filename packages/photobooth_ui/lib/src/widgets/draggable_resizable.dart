@@ -8,15 +8,11 @@ import 'package:platform_helper/platform_helper.dart';
 class DragUpdate {
   /// {@macro drag_update}
   const DragUpdate({
-    required this.scale,
     required this.angle,
     required this.position,
     required this.size,
     required this.constraints,
   });
-
-  /// The scale of the draggable asset.
-  final double scale;
 
   /// The angle of the draggable asset.
   final double angle;
@@ -44,11 +40,13 @@ class DraggableResizable extends StatefulWidget {
     Key? key,
     required this.child,
     required this.size,
+    BoxConstraints? constraints,
     this.onUpdate,
     this.onDelete,
     this.canTransform = false,
     PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
+  })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
+        platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
   /// The child which will be draggable/resizable.
@@ -67,6 +65,10 @@ class DraggableResizable extends StatefulWidget {
   /// The child's original size.
   final Size size;
 
+  /// The child's constraints.
+  /// Defaults to [BoxConstraints.loose(Size.infinite)].
+  final BoxConstraints constraints;
+
   /// Optional [PlatformHelper] instance.
   final PlatformHelper platformHelper;
 
@@ -76,13 +78,10 @@ class DraggableResizable extends StatefulWidget {
 
 class _DraggableResizableState extends State<DraggableResizable> {
   late Size size;
-  late double minHeight;
-  late double maxHeight;
   late BoxConstraints constraints;
   late double angle;
   late double angleDelta;
   late double baseAngle;
-  late double scale;
 
   bool get isTouchInputSupported => widget.platformHelper.isMobile;
 
@@ -92,20 +91,11 @@ class _DraggableResizableState extends State<DraggableResizable> {
   @override
   void initState() {
     super.initState();
-    maxHeight = 1000;
-    minHeight = maxHeight * 0.05;
-    size = widget.size * 0.25;
+    size = widget.size;
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
     baseAngle = 0;
     angleDelta = 0;
-    scale = 1;
-  }
-
-  double clampHeight(double value) {
-    if (value >= maxHeight) return maxHeight;
-    if (value <= minHeight) return minHeight;
-    return value;
   }
 
   @override
@@ -145,7 +135,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
               size: Size(normalizedWidth, normalizedHeight),
               constraints: Size(constraints.maxWidth, constraints.maxHeight),
               angle: angle,
-              scale: scale,
             ),
           );
         }
@@ -154,10 +143,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + details.dy) / 2;
           final newHeight = (size.height - 2 * mid).abs();
           final newWidth = (size.width - 2 * mid).abs();
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx + mid, position.dy + mid);
 
           setState(() {
@@ -172,10 +161,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + (details.dy * -1)) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -190,10 +179,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = ((details.dx * -1) + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -208,10 +197,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -308,7 +297,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
               child: Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
-                  ..scale(scale)
+                  ..scale(1.0)
                   ..rotateZ(angle),
                 child: _DraggablePoint(
                   key: const Key('draggableResizable_child_draggablePoint'),
@@ -323,7 +312,24 @@ class _DraggableResizableState extends State<DraggableResizable> {
                     onUpdate();
                   },
                   onScale: (s) {
-                    setState(() => scale = s);
+                    final updatedSize = Size(
+                      widget.size.width * s,
+                      widget.size.height * s,
+                    );
+
+                    if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+
+                    final midX = position.dx + (size.width / 2);
+                    final midY = position.dy + (size.height / 2);
+                    final updatedPosition = Offset(
+                      midX - (updatedSize.width / 2),
+                      midY - (updatedSize.height / 2),
+                    );
+
+                    setState(() {
+                      size = updatedSize;
+                      position = updatedPosition;
+                    });
                     onUpdate();
                   },
                   onRotate: (a) {

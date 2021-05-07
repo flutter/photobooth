@@ -6,6 +6,9 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
+const _initialCharacterScale = 0.25;
+const _minCharacterScale = 0.1;
+
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
     Key? key,
@@ -91,6 +94,7 @@ class PhotoboothPreview extends StatelessWidget {
                     PhotoCharacterDragged(character: character, update: update),
                   );
             },
+            constraints: _getAnimatedSpriteConstraints(character.asset.name),
             size: _getAnimatedSpriteSize(character.asset.name),
             child: _AnimatedCharacter(name: character.asset.name),
           ),
@@ -113,8 +117,24 @@ class PhotoboothPreview extends StatelessWidget {
   }
 }
 
+BoxConstraints? _getAnimatedSpriteConstraints(String name) {
+  final sprite = _getAnimatedSprite(name);
+
+  if (sprite == null) return null;
+
+  final size = sprite.sprites.size;
+  return BoxConstraints(
+    minWidth: size.width * _minCharacterScale,
+    minHeight: size.height * _minCharacterScale,
+    maxWidth: double.infinity,
+    maxHeight: double.infinity,
+  );
+}
+
 Size _getAnimatedSpriteSize(String name) {
-  return _getAnimatedSprite(name)?.sprites.size ?? Size.zero;
+  final sprite = _getAnimatedSprite(name);
+  if (sprite != null) return sprite.sprites.size * _initialCharacterScale;
+  return Size.zero;
 }
 
 AnimatedSprite? _getAnimatedSprite(String name) {

@@ -5,6 +5,7 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": [
+      ".firebase",
       "firebase.json",
       "functions/node_modules",
       "functions/src",
