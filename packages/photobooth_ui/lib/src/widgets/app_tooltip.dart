@@ -11,6 +11,7 @@ class AppTooltip extends StatelessWidget {
     required this.child,
     this.visible = false,
     this.padding,
+    this.verticalOffset,
   }) : super(key: key);
 
   /// {@macro app_tooltip}
@@ -31,14 +32,16 @@ class AppTooltip extends StatelessWidget {
     Key? key,
     required String message,
     required bool visible,
-    Widget? child,
     EdgeInsets? padding,
+    double? verticalOffset,
+    Widget? child,
   }) : this._(
           key: key,
           message: message,
           visible: visible,
-          child: child,
           padding: padding,
+          verticalOffset: verticalOffset,
+          child: child,
         );
 
   /// The tooltip message.
@@ -47,11 +50,14 @@ class AppTooltip extends StatelessWidget {
   /// Whether or not the tooltip is currently visible.
   final bool visible;
 
-  /// An optional child widget.
-  final Widget? child;
-
   /// An optional padding.
   final EdgeInsets? padding;
+
+  /// An optional vertical offset.
+  final double? verticalOffset;
+
+  /// An optional child widget.
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +85,10 @@ class AppTooltip extends StatelessWidget {
         ],
       );
     }
-    return Tooltip(message: message, child: child);
+    return Tooltip(
+      message: message,
+      verticalOffset: verticalOffset,
+      child: child,
+    );
   }
 }

@@ -226,8 +226,9 @@ class OpenStickersButton extends StatelessWidget {
     return AppTooltipButton(
       onPressed: onPressed,
       message: l10n.openStickersTooltip,
+      verticalOffset: 50,
       mode: TooltipMode.normal,
-      child: Image.asset('assets/icons/stickers_button_icon.png', height: 100),
+      child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
     );
   }
 }
