@@ -12,7 +12,6 @@ const _videoConstraints = VideoConstraints(
     type: CameraType.user,
     constrain: Constrain.ideal,
   ),
-  deviceId: VideoConstraints.defaultDeviceId,
 );
 
 class PhotoboothPage extends StatelessWidget {
