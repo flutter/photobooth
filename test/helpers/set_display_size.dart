@@ -2,6 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+const landscapeDisplaySize = Size(1920, 1080);
+const portraitDisplaySize = Size(1080, 1920);
+
 extension PhotoboothWidgetTester on WidgetTester {
   void setDisplaySize(Size size) {
     binding.window.physicalSizeTestValue = size;
