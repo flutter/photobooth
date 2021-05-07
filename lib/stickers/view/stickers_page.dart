@@ -99,6 +99,10 @@ class StickersView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _StickerReminderText(),
+                  )
                 ],
               ),
             ),
@@ -123,6 +127,28 @@ class StickersView extends StatelessWidget {
             child: const StickersDrawerLayer(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StickerReminderText extends StatelessWidget {
+  const _StickerReminderText({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final shouldDisplayPropsReminder = context.select(
+      (StickersBloc bloc) => bloc.state.shouldDisplayPropsReminder,
+    );
+
+    if (!shouldDisplayPropsReminder) return const SizedBox();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 125),
+      child: AppTooltip.custom(
+        key: const Key('stickersPage_propsReminder_appTooltip'),
+        visible: true,
+        message: context.l10n.propsReminderText,
+        padding: const EdgeInsets.all(24),
       ),
     );
   }
@@ -203,8 +229,9 @@ class OpenStickersButton extends StatelessWidget {
     return AppTooltipButton(
       onPressed: onPressed,
       message: l10n.openStickersTooltip,
-      mode: TooltipMode.visibleUntilInteraction,
-      child: Image.asset('assets/icons/stickers_button_icon.png', height: 50),
+      verticalOffset: 50,
+      mode: TooltipMode.normal,
+      child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
     );
   }
 }
