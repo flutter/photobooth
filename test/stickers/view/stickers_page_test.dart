@@ -548,5 +548,41 @@ void main() async {
         ),
       ).called(1);
     });
+
+    testWidgets(
+        'renders StickersCaption when shouldDisplayPropsReminder is true',
+        (tester) async {
+      when(() => stickersBloc.state).thenReturn(
+        StickersState(shouldDisplayPropsReminder: true),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(StickersCaption), findsOneWidget);
+    });
+
+    testWidgets(
+        'does not render StickersCaption when '
+        'shouldDisplayPropsReminder is false', (tester) async {
+      when(() => stickersBloc.state).thenReturn(
+        StickersState(shouldDisplayPropsReminder: false),
+      );
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(StickersCaption), findsNothing);
+    });
   });
 }
