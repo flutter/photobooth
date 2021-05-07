@@ -168,7 +168,7 @@ void main() async {
       expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
     });
 
-    testWidgets('displays a Heading', (tester) async {
+    testWidgets('displays a ShareHeading', (tester) async {
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -176,12 +176,20 @@ void main() async {
       );
 
       expect(
-        find.byType(Heading),
+        find.byType(ShareHeading),
         findsOneWidget,
       );
     });
 
-    testWidgets('displays a LearnMoreAboutText', (tester) async {
+    testWidgets(
+        'displays a ShareSuccessHeading '
+        'when uploadStatus is success', (tester) async {
+      const successState = ShareState(uploadStatus: ShareStatus.success);
+      whenListen(
+        shareBloc,
+        Stream.fromIterable([successState]),
+        initialState: successState,
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -189,7 +197,62 @@ void main() async {
       );
 
       expect(
-        find.byType(LearnMoreAboutText),
+        find.byType(ShareSuccessHeading),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('displays a ShareSubheading', (tester) async {
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(ShareSubheading),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'displays a ShareSuccessSubheading '
+        'when uploadStatus is success', (tester) async {
+      const successState = ShareState(uploadStatus: ShareStatus.success);
+      whenListen(
+        shareBloc,
+        Stream.fromIterable([successState]),
+        initialState: successState,
+      );
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(ShareSuccessSubheading),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'displays a ShareSuccessCaption '
+        'when uploadStatus is success', (tester) async {
+      const successState = ShareState(uploadStatus: ShareStatus.success);
+      whenListen(
+        shareBloc,
+        Stream.fromIterable([successState]),
+        initialState: successState,
+      );
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(ShareSuccessCaption),
         findsOneWidget,
       );
     });
