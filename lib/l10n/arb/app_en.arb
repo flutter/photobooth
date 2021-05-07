@@ -68,9 +68,17 @@
     "@previewPageCameraNotAllowedText": {
         "description": "Text shown when user denies camera permission"
     },
-    "sharePageSocialMediaShareClarification": "If you choose to share on social media, your photo will be available for 30 days, then it will be deleted from Firebase. Photos that are not shared will not be stored. If you would like your photo deleted prior, please contact flutter-photo-booth@google.com.",
-    "@sharePageSocialMediaShareClarification": {
-        "description": "Text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    "sharePageSocialMediaShareClarification1": "If you choose to share your photo on social media, it will be available at a unique URL for 30 days and then automatically deleted. Photos that are not shared, are not stored. To request early deletion of your photo, please contact ",
+    "@sharePageSocialMediaShareClarification1": {
+        "description": "First part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    },
+    "sharePageSocialMediaShareClarification2": "flutter-photo-booth@google.com",
+    "@sharePageSocialMediaShareClarification2": {
+        "description": "Second part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    },
+    "sharePageSocialMediaShareClarification3": " and be sure to include your unique URL in your request.",
+    "@sharePageSocialMediaShareClarification3": {
+        "description": "Third part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
     },
     "shareDialogHeading": "Share your photo!",
     "@shareDialogHeading": {
