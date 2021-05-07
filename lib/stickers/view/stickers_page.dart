@@ -91,9 +91,12 @@ class StickersView extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: NextButton(
-                      onPressed: () =>
-                          Navigator.of(context).push(SharePage.route()),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: NextButton(
+                        onPressed: () =>
+                            Navigator.of(context).push(SharePage.route()),
+                      ),
                     ),
                   ),
                 ],
