@@ -48,6 +48,30 @@
     "@sharePageHeading": {
         "description": "Heading shown on the share page."
     },
+    "sharePageSubheading": "Share your photo with the community!",
+    "@sharePageHeading": {
+        "description": "Heading shown on the share page."
+    },
+    "sharePageSuccessHeading": "Photo Shared!",
+    "@sharePageSuccessHeading": {
+        "description": "Heading shown on the share page after successful share."
+    },
+    "sharePageSuccessSubheading": "Thanks for using our Flutter web app! Your photo has been published at this unique URL",
+    "@sharePageSuccessHeading": {
+        "description": "Subheading shown on the share page after successful share."
+    },
+    "sharePageSuccessCaption1": "Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact ",
+    "@sharePageSuccessCaption1": {
+        "description": "First part of the caption shown at the bottom of the share page after successful share."
+    },
+    "sharePageSuccessCaption2": "flutter-photo-booth@google.com",
+    "@sharePageSuccessCaption2": {
+        "description": "Second part of the caption shown at the bottom of the share page after successful share."
+    },
+    "sharePageSuccessCaption3": " and be sure to include your unique URL in your request.",
+    "@sharePageSuccessCaption3": {
+        "description": "Third part of the caption shown at the bottom of the share page after successful share."
+    },
     "sharePageRetakeButtonText": "Take new photo",
     "@sharePageRetakeButtonText": {
         "description": "Button text shown on the share page which navigates back to the photo booth."
