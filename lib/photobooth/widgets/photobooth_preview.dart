@@ -159,9 +159,7 @@ class _AnimatedCharacter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sprite = _getAnimatedSprite(name);
-    if (sprite == null) return const SizedBox();
-    return sprite;
+    return _getAnimatedSprite(name) ?? const SizedBox();
   }
 }
 
