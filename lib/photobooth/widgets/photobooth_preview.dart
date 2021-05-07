@@ -97,10 +97,7 @@ class PhotoboothPreview extends StatelessWidget {
             size: _getAnimatedSpriteSize(character.asset.name),
             child: _AnimatedCharacter(name: character.asset.name),
           ),
-        ResponsiveLayoutBuilder(
-          small: (_, __) => MobileCharactersIconLayout(children: children),
-          large: (_, __) => DesktopCharactersIconLayout(children: children),
-        ),
+        CharactersIconLayout(children: children),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -162,8 +159,26 @@ class _AnimatedCharacter extends StatelessWidget {
   }
 }
 
-class DesktopCharactersIconLayout extends StatelessWidget {
-  const DesktopCharactersIconLayout({
+class CharactersIconLayout extends StatelessWidget {
+  const CharactersIconLayout({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    return orientation == Orientation.landscape
+        ? LandscapeCharactersIconLayout(children: children)
+        : PortraitCharactersIconLayout(children: children);
+  }
+}
+
+@visibleForTesting
+class LandscapeCharactersIconLayout extends StatelessWidget {
+  const LandscapeCharactersIconLayout({
     Key? key,
     required this.children,
   }) : super(key: key);
@@ -195,8 +210,9 @@ class DesktopCharactersIconLayout extends StatelessWidget {
   }
 }
 
-class MobileCharactersIconLayout extends StatelessWidget {
-  const MobileCharactersIconLayout({
+@visibleForTesting
+class PortraitCharactersIconLayout extends StatelessWidget {
+  const PortraitCharactersIconLayout({
     Key? key,
     required this.children,
   }) : super(key: key);
@@ -227,41 +243,6 @@ class MobileCharactersIconLayout extends StatelessWidget {
             },
           )
         ],
-      ),
-    );
-  }
-}
-
-class CharacterIconButton extends StatelessWidget {
-  const CharacterIconButton({
-    Key? key,
-    required this.icon,
-    required this.isSelected,
-    this.onPressed,
-  }) : super(key: key);
-
-  final AssetImage icon;
-  final VoidCallback? onPressed;
-  final bool isSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: isSelected ? 0.6 : 1,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Material(
-          color: PhotoboothColors.transparent,
-          shape: const CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          child: Ink.image(
-            fit: BoxFit.cover,
-            image: icon,
-            width: 90,
-            height: 90,
-            child: InkWell(onTap: onPressed),
-          ),
-        ),
       ),
     );
   }
