@@ -4,8 +4,8 @@ import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class LearnMoreAboutText extends StatelessWidget {
-  const LearnMoreAboutText({Key? key}) : super(key: key);
+class ShareSubheading extends StatelessWidget {
+  const ShareSubheading({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class LearnMoreAboutText extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
-        style: theme.textTheme.bodyText1?.copyWith(
+        style: theme.textTheme.headline2?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
           color: PhotoboothColors.white,
         ),
@@ -48,6 +48,24 @@ class LearnMoreAboutText extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class ShareSuccessSubheading extends StatelessWidget {
+  const ShareSuccessSubheading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
+    return SelectableText(
+      l10n.sharePageSuccessSubheading,
+      style: theme.textTheme.headline2?.copyWith(
+        color: PhotoboothColors.white,
       ),
       textAlign: TextAlign.center,
     );
