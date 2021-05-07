@@ -216,11 +216,6 @@ void main() async {
         'when uploadStatus is success', (tester) async {
       const successState = ShareState(uploadStatus: ShareStatus.success);
       when(() => shareBloc.state).thenReturn(successState);
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([successState]),
-        initialState: successState,
-      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
