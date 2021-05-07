@@ -5,6 +5,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:provider/provider.dart';
 
 class ShareButton extends StatelessWidget {
@@ -12,12 +13,17 @@ class ShareButton extends StatelessWidget {
     Key? key,
     required this.image,
     required this.aspectRatio,
-  }) : super(key: key);
-
-  final double aspectRatio;
+    PlatformHelper? platformHelper,
+  })  : platformHelper = platformHelper ?? PlatformHelper(),
+        super(key: key);
 
   /// Raw image from camera
   final CameraImage image;
+
+  final double aspectRatio;
+
+  /// Optional [PlatformHelper] instance.
+  final PlatformHelper platformHelper;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,8 @@ class ShareButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
-        if (aspectRatio < 1) {
+        if (platformHelper.isMobile ||
+            aspectRatio == PhotoboothAspectRatio.portrait) {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,

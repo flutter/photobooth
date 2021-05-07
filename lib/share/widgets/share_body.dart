@@ -28,9 +28,7 @@ class ShareBody extends StatelessWidget {
         if (image != null)
           ResponsiveLayoutBuilder(
             small: (_, __) => MobileButtonsLayout(image: image),
-            large: (_, __) => DesktopButtonsLayout(
-              image: image,
-            ),
+            large: (_, __) => DesktopButtonsLayout(image: image),
           ),
       ],
     );
