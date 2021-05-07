@@ -41,9 +41,13 @@ class CompositePhotoException implements Exception {
 class ShareUrls {
   /// {@macro share_urls}
   const ShareUrls({
+    required this.explicitShareUrl,
     required this.facebookShareUrl,
     required this.twitterShareUrl,
   });
+
+  /// The share url for explicit sharing.
+  final String explicitShareUrl;
 
   /// The share url for sharing on Facebook.
   final String facebookShareUrl;
@@ -88,6 +92,7 @@ class PhotosRepository {
 
     if (await _photoExists(reference)) {
       return ShareUrls(
+        explicitShareUrl: _getSharePhotoUrl(fileName),
         facebookShareUrl: _facebookShareUrl(fileName, shareText),
         twitterShareUrl: _twitterShareUrl(fileName, shareText),
       );
@@ -104,6 +109,7 @@ class PhotosRepository {
     }
 
     return ShareUrls(
+      explicitShareUrl: _getSharePhotoUrl(fileName),
       facebookShareUrl: _facebookShareUrl(fileName, shareText),
       twitterShareUrl: _twitterShareUrl(fileName, shareText),
     );

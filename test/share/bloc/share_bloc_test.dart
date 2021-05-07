@@ -26,6 +26,7 @@ void main() {
   final imageId = 'image-name';
   final shareText = 'share-text';
   final imageData = Uint8List.fromList(transparentImage);
+  final explicitShareUrl = 'explicit-share-url';
   final twitterShareUrl = 'twitter-share-url';
   final facebookShareUrl = 'facebook-share-url';
 
@@ -269,6 +270,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => ShareUrls(
+              explicitShareUrl: explicitShareUrl,
               facebookShareUrl: facebookShareUrl,
               twitterShareUrl: twitterShareUrl,
             ),
@@ -415,6 +417,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => ShareUrls(
+              explicitShareUrl: explicitShareUrl,
               facebookShareUrl: facebookShareUrl,
               twitterShareUrl: twitterShareUrl,
             ),
@@ -530,6 +533,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => ShareUrls(
+              explicitShareUrl: explicitShareUrl,
               facebookShareUrl: facebookShareUrl,
               twitterShareUrl: twitterShareUrl,
             ),
@@ -676,6 +680,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => ShareUrls(
+              explicitShareUrl: explicitShareUrl,
               facebookShareUrl: facebookShareUrl,
               twitterShareUrl: twitterShareUrl,
             ),
