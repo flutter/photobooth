@@ -90,7 +90,9 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
   }
 
   void _resetCopied() {
-    setState(() => copied = false);
+    if (mounted) {
+      setState(() => copied = false);
+    }
   }
 
   @override
