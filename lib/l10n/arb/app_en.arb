@@ -235,5 +235,9 @@
     "clearStickersDialogConfirmButtonText": "Yes, clear all props",
     "@clearStickersDialogConfirmButtonText": {
         "description": "Confirm button text displayed on the clear stickers dialog"
+    },
+    "propsReminderText": "Don't forget to add your props",
+    "@propsReminderText": {
+        "description": "Helper text to add props"
     }
 }

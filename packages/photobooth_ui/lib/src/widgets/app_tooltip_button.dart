@@ -23,6 +23,7 @@ class AppTooltipButton extends StatefulWidget {
     required this.onPressed,
     required this.message,
     this.mode = TooltipMode.normal,
+    this.verticalOffset,
     required this.child,
   }) : super(key: key);
 
@@ -34,6 +35,9 @@ class AppTooltipButton extends StatefulWidget {
 
   /// {@macro tooltip_mode}
   final TooltipMode mode;
+
+  /// The tooltip's vertical offset.
+  final double? verticalOffset;
 
   /// The widget which will be rendered.
   final Widget child;
@@ -62,6 +66,7 @@ class _AppTooltipButtonState extends State<AppTooltipButton> {
       child: AppTooltip.custom(
         visible: _isTooltipVisible,
         message: widget.message,
+        verticalOffset: widget.verticalOffset,
         child: child,
       ),
     );
