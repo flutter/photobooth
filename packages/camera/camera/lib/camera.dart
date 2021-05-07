@@ -1,5 +1,6 @@
 library camera;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 

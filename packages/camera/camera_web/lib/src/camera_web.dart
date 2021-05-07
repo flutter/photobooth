@@ -114,7 +114,7 @@ class Camera {
 
   Future<html.MediaStream> _getMediaStream() async {
     try {
-      final constraints = options.toJson();
+      final constraints = await (options.toJson());
       return await window.navigator.mediaDevices!.getUserMedia(
         constraints,
       );

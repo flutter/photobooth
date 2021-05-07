@@ -22,8 +22,8 @@ class CameraController extends ValueNotifier<CameraState> {
       : _cameraPlatform = CameraPlatform.instance,
         super(const CameraState.uninitialized());
 
-  final CameraOptions options;
   final CameraPlatform _cameraPlatform;
+  final CameraOptions options;
 
   // The id of a texture that hasn't been initialized.
   @visibleForTesting
