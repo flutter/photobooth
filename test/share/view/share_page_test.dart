@@ -245,6 +245,23 @@ void main() async {
       );
     });
 
+    testWidgets(
+        'displays a ShareCopyableLink '
+        'when uploadStatus is success', (tester) async {
+      const successState = ShareState(uploadStatus: ShareStatus.success);
+      when(() => shareBloc.state).thenReturn(successState);
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(ShareCopyableLink),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('displays a RetakeButton', (tester) async {
       await tester.pumpApp(
         ShareView(),
