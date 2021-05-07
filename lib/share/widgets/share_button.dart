@@ -12,15 +12,12 @@ class ShareButton extends StatelessWidget {
   ShareButton({
     Key? key,
     required this.image,
-    required this.aspectRatio,
     PlatformHelper? platformHelper,
   })  : platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
   /// Raw image from camera
   final CameraImage image;
-
-  final double aspectRatio;
 
   /// Optional [PlatformHelper] instance.
   final PlatformHelper platformHelper;
@@ -31,35 +28,27 @@ class ShareButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('sharePage_share_elevatedButton'),
       onPressed: () {
-        if (platformHelper.isMobile ||
-            aspectRatio == PhotoboothAspectRatio.portrait) {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: PhotoboothColors.transparent,
-            builder: (_) => MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<PhotoboothBloc>()),
-                BlocProvider.value(value: context.read<ShareBloc>()),
-              ],
-              child: ShareBottomSheet(image: image),
+        showAppModal(
+          context: context,
+          platformHelper: platformHelper,
+          landscapeChild: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<PhotoboothBloc>()),
+              BlocProvider.value(value: context.read<ShareBloc>()),
+            ],
+            child: ShareDialog(
+              aspectRatio: PhotoboothAspectRatio.landscape,
+              image: image,
             ),
-          );
-        } else {
-          showAppDialog(
-            context: context,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<PhotoboothBloc>()),
-                BlocProvider.value(value: context.read<ShareBloc>()),
-              ],
-              child: ShareDialog(
-                aspectRatio: PhotoboothAspectRatio.landscape,
-                image: image,
-              ),
-            ),
-          );
-        }
+          ),
+          portraitChild: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<PhotoboothBloc>()),
+              BlocProvider.value(value: context.read<ShareBloc>()),
+            ],
+            child: ShareBottomSheet(image: image),
+          ),
+        );
       },
       child: Text(l10n.sharePageShareButtonText),
     );

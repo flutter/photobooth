@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -48,7 +49,25 @@ void main() {
       await tester.pumpApp(
         ShareButton(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.portrait,
+          platformHelper: platformHelper,
+        ),
+        photoboothBloc: photoboothBloc,
+      );
+
+      await tester.tap(find.byType(ShareButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ShareBottomSheet), findsOneWidget);
+    });
+
+    testWidgets(
+        'tapping on share photo button opens ShareBottomSheet '
+        'when platform is not mobile and it is portrait', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(false);
+
+      await tester.pumpApp(
+        ShareButton(
+          image: image,
           platformHelper: platformHelper,
         ),
         photoboothBloc: photoboothBloc,
@@ -64,11 +83,10 @@ void main() {
         'tapping on share photo button opens ShareDialog '
         'when platform is not mobile and it is landscape', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
-
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
       await tester.pumpApp(
         ShareButton(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
           platformHelper: platformHelper,
         ),
         photoboothBloc: photoboothBloc,
@@ -78,26 +96,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(ShareDialog), findsOneWidget);
-    });
-
-    testWidgets(
-        'tapping on share photo button opens ShareBottomSheet '
-        'when platform is not mobile and it is portrait', (tester) async {
-      when(() => platformHelper.isMobile).thenReturn(false);
-
-      await tester.pumpApp(
-        ShareButton(
-          image: image,
-          aspectRatio: PhotoboothAspectRatio.portrait,
-          platformHelper: platformHelper,
-        ),
-        photoboothBloc: photoboothBloc,
-      );
-
-      await tester.tap(find.byType(ShareButton));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ShareBottomSheet), findsOneWidget);
     });
   });
 }

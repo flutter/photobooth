@@ -72,7 +72,6 @@ class DesktopButtonsLayout extends StatelessWidget {
         const SizedBox(width: 36),
         Flexible(
           child: ShareButton(
-            aspectRatio: PhotoboothAspectRatio.landscape,
             image: image,
           ),
         ),
@@ -97,7 +96,7 @@ class MobileButtonsLayout extends StatelessWidget {
       children: [
         const DownloadButton(),
         gap,
-        ShareButton(aspectRatio: PhotoboothAspectRatio.portrait, image: image),
+        ShareButton(image: image),
         gap,
         const GoToGoogleIOButton(),
       ],
