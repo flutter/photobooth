@@ -65,10 +65,12 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
             child: copied
                 ? _CopiedButton(
                     key: const Key('shareCopyableLink_copiedButton'),
-                    onPressed: _resetCopied)
+                    onPressed: _resetCopied,
+                  )
                 : _CopyButton(
                     key: const Key('shareCopyableLink_copyButton'),
-                    onPressed: _copy),
+                    onPressed: _copy,
+                  ),
           ),
         ],
       ),
