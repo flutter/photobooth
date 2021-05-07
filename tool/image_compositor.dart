@@ -2,7 +2,7 @@
 /// To compile to js use `dart2js` by running the following command
 /// from within the `tool` directory
 ///
-/// `dart2js -m -o ../web/image_compositor.js image_compositor.dart`
+/// `dart2js -m -O4 -o ../web/image_compositor.js image_compositor.dart`
 ///
 @JS()
 library image_compositor;
@@ -110,6 +110,8 @@ Future<List<int>> _composite({
       asset,
       dstX: (assetDx - rotationOffset.x).round(),
       dstY: (assetDy - rotationOffset.y).round(),
+      dstW: asset.width,
+      dstH: asset.height,
     );
   }
 
