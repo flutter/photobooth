@@ -35,10 +35,11 @@ class ShareStateListener extends StatelessWidget {
 
   void _onShareError(BuildContext context, ShareState state) {
     showAppModal(
-        platformHelper: platformHelper,
-        context: context,
-        portraitChild: const ShareErrorBottomSheet(),
-        landscapeChild: const ShareErrorDialog());
+      platformHelper: platformHelper,
+      context: context,
+      portraitChild: const ShareErrorBottomSheet(),
+      landscapeChild: const ShareErrorDialog(),
+    );
   }
 
   void _onShareSuccess(BuildContext context, ShareState state) {
