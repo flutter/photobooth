@@ -12,11 +12,11 @@ extension PhotoboothWidgetTester on WidgetTester {
     });
   }
 
-  void setLandscape() {
+  void setLandscapeDisplaySize() {
     setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
   }
 
-  void setPortrait() {
+  void setPortraitDisplaySize() {
     setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
   }
 }
