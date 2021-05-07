@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -33,74 +34,203 @@ void main() {
   });
 
   group('AnimatedPhotoboothPhoto', () {
-    group('small', () {
-      testWidgets('displays AnimatedPhotoboothPhotoSmall', (tester) async {
-        tester.setDisplaySize(const Size(320, 800));
+    group('portrait', () {
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoPortrait'
+          'when aspect ratio is portrait '
+          'and screen size is small', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.portrait,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoSmall), findsOneWidget);
+        expect(
+          find.byType(AnimatedPhotoboothPhotoPortrait),
+          findsOneWidget,
+        );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoSmall '
-          'with isPhotoVisible false', (tester) async {
-        tester.setDisplaySize(const Size(320, 800));
+          'displays AnimatedPhotoboothPhotoPortrait'
+          'when aspect ratio is portrait '
+          'and screen size is large', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.portrait,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
-            find.byType(AnimatedPhotoboothPhotoSmall));
+        expect(
+          find.byType(AnimatedPhotoboothPhotoPortrait),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoPortrait'
+          'when aspect ratio is portrait '
+          'and screen size is xLarge', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.portrait,
+        ));
+        tester.setDisplaySize(const Size(
+          PhotoboothBreakpoints.large + 100,
+          800,
+        ));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(
+          find.byType(AnimatedPhotoboothPhotoPortrait),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoPortrait '
+          'when aspect ratio is portrait '
+          'with isPhotoVisible false', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.portrait,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        final widget = tester.widget<AnimatedPhotoboothPhotoPortrait>(
+            find.byType(AnimatedPhotoboothPhotoPortrait));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoSmall '
-          'with isPhotoVisible false '
+          'displays AnimatedPhotoboothPhotoPortrait '
+          'when aspect ratio is portrait '
+          'with isPhotoVisible true '
           'after 2 seconds', (tester) async {
-        tester.setDisplaySize(const Size(320, 800));
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.portrait,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoSmall>(
-            find.byType(AnimatedPhotoboothPhotoSmall));
+        final widget = tester.widget<AnimatedPhotoboothPhotoPortrait>(
+            find.byType(AnimatedPhotoboothPhotoPortrait));
         expect(widget.isPhotoVisible, true);
       });
     });
 
-    group('large', () {
-      testWidgets('displays AnimatedPhotoboothPhotoLarge', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+    group('landscape', () {
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoLandscape'
+          'when aspect ratio is landscape '
+          'and screen size is small', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        expect(find.byType(AnimatedPhotoboothPhotoLarge), findsOneWidget);
+        expect(
+          find.byType(AnimatedPhotoboothPhotoLandscape),
+          findsOneWidget,
+        );
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLarge '
-          'with isPhotoVisible false', (tester) async {
+          'displays AnimatedPhotoboothPhotoLandscape'
+          'when aspect ratio is landscape '
+          'and screen size is large', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
         await tester.pumpApp(
           AnimatedPhotoboothPhoto(image: image),
           photoboothBloc: photoboothBloc,
         );
-        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
-            find.byType(AnimatedPhotoboothPhotoLarge));
+        expect(
+          find.byType(AnimatedPhotoboothPhotoLandscape),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoLandscape'
+          'when aspect ratio is landscape '
+          'and screen size is xLarge', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
+        tester.setDisplaySize(const Size(
+          PhotoboothBreakpoints.large + 100,
+          800,
+        ));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(
+          find.byType(AnimatedPhotoboothPhotoLandscape),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoLandscape '
+          'when aspect ratio is landscape '
+          'with isPhotoVisible false', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        final widget = tester.widget<AnimatedPhotoboothPhotoLandscape>(
+            find.byType(AnimatedPhotoboothPhotoLandscape));
         expect(widget.isPhotoVisible, false);
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLarge '
-          'with isPhotoVisible false '
+          'displays AnimatedPhotoboothPhotoLandscape '
+          'when aspect ratio is landscape '
+          'with isPhotoVisible true '
           'after 2 seconds', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
         await tester.pumpApp(
@@ -108,50 +238,8 @@ void main() {
           photoboothBloc: photoboothBloc,
         );
         await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoLarge>(
-            find.byType(AnimatedPhotoboothPhotoLarge));
-        expect(widget.isPhotoVisible, true);
-      });
-    });
-
-    group('xLarge', () {
-      testWidgets('displays AnimatedPhotoboothPhotoXLarge', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
-
-        await tester.pumpApp(
-          AnimatedPhotoboothPhoto(image: image),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(AnimatedPhotoboothPhotoXLarge), findsOneWidget);
-      });
-
-      testWidgets(
-          'displays AnimatedPhotoboothPhotoXLarge '
-          'with isPhotoVisible false', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
-
-        await tester.pumpApp(
-          AnimatedPhotoboothPhoto(image: image),
-          photoboothBloc: photoboothBloc,
-        );
-        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
-            find.byType(AnimatedPhotoboothPhotoXLarge));
-        expect(widget.isPhotoVisible, false);
-      });
-
-      testWidgets(
-          'displays AnimatedPhotoboothPhotoXLarge '
-          'with isPhotoVisible false '
-          'after 2 seconds', (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
-
-        await tester.pumpApp(
-          AnimatedPhotoboothPhoto(image: image),
-          photoboothBloc: photoboothBloc,
-        );
-        await tester.pump(Duration(seconds: 2));
-        final widget = tester.widget<AnimatedPhotoboothPhotoXLarge>(
-            find.byType(AnimatedPhotoboothPhotoXLarge));
+        final widget = tester.widget<AnimatedPhotoboothPhotoLandscape>(
+            find.byType(AnimatedPhotoboothPhotoLandscape));
         expect(widget.isPhotoVisible, true);
       });
     });

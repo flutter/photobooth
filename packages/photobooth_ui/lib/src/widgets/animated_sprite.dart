@@ -36,9 +36,6 @@ class Sprites {
 
 /// The animation mode which determines when the animation plays.
 enum AnimationMode {
-  /// Animation plays on interactions
-  trigger,
-
   /// Animations plays on a loop
   loop,
 
@@ -119,91 +116,18 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
     }
   }
 
-  void _onPressed() {
-    if (_isPlaying) return;
-    setState(() => _isPlaying = true);
-    _timer?.cancel();
-    _timer = Timer(
-      Duration(seconds: _animation.totalDuration().ceil()),
-      () => setState(() => _isPlaying = false),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return _ConditionalIgnorePointer(
-      condition: widget.mode == AnimationMode.loop,
-      child: _ConditionalClickable(
-        condition: widget.mode == AnimationMode.trigger,
-        onPressed: _onPressed,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: widget.sprites.size.height,
-            maxWidth: widget.sprites.size.width,
-          ),
-          child: AspectRatio(
-            aspectRatio: widget.sprites.size.width / widget.sprites.size.height,
-            child: AnimatedOpacity(
-              opacity: _status.isLoaded ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: _status.isLoaded
-                  ? SpriteAnimationWidget(
-                      animation: _animation,
-                      playing: _isPlaying,
-                    )
-                  : const SizedBox(),
-            ),
-          ),
-        ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: AnimatedOpacity(
+        opacity: _status.isLoaded ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 300),
+        child: _status.isLoaded
+            ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
+            : const SizedBox(),
       ),
     );
-  }
-}
-
-class _ConditionalIgnorePointer extends StatelessWidget {
-  const _ConditionalIgnorePointer({
-    Key? key,
-    required this.condition,
-    required this.child,
-  }) : super(key: key);
-  final bool condition;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return condition ? IgnorePointer(child: child) : child;
-  }
-}
-
-class _ConditionalClickable extends StatelessWidget {
-  const _ConditionalClickable({
-    Key? key,
-    required this.onPressed,
-    required this.condition,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-  final VoidCallback onPressed;
-  final bool condition;
-
-  @override
-  Widget build(BuildContext context) {
-    return condition
-        ? Material(
-            clipBehavior: Clip.hardEdge,
-            shape: const StadiumBorder(),
-            color: Colors.transparent,
-            child: Ink(
-              color: Colors.transparent,
-              child: InkWell(
-                mouseCursor: SystemMouseCursors.click,
-                hoverColor: Colors.transparent,
-                onTap: onPressed,
-                child: child,
-              ),
-            ),
-          )
-        : child;
   }
 }

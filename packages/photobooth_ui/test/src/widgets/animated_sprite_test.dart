@@ -80,55 +80,5 @@ void main() async {
         expect(widget.playing, isTrue);
       });
     });
-
-    testWidgets('renders SpriteAnimationWidget when asset is loaded (trigger)',
-        (tester) async {
-      await tester.runAsync(() async {
-        when(() => images.load(any())).thenAnswer((_) async => image);
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.trigger,
-            ),
-          ),
-        ));
-        await tester.pump();
-        final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
-        final widget = tester.widget<SpriteAnimationWidget>(
-          spriteAnimationFinder,
-        );
-        expect(widget.playing, isFalse);
-      });
-    });
-
-    testWidgets('tapping on trigger SpriteAnimationWidget starts playing',
-        (tester) async {
-      await tester.runAsync(() async {
-        when(() => images.load(any())).thenAnswer((_) async => image);
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.trigger,
-            ),
-          ),
-        ));
-        await tester.pump();
-        final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
-        await tester.tap(spriteAnimationFinder);
-        await tester.pump();
-        var widget = tester.widget<SpriteAnimationWidget>(
-          spriteAnimationFinder,
-        );
-        expect(widget.playing, isTrue);
-        await Future.delayed(Duration(seconds: 1));
-        await tester.pumpAndSettle();
-        widget = tester.widget<SpriteAnimationWidget>(
-          spriteAnimationFinder,
-        );
-        expect(widget.playing, isFalse);
-      });
-    });
   });
 }

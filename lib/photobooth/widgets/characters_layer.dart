@@ -30,6 +30,7 @@ class CharactersLayer extends StatelessWidget {
                       angle: character.angle,
                       child: Image.memory(
                         character.asset.bytes,
+                        fit: BoxFit.fill,
                         height: character.size.height * heightFactor,
                         width: character.size.width * widthFactor,
                       ),

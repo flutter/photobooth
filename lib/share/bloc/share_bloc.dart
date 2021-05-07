@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:file_selector/file_selector.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:image_compositor/image_compositor.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photos_repository/photos_repository.dart';
@@ -21,7 +21,10 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     required this.assets,
     required this.aspectRatio,
     required this.shareText,
-    bool isSharingEnabled = false,
+    bool isSharingEnabled = const bool.fromEnvironment(
+      'SHARING_ENABLED',
+      defaultValue: false,
+    ),
   })  : _photosRepository = photosRepository,
         _isSharingEnabled = isSharingEnabled,
         super(const ShareState());

@@ -30,6 +30,7 @@ class StickersLayer extends StatelessWidget {
                       angle: sticker.angle,
                       child: Image.memory(
                         sticker.asset.bytes,
+                        fit: BoxFit.fill,
                         height: sticker.size.height * heightFactor,
                         width: sticker.size.width * widthFactor,
                       ),
