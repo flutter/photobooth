@@ -104,6 +104,14 @@
     "@sharePageSocialMediaShareClarification3": {
         "description": "Third part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
     },
+    "sharePageCopyLinkButton": "Copy",
+    "@sharePageCopyLinkButton": {
+        "description": "Title of the button used to copy the share link."
+    },
+    "sharePageLinkedCopiedButton": "Copied",
+    "@sharePageLinkedCopiedButton": {
+        "description": "Title of the button used to indicate that the link has been copied."
+    },
     "shareDialogHeading": "Share your photo!",
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
