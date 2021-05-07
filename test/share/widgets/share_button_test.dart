@@ -64,6 +64,7 @@ void main() {
         'tapping on share photo button opens ShareBottomSheet '
         'when platform is not mobile and it is portrait', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
 
       await tester.pumpApp(
         ShareButton(
