@@ -39,14 +39,6 @@ void main() {
           .setMockMethodCallHandler(clipboard?.handleMethodCall);
     });
 
-    testWidgets('renders', (tester) async {
-      await tester.pumpApp(ShareCopyableLink(
-        link: link,
-        suspendDuration: suspendDuration,
-      ));
-      expect(find.byType(ShareCopyableLink), findsOneWidget);
-    });
-
     testWidgets(
         'tapping on copy button '
         'sets link in the clipboard', (tester) async {
