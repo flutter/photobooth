@@ -102,10 +102,7 @@ class StickersView extends StatelessWidget {
                         current.shouldDisplayPropsReminder,
                     builder: (context, state) {
                       if (state.shouldDisplayPropsReminder) {
-                        return const Align(
-                          alignment: Alignment.center,
-                          child: StickersCaption(),
-                        );
+                        return const StickersCaption();
                       }
                       return const SizedBox();
                     },
