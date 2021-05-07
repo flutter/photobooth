@@ -10,14 +10,8 @@ class AppTooltip extends StatelessWidget {
     required this.message,
     required this.child,
     this.visible = false,
+    required this.padding,
   }) : super(key: key);
-
-  /// {@macro app_tooltip}
-  const AppTooltip({
-    Key? key,
-    required String message,
-    required Widget child,
-  }) : this._(key: key, message: message, child: child);
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({
@@ -25,7 +19,14 @@ class AppTooltip extends StatelessWidget {
     required String message,
     required bool visible,
     Widget? child,
-  }) : this._(key: key, message: message, visible: visible, child: child);
+    EdgeInsets padding = const EdgeInsets.all(10),
+  }) : this._(
+          key: key,
+          message: message,
+          visible: visible,
+          child: child,
+          padding: padding,
+        );
 
   /// The tooltip message.
   final String message;
@@ -35,6 +36,9 @@ class AppTooltip extends StatelessWidget {
 
   /// An optional child widget.
   final Widget? child;
+
+  /// An optional padding.
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class AppTooltip extends StatelessWidget {
               color: PhotoboothColors.charcoal,
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            padding: const EdgeInsets.all(10),
+            padding: padding,
             child: Text(
               message,
               style: Theme.of(context)

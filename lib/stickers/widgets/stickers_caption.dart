@@ -11,6 +11,7 @@ class StickersCaption extends StatelessWidget {
     return AppTooltip.custom(
       visible: true,
       message: l10n.propsHelperText,
+      padding: const EdgeInsets.all(30),
     );
   }
 }
