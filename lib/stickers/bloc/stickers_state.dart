@@ -12,8 +12,10 @@ class StickersState extends Equatable {
   @override
   List<Object> get props => [isDrawerActive, shouldDisplayPropsReminder];
 
-  StickersState copyWith(
-      {bool? isDrawerActive, bool? shouldDisplayPropsReminder}) {
+  StickersState copyWith({
+    bool? isDrawerActive,
+    bool? shouldDisplayPropsReminder,
+  }) {
     return StickersState(
       isDrawerActive: isDrawerActive ?? this.isDrawerActive,
       shouldDisplayPropsReminder:
