@@ -564,7 +564,10 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(StickersCaption), findsOneWidget);
+      expect(
+        find.byKey(const Key('stickersPage_propsReminder_appTooltip')),
+        findsOneWidget,
+      );
     });
 
     testWidgets(
@@ -582,7 +585,10 @@ void main() async {
           child: StickersView(),
         ),
       );
-      expect(find.byType(StickersCaption), findsNothing);
+      expect(
+        find.byKey(const Key('stickersPage_propsReminder_appTooltip')),
+        findsNothing,
+      );
     });
   });
 }

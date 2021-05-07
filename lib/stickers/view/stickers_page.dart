@@ -96,16 +96,9 @@ class StickersView extends StatelessWidget {
                           Navigator.of(context).push(SharePage.route()),
                     ),
                   ),
-                  BlocBuilder<StickersBloc, StickersState>(
-                    buildWhen: (previous, current) =>
-                        previous.shouldDisplayPropsReminder !=
-                        current.shouldDisplayPropsReminder,
-                    builder: (context, state) {
-                      if (state.shouldDisplayPropsReminder) {
-                        return const StickersCaption();
-                      }
-                      return const SizedBox();
-                    },
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _StickerReminderText(),
                   )
                 ],
               ),
@@ -131,6 +124,28 @@ class StickersView extends StatelessWidget {
             child: const StickersDrawerLayer(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StickerReminderText extends StatelessWidget {
+  const _StickerReminderText({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final shouldDisplayPropsReminder = context.select(
+      (StickersBloc bloc) => bloc.state.shouldDisplayPropsReminder,
+    );
+
+    if (!shouldDisplayPropsReminder) return const SizedBox();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 125),
+      child: AppTooltip.custom(
+        key: const Key('stickersPage_propsReminder_appTooltip'),
+        visible: true,
+        message: context.l10n.propsReminderText,
+        padding: const EdgeInsets.all(24),
       ),
     );
   }
