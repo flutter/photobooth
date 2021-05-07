@@ -15,46 +15,28 @@ class ShareBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
+    final isSuccess = context.select(
+      (ShareBloc bloc) => bloc.state.uploadStatus.isSuccess,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         AnimatedPhotoIndicator(),
         AnimatedPhotoboothPhoto(image: image),
         const SizedBox(height: 40),
-        const Heading(),
+        isSuccess ? const ShareSuccessHeading() : const ShareHeading(),
         const SizedBox(height: 20),
-        const LearnMoreAboutText(),
+        isSuccess ? const ShareSuccessSubheading() : const ShareSubheading(),
         const SizedBox(height: 30),
         if (image != null)
           ResponsiveLayoutBuilder(
             small: (_, __) => MobileButtonsLayout(image: image),
-            large: (_, __) => DesktopButtonsLayout(
-              image: image,
-            ),
+            large: (_, __) => DesktopButtonsLayout(image: image),
           ),
+        const SizedBox(height: 28),
+        if (isSuccess) const ShareSuccessCaption(),
       ],
-    );
-  }
-}
-
-@visibleForTesting
-class Heading extends StatelessWidget {
-  const Heading({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-    return SelectableText(
-      l10n.sharePageHeading,
-      style: theme.textTheme.headline1?.copyWith(
-        color: PhotoboothColors.white,
-        fontSize:
-            MediaQuery.of(context).size.width > PhotoboothBreakpoints.small
-                ? 56
-                : 32,
-      ),
-      textAlign: TextAlign.center,
     );
   }
 }
@@ -74,7 +56,6 @@ class DesktopButtonsLayout extends StatelessWidget {
         const SizedBox(width: 36),
         Flexible(
           child: ShareButton(
-            aspectRatio: PhotoboothAspectRatio.landscape,
             image: image,
           ),
         ),
@@ -99,7 +80,7 @@ class MobileButtonsLayout extends StatelessWidget {
       children: [
         const DownloadButton(),
         gap,
-        ShareButton(aspectRatio: PhotoboothAspectRatio.portrait, image: image),
+        ShareButton(image: image),
         gap,
         const GoToGoogleIOButton(),
       ],
