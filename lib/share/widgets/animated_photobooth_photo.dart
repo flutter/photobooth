@@ -223,7 +223,10 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
           FittedBox(
             fit: BoxFit.cover,
             alignment: Alignment.center,
-            child: sprite,
+            child: ConstrainedBox(
+              constraints: BoxConstraints.loose(sprite.sprites.size),
+              child: sprite,
+            ),
           ),
           _image != null
               ? Center(

@@ -40,11 +40,13 @@ class DraggableResizable extends StatefulWidget {
     Key? key,
     required this.child,
     required this.size,
+    BoxConstraints? constraints,
     this.onUpdate,
     this.onDelete,
     this.canTransform = false,
     PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
+  })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
+        platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
   /// The child which will be draggable/resizable.
@@ -63,6 +65,10 @@ class DraggableResizable extends StatefulWidget {
   /// The child's original size.
   final Size size;
 
+  /// The child's constraints.
+  /// Defaults to [BoxConstraints.loose(Size.infinite)].
+  final BoxConstraints constraints;
+
   /// Optional [PlatformHelper] instance.
   final PlatformHelper platformHelper;
 
@@ -72,8 +78,6 @@ class DraggableResizable extends StatefulWidget {
 
 class _DraggableResizableState extends State<DraggableResizable> {
   late Size size;
-  late double minHeight;
-  late double maxHeight;
   late BoxConstraints constraints;
   late double angle;
   late double angleDelta;
@@ -87,19 +91,11 @@ class _DraggableResizableState extends State<DraggableResizable> {
   @override
   void initState() {
     super.initState();
-    maxHeight = 1000;
-    minHeight = maxHeight * 0.05;
     size = widget.size;
     constraints = const BoxConstraints.expand(width: 1, height: 1);
     angle = 0;
     baseAngle = 0;
     angleDelta = 0;
-  }
-
-  double clampHeight(double value) {
-    if (value >= maxHeight) return maxHeight;
-    if (value <= minHeight) return minHeight;
-    return value;
   }
 
   @override
@@ -147,10 +143,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + details.dy) / 2;
           final newHeight = (size.height - 2 * mid).abs();
           final newWidth = (size.width - 2 * mid).abs();
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx + mid, position.dy + mid);
 
           setState(() {
@@ -165,10 +161,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + (details.dy * -1)) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -183,10 +179,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = ((details.dx * -1) + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -201,10 +197,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
           final mid = (details.dx + details.dy) / 2;
           final newHeight = size.height + 2 * mid;
           final newWidth = size.width + 2 * mid;
+          final updatedSize = Size(newWidth, newHeight);
 
-          if (newHeight >= maxHeight || newHeight <= minHeight) return;
+          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          final updatedSize = Size(newWidth, clampHeight(newHeight));
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
           setState(() {
@@ -320,6 +316,9 @@ class _DraggableResizableState extends State<DraggableResizable> {
                       widget.size.width * s,
                       widget.size.height * s,
                     );
+
+                    if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+
                     final midX = position.dx + (size.width / 2);
                     final midY = position.dy + (size.height / 2);
                     final updatedPosition = Offset(
