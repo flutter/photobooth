@@ -267,7 +267,8 @@ void main() async {
       );
     });
 
-    testWidgets('tapping on back button pops route', (tester) async {
+    testWidgets('tapping on back button pops route and clears props',
+        (tester) async {
       const initialPage = Key('__target__');
       await tester.pumpApp(Builder(
         builder: (context) {
@@ -296,6 +297,7 @@ void main() async {
 
       final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
       backButton.onPressed();
+      verify(() => photoboothBloc.add(const PhotoClearAllTapped())).called(1);
       await tester.pumpAndSettle();
 
       expect(find.byType(StickersView), findsNothing);

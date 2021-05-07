@@ -66,7 +66,12 @@ class StickersView extends StatelessWidget {
                     child: Row(
                       children: [
                         RetakeButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () {
+                            context
+                                .read<PhotoboothBloc>()
+                                .add(const PhotoClearAllTapped());
+                            Navigator.of(context).pop();
+                          },
                         ),
                         const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
