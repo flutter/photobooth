@@ -82,7 +82,7 @@ void main() {
       testWidgets(
           'displays ShareErrorDialog '
           'when ShareBloc emits error '
-          'and platform is desktop', (tester) async {
+          'and platform is not mobile and it is landscape', (tester) async {
         whenListen(
           shareBloc,
           Stream.fromIterable([
@@ -101,6 +101,7 @@ void main() {
           ]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
+        tester.setLandscape();
         await tester.pumpApp(
           ShareStateListener(
             platformHelper: platformHelper,

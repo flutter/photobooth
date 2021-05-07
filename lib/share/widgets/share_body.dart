@@ -28,9 +28,7 @@ class ShareBody extends StatelessWidget {
         if (image != null)
           ResponsiveLayoutBuilder(
             small: (_, __) => MobileButtonsLayout(image: image),
-            large: (_, __) => DesktopButtonsLayout(
-              image: image,
-            ),
+            large: (_, __) => DesktopButtonsLayout(image: image),
           ),
       ],
     );
@@ -74,7 +72,6 @@ class DesktopButtonsLayout extends StatelessWidget {
         const SizedBox(width: 36),
         Flexible(
           child: ShareButton(
-            aspectRatio: PhotoboothAspectRatio.landscape,
             image: image,
           ),
         ),
@@ -99,7 +96,7 @@ class MobileButtonsLayout extends StatelessWidget {
       children: [
         const DownloadButton(),
         gap,
-        ShareButton(aspectRatio: PhotoboothAspectRatio.portrait, image: image),
+        ShareButton(image: image),
         gap,
         const GoToGoogleIOButton(),
       ],
