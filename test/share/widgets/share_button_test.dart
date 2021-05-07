@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -16,6 +16,8 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
+class MockPlatformHelper extends Mock implements PlatformHelper {}
+
 void main() {
   const width = 1;
   const height = 1;
@@ -23,6 +25,7 @@ void main() {
   const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
+  late PlatformHelper platformHelper;
 
   setUpAll(() {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
@@ -32,14 +35,40 @@ void main() {
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
+    platformHelper = MockPlatformHelper();
   });
 
   group('ShareButton', () {
     testWidgets(
         'tapping on share photo button opens ShareBottomSheet '
         'when platform is mobile', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(true);
+
       await tester.pumpApp(
-        ShareButton(image: image, aspectRatio: PhotoboothAspectRatio.portrait),
+        ShareButton(
+          image: image,
+          platformHelper: platformHelper,
+        ),
+        photoboothBloc: photoboothBloc,
+      );
+
+      await tester.tap(find.byType(ShareButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ShareBottomSheet), findsOneWidget);
+    });
+
+    testWidgets(
+        'tapping on share photo button opens ShareBottomSheet '
+        'when platform is not mobile and it is portrait', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(false);
+      tester.setPortrait();
+
+      await tester.pumpApp(
+        ShareButton(
+          image: image,
+          platformHelper: platformHelper,
+        ),
         photoboothBloc: photoboothBloc,
       );
 
@@ -51,9 +80,14 @@ void main() {
 
     testWidgets(
         'tapping on share photo button opens ShareDialog '
-        'when platform is not mobile', (tester) async {
+        'when platform is not mobile and it is landscape', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(false);
+      tester.setLandscape();
       await tester.pumpApp(
-        ShareButton(image: image, aspectRatio: PhotoboothAspectRatio.landscape),
+        ShareButton(
+          image: image,
+          platformHelper: platformHelper,
+        ),
         photoboothBloc: photoboothBloc,
       );
 

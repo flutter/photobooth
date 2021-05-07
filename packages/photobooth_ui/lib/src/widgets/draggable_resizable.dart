@@ -233,21 +233,25 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         final topLeftCorner = _ResizePoint(
           key: const Key('draggableResizable_topLeft_resizePoint'),
+          type: _ResizePointType.topLeft,
           onDrag: onDragTopLeft,
         );
 
         final topRightCorner = _ResizePoint(
           key: const Key('draggableResizable_topRight_resizePoint'),
+          type: _ResizePointType.topRight,
           onDrag: onDragTopRight,
         );
 
         final bottomLeftCorner = _ResizePoint(
           key: const Key('draggableResizable_bottomLeft_resizePoint'),
+          type: _ResizePointType.bottomLeft,
           onDrag: onDragBottomLeft,
         );
 
         final bottomRightCorner = _ResizePoint(
           key: const Key('draggableResizable_bottomRight_resizePoint'),
+          type: _ResizePointType.bottomRight,
           onDrag: onDragBottomRight,
         );
 
@@ -393,33 +397,56 @@ class _DraggableResizableState extends State<DraggableResizable> {
   }
 }
 
+enum _ResizePointType {
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+}
+
+const _cursorLookup = <_ResizePointType, MouseCursor>{
+  _ResizePointType.topLeft: SystemMouseCursors.resizeUpLeft,
+  _ResizePointType.topRight: SystemMouseCursors.resizeUpRight,
+  _ResizePointType.bottomLeft: SystemMouseCursors.resizeDownLeft,
+  _ResizePointType.bottomRight: SystemMouseCursors.resizeDownRight,
+};
+
 class _ResizePoint extends StatelessWidget {
   const _ResizePoint({
     Key? key,
     required this.onDrag,
+    required this.type,
     this.onScale,
   }) : super(key: key);
 
   final ValueSetter<Offset> onDrag;
   final ValueSetter<double>? onScale;
+  final _ResizePointType type;
+
+  MouseCursor get _cursor {
+    return _cursorLookup[type]!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _DraggablePoint(
-      mode: _PositionMode.local,
-      onDrag: onDrag,
-      onScale: onScale,
-      child: Container(
-        width: _cornerDiameter,
-        height: _cornerDiameter,
-        decoration: BoxDecoration(
-          border: Border.all(color: PhotoboothColors.blue, width: 2),
-          shape: BoxShape.circle,
-        ),
+    return MouseRegion(
+      cursor: _cursor,
+      child: _DraggablePoint(
+        mode: _PositionMode.local,
+        onDrag: onDrag,
+        onScale: onScale,
         child: Container(
-          decoration: const BoxDecoration(
-            color: PhotoboothColors.white,
+          width: _cornerDiameter,
+          height: _cornerDiameter,
+          decoration: BoxDecoration(
+            border: Border.all(color: PhotoboothColors.blue, width: 2),
             shape: BoxShape.circle,
+          ),
+          child: Container(
+            decoration: const BoxDecoration(
+              color: PhotoboothColors.white,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
       ),
