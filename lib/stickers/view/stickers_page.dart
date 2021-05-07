@@ -96,6 +96,24 @@ class StickersView extends StatelessWidget {
                           Navigator.of(context).push(SharePage.route()),
                     ),
                   ),
+                  BlocBuilder<StickersBloc, StickersState>(
+                    buildWhen: (previous, current) =>
+                        previous.shouldDisplayPropsReminder !=
+                        current.shouldDisplayPropsReminder,
+                    builder: (context, state) {
+                      if (state.shouldDisplayPropsReminder) {
+                        final l10n = context.l10n;
+                        return Align(
+                          alignment: Alignment.center,
+                          child: AppTooltip.custom(
+                            visible: true,
+                            message: l10n.propsHelperText,
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  )
                 ],
               ),
             ),
