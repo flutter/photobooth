@@ -1,5 +1,5 @@
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimatedSparky extends AnimatedSprite {
   const AnimatedSparky({Key? key})

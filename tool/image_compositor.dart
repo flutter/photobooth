@@ -11,9 +11,9 @@ import 'dart:html';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:image/image.dart' as img;
 import 'package:image_compositor/image_compositor.dart';
 import 'package:js/js.dart';
-import 'package:image/image.dart' as img;
 
 @JS('self')
 external DedicatedWorkerGlobalScope get self;
