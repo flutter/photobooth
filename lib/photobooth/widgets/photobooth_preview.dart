@@ -119,16 +119,16 @@ class PhotoboothPreview extends StatelessWidget {
 
 BoxConstraints? _getAnimatedSpriteConstraints(String name) {
   final sprite = _getAnimatedSprite(name);
-  if (sprite != null) {
-    final size = sprite.sprites.size;
-    return BoxConstraints(
-      minWidth: size.width * _minCharacterScale,
-      minHeight: size.height * _minCharacterScale,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
-    );
-  }
-  return null;
+
+  if (sprite == null) return null;
+
+  final size = sprite.sprites.size;
+  return BoxConstraints(
+    minWidth: size.width * _minCharacterScale,
+    minHeight: size.height * _minCharacterScale,
+    maxWidth: double.infinity,
+    maxHeight: double.infinity,
+  );
 }
 
 Size _getAnimatedSpriteSize(String name) {
