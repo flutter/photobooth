@@ -8,8 +8,6 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _videoConstraints = VideoConstraints(
-  width: 4096,
-  height: 4096,
   facingMode: FacingMode(
     type: CameraType.user,
     constrain: Constrain.ideal,
