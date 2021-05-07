@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:ui' as ui;
 
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
 
 String _getViewType(int cameraId) => 'plugins.flutter.io/camera_$cameraId';
 

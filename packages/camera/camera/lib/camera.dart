@@ -1,7 +1,7 @@
 library camera;
 
-import 'package:flutter/widgets.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:flutter/widgets.dart';
 
 export 'package:camera_platform_interface/camera_platform_interface.dart';
 
