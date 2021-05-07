@@ -578,7 +578,10 @@ void main() async {
       expect(find.byType(AnimatedSparky), findsOneWidget);
     });
 
-    testWidgets('displays a DesktopCharactersIconLayout', (tester) async {
+    testWidgets(
+        'displays a LandscapeCharactersIconLayout '
+        'when orientation is landscape', (tester) async {
+      tester.setDisplaySize(landscapeDisplaySize);
       const preview = SizedBox();
 
       await tester.pumpApp(
@@ -591,12 +594,13 @@ void main() async {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.byType(DesktopCharactersIconLayout), findsOneWidget);
+      expect(find.byType(LandscapeCharactersIconLayout), findsOneWidget);
     });
 
-    testWidgets('displays a MobileCharactersIconLayout', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-
+    testWidgets(
+        'displays a PortraitCharactersIconLayout '
+        'when orientation is portrait', (tester) async {
+      tester.setDisplaySize(portraitDisplaySize);
       const preview = SizedBox();
 
       await tester.pumpApp(
@@ -606,7 +610,7 @@ void main() async {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.byType(MobileCharactersIconLayout), findsOneWidget);
+      expect(find.byType(PortraitCharactersIconLayout), findsOneWidget);
     });
 
     testWidgets('tapping on dash button adds PhotoCharacterToggled',
