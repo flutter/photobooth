@@ -10,6 +10,8 @@ class AppTooltip extends StatelessWidget {
     required this.message,
     required this.child,
     this.visible = false,
+    this.padding,
+    this.verticalOffset,
   }) : super(key: key);
 
   /// {@macro app_tooltip}
@@ -17,15 +19,30 @@ class AppTooltip extends StatelessWidget {
     Key? key,
     required String message,
     required Widget child,
-  }) : this._(key: key, message: message, child: child);
+    EdgeInsets? padding,
+  }) : this._(
+          key: key,
+          message: message,
+          child: child,
+          padding: padding,
+        );
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({
     Key? key,
     required String message,
     required bool visible,
+    EdgeInsets? padding,
+    double? verticalOffset,
     Widget? child,
-  }) : this._(key: key, message: message, visible: visible, child: child);
+  }) : this._(
+          key: key,
+          message: message,
+          visible: visible,
+          padding: padding,
+          verticalOffset: verticalOffset,
+          child: child,
+        );
 
   /// The tooltip message.
   final String message;
@@ -33,12 +50,19 @@ class AppTooltip extends StatelessWidget {
   /// Whether or not the tooltip is currently visible.
   final bool visible;
 
+  /// An optional padding.
+  final EdgeInsets? padding;
+
+  /// An optional vertical offset.
+  final double? verticalOffset;
+
   /// An optional child widget.
   final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     final child = this.child;
+
     if (visible) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -49,7 +73,7 @@ class AppTooltip extends StatelessWidget {
               color: PhotoboothColors.charcoal,
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            padding: const EdgeInsets.all(10),
+            padding: padding ?? const EdgeInsets.all(10),
             child: Text(
               message,
               style: Theme.of(context)
@@ -61,6 +85,10 @@ class AppTooltip extends StatelessWidget {
         ],
       );
     }
-    return Tooltip(message: message, child: child);
+    return Tooltip(
+      message: message,
+      verticalOffset: verticalOffset,
+      child: child,
+    );
   }
 }
