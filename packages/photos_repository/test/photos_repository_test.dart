@@ -128,6 +128,12 @@ void main() {
           shareText: shareText,
         );
         expect(
+          shareUrls.explicitShareUrl,
+          equals(
+            'https://io-photobooth-dev.web.app/share/photo.jpg',
+          ),
+        );
+        expect(
           shareUrls.facebookShareUrl,
           equals(
             'https://www.facebook.com/sharer.php?u=https://io-photobooth-dev.web.app/share/photo.jpg&quote=Share%20text',
