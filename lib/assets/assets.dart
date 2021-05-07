@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 abstract class Assets {

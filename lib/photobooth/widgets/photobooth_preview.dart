@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
-
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _initialCharacterScale = 0.25;
 const _minCharacterScale = 0.1;

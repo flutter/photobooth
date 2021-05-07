@@ -2,8 +2,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 

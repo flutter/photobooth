@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 
 /// Overlay displayed on top of the [SharePage] when [ShareBloc] is
 /// in the in progress state.

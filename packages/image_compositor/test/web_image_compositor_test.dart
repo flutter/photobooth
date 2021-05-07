@@ -1,12 +1,11 @@
 @TestOn('chrome')
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:test/test.dart';
 import 'package:image_compositor/src/web.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:test/test.dart';
 
 import 'helpers/helpers.dart';
 
