@@ -34,18 +34,11 @@ class ShareStateListener extends StatelessWidget {
   }
 
   void _onShareError(BuildContext context, ShareState state) {
-    if (platformHelper.isMobile) {
-      showModalBottomSheet(
+    showAppModal(
+        platformHelper: platformHelper,
         context: context,
-        isScrollControlled: true,
-        builder: (_) => const ShareErrorBottomSheet(),
-      );
-    } else {
-      showAppDialog(
-        context: context,
-        child: const ShareErrorDialog(),
-      );
-    }
+        portraitChild: const ShareErrorBottomSheet(),
+        landscapeChild: const ShareErrorDialog());
   }
 
   void _onShareSuccess(BuildContext context, ShareState state) {

@@ -59,7 +59,7 @@ void main() {
 
     testWidgets('shows portraitChild sheet on portrait', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+      tester.setPortrait();
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(
@@ -83,7 +83,7 @@ void main() {
     testWidgets('shows landscapeChild when landscape and no mobile',
         (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
+      tester.setLandscape();
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(
