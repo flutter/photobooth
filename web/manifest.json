@@ -1,11 +1,11 @@
 {
-    "name": "io_photobooth",
-    "short_name": "io_photobooth",
+    "name": "I/O Photo Booth",
+    "short_name": "Photo Booth",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Take a photo at the Google I/O Photo Booth! Share it with friends and update your profile picture for the event.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
