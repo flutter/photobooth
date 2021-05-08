@@ -7,7 +7,7 @@ class AnimatedDash extends AnimatedSprite {
           key: key,
           sprites: const Sprites(
             asset: 'dash_spritesheet.png',
-            size: Size(881, 796),
+            size: Size(650, 587),
             frames: 25,
             stepTime: 2 / 25,
           ),
