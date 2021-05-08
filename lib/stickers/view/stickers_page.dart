@@ -9,7 +9,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _initialStickerScale = 0.25;
-const _minStickerScale = 0.1;
+const _minStickerScale = 0.05;
 
 class StickersPage extends StatelessWidget {
   const StickersPage({
