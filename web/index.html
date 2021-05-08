@@ -145,7 +145,7 @@
         "assets/assets/images/photo_indicator_spritesheet.png",        
       ].map(function (asset) {
         return fetch(asset).catch(function (e) {
-          console.log("fetch failure " + e);
+          console.warn(e);
         });
       });
     </script>
