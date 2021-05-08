@@ -127,7 +127,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
         duration: const Duration(milliseconds: 300),
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
-            : const AppCircularProgressIndicator(),
+            : const SizedBox(),
       ),
     );
   }
