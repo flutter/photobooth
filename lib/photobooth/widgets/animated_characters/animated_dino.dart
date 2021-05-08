@@ -7,9 +7,9 @@ class AnimatedDino extends AnimatedSprite {
           key: key,
           sprites: const Sprites(
             asset: 'dino_spritesheet.png',
-            size: Size(837, 978),
-            frames: 49,
-            stepTime: 2 / 49,
+            size: Size(648, 757),
+            frames: 25,
+            stepTime: 2 / 25,
           ),
         );
 }

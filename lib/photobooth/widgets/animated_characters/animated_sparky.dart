@@ -7,7 +7,7 @@ class AnimatedSparky extends AnimatedSprite {
           key: key,
           sprites: const Sprites(
             asset: 'sparky_spritesheet.png',
-            size: Size(1054, 849),
+            size: Size(730, 588),
             frames: 25,
             stepTime: 2 / 25,
           ),
