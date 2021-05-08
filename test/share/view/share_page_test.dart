@@ -5,7 +5,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -32,10 +31,8 @@ class MockUrlLauncher extends Mock
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
 
-void main() async {
+void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await Assets.load();
-
   const width = 1;
   const height = 1;
   const data = '';
@@ -117,8 +114,6 @@ void main() async {
         shareBloc: shareBloc,
       );
       await tester.ensureVisible(find.byType(WhiteFooter, skipOffstage: false));
-      await tester.pumpAndSettle();
-      expect(find.byType(WhiteFooter), findsOneWidget);
     });
 
     testWidgets('displays a ShareRetakeButton', (tester) async {
@@ -305,10 +300,7 @@ void main() async {
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(
-        find.byKey(const Key('sharePage_goToGoogleIO_elevatedButton')),
-        findsOneWidget,
-      );
+      expect(find.byType(GoToGoogleIOButton), findsOneWidget);
     });
 
     group('GoToGoogleIOButton', () {
@@ -317,29 +309,28 @@ void main() async {
         const url = googleIOExternalLink;
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              url,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
-        const googleIOButtonKey = Key('sharePage_goToGoogleIO_elevatedButton');
+        when(
+          () => mock.launch(
+            url,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).thenAnswer((_) async => true);
+        tester.setDisplaySize(Size(2500, 2500));
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
-
-        await tester.ensureVisible(find.byKey(
-          googleIOButtonKey,
+        await tester.ensureVisible(find.byType(
+          GoToGoogleIOButton,
           skipOffstage: false,
         ));
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(googleIOButtonKey));
-        await tester.pumpAndSettle();
+        await tester.tap(find.byType(GoToGoogleIOButton, skipOffstage: false));
 
         verify(
           () => mock.launch(
@@ -379,7 +370,13 @@ void main() async {
                   );
 
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => ShareView()),
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(
+                        body: Center(
+                          child: Stack(children: [ShareRetakeButton()]),
+                        ),
+                      ),
+                    ),
                   );
                 },
                 child: const SizedBox(),
@@ -393,14 +390,10 @@ void main() async {
         await tester.tap(find.byType(ElevatedButton));
         await tester.pumpAndSettle();
 
-        expect(find.byType(ShareBody), findsOneWidget);
-
-        final backButton =
-            tester.widget<RetakeButton>(find.byType(RetakeButton));
-        backButton.onPressed();
+        tester.widget<RetakeButton>(find.byType(RetakeButton)).onPressed();
         await tester.pumpAndSettle();
 
-        expect(find.byType(ShareBody), findsNothing);
+        expect(find.byType(ShareRetakeButton), findsNothing);
         expect(find.byKey(photoboothPage), findsOneWidget);
 
         verify(() => photoboothBloc.add(PhotoClearAllTapped())).called(1);

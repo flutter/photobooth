@@ -130,23 +130,22 @@
 
       // Pre-fetch key assets.
       var assets = [
-        "assets/assets/backgrounds/landing_background.png",
-        "assets/assets/backgrounds/permissions_background_desktop.jpg",
-        "assets/assets/backgrounds/permissions_background_mobile.jpg",
         "assets/assets/backgrounds/photobooth_background.jpg",
+        "assets/assets/audio/camera.mp3",
         "assets/assets/images/android.png",
         "assets/assets/images/dash.png",
         "assets/assets/images/sparky.png",
         "assets/assets/images/dino.png",
-        "assets/assets/audio/camera.mp3",
-        "assets/assets/backgrounds/blue_circle.png",
-        "assets/assets/backgrounds/circle_object.png",
-        "assets/assets/backgrounds/red_box.png",
-        "assets/assets/backgrounds/yellow_bar.png",
-        "assets/assets/backgrounds/yellow_plus.png",
+        "assets/assets/images/android_spritesheet.png",
+        "assets/assets/images/dash_spritesheet.png",
+        "assets/assets/images/sparky_spritesheet.png",
+        "assets/assets/images/dino_spritesheet.png",
+        "assets/assets/images/photo_frame_spritesheet_landscape.png",
+        "assets/assets/images/photo_frame_spritesheet_portrait.png",
+        "assets/assets/images/photo_indicator_spritesheet.png",        
       ].map(function (asset) {
         return fetch(asset).catch(function (e) {
-          console.log("fetch failure " + e);
+          console.warn(e);
         });
       });
     </script>
