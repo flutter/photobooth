@@ -28,8 +28,8 @@ class CharactersLayer extends StatelessWidget {
                     child: Transform.rotate(
                       alignment: Alignment.center,
                       angle: character.angle,
-                      child: Image.memory(
-                        character.asset.bytes,
+                      child: Image.asset(
+                        character.asset.path,
                         fit: BoxFit.fill,
                         height: character.size.height * heightFactor,
                         width: character.size.width * widthFactor,

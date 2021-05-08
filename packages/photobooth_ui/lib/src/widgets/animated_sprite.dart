@@ -6,6 +6,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template sprites}
 /// Object which contains meta data for a collection of sprites.
@@ -126,7 +127,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
         duration: const Duration(milliseconds: 300),
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
-            : const SizedBox(),
+            : const AppCircularProgressIndicator(),
       ),
     );
   }

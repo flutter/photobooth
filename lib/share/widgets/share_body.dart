@@ -105,7 +105,6 @@ class GoToGoogleIOButton extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      key: const Key('sharePage_goToGoogleIO_elevatedButton'),
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),

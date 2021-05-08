@@ -28,8 +28,8 @@ class StickersLayer extends StatelessWidget {
                     child: Transform.rotate(
                       alignment: Alignment.center,
                       angle: sticker.angle,
-                      child: Image.memory(
-                        sticker.asset.bytes,
+                      child: Image.asset(
+                        sticker.asset.path,
                         fit: BoxFit.fill,
                         height: sticker.size.height * heightFactor,
                         width: sticker.size.width * widthFactor,

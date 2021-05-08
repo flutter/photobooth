@@ -94,8 +94,9 @@ class StickersView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: NextButton(
-                        onPressed: () =>
-                            Navigator.of(context).push(SharePage.route()),
+                        onPressed: () {
+                          Navigator.of(context).push(SharePage.route());
+                        },
                       ),
                     ),
                   ),
@@ -182,13 +183,13 @@ class _DraggableStickers extends StatelessWidget {
             onDelete: () => context
                 .read<PhotoboothBloc>()
                 .add(const PhotoDeleteSelectedStickerTapped()),
-            size: sticker.getImageSize() * _initialStickerScale,
+            size: sticker.asset.size * _initialStickerScale,
             constraints: sticker.getImageConstraints(),
             child: Container(
               width: double.infinity,
               height: double.infinity,
-              child: Image.memory(
-                sticker.asset.bytes,
+              child: Image.asset(
+                sticker.asset.path,
                 fit: BoxFit.fill,
                 gaplessPlayback: true,
               ),
@@ -200,17 +201,10 @@ class _DraggableStickers extends StatelessWidget {
 }
 
 extension on PhotoAsset {
-  Size getImageSize() {
-    return Size(
-      asset.image.width.toDouble(),
-      asset.image.height.toDouble(),
-    );
-  }
-
   BoxConstraints getImageConstraints() {
     return BoxConstraints(
-      minWidth: asset.image.width * _minStickerScale,
-      minHeight: asset.image.height * _minStickerScale,
+      minWidth: asset.size.width * _minStickerScale,
+      minHeight: asset.size.height * _minStickerScale,
       maxWidth: double.infinity,
       maxHeight: double.infinity,
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/assets.g.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatelessWidget {
@@ -51,7 +51,7 @@ class StickersTabs extends StatelessWidget {
                 ),
                 StickersTabBarView(
                   key: const Key('stickersTabs_hatsTabBarView'),
-                  stickers: Assets.hatsProps,
+                  stickers: Assets.hatProps,
                   onStickerSelected: onStickerSelected,
                 ),
                 StickersTabBarView(
@@ -66,7 +66,7 @@ class StickersTabs extends StatelessWidget {
                 ),
                 StickersTabBarView(
                   key: const Key('stickersTabs_shapesTabBarView'),
-                  stickers: Assets.shapesProps,
+                  stickers: Assets.shapeProps,
                   onStickerSelected: onStickerSelected,
                 ),
               ],
@@ -109,7 +109,7 @@ class StickersTabBarView extends StatelessWidget {
     required this.onStickerSelected,
   }) : super(key: key);
 
-  final List<Asset> stickers;
+  final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
 
   @override
@@ -122,10 +122,13 @@ class StickersTabBarView extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
       itemCount: stickers.length,
-      itemBuilder: (context, index) => StickerChoice(
-        asset: stickers[index],
-        onPressed: () => onStickerSelected.call(stickers[index]),
-      ),
+      itemBuilder: (context, index) {
+        final sticker = stickers.elementAt(index);
+        return StickerChoice(
+          asset: sticker,
+          onPressed: () => onStickerSelected.call(sticker),
+        );
+      },
     );
   }
 }
@@ -146,7 +149,7 @@ class StickerChoice extends StatelessWidget {
     return Material(
       color: PhotoboothColors.transparent,
       child: Ink.image(
-        image: MemoryImage(asset.bytes),
+        image: AssetImage(asset.path),
         child: InkWell(onTap: onPressed),
       ),
     );
