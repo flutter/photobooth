@@ -674,6 +674,6 @@ class Assets {
     ...eyewearProps,
     ...hatProps,
     ...foodProps,
-    ...shapeProps,
+    ...shapeProps
   };
 }

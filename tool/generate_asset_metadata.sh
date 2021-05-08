@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Script used to analyze bundled assets and generate a dart file which contains
+# the relevant metadata needed at runtime without forcing the application to
+# download the assets.
+#
+# Usage:
+# ./tool/generate_asset_metadata.sh > lib/assets.g.dart
+
 set -e
 
 output_metadata () {
@@ -10,6 +17,7 @@ output_metadata () {
 
     echo "Asset(name: '$name', path: '$1', size: Size($width, $height));"
 }
+
 echo "// GENERATED CODE - DO NOT MODIFY BY HAND"
 echo ""
 echo "import 'package:flutter/widgets.dart';"
