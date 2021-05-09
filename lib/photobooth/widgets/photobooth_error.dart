@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothError extends StatelessWidget {
@@ -12,56 +10,33 @@ class PhotoboothError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppPageView(
-      background: const PermissionsBackground(),
-      body: Column(
-        children: [
-          const SizedBox(height: 200),
-          _PhotoboothCameraError(error: error),
-        ],
-      ),
-      footer: const WhiteFooter(),
-    );
-  }
-}
-
-class _PhotoboothCameraError extends StatelessWidget {
-  const _PhotoboothCameraError({
-    Key? key,
-    required this.error,
-  }) : super(key: key);
-
-  final CameraException error;
-
-  @override
-  Widget build(BuildContext context) {
     if (error is CameraNotAllowedException) {
-      return _PhotoboothCameraAccessDeniedError(
-        key: const Key('photoboothError_cameraAccessDenied'),
+      return const _PhotoboothCameraAccessDeniedError(
+        key: Key('photoboothError_cameraAccessDenied'),
       );
     }
 
     if (error is CameraNotFoundException) {
-      return _PhotoboothCameraNotFoundError(
-        key: const Key('photoboothError_cameraNotFound'),
+      return const _PhotoboothCameraNotFoundError(
+        key: Key('photoboothError_cameraNotFound'),
       );
     }
 
-    return _PhotoboothCameraUnknownError(
-      key: const Key('photoboothError_unknown'),
+    return const _PhotoboothCameraUnknownError(
+      key: Key('photoboothError_unknown'),
     );
   }
 }
 
 class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
-  _PhotoboothCameraAccessDeniedError({Key? key}) : super(key: key);
+  const _PhotoboothCameraAccessDeniedError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
-    return Column(
+    return _PhotoboothErrorContent(
       children: [
         SelectableText(
           l10n.photoBoothCameraAccessDeniedHeadline,
@@ -84,15 +59,14 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
 }
 
 class _PhotoboothCameraNotFoundError extends StatelessWidget {
-  _PhotoboothCameraNotFoundError({Key? key}) : super(key: key);
+  const _PhotoboothCameraNotFoundError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return _PhotoboothErrorContent(
       children: [
         SelectableText(
           l10n.photoBoothCameraNotFoundHeadline,
@@ -123,14 +97,14 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
 }
 
 class _PhotoboothCameraUnknownError extends StatelessWidget {
-  _PhotoboothCameraUnknownError({Key? key}) : super(key: key);
+  const _PhotoboothCameraUnknownError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
-    return Column(
+    return _PhotoboothErrorContent(
       children: [
         SelectableText(
           l10n.photoBoothCameraErrorHeadline,
@@ -156,6 +130,30 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+}
+
+class _PhotoboothErrorContent extends StatelessWidget {
+  const _PhotoboothErrorContent({
+    Key? key,
+    required this.children,
+  }) : super(key: key);
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+        ),
+      ),
     );
   }
 }
