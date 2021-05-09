@@ -48,7 +48,7 @@ void main() async {
     },
   );
 
-  SchedulerBinding.instance!.addPostFrameCallback((_) {
-    removeLoadingIndicator();
-  });
+  SchedulerBinding.instance!.addPostFrameCallback(
+    (_) => removeLoadingIndicator(),
+  );
 }
