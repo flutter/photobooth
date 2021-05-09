@@ -139,6 +139,7 @@ class _PhotoboothErrorContent extends StatelessWidget {
     Key? key,
     required this.children,
   }) : super(key: key);
+
   final List<Widget> children;
 
   @override
