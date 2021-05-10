@@ -24,6 +24,8 @@ class OffScreenCanvas {
         ..width = '${cssWidth}px'
         ..height = '${cssHeight}px';
     }
+    /// Initialize context.
+    getContext2d();
   }
 
   html.OffscreenCanvas? offScreenCanvas;
