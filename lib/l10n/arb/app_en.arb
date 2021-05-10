@@ -256,6 +256,22 @@
     "@stickersNextConfirmationConfirmButtonText": {
         "description": "Confirm button text shown in the confirmation when user taps the next button"
     },
+    "stickersRetakeConfirmationHeading": "Are you sure?",
+    "@stickersRetakeConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationSubheading": "Retaking the photo will remove any props you've added",
+    "@stickersRetakeConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationCancelButtonText": "No, stay here",
+    "@stickersRetakeConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationConfirmButtonText": "Yes, retake photo",
+    "@stickersRetakeConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the retake button"
+    },
     "shareRetakeConfirmationHeading": "Ready to take a new photo?",
     "@shareRetakeConfirmationHeading": {
         "description": "Heading shown in the confirmation when user taps the retake button"

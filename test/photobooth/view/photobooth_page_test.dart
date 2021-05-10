@@ -305,11 +305,16 @@ void main() {
 
       expect(find.byType(StickersPage), findsOneWidget);
 
-      final retakeButton = tester.widget<RetakeButton>(
-        find.byType(RetakeButton),
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
       );
-      retakeButton.onPressed();
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
       await tester.pumpAndSettle();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
       expect(find.byType(PhotoboothView), findsOneWidget);
     });
   });

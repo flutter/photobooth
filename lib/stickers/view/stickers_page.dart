@@ -65,14 +65,7 @@ class StickersView extends StatelessWidget {
                     top: 15,
                     child: Row(
                       children: [
-                        RetakeButton(
-                          onPressed: () {
-                            context
-                                .read<PhotoboothBloc>()
-                                .add(const PhotoClearAllTapped());
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                        const _RetakeButton(),
                         const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
                       ],
@@ -178,17 +171,25 @@ class _DraggableStickers extends StatelessWidget {
   }
 }
 
-@visibleForTesting
-class RetakeButton extends StatelessWidget {
-  const RetakeButton({Key? key, required this.onPressed}) : super(key: key);
-
-  final VoidCallback onPressed;
+class _RetakeButton extends StatelessWidget {
+  const _RetakeButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AppTooltipButton(
-      onPressed: onPressed,
+      key: const Key('stickersPage_retake_appTooltipButton'),
+      onPressed: () async {
+        final confirmed = await showAppModal(
+          context: context,
+          landscapeChild: const _RetakeConfirmationDialogContent(),
+          portraitChild: const _RetakeConfirmationBottomSheet(),
+        );
+        if (confirmed) {
+          context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+          Navigator.of(context).pop();
+        }
+      },
       message: l10n.retakeButtonTooltip,
       child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
     );
@@ -209,8 +210,8 @@ class _NextButton extends StatelessWidget {
         onTap: () async {
           final confirmed = await showAppModal(
             context: context,
-            landscapeChild: const _ConfirmationDialogContent(),
-            portraitChild: const _ConfirmationBottomSheet(),
+            landscapeChild: const _NextConfirmationDialogContent(),
+            portraitChild: const _NextConfirmationBottomSheet(),
           );
           if (confirmed) {
             unawaited(Navigator.of(context).push(SharePage.route()));
@@ -225,8 +226,96 @@ class _NextButton extends StatelessWidget {
   }
 }
 
-class _ConfirmationDialogContent extends StatelessWidget {
-  const _ConfirmationDialogContent({Key? key}) : super(key: key);
+class _RetakeConfirmationDialogContent extends StatelessWidget {
+  const _RetakeConfirmationDialogContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.stickersRetakeConfirmationHeading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline1,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                l10n.stickersRetakeConfirmationSubheading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline3,
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                runSpacing: 24,
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: PhotoboothColors.black),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(
+                      l10n.stickersRetakeConfirmationCancelButtonText,
+                      style: theme.textTheme.button?.copyWith(
+                        color: PhotoboothColors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(
+                      l10n.stickersRetakeConfirmationConfirmButtonText,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RetakeConfirmationBottomSheet extends StatelessWidget {
+  const _RetakeConfirmationBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      decoration: const BoxDecoration(
+        color: PhotoboothColors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      child: Stack(
+        children: [
+          const _RetakeConfirmationDialogContent(),
+          Positioned(
+            right: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(Icons.clear, color: PhotoboothColors.black54),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NextConfirmationDialogContent extends StatelessWidget {
+  const _NextConfirmationDialogContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -285,8 +374,8 @@ class _ConfirmationDialogContent extends StatelessWidget {
   }
 }
 
-class _ConfirmationBottomSheet extends StatelessWidget {
-  const _ConfirmationBottomSheet({Key? key}) : super(key: key);
+class _NextConfirmationBottomSheet extends StatelessWidget {
+  const _NextConfirmationBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +387,7 @@ class _ConfirmationBottomSheet extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          const _ConfirmationDialogContent(),
+          const _NextConfirmationDialogContent(),
           Positioned(
             right: 24,
             top: 24,
