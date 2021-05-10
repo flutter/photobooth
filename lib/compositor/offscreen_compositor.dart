@@ -65,8 +65,7 @@ class _OffscreenCompositor {
     /// Compute target coordinates and target image size from assets.
     final targetWidth = frameImage.width;
     final targetHeight = frameImage.height;
-    print('targetWidth/Height = $targetWidth,$targetHeight');
-
+    
     /// We will have to create a clipping rectangle within frame and compute
     /// videoRect that will correct the aspectratio and crop the image
     /// correctly.
