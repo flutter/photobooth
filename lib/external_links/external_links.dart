@@ -10,4 +10,4 @@ Future<void> launchGoogleIOLink() => openLink(googleIOExternalLink);
 Future<void> launchFlutterDevLink() => openLink(flutterDevExternalLink);
 Future<void> launchFirebaseLink() => openLink(firebaseExternalLink);
 Future<void> launchPhotoboothEmail() => openLink(photoboothEmail);
-Future<void> launchOpenSourceLink() => openLink(photoboothEmail);
+Future<void> launchOpenSourceLink() => openLink(openSourceLink);
