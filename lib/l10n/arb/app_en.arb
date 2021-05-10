@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "landingPageHeading": "Welcome to the I/O Photo Booth",
+    "landingPageHeading": "Welcome to the I\u2215O Photo Booth",
     "@landingPageHeading": {
         "description": "Heading shown on the landing page."
     },
@@ -24,9 +24,9 @@
     "@footerMadeWithFirebaseLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Firebase page"
     },
-    "footerGoogleIOLinkText": "Google I/O",
+    "footerGoogleIOLinkText": "Google I\u2215O",
     "@footerGoogleIOLinkText": {
-        "description": "Text on the link shown on the footer which navigates to the Google I/O page."
+        "description": "Text on the link shown on the footer which navigates to the Google I\u2215O page."
     },
     "footerCodelabLinkText": "Codelab",
     "@footerCodelabLinkText": {
@@ -104,11 +104,19 @@
     "@sharePageSocialMediaShareClarification3": {
         "description": "Third part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
     },
+    "sharePageCopyLinkButton": "Copy",
+    "@sharePageCopyLinkButton": {
+        "description": "Title of the button used to copy the share link."
+    },
+    "sharePageLinkedCopiedButton": "Copied",
+    "@sharePageLinkedCopiedButton": {
+        "description": "Title of the button used to indicate that the link has been copied."
+    },
     "shareDialogHeading": "Share your photo!",
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
     },
-    "shareDialogSubheading": "Let everyone know you're at Google I/O by sharing your photo & updating your profile picture during the event!",
+    "shareDialogSubheading": "Let everyone know you're at Google I\u2215O by sharing your photo & updating your profile picture during the event!",
     "@shareDialogSubheading": {
         "description": "Subheading shown on the share dialog."
     },
@@ -139,15 +147,7 @@
     "shareDialogFacebookButtonText": "Facebook",
     "@shareDialogFacebookButtonText": {
         "description": "Button text shown on the share dialog which shares on Facebook the photo."
-    },
-    "photoBoothPlaceholderHeadline": "Allow I/O to access your camera",
-    "@photoBoothPlaceholderHeadline": {
-        "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
-    },
-    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them to social media.",
-    "@photoBoothPlaceholderSubheadline": {
-        "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
-    },
+    },    
     "photoBoothCameraAccessDeniedHeadline": "Camera access denied",
     "@photoBoothCameraAccessDeniedHeadline": {
         "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
@@ -164,7 +164,7 @@
     "@photoBoothCameraNotFoundSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when camera is not found"
     },
-    "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I/O Photo Booth from a device with a camera.",
+    "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I\u2215O Photo Booth from a device with a camera.",
     "@photoBoothCameraNotFoundSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when camera is not found"
     },
@@ -216,9 +216,9 @@
     "@sharePageLearnMoreAboutTextPart4": {
         "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
     },
-    "goToGoogleIOButtonText": "Go to Google I/O",
+    "goToGoogleIOButtonText": "Go to Google I\u2215O",
     "@goToGoogleIOButtonText": {
-        "description": "Text displayed on the button to navigate to Google I/O"
+        "description": "Text displayed on the button to navigate to Google I\u2215O"
     },
     "clearStickersDialogHeading": "Clear all props?",
     "@clearStickersDialogHeading": {

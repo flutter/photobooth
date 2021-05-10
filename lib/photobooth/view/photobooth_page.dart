@@ -8,8 +8,6 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _videoConstraints = VideoConstraints(
-  width: 4096,
-  height: 4096,
   facingMode: FacingMode(
     type: CameraType.user,
     constrain: Constrain.ideal,
@@ -97,48 +95,51 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    final aspectRatio = orientation == Orientation.portrait
+        ? PhotoboothAspectRatio.portrait
+        : PhotoboothAspectRatio.landscape;
     return Scaffold(
-      body: Camera(
-        controller: _controller,
-        placeholder: (_) => const PhotoboothPlaceholder(),
-        preview: (context, preview) {
-          return OrientationBuilder(
-            builder: (context, orientation) {
-              final aspectRatio = orientation == Orientation.portrait
-                  ? PhotoboothAspectRatio.portrait
-                  : PhotoboothAspectRatio.landscape;
-              return _PreviewLayout(
-                child: AspectRatio(
-                  aspectRatio: aspectRatio,
-                  child: PhotoboothPreview(
-                    preview: preview,
-                    onSnapPressed: () => _onSnapPressed(
-                      aspectRatio: aspectRatio,
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-        error: (_, error) => PhotoboothError(error: error),
+      body: _PhotoboothBackground(
+        aspectRatio: aspectRatio,
+        child: Camera(
+          controller: _controller,
+          placeholder: (_) => const SizedBox(),
+          preview: (context, preview) => PhotoboothPreview(
+            preview: preview,
+            onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
+          ),
+          error: (context, error) => PhotoboothError(error: error),
+        ),
       ),
     );
   }
 }
 
-class _PreviewLayout extends StatelessWidget {
-  const _PreviewLayout({Key? key, required this.child}) : super(key: key);
+class _PhotoboothBackground extends StatelessWidget {
+  const _PhotoboothBackground({
+    Key? key,
+    required this.aspectRatio,
+    required this.child,
+  }) : super(key: key);
 
+  final double aspectRatio;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
       children: [
         const PhotoboothBackground(),
-        Center(child: child),
+        Center(
+          child: AspectRatio(
+            aspectRatio: aspectRatio,
+            child: Container(
+              color: PhotoboothColors.black,
+              child: child,
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -8,7 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -38,10 +38,7 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class FakeDragUpdate extends Fake implements DragUpdate {}
 
-void main() async {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  await Assets.load();
-
+void main() {
   setUpAll(() {
     registerFallbackValue<CameraOptions>(FakeCameraOptions());
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
@@ -96,9 +93,9 @@ void main() async {
       expect(find.byType(Camera), findsOneWidget);
     });
 
-    testWidgets('renders placholder when initializing', (tester) async {
+    testWidgets('renders placeholder when initializing', (tester) async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
+      expect(find.byType(SizedBox), findsOneWidget);
     });
 
     testWidgets('renders error when unavailable', (tester) async {
@@ -420,6 +417,7 @@ void main() async {
           const Key('photoboothPreview_android_draggableResizableAsset'),
         ),
         Offset(10, 10),
+        warnIfMissed: false,
       );
 
       verify(
@@ -467,6 +465,7 @@ void main() async {
       await tester.drag(
         find.byKey(const Key('photoboothPreview_dash_draggableResizableAsset')),
         Offset(10, 10),
+        warnIfMissed: false,
       );
 
       verify(
@@ -531,6 +530,7 @@ void main() async {
       );
       const preview = SizedBox();
 
+      tester.setDisplaySize(Size(2500, 2500));
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
@@ -544,6 +544,7 @@ void main() async {
           const Key('photoboothPreview_sparky_draggableResizableAsset'),
         ),
         Offset(10, 10),
+        warnIfMissed: false,
       );
 
       verify(

@@ -7,7 +7,7 @@ import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({
     Key? key,
     required this.authenticationRepository,
@@ -18,22 +18,55 @@ class App extends StatelessWidget {
   final PhotosRepository photosRepository;
 
   @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (mounted) setState(() => _isVisible = true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: authenticationRepository),
-        RepositoryProvider.value(value: photosRepository),
+        RepositoryProvider.value(value: widget.authenticationRepository),
+        RepositoryProvider.value(value: widget.photosRepository),
       ],
-      child: MaterialApp(
-        title: 'I/O Photo Booth',
-        theme: PhotoboothTheme.themeData,
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const LandingPage(),
+      child: AnimatedOpacity(
+        opacity: _isVisible ? 1.0 : 0.0,
+        duration: const Duration(seconds: 1),
+        child: ResponsiveLayoutBuilder(
+          small: (_, __) => _App(theme: PhotoboothTheme.small),
+          large: (_, __) => _App(theme: PhotoboothTheme.standard),
+        ),
       ),
+    );
+  }
+}
+
+class _App extends StatelessWidget {
+  const _App({Key? key, required this.theme}) : super(key: key);
+
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'I/O Photo Booth',
+      theme: theme,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const LandingPage(),
     );
   }
 }

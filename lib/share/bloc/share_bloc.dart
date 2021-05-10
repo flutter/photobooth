@@ -138,6 +138,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
           isUploadRequested: true,
           file: state.file,
           bytes: state.bytes,
+          explicitShareUrl: shareUrls.explicitShareUrl,
           facebookShareUrl: shareUrls.facebookShareUrl,
           twitterShareUrl: shareUrls.twitterShareUrl,
           shareUrl: shareUrl,
@@ -191,6 +192,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
           isUploadRequested: true,
           bytes: bytes,
           file: file,
+          explicitShareUrl: shareUrls.explicitShareUrl,
           facebookShareUrl: shareUrls.facebookShareUrl,
           twitterShareUrl: shareUrls.twitterShareUrl,
         );

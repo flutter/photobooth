@@ -16,6 +16,7 @@ class ShareState extends Equatable {
     this.uploadStatus = ShareStatus.initial,
     this.file,
     this.bytes,
+    this.explicitShareUrl = '',
     this.facebookShareUrl = '',
     this.twitterShareUrl = '',
     this.isDownloadRequested = false,
@@ -27,6 +28,7 @@ class ShareState extends Equatable {
   final ShareStatus uploadStatus;
   final XFile? file;
   final Uint8List? bytes;
+  final String explicitShareUrl;
   final String twitterShareUrl;
   final String facebookShareUrl;
   final bool isUploadRequested;
@@ -51,6 +53,7 @@ class ShareState extends Equatable {
     ShareStatus? uploadStatus,
     XFile? file,
     Uint8List? bytes,
+    String? explicitShareUrl,
     String? twitterShareUrl,
     String? facebookShareUrl,
     bool? isUploadRequested,
@@ -62,6 +65,7 @@ class ShareState extends Equatable {
       uploadStatus: uploadStatus ?? this.uploadStatus,
       file: file ?? this.file,
       bytes: bytes ?? this.bytes,
+      explicitShareUrl: explicitShareUrl ?? this.explicitShareUrl,
       twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
       isUploadRequested: isUploadRequested ?? this.isUploadRequested,
