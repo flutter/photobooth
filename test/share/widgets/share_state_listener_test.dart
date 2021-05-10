@@ -101,7 +101,7 @@ void main() {
           ]),
         );
         when(() => platformHelper.isMobile).thenReturn(false);
-        tester.setLandscape();
+        tester.setLandscapeDisplaySize();
         await tester.pumpApp(
           ShareStateListener(
             platformHelper: platformHelper,

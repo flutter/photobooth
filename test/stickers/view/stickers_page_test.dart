@@ -177,23 +177,6 @@ void main() {
       expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
-    testWidgets('renders StickersDrawerLayer when mode is active',
-        (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(isDrawerActive: true),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      expect(find.byType(StickersDrawerLayer), findsOneWidget);
-    });
-
     testWidgets('adds StickersDrawerToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
@@ -440,80 +423,6 @@ void main() {
       await tester.tap(confirmButton);
       await tester.pumpAndSettle();
       verify(() => photoboothBloc.add(PhotoClearStickersTapped())).called(1);
-    });
-
-    testWidgets('opens MobileStickersDrawer when is mobile and is active',
-        (tester) async {
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([StickersState(isDrawerActive: true)]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-    });
-
-    testWidgets('can select stickers on MobileStickersDrawer', (tester) async {
-      final sticker = Assets.props.first;
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([
-          StickersState(isDrawerActive: true),
-        ]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-      final stickerChoice =
-          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
-      stickerChoice.onPressed();
-      await tester.pumpAndSettle();
-      verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
-          .called(1);
-    });
-
-    testWidgets('can close MobileStickersDrawer', (tester) async {
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([
-          StickersState(isDrawerActive: true),
-        ]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsNothing);
-
-      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
 
     testWidgets('adds PhotoTapped when background photo is tapped',
