@@ -9,7 +9,6 @@ export 'share_caption.dart';
 export 'share_copyable_link.dart';
 export 'share_heading.dart';
 export 'share_progress_overlay.dart';
-export 'share_retake_button.dart';
 export 'share_social_media_clarification.dart';
 export 'share_state_listener.dart';
 export 'share_subheading.dart';
