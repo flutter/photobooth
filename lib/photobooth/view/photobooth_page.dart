@@ -109,10 +109,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
             preview: preview,
             onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
           ),
-          error: (context, error) {
-            print(error);
-            return PhotoboothError(error: error);
-          },
+          error: (context, error) => PhotoboothError(error: error),
         ),
       ),
     );
