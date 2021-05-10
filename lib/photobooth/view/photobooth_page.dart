@@ -104,7 +104,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         aspectRatio: aspectRatio,
         child: Camera(
           controller: _controller,
-          placeholder: (_) => const PhotoboothPlaceholder(),
+          placeholder: (_) => const SizedBox(),
           preview: (context, preview) => PhotoboothPreview(
             preview: preview,
             onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),

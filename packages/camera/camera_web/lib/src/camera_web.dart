@@ -127,7 +127,6 @@ class Camera {
 
     videoElement = html.VideoElement()..applyDefaultStyles();
     divElement = html.DivElement()
-      ..style.setProperty('background', 'black')
       ..style.setProperty('object-fit', 'cover')
       ..append(videoElement);
     // ignore: avoid_dynamic_calls
