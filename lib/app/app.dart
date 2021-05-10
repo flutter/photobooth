@@ -43,16 +43,16 @@ class _AppState extends State<App> {
         opacity: _isVisible ? 1.0 : 0.0,
         duration: const Duration(seconds: 1),
         child: ResponsiveLayoutBuilder(
-          small: (_, __) => _Home(theme: PhotoboothTheme.smallThemeData),
-          large: (_, __) => _Home(theme: PhotoboothTheme.themeData),
+          small: (_, __) => _App(theme: PhotoboothTheme.smallThemeData),
+          large: (_, __) => _App(theme: PhotoboothTheme.themeData),
         ),
       ),
     );
   }
 }
 
-class _Home extends StatelessWidget {
-  const _Home({Key? key, required this.theme}) : super(key: key);
+class _App extends StatelessWidget {
+  const _App({Key? key, required this.theme}) : super(key: key);
 
   final ThemeData theme;
 
