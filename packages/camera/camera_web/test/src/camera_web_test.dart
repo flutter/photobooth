@@ -70,5 +70,13 @@ void main() {
         isInstanceOf<Widget>(),
       );
     });
+
+    test('can getMediaDevices', () {
+      expect(CameraPlatform.instance.getMediaDevices(), completes);
+    });
+
+    test('can getDefaultDeviceId', () {
+      expect(CameraPlatform.instance.getDefaultDeviceId(), completes);
+    });
   });
 }
