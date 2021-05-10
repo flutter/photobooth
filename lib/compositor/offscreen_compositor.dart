@@ -94,7 +94,9 @@ class _OffscreenCompositor {
     /// Render images to offscreen canvas.
     final canvas = OffScreenCanvas(targetWidth, targetHeight)
 
-      /// Draw frame to cover full cropped area.
+    /// Draw frame to cover full cropped area.
+      ..drawImage(frameImage.imageElement, 0, 0, targetWidth, targetHeight)
+    /// Clip to frame interior.
       ..clipRect(
           insideFrameX, insideFrameY, insideFrameWidth, insideFrameHeight);
 
