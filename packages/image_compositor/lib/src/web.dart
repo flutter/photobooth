@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html';
+// import 'offscreen_compositor.dart';
 
 /// {@template image_compositor}
 /// Web Implementation of [ImageCompositor]
@@ -27,5 +28,10 @@ class ImageCompositor {
     );
     _worker.postMessage([data, width, height, layers, aspectRatio]);
     return completer.future;
+
+    // Move compositior files to src and then switch to code below:
+    // final compositor = OffscreenCompositor(data, width, height, layers,
+    //    aspectRatio);
+    // return compositor.composite();
   }
 }

@@ -14,6 +14,8 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
+import 'compositor/offscreen_compositor.dart';
+
 import 'landing/loading_indicator_io.dart'
     if (dart.library.html) 'landing/loading_indicator_web.dart';
 
@@ -30,6 +32,7 @@ void main() async {
   );
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
+    imageCompositor: OffScreenCompositor()
   );
 
   unawaited(
