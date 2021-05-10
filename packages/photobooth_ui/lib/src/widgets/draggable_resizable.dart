@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
@@ -116,6 +118,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         final normalizedWidth = size.width * widthFactor;
         final normalizedHeight = size.width / aspectRatio;
+        size = Size(normalizedWidth, normalizedHeight);
 
         final normalizedLeft = position.dx * widthFactor;
         final normalizedTop = position.dy * heightFactor;
@@ -132,7 +135,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
           widget.onUpdate?.call(
             DragUpdate(
               position: normalizedPosition,
-              size: Size(normalizedWidth, normalizedHeight),
+              size: size,
               constraints: Size(constraints.maxWidth, constraints.maxHeight),
               angle: angle,
             ),
@@ -141,8 +144,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopLeft(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = (size.height - 2 * mid).abs();
-          final newWidth = (size.width - 2 * mid).abs();
+          final newHeight = math.max((size.height - (2 * mid)), 0.0);
+          final newWidth = math.max(size.width - (2 * mid), 0.0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -159,8 +162,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopRight(Offset details) {
           final mid = (details.dx + (details.dy * -1)) / 2;
-          final newHeight = size.height + 2 * mid;
-          final newWidth = size.width + 2 * mid;
+          final newHeight = math.max(size.height + (2 * mid), 0.0);
+          final newWidth = math.max(size.width + (2 * mid), 0.0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -177,8 +180,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomLeft(Offset details) {
           final mid = ((details.dx * -1) + details.dy) / 2;
-          final newHeight = size.height + 2 * mid;
-          final newWidth = size.width + 2 * mid;
+          final newHeight = math.max(size.height + (2 * mid), 0.0);
+          final newWidth = math.max(size.width + (2 * mid), 0.0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -195,8 +198,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomRight(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = size.height + 2 * mid;
-          final newWidth = size.width + 2 * mid;
+          final newHeight = math.max(size.height + (2 * mid), 0.0);
+          final newWidth = math.max(size.width + (2 * mid), 0.0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;

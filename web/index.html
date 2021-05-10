@@ -35,119 +35,32 @@
     <script src="/__/firebase/8.4.1/firebase-storage.js"></script>
     <script src="/__/firebase/8.4.1/firebase-performance.js"></script>
     <script src="/__/firebase/init.js"></script>
-
-    <style>
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        width: 100vw;
-        height: 100vh;
-        font-size: 16px;
-        background: linear-gradient(#cfcfcf, white);
-        font-family: sans-serif;
-      }
-      .background {
-        width: 70%;
-        max-width: 675px;
-      }
-      .heading {
-        font-weight: normal;
-        font-size: 2.5em;
-        text-align: center;
-      }
-      .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        color: black;
-      }
-      .circular {
-        animation: rotate 2s linear infinite;
-        height: 100px;
-        position: relative;
-        width: 100px;
-      }
-      .path {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-        animation: dash 1.5s ease-in-out infinite;
-        stroke-linecap: round;
-        stroke: #ffbb00;
-      }
-      @keyframes rotate {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      @keyframes dash {
-        0% {
-          stroke-dasharray: 1, 200;
-          stroke-dashoffset: 0;
-        }
-        50% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -35;
-        }
-        100% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -124;
-        }
-      }
-    </style>
+    <style>body,html{padding:0;margin:0;width:100%;height:100%;background:linear-gradient(#cfcfcf,#fff)}body{display:flex;justify-content:center;align-items:center;}</style>
+    <style>.MuiCircularProgress-root{display:inline-block}.MuiCircularProgress-static{transition:transform .3s cubic-bezier(.4,0,.2,1) 0s}.MuiCircularProgress-indeterminate{animation:MuiCircularProgress-keyframes-circular-rotate 1.4s linear infinite}.MuiCircularProgress-determinate{transition:transform .3s cubic-bezier(.4,0,.2,1) 0s}.MuiCircularProgress-colorPrimary{color:#3f51b5}.MuiCircularProgress-colorSecondary{color:#f50057}.MuiCircularProgress-svg{display:block;animation:loading_animation 1.4s infinite}.MuiCircularProgress-circle{stroke:currentColor}.MuiCircularProgress-circleStatic{transition:stroke-dashoffset .3s cubic-bezier(.4,0,.2,1) 0s}.MuiCircularProgress-circleIndeterminate{animation:MuiCircularProgress-keyframes-circular-dash 1.4s ease-in-out infinite;stroke-dasharray:80px,200px;stroke-dashoffset:0}.MuiCircularProgress-circleDeterminate{transition:stroke-dashoffset .3s cubic-bezier(.4,0,.2,1) 0s}@keyframes MuiCircularProgress-keyframes-circular-rotate{0%{transform-origin:50% 50%}100%{transform:rotate(360deg)}}@keyframes MuiCircularProgress-keyframes-circular-dash{0%{stroke-dasharray:1px,200px;stroke-dashoffset:0}50%{stroke-dasharray:100px,200px;stroke-dashoffset:-15px}100%{stroke-dasharray:100px,200px;stroke-dashoffset:-125px}}.MuiCircularProgress-circleDisableShrink{animation:none}@keyframes loading_animation{0%{color:#4285f4}25%{color:#ea4335}50%{color:#f9bb2d}75%{color:#34a853}}</style>
   </head>
-  <body>
-    <div id="loading-indicator" class="content">
-      <div class="heading">Welcome to the I/O Photo Booth</div>
-      <svg class="circular">
-        <defs>
-          <mask id="mask">
-            <circle cx="50" cy="50" r="20" fill="white" />
-            <circle cx="50" cy="50" r="15" />
-          </mask>
-        </defs>
-        <circle
-          class="path"
-          cx="50"
-          cy="50"
-          r="20"
-          fill="white"
-          stroke-width="12"
-          stroke-miterlimit="10"
-          mask="url(#mask)"
-        />
-      </svg>
-      <img
-        class="background"
-        src="assets/assets/backgrounds/landing_background.png"
-        alt=""
-      />
-    </div>
-    <script>
+  <body >
+    <div id="loading-indicator" style="width: 60px; height: 60px;" role="progressbar" class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"><svg viewBox="22 22 44 44" class="MuiCircularProgress-svg"> <circle cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6" class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"></circle></svg></div>
+    <script>      
       // Initialize Performance Monitoring.
       firebase.performance();
-
       // Pre-fetch key assets.
       var assets = [
-        "assets/assets/backgrounds/landing_background.png",
-        "assets/assets/backgrounds/permissions_background_desktop.jpg",
-        "assets/assets/backgrounds/permissions_background_mobile.jpg",
         "assets/assets/backgrounds/photobooth_background.jpg",
+        "assets/assets/audio/camera.mp3",
         "assets/assets/images/android.png",
         "assets/assets/images/dash.png",
         "assets/assets/images/sparky.png",
         "assets/assets/images/dino.png",
-        "assets/assets/audio/camera.mp3",
-        "assets/assets/backgrounds/blue_circle.png",
-        "assets/assets/backgrounds/circle_object.png",
-        "assets/assets/backgrounds/red_box.png",
-        "assets/assets/backgrounds/yellow_bar.png",
-        "assets/assets/backgrounds/yellow_plus.png",
+        "assets/assets/images/android_spritesheet.png",
+        "assets/assets/images/dash_spritesheet.png",
+        "assets/assets/images/sparky_spritesheet.png",
+        "assets/assets/images/dino_spritesheet.png",
+        "assets/assets/images/photo_frame_spritesheet_landscape.png",
+        "assets/assets/images/photo_frame_spritesheet_portrait.png",
+        "assets/assets/images/photo_indicator_spritesheet.png",        
       ].map(function (asset) {
         return fetch(asset).catch(function (e) {
-          console.log("fetch failure " + e);
+          console.warn(e);
         });
       });
 

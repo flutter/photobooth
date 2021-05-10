@@ -18,6 +18,9 @@ class ShareBody extends StatelessWidget {
     final isSuccess = context.select(
       (ShareBloc bloc) => bloc.state.uploadStatus.isSuccess,
     );
+    final explicitShareUrl = context.select(
+      (ShareBloc bloc) => bloc.state.explicitShareUrl,
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -29,6 +32,11 @@ class ShareBody extends StatelessWidget {
         const SizedBox(height: 20),
         isSuccess ? const ShareSuccessSubheading() : const ShareSubheading(),
         const SizedBox(height: 30),
+        if (isSuccess)
+          Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+            child: ShareCopyableLink(link: explicitShareUrl),
+          ),
         if (image != null)
           ResponsiveLayoutBuilder(
             small: (_, __) => MobileButtonsLayout(image: image),
@@ -97,7 +105,6 @@ class GoToGoogleIOButton extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      key: const Key('sharePage_goToGoogleIO_elevatedButton'),
       style: ElevatedButton.styleFrom(
         primary: PhotoboothColors.white,
       ),

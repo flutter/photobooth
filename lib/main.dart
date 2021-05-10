@@ -10,7 +10,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
@@ -37,7 +36,6 @@ void main() async {
       (_) => authenticationRepository.signInAnonymously(),
     ),
   );
-  unawaited(Assets.load());
 
   runZonedGuarded(
     () => runApp(App(
@@ -50,7 +48,7 @@ void main() async {
     },
   );
 
-  SchedulerBinding.instance!.addPostFrameCallback((_) {
-    removeLoadingIndicator();
-  });
+  SchedulerBinding.instance!.addPostFrameCallback(
+    (_) => removeLoadingIndicator(),
+  );
 }
