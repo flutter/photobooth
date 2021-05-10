@@ -93,9 +93,9 @@ void main() {
       expect(find.byType(Camera), findsOneWidget);
     });
 
-    testWidgets('renders placholder when initializing', (tester) async {
+    testWidgets('renders placeholder when initializing', (tester) async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
+      expect(find.byType(SizedBox), findsOneWidget);
     });
 
     testWidgets('renders error when unavailable', (tester) async {
