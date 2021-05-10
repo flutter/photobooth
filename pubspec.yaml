@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   firebase_core: ^1.0.4
   firebase_auth: ^1.1.1
-  firebase_storage: "^8.0.4"
+  firebase_storage: ^8.0.4
   bloc: ^7.0.0
   camera:
     path: packages/camera/camera
