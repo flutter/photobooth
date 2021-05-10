@@ -31,9 +31,8 @@ void main() async {
     firebaseAuth: FirebaseAuth.instance,
   );
   final photosRepository = PhotosRepository(
-    firebaseStorage: FirebaseStorage.instance,
-    imageCompositor: OffScreenCompositor()
-  );
+      firebaseStorage: FirebaseStorage.instance,
+      imageCompositor: OffScreenCompositor());
 
   unawaited(
     Firebase.initializeApp().then(

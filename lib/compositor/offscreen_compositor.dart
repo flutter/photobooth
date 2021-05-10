@@ -21,7 +21,7 @@ class OffScreenCompositor implements ImageCompositor {
     required double aspectRatio,
   }) {
     return _OffscreenCompositor(data, width, height, layers, aspectRatio)
-      .composite();
+        .composite();
   }
 }
 
@@ -47,8 +47,8 @@ class _OffscreenCompositor {
     /// Load assets in parallel.
     var imageFuture = HtmlImageLoader(data).loadImage();
     for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-      final imageFuture = HtmlImageLoader(layers[layerIndex].assetPath)
-          .loadImage();
+      final imageFuture =
+          HtmlImageLoader(layers[layerIndex].assetPath).loadImage();
       imageFutures.add(imageFuture);
     }
 
@@ -60,8 +60,7 @@ class _OffscreenCompositor {
     final frameAssetPath = targetAspectRatio < 1
         ? 'assets/assets/images/photo_frame_mobile_download.png'
         : 'assets/assets/images/photo_frame_download.png';
-    final frameImage = await HtmlImageLoader(frameAssetPath)
-        .loadImage();
+    final frameImage = await HtmlImageLoader(frameAssetPath).loadImage();
 
     /// Compute target coordinates and target image size from assets.
     final targetWidth = frameImage.width;
@@ -95,25 +94,26 @@ class _OffscreenCompositor {
 
     /// Render images to offscreen canvas.
     final canvas = OffScreenCanvas(targetWidth, targetHeight)
-    /// Draw frame to cover full cropped area.
-        ..clipRect(insideFrameX, insideFrameY, insideFrameWidth,
-            insideFrameHeight);
+
+      /// Draw frame to cover full cropped area.
+      ..clipRect(
+          insideFrameX, insideFrameY, insideFrameWidth, insideFrameHeight);
 
     /// Scale the image so the cropped portion will cover the inside of
     /// the frame.
     final imageScaleFactor = (inputVideoAspectRatio > targetAspectRatio)
-      ? insideFrameHeight / image.height
-      : insideFrameWidth / image.width;
+        ? insideFrameHeight / image.height
+        : insideFrameWidth / image.width;
 
-    final videoImageX = insideFrameX
-        + (imageCropOffsetX * imageScaleFactor).toInt();
-    final videoImageY = insideFrameY
-        + (imageCropOffsetY * imageScaleFactor).toInt();
+    final videoImageX =
+        insideFrameX + (imageCropOffsetX * imageScaleFactor).toInt();
+    final videoImageY =
+        insideFrameY + (imageCropOffsetY * imageScaleFactor).toInt();
     final videoImageWidth = (image.width * imageScaleFactor).toInt();
     final videoImageHeight = (image.height * imageScaleFactor).toInt();
 
-    canvas.drawImage(image.imageElement,
-        videoImageX, videoImageY, videoImageWidth, videoImageHeight);
+    canvas.drawImage(image.imageElement, videoImageX, videoImageY,
+        videoImageWidth, videoImageHeight);
 
     for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
       final layer = layers[layerIndex];
@@ -127,19 +127,20 @@ class _OffscreenCompositor {
       var assetDx = assetDxPercent * insideFrameWidth;
       var assetDy = assetDyPercent * insideFrameHeight;
       var assetWidth = assetWidthPercent * insideFrameWidth;
+
       /// Keep aspect ratio of asset since it is centered in layer.
       var assetHeight = assetWidth * asset.height / asset.width;
 
       canvas
-          ..save()
-          ..translate((insideFrameX + assetDx).toDouble(),
-              (insideFrameY + assetDy).toDouble())
-          ..translate(assetWidth / 2, assetHeight / 2)
-          ..rotate(layer.angle)
-          ..translate(-assetWidth / 2, -assetHeight / 2)
-          ..drawImage(asset.imageElement, 0, 0, assetWidth.toInt(),
-              assetHeight.toInt())
-          ..restore();
+        ..save()
+        ..translate((insideFrameX + assetDx).toDouble(),
+            (insideFrameY + assetDy).toDouble())
+        ..translate(assetWidth / 2, assetHeight / 2)
+        ..rotate(layer.angle)
+        ..translate(-assetWidth / 2, -assetHeight / 2)
+        ..drawImage(
+            asset.imageElement, 0, 0, assetWidth.toInt(), assetHeight.toInt())
+        ..restore();
     }
 
     /// To data url will convert canvas contents to 64bit encoded PNG.

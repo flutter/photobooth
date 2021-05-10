@@ -4,9 +4,9 @@ import 'dart:js_util' as js_util;
 import 'package:pedantic/pedantic.dart' show unawaited;
 
 final bool _supportsDecode = js_util.getProperty(
-    js_util.getProperty(
-        js_util.getProperty(html.window, 'Image'), 'prototype'),
-    'decode') !=
+        js_util.getProperty(
+            js_util.getProperty(html.window, 'Image'), 'prototype'),
+        'decode') !=
     null;
 
 typedef WebOnlyImageCodecChunkCallback = void Function(

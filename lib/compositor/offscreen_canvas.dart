@@ -44,9 +44,8 @@ class OffScreenCanvas {
       offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
         fileReader.onLoad.listen((event) {
-          completer.complete(
-              js_util.getProperty(
-                  js_util.getProperty(event, 'target')!, 'result')!);
+          completer.complete(js_util.getProperty(
+              js_util.getProperty(event, 'target')!, 'result')!);
         });
         fileReader.readAsDataUrl(value);
       });
@@ -58,10 +57,9 @@ class OffScreenCanvas {
 
   /// Returns CanvasRenderContext2D or OffscreenCanvasRenderingContext2D to
   /// paint into.
-  Object? getContext2d() =>
-    context ??= (offScreenCanvas != null
-        ? offScreenCanvas!.getContext('2d')
-        : canvasElement!.getContext('2d'));
+  Object? getContext2d() => context ??= (offScreenCanvas != null
+      ? offScreenCanvas!.getContext('2d')
+      : canvasElement!.getContext('2d'));
 
   void save() {
     js_util.callMethod(context!, 'save', const <dynamic>[]);
@@ -80,8 +78,8 @@ class OffScreenCanvas {
   }
 
   void drawImage(Object image, int x, int y, int width, int height) {
-    js_util.callMethod(context!, 'drawImage', <dynamic>[image, x, y,
-        width, height]);
+    js_util.callMethod(
+        context!, 'drawImage', <dynamic>[image, x, y, width, height]);
   }
 
   void clipRect(int x, int y, int width, int height) {
@@ -99,20 +97,28 @@ class OffScreenCanvas {
   ///
   /// !Warning API still in experimental status, feature detect before using.
   Object? transferToImageBitmap() {
-    return js_util.callMethod(offScreenCanvas!, 'transferToImageBitmap',
-        <dynamic>[]);
+    return js_util
+        .callMethod(offScreenCanvas!, 'transferToImageBitmap', <dynamic>[]);
   }
 
   /// Draws canvas contents to a rendering context.
   void transferImage(Object targetContext) {
     // Actual size of canvas may be larger than viewport size. Use
     // source/destination to draw part of the image data.
-    js_util.callMethod(targetContext, 'drawImage',
-        <dynamic>[offScreenCanvas ?? canvasElement!, 0, 0, width, height,
-          0, 0, width, height]);
+    js_util.callMethod(targetContext, 'drawImage', <dynamic>[
+      offScreenCanvas ?? canvasElement!,
+      0,
+      0,
+      width,
+      height,
+      0,
+      0,
+      width,
+      height
+    ]);
   }
 
   /// Feature detects OffscreenCanvas.
-  static bool get supported => _supported ??=
-      js_util.hasProperty(html.window, 'OffscreenCanvas');
+  static bool get supported =>
+      _supported ??= js_util.hasProperty(html.window, 'OffscreenCanvas');
 }
