@@ -58,4 +58,12 @@ abstract class CameraPlatform extends PlatformInterface {
   Future<CameraImage> takePicture(int textureId) {
     throw UnimplementedError('takePicture() has not been implemented.');
   }
+
+  Future<List<MediaDeviceInfo>> getMediaDevices() {
+    throw UnimplementedError('getDevicesIds() has not been implemented.');
+  }
+
+  Future<String?> getDefaultDeviceId() {
+    throw UnimplementedError('getDefaultDeviceId() has not been implemented.');
+  }
 }

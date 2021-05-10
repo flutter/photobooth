@@ -3,6 +3,7 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_web/camera_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -72,6 +73,37 @@ class CameraPlugin extends CameraPlatform {
     }
     _cameras.clear();
   }
+
+  @override
+  Future<List<MediaDeviceInfo>> getMediaDevices() async {
+    final videoDevices = <MediaDeviceInfo>[];
+    if (html.window.navigator.mediaDevices != null) {
+      final devices =
+          await html.window.navigator.mediaDevices?.enumerateDevices() ?? [];
+      for (var deviceIndex = 0; deviceIndex < devices.length; deviceIndex++) {
+        dynamic device = devices[deviceIndex];
+        if (device is html.MediaDeviceInfo && device.kind == 'videoinput') {
+          videoDevices.add(
+              MediaDeviceInfo(deviceId: device.deviceId, label: device.label));
+        }
+      }
+    }
+    return videoDevices;
+  }
+
+  @override
+  Future<String?> getDefaultDeviceId() async {
+    String? defaultId = VideoConstraints.defaultDeviceId;
+    if (browserEngine != BrowserEngine.blink) {
+      /// For browsers other than Chrome, enumerate video devices and return
+      /// first one since it is the default selected for the browser.
+      final devices = await getMediaDevices();
+      if (devices.isNotEmpty) {
+        defaultId = devices[0].deviceId;
+      }
+    }
+    return defaultId;
+  }
 }
 
 class Camera {
@@ -114,7 +146,7 @@ class Camera {
 
   Future<html.MediaStream> _getMediaStream() async {
     try {
-      final constraints = options.toJson();
+      final constraints = await options.toJson();
       return await window.navigator.mediaDevices!.getUserMedia(
         constraints,
       );
