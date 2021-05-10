@@ -7,6 +7,7 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _initialStickerScale = 0.25;
 const _minStickerScale = 0.05;
@@ -89,15 +90,11 @@ class StickersView extends StatelessWidget {
                       },
                     ),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: NextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(SharePage.route());
-                        },
-                      ),
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: _NextButton(),
                     ),
                   ),
                   const Align(
@@ -178,6 +175,124 @@ class _DraggableStickers extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _NextButton extends StatelessWidget {
+  const _NextButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      clipBehavior: Clip.hardEdge,
+      shape: const CircleBorder(),
+      color: PhotoboothColors.transparent,
+      child: InkWell(
+        key: const Key('stickersPage_next_inkWell'),
+        onTap: () async {
+          final confirmed = await showAppModal(
+            context: context,
+            landscapeChild: const _ConfirmationDialogContent(),
+            portraitChild: const _ConfirmationBottomSheet(),
+          );
+          if (confirmed) {
+            unawaited(Navigator.of(context).push(SharePage.route()));
+          }
+        },
+        child: Image.asset(
+          'assets/icons/go_next_button_icon.png',
+          height: 100,
+        ),
+      ),
+    );
+  }
+}
+
+class _ConfirmationDialogContent extends StatelessWidget {
+  const _ConfirmationDialogContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.stickersNextConfirmationHeading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline1,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                l10n.stickersNextConfirmationSubheading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline3,
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                runSpacing: 24,
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: PhotoboothColors.black),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(
+                      l10n.stickersNextConfirmationCancelButtonText,
+                      style: theme.textTheme.button?.copyWith(
+                        color: PhotoboothColors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(
+                      l10n.stickersNextConfirmationConfirmButtonText,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ConfirmationBottomSheet extends StatelessWidget {
+  const _ConfirmationBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      decoration: const BoxDecoration(
+        color: PhotoboothColors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      child: Stack(
+        children: [
+          const _ConfirmationDialogContent(),
+          Positioned(
+            right: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(Icons.clear, color: PhotoboothColors.black54),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

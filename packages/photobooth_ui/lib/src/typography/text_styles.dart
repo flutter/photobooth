@@ -111,7 +111,7 @@ class PhotoboothTextStyle {
   /// Button Text Style
   static TextStyle get button {
     return _baseTextStyle.copyWith(
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }

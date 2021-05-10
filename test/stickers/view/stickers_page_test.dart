@@ -298,7 +298,52 @@ void main() {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping NextButton routes to SharePage', (tester) async {
+    testWidgets('tapping NextButton + Cancel does not route to SharePage',
+        (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(value: stickersBloc, child: StickersView()),
+        photoboothBloc: photoboothBloc,
+      );
+
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed!();
+
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byType(SharePage), findsNothing);
+    });
+
+    testWidgets('tapping NextButton + Close does not route to SharePage',
+        (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(value: stickersBloc, child: StickersView()),
+        photoboothBloc: photoboothBloc,
+      );
+
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
+
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byType(SharePage), findsNothing);
+    });
+
+    testWidgets('tapping NextButton + Confirm routes to SharePage',
+        (tester) async {
       final photosRepository = MockPhotosRepository();
       when(
         () => photosRepository.composite(
@@ -316,7 +361,13 @@ void main() {
         photosRepository: photosRepository,
       );
 
-      tester.widget<NextButton>(find.byType(NextButton)).onPressed();
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
 
       await tester.pump();
       await tester.pump();
