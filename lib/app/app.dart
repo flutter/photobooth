@@ -42,17 +42,31 @@ class _AppState extends State<App> {
       child: AnimatedOpacity(
         opacity: _isVisible ? 1.0 : 0.0,
         duration: const Duration(seconds: 1),
-        child: MaterialApp(
-          title: 'I/O Photo Booth',
-          theme: PhotoboothTheme.themeData,
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: const LandingPage(),
+        child: ResponsiveLayoutBuilder(
+          small: (_, __) => _App(theme: PhotoboothTheme.small),
+          large: (_, __) => _App(theme: PhotoboothTheme.standard),
         ),
       ),
+    );
+  }
+}
+
+class _App extends StatelessWidget {
+  const _App({Key? key, required this.theme}) : super(key: key);
+
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'I/O Photo Booth',
+      theme: theme,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const LandingPage(),
     );
   }
 }

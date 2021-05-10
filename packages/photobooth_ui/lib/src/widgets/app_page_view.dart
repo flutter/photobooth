@@ -35,9 +35,7 @@ class AppPageView extends StatelessWidget {
         background,
         CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: body,
-            ),
+            SliverToBoxAdapter(child: body),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Container(

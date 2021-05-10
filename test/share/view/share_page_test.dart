@@ -402,6 +402,7 @@ void main() {
 
     group('ResponsiveLayout', () {
       testWidgets('displays a DesktopButtonsLayout', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,

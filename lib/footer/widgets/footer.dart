@@ -7,9 +7,7 @@ class WhiteFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Footer(
-      textColor: PhotoboothColors.white,
-    );
+    return const Footer(textColor: PhotoboothColors.white);
   }
 }
 
