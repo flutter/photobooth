@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -260,7 +259,97 @@ void main() {
       );
     });
 
-    testWidgets('tapping on back button pops route and clears props',
+    testWidgets('tapping on retake + close does nothing', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: photoboothBloc),
+                    BlocProvider.value(value: stickersBloc),
+                  ],
+                  child: StickersView(),
+                ),
+              ),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
+      verifyNever(() => photoboothBloc.add(const PhotoClearAllTapped()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+    });
+
+    testWidgets('tapping on retake + cancel does nothing', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: photoboothBloc),
+                    BlocProvider.value(value: stickersBloc),
+                  ],
+                  child: StickersView(),
+                ),
+              ),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
+      verifyNever(() => photoboothBloc.add(const PhotoClearAllTapped()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+    });
+
+    testWidgets('tapping on retake + confirm pops route and clears props',
         (tester) async {
       const initialPage = Key('__target__');
       await tester.pumpApp(Builder(
@@ -288,8 +377,17 @@ void main() {
       expect(find.byType(StickersView), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
-      backButton.onPressed();
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
       verify(() => photoboothBloc.add(const PhotoClearAllTapped())).called(1);
       await tester.pumpAndSettle();
 
@@ -297,7 +395,7 @@ void main() {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping NextButton + Cancel does not route to SharePage',
+    testWidgets('tapping next + cancel does not route to SharePage',
         (tester) async {
       await tester.pumpApp(
         BlocProvider.value(value: stickersBloc, child: StickersView()),
@@ -319,7 +417,7 @@ void main() {
       expect(find.byType(SharePage), findsNothing);
     });
 
-    testWidgets('tapping NextButton + Close does not route to SharePage',
+    testWidgets('tapping next + close does not route to SharePage',
         (tester) async {
       await tester.pumpApp(
         BlocProvider.value(value: stickersBloc, child: StickersView()),
@@ -341,8 +439,7 @@ void main() {
       expect(find.byType(SharePage), findsNothing);
     });
 
-    testWidgets('tapping NextButton + Confirm routes to SharePage',
-        (tester) async {
+    testWidgets('tapping next + confirm routes to SharePage', (tester) async {
       final photosRepository = MockPhotosRepository();
       when(
         () => photosRepository.composite(
