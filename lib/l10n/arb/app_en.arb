@@ -147,15 +147,7 @@
     "shareDialogFacebookButtonText": "Facebook",
     "@shareDialogFacebookButtonText": {
         "description": "Button text shown on the share dialog which shares on Facebook the photo."
-    },
-    "photoBoothPlaceholderHeadline": "Allow I\u2215O to access your camera",
-    "@photoBoothPlaceholderHeadline": {
-        "description": "Text displayed on headline on the photobooth page while waiting for granting the camera permissions"
-    },
-    "photoBoothPlaceholderSubheadline": "Photos are not stored online unless you choose to share them to social media.",
-    "@photoBoothPlaceholderSubheadline": {
-        "description": "Text displayed on subheadline on the photobooth page while waiting for granting the camera permissions"
-    },
+    },    
     "photoBoothCameraAccessDeniedHeadline": "Camera access denied",
     "@photoBoothCameraAccessDeniedHeadline": {
         "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
@@ -247,5 +239,21 @@
     "propsReminderText": "Don't forget to add your props",
     "@propsReminderText": {
         "description": "Helper text to add props"
+    },
+    "stickersNextConfirmationHeading": "Ready to see the final photo?",
+    "@stickersNextConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationSubheading": "Once you leave this screen you won't be able to make any changes",
+    "@stickersNextConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationCancelButtonText": "No, I'm still creating",
+    "@stickersNextConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationConfirmButtonText": "Yes, show me",
+    "@stickersNextConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the next button"
     }
 }

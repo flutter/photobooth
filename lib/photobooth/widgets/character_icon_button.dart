@@ -20,24 +20,29 @@ class CharacterIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
-    return Opacity(
-      opacity: isSelected ? 0.6 : 1,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Material(
-          color: PhotoboothColors.transparent,
-          shape: const CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          child: Ink.image(
-            fit: BoxFit.cover,
-            image: icon,
-            width: orientation == Orientation.landscape
-                ? _characterIconButtonSizeLandscape
-                : _characterIconButtonSizePortait,
-            height: orientation == Orientation.landscape
-                ? _characterIconButtonSizeLandscape
-                : _characterIconButtonSizePortait,
-            child: InkWell(onTap: onPressed),
+    return Semantics(
+      focusable: true,
+      button: true,
+      onTap: onPressed,
+      child: Opacity(
+        opacity: isSelected ? 0.6 : 1,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Material(
+            color: PhotoboothColors.transparent,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            child: Ink.image(
+              fit: BoxFit.cover,
+              image: icon,
+              width: orientation == Orientation.landscape
+                  ? _characterIconButtonSizeLandscape
+                  : _characterIconButtonSizePortait,
+              height: orientation == Orientation.landscape
+                  ? _characterIconButtonSizeLandscape
+                  : _characterIconButtonSizePortait,
+              child: InkWell(onTap: onPressed),
+            ),
           ),
         ),
       ),

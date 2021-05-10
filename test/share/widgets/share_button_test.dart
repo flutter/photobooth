@@ -62,7 +62,7 @@ void main() {
         'tapping on share photo button opens ShareBottomSheet '
         'when platform is not mobile and it is portrait', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
-      tester.setPortrait();
+      tester.setPortraitDisplaySize();
 
       await tester.pumpApp(
         ShareButton(
@@ -82,7 +82,7 @@ void main() {
         'tapping on share photo button opens ShareDialog '
         'when platform is not mobile and it is landscape', (tester) async {
       when(() => platformHelper.isMobile).thenReturn(false);
-      tester.setLandscape();
+      tester.setLandscapeDisplaySize();
       await tester.pumpApp(
         ShareButton(
           image: image,
