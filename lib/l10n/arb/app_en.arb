@@ -255,5 +255,21 @@
     "stickersNextConfirmationConfirmButtonText": "Yes, show me",
     "@stickersNextConfirmationConfirmButtonText": {
         "description": "Confirm button text shown in the confirmation when user taps the next button"
+    },
+    "shareRetakeConfirmationHeading": "Ready to take a new photo?",
+    "@shareRetakeConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationSubheading": "Remember to download or share this one first",
+    "@shareRetakeConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationCancelButtonText": "No, stay here",
+    "@shareRetakeConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationConfirmButtonText": "Yes, retake photo",
+    "@shareRetakeConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the retake button"
     }
 }

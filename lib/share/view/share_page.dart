@@ -47,10 +47,128 @@ class ShareView extends StatelessWidget {
           body: ShareBody(),
           footer: WhiteFooter(),
           overlays: [
-            ShareRetakeButton(),
+            _ShareRetakeButton(),
             ShareProgressOverlay(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ShareRetakeButton extends StatelessWidget {
+  const _ShareRetakeButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Positioned(
+      left: 15,
+      top: 15,
+      child: AppTooltipButton(
+        key: const Key('sharePage_retake_appTooltipButton'),
+        onPressed: () async {
+          final confirmed = await showAppModal(
+            context: context,
+            landscapeChild: const _ConfirmationDialogContent(),
+            portraitChild: const _ConfirmationBottomSheet(),
+          );
+          if (confirmed) {
+            context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+            Navigator.of(context).popUntil(
+                (route) => route.settings.name == PhotoboothPage.name);
+          }
+        },
+        message: l10n.retakeButtonTooltip,
+        child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+      ),
+    );
+  }
+}
+
+class _ConfirmationDialogContent extends StatelessWidget {
+  const _ConfirmationDialogContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.shareRetakeConfirmationHeading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline1,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                l10n.shareRetakeConfirmationSubheading,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headline3,
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                runSpacing: 24,
+                children: [
+                  OutlinedButton(
+                    key: const Key('sharePage_retakeCancel_elevatedButton'),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: PhotoboothColors.black),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(
+                      l10n.shareRetakeConfirmationCancelButtonText,
+                      style: theme.textTheme.button?.copyWith(
+                        color: PhotoboothColors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  ElevatedButton(
+                    key: const Key('sharePage_retakeConfirm_elevatedButton'),
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(l10n.shareRetakeConfirmationConfirmButtonText),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ConfirmationBottomSheet extends StatelessWidget {
+  const _ConfirmationBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      decoration: const BoxDecoration(
+        color: PhotoboothColors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      child: Stack(
+        children: [
+          const _ConfirmationDialogContent(),
+          Positioned(
+            right: 24,
+            top: 24,
+            child: IconButton(
+              icon: const Icon(Icons.clear, color: PhotoboothColors.black54),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          ),
+        ],
       ),
     );
   }
