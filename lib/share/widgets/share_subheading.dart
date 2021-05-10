@@ -38,7 +38,7 @@ class ShareSubheading extends StatelessWidget {
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart4,
-            recognizer: TapGestureRecognizer()..onTap = () => openLink(''),
+            recognizer: TapGestureRecognizer()..onTap = launchOpenSourceLink,
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
         ],
