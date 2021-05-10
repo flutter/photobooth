@@ -25,7 +25,7 @@ void main() {
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
         materialApp.theme!.textTheme.headline1!.fontSize,
-        equals(PhotoboothTheme.themeData.textTheme.headline1!.fontSize),
+        equals(PhotoboothTheme.standard.textTheme.headline1!.fontSize),
       );
     });
 
@@ -38,7 +38,7 @@ void main() {
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
         materialApp.theme!.textTheme.headline1!.fontSize,
-        equals(PhotoboothTheme.smallThemeData.textTheme.headline1!.fontSize),
+        equals(PhotoboothTheme.small.textTheme.headline1!.fontSize),
       );
     });
 

@@ -43,8 +43,8 @@ class _AppState extends State<App> {
         opacity: _isVisible ? 1.0 : 0.0,
         duration: const Duration(seconds: 1),
         child: ResponsiveLayoutBuilder(
-          small: (_, __) => _App(theme: PhotoboothTheme.smallThemeData),
-          large: (_, __) => _App(theme: PhotoboothTheme.themeData),
+          small: (_, __) => _App(theme: PhotoboothTheme.small),
+          large: (_, __) => _App(theme: PhotoboothTheme.standard),
         ),
       ),
     );

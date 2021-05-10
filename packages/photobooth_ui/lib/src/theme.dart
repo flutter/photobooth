@@ -6,8 +6,8 @@ const _smallTextScaleFactor = 0.85;
 
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
-  /// Default `ThemeData` for Photobooth UI.
-  static ThemeData get themeData {
+  /// Standard `ThemeData` for Photobooth UI.
+  static ThemeData get standard {
     return ThemeData(
       colorScheme: ColorScheme.fromSwatch(accentColor: PhotoboothColors.blue),
       appBarTheme: _appBarTheme,
@@ -24,8 +24,8 @@ class PhotoboothTheme {
   }
 
   /// `ThemeData` for Photobooth UI for small screens.
-  static ThemeData get smallThemeData {
-    return themeData.copyWith(textTheme: _smallTextTheme);
+  static ThemeData get small {
+    return standard.copyWith(textTheme: _smallTextTheme);
   }
 
   static TextTheme get _textTheme {
