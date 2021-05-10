@@ -6,20 +6,23 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:js_util' as js_util;
 
+/// {@template offscreen_canvas}
 /// Polyfill for html.OffscreenCanvas that is not supported on some browsers.
+/// {@endtemplate}
 class OffScreenCanvas {
+  /// {@macro offscreen_canvas}
   OffScreenCanvas(this.width, this.height) {
     if (OffScreenCanvas.supported) {
-      offScreenCanvas = html.OffscreenCanvas(width, height);
+      _offScreenCanvas = html.OffscreenCanvas(width, height);
     } else {
-      canvasElement = html.CanvasElement(
+      _canvasElement = html.CanvasElement(
         width: width,
         height: height,
       );
-      canvasElement!.className = 'gl-canvas';
+      _canvasElement!.className = 'gl-canvas';
       final cssWidth = width / html.window.devicePixelRatio;
       final cssHeight = height / html.window.devicePixelRatio;
-      canvasElement!.style
+      _canvasElement!.style
         ..position = 'absolute'
         ..width = '${cssWidth}px'
         ..height = '${cssHeight}px';
@@ -29,22 +32,28 @@ class OffScreenCanvas {
     getContext2d();
   }
 
-  html.OffscreenCanvas? offScreenCanvas;
-  html.CanvasElement? canvasElement;
-  int width;
-  int height;
-  Object? context;
+  html.OffscreenCanvas? _offScreenCanvas;
+  html.CanvasElement? _canvasElement;
+
+  /// The desired width of the canvas.
+  final int width;
+
+  /// The desired height of the canvas.
+  final int height;
+  Object? _context;
   static bool? _supported;
 
+  /// Clears internal state which includes references various canvas elements.
   void dispose() {
-    offScreenCanvas = null;
-    canvasElement = null;
+    _offScreenCanvas = null;
+    _canvasElement = null;
   }
 
+  /// Generates a data url from the offscreen canvas.
   Future<String> toDataUrl() {
     final completer = Completer<String>();
-    if (offScreenCanvas != null) {
-      offScreenCanvas!.convertToBlob().then((html.Blob value) {
+    if (_offScreenCanvas != null) {
+      _offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
         fileReader.onLoad.listen((event) {
           completer.complete(js_util.getProperty(
@@ -54,46 +63,53 @@ class OffScreenCanvas {
       });
       return completer.future;
     } else {
-      return Future.value(canvasElement!.toDataUrl());
+      return Future.value(_canvasElement!.toDataUrl());
     }
   }
 
   /// Returns CanvasRenderContext2D or OffscreenCanvasRenderingContext2D to
   /// paint into.
-  Object? getContext2d() => context ??= (offScreenCanvas != null
-      ? offScreenCanvas!.getContext('2d')
-      : canvasElement!.getContext('2d'));
+  Object? getContext2d() => _context ??= (_offScreenCanvas != null
+      ? _offScreenCanvas!.getContext('2d')
+      : _canvasElement!.getContext('2d'));
 
+  /// Proxy to `canvas.getContext('2d').save()`.
   void save() {
-    js_util.callMethod(context!, 'save', const <dynamic>[]);
+    js_util.callMethod(_context!, 'save', const <dynamic>[]);
   }
 
+  /// Proxy to `canvas.getContext('2d').restore()`.
   void restore() {
-    js_util.callMethod(context!, 'restore', const <dynamic>[]);
+    js_util.callMethod(_context!, 'restore', const <dynamic>[]);
   }
 
+  /// Proxy to `canvas.getContext('2d').translate()`.
   void translate(double x, double y) {
-    js_util.callMethod(context!, 'translate', <dynamic>[x, y]);
+    js_util.callMethod(_context!, 'translate', <dynamic>[x, y]);
   }
 
+  /// Proxy to `canvas.getContext('2d').rotate()`.
   void rotate(double angle) {
-    js_util.callMethod(context!, 'rotate', <dynamic>[angle]);
+    js_util.callMethod(_context!, 'rotate', <dynamic>[angle]);
   }
 
+  /// Proxy to `canvas.getContext('2d').drawImage()`.
   void drawImage(Object image, int x, int y, int width, int height) {
     js_util.callMethod(
-        context!, 'drawImage', <dynamic>[image, x, y, width, height]);
+        _context!, 'drawImage', <dynamic>[image, x, y, width, height]);
   }
 
+  /// Creates a rectangular path whose starting point is at (x, y) and
+  /// whose size is specified by width and height and clips the path.
   void clipRect(int x, int y, int width, int height) {
-    js_util.callMethod(context!, 'beginPath', const <dynamic>[]);
-    js_util.callMethod(context!, 'rect', <dynamic>[x, y, width, height]);
-    js_util.callMethod(context!, 'clip', const <dynamic>[]);
+    js_util.callMethod(_context!, 'beginPath', const <dynamic>[]);
+    js_util.callMethod(_context!, 'rect', <dynamic>[x, y, width, height]);
+    js_util.callMethod(_context!, 'clip', const <dynamic>[]);
   }
 
   /// Feature detection for transferToImageBitmap on OffscreenCanvas.
   bool get transferToImageBitmapSupported =>
-      js_util.hasProperty(offScreenCanvas!, 'transferToImageBitmap');
+      js_util.hasProperty(_offScreenCanvas!, 'transferToImageBitmap');
 
   /// Creates an ImageBitmap object from the most recently rendered image
   /// of the OffscreenCanvas.
@@ -101,7 +117,7 @@ class OffScreenCanvas {
   /// !Warning API still in experimental status, feature detect before using.
   Object? transferToImageBitmap() {
     return js_util
-        .callMethod(offScreenCanvas!, 'transferToImageBitmap', <dynamic>[]);
+        .callMethod(_offScreenCanvas!, 'transferToImageBitmap', <dynamic>[]);
   }
 
   /// Draws canvas contents to a rendering context.
@@ -109,7 +125,7 @@ class OffScreenCanvas {
     // Actual size of canvas may be larger than viewport size. Use
     // source/destination to draw part of the image data.
     js_util.callMethod(targetContext, 'drawImage', <dynamic>[
-      offScreenCanvas ?? canvasElement!,
+      _offScreenCanvas ?? _canvasElement!,
       0,
       0,
       width,

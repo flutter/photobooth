@@ -9,22 +9,35 @@ final bool _supportsDecode = js_util.getProperty(
         'decode') !=
     null;
 
-typedef WebOnlyImageCodecChunkCallback = void Function(
-    int cumulativeBytesLoaded, int expectedTotalBytes);
-
+/// {@template html_image}
+/// Dart wrapper around an [html.ImageElement] and the element's
+/// width and height.
+/// {@endtemplate}
 class HtmlImage {
-  HtmlImage(this.imageElement, this.width, this.height);
+  /// {@macro html_image}
+  const HtmlImage(this.imageElement, this.width, this.height);
 
+  /// The image element.
   final html.ImageElement imageElement;
+
+  /// The width of the [imageElement].
   final int width;
+
+  /// The height of the [imageElement].
   final int height;
 }
 
+/// {@macro html_image_loader}
+/// Loads an [HtmlImage] given the `src` of the image.
+/// {@endtemplate}
 class HtmlImageLoader {
-  HtmlImageLoader(this.src);
+  /// {@macro html_image_loader}
+  const HtmlImageLoader(this.src);
 
+  /// The image `src`.
   final String src;
 
+  /// {@macro html_image_loader}
   Future<HtmlImage> loadImage() async {
     final completer = Completer<HtmlImage>();
     if (_supportsDecode) {

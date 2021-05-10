@@ -8,12 +8,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_compositor/image_compositor.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
-
-import 'compositor/offscreen_compositor.dart';
 
 import 'landing/loading_indicator_io.dart'
     if (dart.library.html) 'landing/loading_indicator_web.dart';
@@ -30,8 +29,9 @@ void main() async {
     firebaseAuth: FirebaseAuth.instance,
   );
   final photosRepository = PhotosRepository(
-      firebaseStorage: FirebaseStorage.instance,
-      imageCompositor: OffScreenCompositor());
+    firebaseStorage: FirebaseStorage.instance,
+    imageCompositor: ImageCompositor(),
+  );
 
   unawaited(
     Firebase.initializeApp().then(
