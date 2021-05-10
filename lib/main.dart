@@ -13,8 +13,6 @@ import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
-import 'compositor/offscreen_compositor.dart';
-
 import 'landing/loading_indicator_io.dart'
     if (dart.library.html) 'landing/loading_indicator_web.dart';
 
@@ -29,9 +27,8 @@ void main() async {
   final authenticationRepository = AuthenticationRepository(
     firebaseAuth: FirebaseAuth.instance,
   );
-  final photosRepository = PhotosRepository(
-      firebaseStorage: FirebaseStorage.instance,
-      imageCompositor: OffScreenCompositor());
+  final photosRepository =
+      PhotosRepository(firebaseStorage: FirebaseStorage.instance);
 
   unawaited(
     Firebase.initializeApp().then(

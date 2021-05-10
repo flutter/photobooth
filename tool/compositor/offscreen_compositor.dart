@@ -20,13 +20,13 @@ class OffScreenCompositor implements ImageCompositor {
     required List layers,
     required double aspectRatio,
   }) {
-    return _OffscreenCompositor(data, width, height, layers, aspectRatio)
+    return OffscreenCompositor(data, width, height, layers, aspectRatio)
         .composite();
   }
 }
 
-class _OffscreenCompositor {
-  _OffscreenCompositor(this.data, this.width, this.height, this.rawLayers,
+class OffscreenCompositor {
+  OffscreenCompositor(this.data, this.width, this.height, this.rawLayers,
       this.targetAspectRatio);
 
   final String data;
@@ -94,9 +94,10 @@ class _OffscreenCompositor {
     /// Render images to offscreen canvas.
     final canvas = OffScreenCanvas(targetWidth, targetHeight)
 
-    /// Draw frame to cover full cropped area.
+      /// Draw frame to cover full cropped area.
       ..drawImage(frameImage.imageElement, 0, 0, targetWidth, targetHeight)
-    /// Clip to frame interior.
+
+      /// Clip to frame interior.
       ..clipRect(
           insideFrameX, insideFrameY, insideFrameWidth, insideFrameHeight);
 
