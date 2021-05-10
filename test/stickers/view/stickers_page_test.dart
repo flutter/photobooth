@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -15,6 +16,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:photos_repository/photos_repository.dart';
 import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
@@ -30,27 +32,36 @@ class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class FakeDragUpdate extends Fake implements DragUpdate {}
-
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
+class FakeShareEvent extends Fake implements ShareEvent {}
+
+class FakeShareState extends Fake implements ShareState {}
+
+class MockShareBloc extends MockBloc<ShareEvent, ShareState>
+    implements ShareBloc {}
+
+class FakeDragUpdate extends Fake implements DragUpdate {}
+
 class MockPlatformHelper extends Mock implements PlatformHelper {}
 
-void main() async {
+class MockPhotosRepository extends Mock implements PhotosRepository {}
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   const width = 1;
   const height = 1;
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: width, height: height, data: data);
-
-  TestWidgetsFlutterBinding.ensureInitialized();
-  await Assets.load();
 
   setUpAll(() {
     registerFallbackValue<StickersEvent>(FakeStickersEvent());
     registerFallbackValue<StickersState>(FakeStickersState());
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue<ShareEvent>(FakeShareEvent());
+    registerFallbackValue<ShareState>(FakeShareState());
   });
 
   group('StickersPage', () {
@@ -305,15 +316,27 @@ void main() async {
     });
 
     testWidgets('tapping NextButton routes to SharePage', (tester) async {
+      final photosRepository = MockPhotosRepository();
+      when(
+        () => photosRepository.composite(
+          width: any(named: 'width'),
+          height: any(named: 'height'),
+          data: any(named: 'data'),
+          layers: [],
+          aspectRatio: any(named: 'aspectRatio'),
+        ),
+      ).thenAnswer((_) async => Uint8List(0));
+
       await tester.pumpApp(
-        StickersPage(),
+        BlocProvider.value(value: stickersBloc, child: StickersView()),
         photoboothBloc: photoboothBloc,
+        photosRepository: photosRepository,
       );
 
-      final goToPreviewButton =
-          tester.widget<NextButton>(find.byType(NextButton));
-      goToPreviewButton.onPressed();
-      await tester.pumpAndSettle();
+      tester.widget<NextButton>(find.byType(NextButton)).onPressed();
+
+      await tester.pump();
+      await tester.pump();
 
       expect(find.byType(StickersPage), findsNothing);
       expect(find.byType(SharePage), findsOneWidget);

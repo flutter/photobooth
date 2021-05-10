@@ -1,20 +1,17 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+
 import '../../helpers/helpers.dart';
 
-void main() async {
+void main() {
   const googleTabAssetPath = 'assets/icons/google_icon.png';
   const hatsTabAssetPath = 'assets/icons/hats_icon.png';
   const eyewearTabAssetPath = 'assets/icons/eyewear_icon.png';
   const foodTabAssetPath = 'assets/icons/food_icon.png';
   const shapesTabAssetPath = 'assets/icons/shapes_icon.png';
-
-  TestWidgetsFlutterBinding.ensureInitialized();
-  await Assets.load();
 
   group('StickersTab', () {
     group('TabBar', () {
@@ -220,7 +217,7 @@ void main() async {
 
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_hatsTabBarView')));
-          expect(tabBarView.stickers, equals(Assets.hatsProps));
+          expect(tabBarView.stickers, equals(Assets.hatProps));
         });
       });
 
@@ -388,7 +385,7 @@ void main() async {
 
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_shapesTabBarView')));
-          expect(tabBarView.stickers, equals(Assets.shapesProps));
+          expect(tabBarView.stickers, equals(Assets.shapeProps));
         });
       });
     });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -29,7 +29,7 @@ class PhotoboothPreview extends StatelessWidget {
         onPressed: () {
           context
               .read<PhotoboothBloc>()
-              .add(PhotoCharacterToggled(character: Assets.dash));
+              .add(const PhotoCharacterToggled(character: Assets.dash));
         },
       ),
       CharacterIconButton(
@@ -39,7 +39,7 @@ class PhotoboothPreview extends StatelessWidget {
         onPressed: () {
           context
               .read<PhotoboothBloc>()
-              .add(PhotoCharacterToggled(character: Assets.sparky));
+              .add(const PhotoCharacterToggled(character: Assets.sparky));
         },
       ),
       CharacterIconButton(
@@ -49,7 +49,7 @@ class PhotoboothPreview extends StatelessWidget {
         onPressed: () {
           context
               .read<PhotoboothBloc>()
-              .add(PhotoCharacterToggled(character: Assets.android));
+              .add(const PhotoCharacterToggled(character: Assets.android));
         },
       ),
       CharacterIconButton(
@@ -59,7 +59,7 @@ class PhotoboothPreview extends StatelessWidget {
         onPressed: () {
           context
               .read<PhotoboothBloc>()
-              .add(PhotoCharacterToggled(character: Assets.dino));
+              .add(const PhotoCharacterToggled(character: Assets.dino));
         },
       ),
     ];

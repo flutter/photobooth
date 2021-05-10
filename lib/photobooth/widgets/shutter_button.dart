@@ -83,6 +83,7 @@ class CountdownTimer extends StatelessWidget {
   Widget build(BuildContext context) {
     final seconds =
         (_shutterCountdownDuration.inSeconds * controller.value).ceil();
+    final theme = Theme.of(context);
     return Container(
       height: 70,
       width: 70,
@@ -93,19 +94,15 @@ class CountdownTimer extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               '$seconds',
-              style: const TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.w500,
+              style: theme.textTheme.headline1?.copyWith(
                 color: PhotoboothColors.white,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
           Positioned.fill(
             child: CustomPaint(
-              painter: TimerPainter(
-                animation: controller,
-                countdown: seconds,
-              ),
+              painter: TimerPainter(animation: controller, countdown: seconds),
             ),
           )
         ],
