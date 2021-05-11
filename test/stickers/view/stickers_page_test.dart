@@ -536,7 +536,7 @@ void main() {
         find.byType(ClearStickersButton),
       );
       clearStickersButton.onPressed();
-      await tester.pumpAndSettle();
+      await tester.pump();
       expect(find.byType(ClearStickersDialog), findsOneWidget);
     });
 
