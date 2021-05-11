@@ -1,7 +1,7 @@
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -11,7 +11,7 @@ class ShareBottomSheet extends StatelessWidget {
     required this.image,
   }) : super(key: key);
 
-  final CameraImage image;
+  final Uint8List image;
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +36,8 @@ class ShareBottomSheet extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: FramedPhotoboothPhoto(
-                      aspectRatio: PhotoboothAspectRatio.portrait,
-                      image: image.data,
-                    ),
-                  ),
+                  const SizedBox(height: 60),
+                  SharePreviewPhoto(image: image),
                   const SizedBox(height: 60),
                   SelectableText(
                     l10n.shareDialogHeading,

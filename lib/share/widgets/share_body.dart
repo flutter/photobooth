@@ -1,4 +1,5 @@
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,9 @@ class ShareBody extends StatelessWidget {
     final file = context.select((ShareBloc bloc) => bloc.state.file);
     final compositeStatus = context.select(
       (ShareBloc bloc) => bloc.state.compositeStatus,
+    );
+    final compositedImage = context.select(
+      (ShareBloc bloc) => bloc.state.bytes,
     );
     final isUploadSuccess = context.select(
       (ShareBloc bloc) => bloc.state.uploadStatus.isSuccess,
@@ -55,12 +59,14 @@ class ShareBody extends StatelessWidget {
                       ),
                       child: ShareCopyableLink(link: shareUrl),
                     ),
-                  if (image != null && file != null)
+                  if (compositedImage != null && file != null)
                     ResponsiveLayoutBuilder(
-                      small: (_, __) =>
-                          MobileButtonsLayout(image: image, file: file),
+                      small: (_, __) => MobileButtonsLayout(
+                        image: compositedImage,
+                        file: file,
+                      ),
                       large: (_, __) => DesktopButtonsLayout(
-                        image: image,
+                        image: compositedImage,
                         file: file,
                       ),
                     ),
@@ -87,7 +93,7 @@ class DesktopButtonsLayout extends StatelessWidget {
     required this.file,
   }) : super(key: key);
 
-  final CameraImage image;
+  final Uint8List image;
   final XFile file;
 
   @override
@@ -113,7 +119,7 @@ class MobileButtonsLayout extends StatelessWidget {
     required this.file,
   }) : super(key: key);
 
-  final CameraImage image;
+  final Uint8List image;
   final XFile file;
 
   @override

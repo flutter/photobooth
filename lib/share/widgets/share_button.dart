@@ -1,4 +1,5 @@
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -16,8 +17,8 @@ class ShareButton extends StatelessWidget {
   })  : platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
-  /// Raw image from camera
-  final CameraImage image;
+  /// Composited image
+  final Uint8List image;
 
   /// Optional [PlatformHelper] instance.
   final PlatformHelper platformHelper;
@@ -36,10 +37,7 @@ class ShareButton extends StatelessWidget {
               BlocProvider.value(value: context.read<PhotoboothBloc>()),
               BlocProvider.value(value: context.read<ShareBloc>()),
             ],
-            child: ShareDialog(
-              aspectRatio: PhotoboothAspectRatio.landscape,
-              image: image,
-            ),
+            child: ShareDialog(image: image),
           ),
           portraitChild: MultiBlocProvider(
             providers: [
