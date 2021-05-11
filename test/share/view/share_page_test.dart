@@ -146,6 +146,7 @@ void main() {
     setUp(() {
       when(() => shareBloc.state).thenReturn(ShareState(
         compositeStatus: ShareStatus.success,
+        bytes: Uint8List(0),
         file: file,
       ));
     });
@@ -328,10 +329,6 @@ void main() {
             headers: const {},
           ),
         ).thenAnswer((_) async => true);
-        when(() => shareBloc.state).thenReturn(ShareState(
-          compositeStatus: ShareStatus.success,
-          file: file,
-        ));
         tester.setDisplaySize(Size(2500, 2500));
         await tester.pumpApp(
           ShareView(),
