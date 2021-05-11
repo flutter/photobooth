@@ -79,7 +79,7 @@ class StickersTabs extends StatelessWidget {
 }
 
 @visibleForTesting
-class StickersTab extends StatelessWidget {
+class StickersTab extends StatefulWidget {
   const StickersTab({
     Key? key,
     required this.assetPath,
@@ -88,17 +88,27 @@ class StickersTab extends StatelessWidget {
   final String assetPath;
 
   @override
+  _StickersTabState createState() => _StickersTabState();
+}
+
+class _StickersTabState extends State<StickersTab>
+    with AutomaticKeepAliveClientMixin<StickersTab> {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Tab(
       iconMargin: const EdgeInsets.only(bottom: 24),
       icon: Image.asset(
-        assetPath,
+        widget.assetPath,
         width: 30,
         height: 30,
         color: IconTheme.of(context).color,
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 @visibleForTesting
