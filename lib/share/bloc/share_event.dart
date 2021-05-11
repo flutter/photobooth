@@ -11,10 +11,6 @@ class ShareViewLoaded extends ShareEvent {
   const ShareViewLoaded();
 }
 
-class ShareDownloadTapped extends ShareEvent {
-  const ShareDownloadTapped();
-}
-
 abstract class ShareTapped extends ShareEvent {
   const ShareTapped();
 }
