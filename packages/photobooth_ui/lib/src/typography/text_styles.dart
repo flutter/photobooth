@@ -23,7 +23,7 @@ class PhotoboothTextStyle {
   /// Headline 2 Text Style
   static TextStyle get headline2 {
     return _baseTextStyle.copyWith(
-      fontSize: 32,
+      fontSize: 30,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }

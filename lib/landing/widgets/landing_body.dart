@@ -15,23 +15,23 @@ class LandingBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          const SizedBox(height: 24),
+          const SizedBox(height: 120),
           SelectableText(
             l10n.landingPageHeading,
             key: const Key('landingPage_heading_text'),
             style: theme.textTheme.headline1,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 40),
           SelectableText(
             l10n.landingPageSubheading,
             key: const Key('landingPage_subheading_text'),
-            style: theme.textTheme.headline2,
+            style: theme.textTheme.headline3,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           const LandingTakePhotoButton(),
-          const SizedBox(height: 24),
+          const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Image.asset(

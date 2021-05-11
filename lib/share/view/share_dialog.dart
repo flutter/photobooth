@@ -51,7 +51,7 @@ class ShareDialog extends StatelessWidget {
                     SelectableText(
                       l10n.shareDialogSubheading,
                       key: const Key('shareDialog_subheading'),
-                      style: theme.textTheme.headline2,
+                      style: theme.textTheme.headline3,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 30),

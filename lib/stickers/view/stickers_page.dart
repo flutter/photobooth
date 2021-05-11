@@ -235,7 +235,7 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
     final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        padding: const EdgeInsets.all(80),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -323,7 +323,7 @@ class _NextConfirmationDialogContent extends StatelessWidget {
     final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        padding: const EdgeInsets.all(80),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
