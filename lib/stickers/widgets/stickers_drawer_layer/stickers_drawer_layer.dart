@@ -20,9 +20,9 @@ class StickersDrawerLayer extends StatelessWidget {
     return BlocConsumer<StickersBloc, StickersState>(
       listenWhen: (previous, current) =>
           current.isDrawerActive && current != previous,
-      listener: (context, state) async {
+      listener: (context, state) {
         if (platformHelper.isMobile || orientation == Orientation.portrait) {
-          await showModalBottomSheet(
+          showModalBottomSheet(
             context: context,
             barrierColor: PhotoboothColors.black.withOpacity(0.75),
             backgroundColor: PhotoboothColors.transparent,
