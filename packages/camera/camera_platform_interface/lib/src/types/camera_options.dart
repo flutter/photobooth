@@ -65,8 +65,6 @@ class VideoConstraints {
     if (width != null) json['width'] = width!.toJson();
     if (height != null) json['height'] = height!.toJson();
     if (facingMode != null) json['facingMode'] = facingMode!.toJson();
-    json['width'] = 1920;
-    json['height'] = 1080;
     if (deviceId == defaultDeviceId) {
       json['deviceId'] = await CameraPlatform.instance.getDefaultDeviceId();
     } else if (deviceId != null) {
