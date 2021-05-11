@@ -40,7 +40,7 @@ class ShareErrorBottomSheet extends StatelessWidget {
                 Text(
                   l10n.shareErrorDialogSubheading,
                   key: const Key('shareErrorBottomSheet_subheading'),
-                  style: theme.textTheme.headline2?.copyWith(fontSize: 18),
+                  style: theme.textTheme.headline3?.copyWith(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 42),
