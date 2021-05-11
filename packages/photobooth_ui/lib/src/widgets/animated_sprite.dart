@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
@@ -62,6 +60,7 @@ class AnimatedSprite extends StatefulWidget {
   /// The mode of animation (`trigger`, `loop` or `oneTime`).
   final AnimationMode mode;
 
+  /// Callback to notify when the animation has been loaded in memory
   final VoidCallback? onAnimationLoaded;
 
   @override
