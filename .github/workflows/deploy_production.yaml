@@ -1,0 +1,25 @@
+name: deploy_production
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    name: Deploy Production
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
+      - run: flutter packages get
+      - run: flutter build web --web-renderer html --dart-define SHARING_ENABLED=false
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}"
+          projectId: io-photobooth-20667
+          expires: 30d
+          channelId: live
