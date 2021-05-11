@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
-import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
@@ -93,9 +92,9 @@ void main() {
       expect(find.byType(Camera), findsOneWidget);
     });
 
-    testWidgets('renders placholder when initializing', (tester) async {
+    testWidgets('renders placeholder when initializing', (tester) async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      expect(find.byType(PhotoboothPlaceholder), findsOneWidget);
+      expect(find.byType(SizedBox), findsOneWidget);
     });
 
     testWidgets('renders error when unavailable', (tester) async {
@@ -306,11 +305,16 @@ void main() {
 
       expect(find.byType(StickersPage), findsOneWidget);
 
-      final retakeButton = tester.widget<RetakeButton>(
-        find.byType(RetakeButton),
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
       );
-      retakeButton.onPressed();
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
       await tester.pumpAndSettle();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
       expect(find.byType(PhotoboothView), findsOneWidget);
     });
   });

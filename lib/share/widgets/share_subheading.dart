@@ -15,7 +15,7 @@ class ShareSubheading extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
-        style: theme.textTheme.headline2?.copyWith(
+        style: theme.textTheme.headline3?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
           color: PhotoboothColors.white,
         ),
@@ -23,9 +23,7 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.footerMadeWithFlutterLinkText,
             recognizer: TapGestureRecognizer()..onTap = launchFlutterDevLink,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
+            style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart2,
@@ -33,19 +31,15 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.footerMadeWithFirebaseLinkText,
             recognizer: TapGestureRecognizer()..onTap = launchFirebaseLink,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
+            style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart3,
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart4,
-            recognizer: TapGestureRecognizer()..onTap = () => openLink(''),
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
+            recognizer: TapGestureRecognizer()..onTap = launchOpenSourceLink,
+            style: const TextStyle(decoration: TextDecoration.underline),
           ),
         ],
       ),
@@ -64,9 +58,7 @@ class ShareSuccessSubheading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageSuccessSubheading,
-      style: theme.textTheme.headline2?.copyWith(
-        color: PhotoboothColors.white,
-      ),
+      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
       textAlign: TextAlign.center,
     );
   }

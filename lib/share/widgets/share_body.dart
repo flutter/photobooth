@@ -22,29 +22,32 @@ class ShareBody extends StatelessWidget {
       (ShareBloc bloc) => bloc.state.explicitShareUrl,
     );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedPhotoIndicator(),
-        AnimatedPhotoboothPhoto(image: image),
-        const SizedBox(height: 40),
-        isSuccess ? const ShareSuccessHeading() : const ShareHeading(),
-        const SizedBox(height: 20),
-        isSuccess ? const ShareSuccessSubheading() : const ShareSubheading(),
-        const SizedBox(height: 30),
-        if (isSuccess)
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-            child: ShareCopyableLink(link: explicitShareUrl),
-          ),
-        if (image != null)
-          ResponsiveLayoutBuilder(
-            small: (_, __) => MobileButtonsLayout(image: image),
-            large: (_, __) => DesktopButtonsLayout(image: image),
-          ),
-        const SizedBox(height: 28),
-        if (isSuccess) const ShareSuccessCaption(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedPhotoIndicator(),
+          AnimatedPhotoboothPhoto(image: image),
+          const SizedBox(height: 40),
+          isSuccess ? const ShareSuccessHeading() : const ShareHeading(),
+          const SizedBox(height: 20),
+          isSuccess ? const ShareSuccessSubheading() : const ShareSubheading(),
+          const SizedBox(height: 30),
+          if (isSuccess)
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+              child: ShareCopyableLink(link: explicitShareUrl),
+            ),
+          if (image != null)
+            ResponsiveLayoutBuilder(
+              small: (_, __) => MobileButtonsLayout(image: image),
+              large: (_, __) => DesktopButtonsLayout(image: image),
+            ),
+          const SizedBox(height: 28),
+          if (isSuccess) const ShareSuccessCaption(),
+        ],
+      ),
     );
   }
 }
@@ -62,11 +65,7 @@ class DesktopButtonsLayout extends StatelessWidget {
       children: [
         const Flexible(child: DownloadButton()),
         const SizedBox(width: 36),
-        Flexible(
-          child: ShareButton(
-            image: image,
-          ),
-        ),
+        Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
         const GoToGoogleIOButton(),
       ],
@@ -105,15 +104,11 @@ class GoToGoogleIOButton extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: PhotoboothColors.white,
-      ),
+      style: ElevatedButton.styleFrom(primary: PhotoboothColors.white),
       onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
-        style: theme.textTheme.button?.copyWith(
-          color: PhotoboothColors.black,
-        ),
+        style: theme.textTheme.button?.copyWith(color: PhotoboothColors.black),
       ),
     );
   }

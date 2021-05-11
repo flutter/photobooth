@@ -12,7 +12,7 @@ class LandingBody extends StatelessWidget {
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
           const SizedBox(height: 24),

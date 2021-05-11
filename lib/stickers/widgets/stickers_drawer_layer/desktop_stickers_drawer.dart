@@ -5,29 +5,6 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class DesktopStickersDrawerLayer extends StatelessWidget {
-  const DesktopStickersDrawerLayer({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<StickersBloc, StickersState>(
-      buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
-        return state.isDrawerActive
-            ? const Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: DesktopStickersDrawer(),
-              )
-            : const SizedBox();
-      },
-    );
-  }
-}
-
 class DesktopStickersDrawer extends StatelessWidget {
   const DesktopStickersDrawer({
     Key? key,
