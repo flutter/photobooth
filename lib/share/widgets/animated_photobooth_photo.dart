@@ -202,7 +202,6 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _image = image;
-    print('build _AnimatedPhotoboothPhoto');
     return Container(
       height: containerHeight,
       width: containerWidth,
