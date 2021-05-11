@@ -12,6 +12,8 @@ const _videoConstraints = VideoConstraints(
     type: CameraType.user,
     constrain: Constrain.ideal,
   ),
+  width: VideoSize(ideal: 1920, maximum: 1920),
+  height: VideoSize(ideal: 1920, maximum: 1920),
 );
 
 class PhotoboothPage extends StatelessWidget {
