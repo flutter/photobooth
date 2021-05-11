@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +25,7 @@ void main() {
   const height = 1;
   const data = '';
   const image = CameraImage(width: width, height: height, data: data);
+  final bytes = Uint8List.fromList(transparentImage);
 
   late PhotoboothBloc photoboothBloc;
   late PlatformHelper platformHelper;
@@ -45,10 +48,7 @@ void main() {
       when(() => platformHelper.isMobile).thenReturn(true);
 
       await tester.pumpApp(
-        ShareButton(
-          image: image,
-          platformHelper: platformHelper,
-        ),
+        ShareButton(image: bytes),
         photoboothBloc: photoboothBloc,
       );
 
@@ -66,7 +66,7 @@ void main() {
 
       await tester.pumpApp(
         ShareButton(
-          image: image,
+          image: bytes,
           platformHelper: platformHelper,
         ),
         photoboothBloc: photoboothBloc,
@@ -85,7 +85,7 @@ void main() {
       tester.setLandscapeDisplaySize();
       await tester.pumpApp(
         ShareButton(
-          image: image,
+          image: bytes,
           platformHelper: platformHelper,
         ),
         photoboothBloc: photoboothBloc,

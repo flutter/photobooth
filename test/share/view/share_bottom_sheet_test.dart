@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +19,7 @@ void main() {
   const height = 1;
   const data = '';
   const image = CameraImage(width: width, height: height, data: data);
+  final bytes = Uint8List.fromList(transparentImage);
 
   late PhotoboothBloc photoboothBloc;
 
@@ -33,7 +36,7 @@ void main() {
   group('ShareBottomSheet', () {
     testWidgets('displays heading', (tester) async {
       await tester.pumpApp(
-        Scaffold(body: ShareBottomSheet(image: image)),
+        Scaffold(body: ShareBottomSheet(image: bytes)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareBottomSheet_heading')), findsOneWidget);
@@ -41,7 +44,7 @@ void main() {
 
     testWidgets('displays subheading', (tester) async {
       await tester.pumpApp(
-        Scaffold(body: ShareBottomSheet(image: image)),
+        Scaffold(body: ShareBottomSheet(image: bytes)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byKey(Key('shareBottomSheet_subheading')), findsOneWidget);
@@ -49,7 +52,7 @@ void main() {
 
     testWidgets('displays a TwitterButton', (tester) async {
       await tester.pumpApp(
-        Scaffold(body: ShareBottomSheet(image: image)),
+        Scaffold(body: ShareBottomSheet(image: bytes)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(TwitterButton), findsOneWidget);
@@ -57,7 +60,7 @@ void main() {
 
     testWidgets('displays a FacebookButton', (tester) async {
       await tester.pumpApp(
-        Scaffold(body: ShareBottomSheet(image: image)),
+        Scaffold(body: ShareBottomSheet(image: bytes)),
         photoboothBloc: photoboothBloc,
       );
       expect(find.byType(FacebookButton), findsOneWidget);
@@ -65,7 +68,7 @@ void main() {
 
     testWidgets('taps on close will dismiss the popup', (tester) async {
       await tester.pumpApp(
-        Scaffold(body: ShareBottomSheet(image: image)),
+        Scaffold(body: ShareBottomSheet(image: bytes)),
         photoboothBloc: photoboothBloc,
       );
       await tester.tap(find.byIcon(Icons.clear));
