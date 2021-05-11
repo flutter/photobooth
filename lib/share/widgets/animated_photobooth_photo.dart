@@ -24,17 +24,20 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   var _isPhotoVisible = false;
 
   @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
+  void initState() {
+    super.initState();
 
-  void onSpriteLoaded() {
-    timer = Timer(const Duration(milliseconds: 500), () {
+    timer = Timer(const Duration(seconds: 2), () {
       setState(() {
         _isPhotoVisible = true;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -48,14 +51,12 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
         aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
-        onSpriteLoaded: onSpriteLoaded,
       );
     } else {
       return AnimatedPhotoboothPhotoLandscape(
         aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
-        onSpriteLoaded: onSpriteLoaded,
       );
     }
   }
@@ -68,27 +69,24 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
     required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
-    required this.onSpriteLoaded,
   }) : super(key: key);
 
   final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
-  final VoidCallback onSpriteLoaded;
 
   @override
   Widget build(BuildContext context) {
     final image = this.image;
 
-    final sprite = AnimatedSprite(
+    const sprite = AnimatedSprite(
       mode: AnimationMode.oneTime,
-      sprites: const Sprites(
+      sprites: Sprites(
         asset: 'photo_frame_spritesheet_landscape.png',
         size: Size(521, 420),
         frames: 28,
         stepTime: 0.05,
       ),
-      onLoaded: onSpriteLoaded,
     );
 
     return ResponsiveLayoutBuilder(
@@ -142,13 +140,11 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
     required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
-    required this.onSpriteLoaded,
   }) : super(key: key);
 
   final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
-  final VoidCallback onSpriteLoaded;
 
   @override
   Widget build(BuildContext context) {
