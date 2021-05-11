@@ -53,6 +53,7 @@ class AnimatedSprite extends StatefulWidget {
     Key? key,
     required this.sprites,
     this.mode = AnimationMode.loop,
+    this.onAnimationLoaded,
   }) : super(key: key);
 
   /// The collection of sprites which will be animated.
@@ -60,6 +61,8 @@ class AnimatedSprite extends StatefulWidget {
 
   /// The mode of animation (`trigger`, `loop` or `oneTime`).
   final AnimationMode mode;
+
+  final VoidCallback? onAnimationLoaded;
 
   @override
   _AnimatedSpriteState createState() => _AnimatedSpriteState();
@@ -75,7 +78,6 @@ extension on _AnimatedSpriteStatus {
 class _AnimatedSpriteState extends State<AnimatedSprite> {
   late SpriteSheet _spriteSheet;
   late SpriteAnimation _animation;
-  Timer? _timer;
   var _status = _AnimatedSpriteStatus.loading;
   var _isPlaying = false;
 
@@ -85,25 +87,20 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
     _loadAnimation();
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
   void _loadAnimation() async {
     try {
       _spriteSheet = SpriteSheet(
         image: await Flame.images.load(widget.sprites.asset),
         srcSize: Vector2(widget.sprites.size.width, widget.sprites.size.height),
       );
+
       _animation = _spriteSheet.createAnimation(
         row: 0,
         stepTime: widget.sprites.stepTime,
         to: widget.sprites.frames,
         loop: widget.mode == AnimationMode.loop,
       );
-
+      //widget.onAnimationLoaded?.call();
       setState(() {
         _status = _AnimatedSpriteStatus.loaded;
         if (widget.mode == AnimationMode.loop ||
