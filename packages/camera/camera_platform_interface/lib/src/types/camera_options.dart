@@ -54,23 +54,38 @@ class VideoConstraints {
 
   final bool enabled;
   final FacingMode? facingMode;
-  final int? width;
-  final int? height;
+  final VideoSize? width;
+  final VideoSize? height;
   final String? deviceId;
 
   Future<Object> toJson() async {
     if (!enabled) return false;
     final json = <String, dynamic>{};
 
-    if (width != null) json['width'] = width;
-    if (height != null) json['height'] = height;
+    if (width != null) json['width'] = width!.toJson();
+    if (height != null) json['height'] = height!.toJson();
     if (facingMode != null) json['facingMode'] = facingMode!.toJson();
     if (deviceId == defaultDeviceId) {
       json['deviceId'] = await CameraPlatform.instance.getDefaultDeviceId();
     } else if (deviceId != null) {
       json['deviceId'] = deviceId!;
     }
+    return json;
+  }
+}
 
+class VideoSize {
+  const VideoSize({this.minimum, this.ideal, this.maximum});
+  final int? minimum;
+  final int? ideal;
+  final int? maximum;
+
+  Object toJson() {
+    final json = <String, dynamic>{};
+
+    if (ideal != null) json['ideal'] = ideal;
+    if (minimum != null) json['min'] = minimum;
+    if (maximum != null) json['max'] = maximum;
     return json;
   }
 }

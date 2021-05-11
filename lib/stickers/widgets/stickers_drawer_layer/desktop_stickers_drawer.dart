@@ -29,10 +29,7 @@ class DesktopStickersDrawer extends StatelessWidget {
                 Flexible(
                   child: Text(
                     l10n.stickersDrawerTitle,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3!
-                        .copyWith(fontSize: 30),
+                    style: Theme.of(context).textTheme.headline2,
                   ),
                 ),
                 IconButton(

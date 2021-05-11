@@ -49,7 +49,7 @@ class ShareBottomSheet extends StatelessWidget {
                   SelectableText(
                     l10n.shareDialogSubheading,
                     key: const Key('shareBottomSheet_subheading'),
-                    style: theme.textTheme.headline2?.copyWith(fontSize: 18),
+                    style: theme.textTheme.headline3?.copyWith(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 42),
