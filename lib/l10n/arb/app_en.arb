@@ -180,6 +180,14 @@
     "@photoBoothCameraErrorSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
     },
+    "photoBoothCameraNotSupportedHeadline": "Oops! Something went wrong",
+    "@photoBoothCameraNotSupportedHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera is not supported"
+    },
+    "photoBoothCameraNotSupportedSubheadline": "Please make sure your device and browser are up to date.",
+    "@photoBoothCameraNotSupportedSubheadline": {
+        "description": "Text displayed on subheadline on the photobooth page when camera is not supported"
+    },
     "stickersDrawerTitle": "Add Props",
     "@stickersDrawerTitle": {
         "description": "Text displayed on the stickers drawer as title"

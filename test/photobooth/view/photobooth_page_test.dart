@@ -139,6 +139,22 @@ void main() {
     });
 
     testWidgets(
+        'renders camera not supported error '
+        'when cameraPlatform throws CameraNotSupported exception',
+        (tester) async {
+      when(
+        () => cameraPlatform.create(any()),
+      ).thenThrow(const CameraNotSupportedException());
+      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('photoboothError_cameraNotSupported')),
+        findsOneWidget,
+      );
+      verifyNever(() => cameraPlatform.play(any()));
+    });
+
+    testWidgets(
         'renders unknown error '
         'when cameraPlatform throws CameraUnknownException exception',
         (tester) async {
