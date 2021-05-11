@@ -23,7 +23,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
 class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   late final Timer timer;
   void onAnimationLoaded() {
-    timer = Timer(const Duration(milliseconds: 1500), () {
+    timer = Timer(const Duration(milliseconds: 1300), () {
       context.read<ShareBloc>().add(const ShareAnimationLoaded());
     });
   }
