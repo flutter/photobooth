@@ -3,9 +3,9 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -31,6 +31,8 @@ class MockUrlLauncher extends Mock
 
 class MockPhotosRepository extends Mock implements PhotosRepository {}
 
+class MockXFile extends Mock implements XFile {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const width = 1;
@@ -41,6 +43,7 @@ void main() {
   late PhotosRepository photosRepository;
   late PhotoboothBloc photoboothBloc;
   late ShareBloc shareBloc;
+  late XFile file;
 
   setUpAll(() {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
@@ -51,6 +54,7 @@ void main() {
   });
 
   setUp(() {
+    file = MockXFile();
     photosRepository = MockPhotosRepository();
     when(
       () => photosRepository.composite(
@@ -122,7 +126,10 @@ void main() {
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(find.byType(ShareRetakeButton), findsOneWidget);
+      expect(
+        find.byKey(const Key('sharePage_retake_appTooltipButton')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays a ShareProgressOverlay', (tester) async {
@@ -136,6 +143,13 @@ void main() {
   });
 
   group('ShareBody', () {
+    setUp(() {
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.success,
+        file: file,
+      ));
+    });
+
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(child: ShareBody()),
@@ -179,8 +193,11 @@ void main() {
     testWidgets(
         'displays a ShareSuccessHeading '
         'when uploadStatus is success', (tester) async {
-      const successState = ShareState(uploadStatus: ShareStatus.success);
-      when(() => shareBloc.state).thenReturn(successState);
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.success,
+        uploadStatus: ShareStatus.success,
+        file: file,
+      ));
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -200,61 +217,58 @@ void main() {
         shareBloc: shareBloc,
       );
 
-      expect(
-        find.byType(ShareSubheading),
-        findsOneWidget,
-      );
+      expect(find.byType(ShareSubheading), findsOneWidget);
     });
 
     testWidgets(
         'displays a ShareSuccessSubheading '
         'when uploadStatus is success', (tester) async {
-      const successState = ShareState(uploadStatus: ShareStatus.success);
-      when(() => shareBloc.state).thenReturn(successState);
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.success,
+        uploadStatus: ShareStatus.success,
+        file: file,
+      ));
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
 
-      expect(
-        find.byType(ShareSuccessSubheading),
-        findsOneWidget,
-      );
+      expect(find.byType(ShareSuccessSubheading), findsOneWidget);
     });
 
     testWidgets(
         'displays a ShareSuccessCaption '
         'when uploadStatus is success', (tester) async {
-      const successState = ShareState(uploadStatus: ShareStatus.success);
-      when(() => shareBloc.state).thenReturn(successState);
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.success,
+        uploadStatus: ShareStatus.success,
+        file: file,
+      ));
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
 
-      expect(
-        find.byType(ShareSuccessCaption),
-        findsOneWidget,
-      );
+      expect(find.byType(ShareSuccessCaption), findsOneWidget);
     });
 
     testWidgets(
         'displays a ShareCopyableLink '
         'when uploadStatus is success', (tester) async {
-      const successState = ShareState(uploadStatus: ShareStatus.success);
-      when(() => shareBloc.state).thenReturn(successState);
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.success,
+        uploadStatus: ShareStatus.success,
+        file: file,
+      ));
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
 
-      expect(
-        find.byType(ShareCopyableLink),
-        findsOneWidget,
-      );
+      expect(find.byType(ShareCopyableLink), findsOneWidget);
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
@@ -265,7 +279,7 @@ void main() {
       );
 
       expect(
-        find.byType(RetakeButton),
+        find.byKey(const Key('sharePage_retake_appTooltipButton')),
         findsOneWidget,
       );
     });
@@ -276,10 +290,7 @@ void main() {
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(
-        find.byType(ShareButton),
-        findsOneWidget,
-      );
+      expect(find.byType(ShareButton), findsOneWidget);
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
@@ -288,10 +299,7 @@ void main() {
         photoboothBloc: photoboothBloc,
         shareBloc: shareBloc,
       );
-      expect(
-        find.byKey(const Key('downloadButton_download_outlinedButton')),
-        findsOneWidget,
-      );
+      expect(find.byType(DownloadButton), findsOneWidget);
     });
 
     testWidgets('displays a GoToGoogleIOButton', (tester) async {
@@ -320,6 +328,10 @@ void main() {
             headers: const {},
           ),
         ).thenAnswer((_) async => true);
+        when(() => shareBloc.state).thenReturn(ShareState(
+          compositeStatus: ShareStatus.success,
+          file: file,
+        ));
         tester.setDisplaySize(Size(2500, 2500));
         await tester.pumpApp(
           ShareView(),
@@ -347,7 +359,126 @@ void main() {
     });
 
     group('RetakeButton', () {
-      testWidgets('tapping on retake button goes back to PhotoboothPage',
+      testWidgets(
+          'tapping on retake button + close '
+          'does not go back to PhotoboothPage', (tester) async {
+        const photoboothPage = Key('photoboothPage');
+        await tester.pumpApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SizedBox(key: photoboothPage),
+                      settings: RouteSettings(name: PhotoboothPage.name),
+                    ),
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SizedBox(),
+                      settings: RouteSettings(name: 'IntermediatePage'),
+                    ),
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(body: ShareView()),
+                    ),
+                  );
+                },
+                child: const SizedBox(),
+              );
+            },
+          ),
+          photoboothBloc: photoboothBloc,
+          shareBloc: shareBloc,
+        );
+
+        await tester.tap(find.byType(ElevatedButton));
+        await tester.pumpAndSettle();
+
+        final retakeButtonFinder = find.byKey(
+          const Key('sharePage_retake_appTooltipButton'),
+        );
+        tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+        await tester.pumpAndSettle();
+
+        tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
+
+        await tester.pumpAndSettle();
+
+        expect(retakeButtonFinder, findsOneWidget);
+        expect(find.byKey(photoboothPage), findsNothing);
+
+        verifyNever(() => photoboothBloc.add(PhotoClearAllTapped()));
+      });
+
+      testWidgets(
+          'tapping on retake button + cancel '
+          'does not go back to PhotoboothPage', (tester) async {
+        const photoboothPage = Key('photoboothPage');
+        await tester.pumpApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SizedBox(key: photoboothPage),
+                      settings: RouteSettings(name: PhotoboothPage.name),
+                    ),
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SizedBox(),
+                      settings: RouteSettings(name: 'IntermediatePage'),
+                    ),
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(body: ShareView()),
+                    ),
+                  );
+                },
+                child: const SizedBox(),
+              );
+            },
+          ),
+          photoboothBloc: photoboothBloc,
+          shareBloc: shareBloc,
+        );
+
+        await tester.tap(find.byType(ElevatedButton));
+        await tester.pumpAndSettle();
+
+        final retakeButtonFinder = find.byKey(
+          const Key('sharePage_retake_appTooltipButton'),
+        );
+        tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+        await tester.pumpAndSettle();
+
+        final cancelButtonFinder = find.byKey(
+          const Key('sharePage_retakeCancel_elevatedButton'),
+        );
+
+        tester.widget<OutlinedButton>(cancelButtonFinder).onPressed!();
+
+        await tester.pumpAndSettle();
+
+        expect(retakeButtonFinder, findsOneWidget);
+        expect(find.byKey(photoboothPage), findsNothing);
+
+        verifyNever(() => photoboothBloc.add(PhotoClearAllTapped()));
+      });
+
+      testWidgets(
+          'tapping on retake button + confirm goes back to PhotoboothPage',
           (tester) async {
         const photoboothPage = Key('photoboothPage');
         await tester.pumpApp(
@@ -371,11 +502,7 @@ void main() {
 
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => Scaffold(
-                        body: Center(
-                          child: Stack(children: [ShareRetakeButton()]),
-                        ),
-                      ),
+                      builder: (_) => Scaffold(body: ShareView()),
                     ),
                   );
                 },
@@ -390,10 +517,22 @@ void main() {
         await tester.tap(find.byType(ElevatedButton));
         await tester.pumpAndSettle();
 
-        tester.widget<RetakeButton>(find.byType(RetakeButton)).onPressed();
+        final retakeButtonFinder = find.byKey(
+          const Key('sharePage_retake_appTooltipButton'),
+        );
+        tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
         await tester.pumpAndSettle();
 
-        expect(find.byType(ShareRetakeButton), findsNothing);
+        final confirmButtonFinder = find.byKey(
+          const Key('sharePage_retakeConfirm_elevatedButton'),
+        );
+
+        tester.widget<ElevatedButton>(confirmButtonFinder).onPressed!();
+
+        await tester.pumpAndSettle();
+
+        expect(retakeButtonFinder, findsNothing);
         expect(find.byKey(photoboothPage), findsOneWidget);
 
         verify(() => photoboothBloc.add(PhotoClearAllTapped())).called(1);

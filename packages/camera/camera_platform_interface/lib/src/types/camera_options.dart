@@ -1,3 +1,4 @@
+import 'package:camera_platform_interface/src/platform_interface/camera_platform.dart';
 import 'package:flutter/foundation.dart';
 
 class CameraOptions {
@@ -10,8 +11,9 @@ class CameraOptions {
   final AudioConstraints audio;
   final VideoConstraints video;
 
-  Map<String, dynamic> toJson() {
-    return {'audio': audio.toJson(), 'video': video.toJson()};
+  Future<Map<String, dynamic>> toJson() async {
+    final videoConstraints = await video.toJson();
+    return {'audio': audio.toJson(), 'video': videoConstraints};
   }
 }
 
@@ -46,20 +48,28 @@ class VideoConstraints {
     this.facingMode,
     this.width,
     this.height,
+    this.deviceId,
   });
+  static const String defaultDeviceId = 'default';
 
   final bool enabled;
   final FacingMode? facingMode;
   final int? width;
   final int? height;
+  final String? deviceId;
 
-  Object toJson() {
+  Future<Object> toJson() async {
     if (!enabled) return false;
     final json = <String, dynamic>{};
 
     if (width != null) json['width'] = width;
     if (height != null) json['height'] = height;
     if (facingMode != null) json['facingMode'] = facingMode!.toJson();
+    if (deviceId == defaultDeviceId) {
+      json['deviceId'] = await CameraPlatform.instance.getDefaultDeviceId();
+    } else if (deviceId != null) {
+      json['deviceId'] = deviceId!;
+    }
 
     return json;
   }

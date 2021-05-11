@@ -8,8 +8,6 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 const _videoConstraints = VideoConstraints(
-  width: 4096,
-  height: 4096,
   facingMode: FacingMode(
     type: CameraType.user,
     constrain: Constrain.ideal,
@@ -106,7 +104,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         aspectRatio: aspectRatio,
         child: Camera(
           controller: _controller,
-          placeholder: (_) => const PhotoboothPlaceholder(),
+          placeholder: (_) => const SizedBox(),
           preview: (context, preview) => PhotoboothPreview(
             preview: preview,
             onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),

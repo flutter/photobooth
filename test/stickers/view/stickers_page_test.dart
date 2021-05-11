@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
-import 'package:io_photobooth/common/common.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -177,23 +175,6 @@ void main() {
       expect(find.byType(FirebaseIconLink), findsOneWidget);
     });
 
-    testWidgets('renders StickersDrawerLayer when mode is active',
-        (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(isDrawerActive: true),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      expect(find.byType(StickersDrawerLayer), findsOneWidget);
-    });
-
     testWidgets('adds StickersDrawerToggled when OpenStickersButton tapped',
         (tester) async {
       await tester.pumpApp(
@@ -278,7 +259,97 @@ void main() {
       );
     });
 
-    testWidgets('tapping on back button pops route and clears props',
+    testWidgets('tapping on retake + close does nothing', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: photoboothBloc),
+                    BlocProvider.value(value: stickersBloc),
+                  ],
+                  child: StickersView(),
+                ),
+              ),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
+      verifyNever(() => photoboothBloc.add(const PhotoClearAllTapped()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+    });
+
+    testWidgets('tapping on retake + cancel does nothing', (tester) async {
+      const initialPage = Key('__target__');
+      await tester.pumpApp(Builder(
+        builder: (context) {
+          return ElevatedButton(
+            key: initialPage,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: photoboothBloc),
+                    BlocProvider.value(value: stickersBloc),
+                  ],
+                  child: StickersView(),
+                ),
+              ),
+            ),
+            child: const SizedBox(),
+          );
+        },
+      ));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
+      verifyNever(() => photoboothBloc.add(const PhotoClearAllTapped()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byKey(initialPage), findsNothing);
+    });
+
+    testWidgets('tapping on retake + confirm pops route and clears props',
         (tester) async {
       const initialPage = Key('__target__');
       await tester.pumpApp(Builder(
@@ -306,8 +377,17 @@ void main() {
       expect(find.byType(StickersView), findsOneWidget);
       expect(find.byKey(initialPage), findsNothing);
 
-      final backButton = tester.widget<RetakeButton>(find.byType(RetakeButton));
-      backButton.onPressed();
+      final retakeButtonFinder = find.byKey(
+        const Key('stickersPage_retake_appTooltipButton'),
+      );
+      tester.widget<AppTooltipButton>(retakeButtonFinder).onPressed();
+
+      await tester.pumpAndSettle();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
+
+      await tester.pumpAndSettle();
+
       verify(() => photoboothBloc.add(const PhotoClearAllTapped())).called(1);
       await tester.pumpAndSettle();
 
@@ -315,7 +395,51 @@ void main() {
       expect(find.byKey(initialPage), findsOneWidget);
     });
 
-    testWidgets('tapping NextButton routes to SharePage', (tester) async {
+    testWidgets('tapping next + cancel does not route to SharePage',
+        (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(value: stickersBloc, child: StickersView()),
+        photoboothBloc: photoboothBloc,
+      );
+
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed!();
+
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byType(SharePage), findsNothing);
+    });
+
+    testWidgets('tapping next + close does not route to SharePage',
+        (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(value: stickersBloc, child: StickersView()),
+        photoboothBloc: photoboothBloc,
+      );
+
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
+
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.byType(StickersView), findsOneWidget);
+      expect(find.byType(SharePage), findsNothing);
+    });
+
+    testWidgets('tapping next + confirm routes to SharePage', (tester) async {
       final photosRepository = MockPhotosRepository();
       when(
         () => photosRepository.composite(
@@ -333,7 +457,13 @@ void main() {
         photosRepository: photosRepository,
       );
 
-      tester.widget<NextButton>(find.byType(NextButton)).onPressed();
+      tester
+          .widget<InkWell>(find.byKey(const Key('stickersPage_next_inkWell')))
+          .onTap!();
+
+      await tester.pump();
+
+      tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed!();
 
       await tester.pump();
       await tester.pump();
@@ -440,80 +570,6 @@ void main() {
       await tester.tap(confirmButton);
       await tester.pumpAndSettle();
       verify(() => photoboothBloc.add(PhotoClearStickersTapped())).called(1);
-    });
-
-    testWidgets('opens MobileStickersDrawer when is mobile and is active',
-        (tester) async {
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([StickersState(isDrawerActive: true)]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-    });
-
-    testWidgets('can select stickers on MobileStickersDrawer', (tester) async {
-      final sticker = Assets.props.first;
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([
-          StickersState(isDrawerActive: true),
-        ]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-      final stickerChoice =
-          tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
-      stickerChoice.onPressed();
-      await tester.pumpAndSettle();
-      verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
-          .called(1);
-    });
-
-    testWidgets('can close MobileStickersDrawer', (tester) async {
-      whenListen(
-        stickersBloc,
-        Stream.fromIterable([
-          StickersState(isDrawerActive: true),
-        ]),
-        initialState: StickersState(isDrawerActive: false),
-      );
-      await tester.pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: photoboothBloc),
-            BlocProvider.value(value: stickersBloc),
-          ],
-          child: StickersView(),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsOneWidget);
-      await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
-      await tester.pumpAndSettle();
-      expect(find.byType(MobileStickersDrawer), findsNothing);
-
-      verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
     });
 
     testWidgets('adds PhotoTapped when background photo is tapped',

@@ -125,5 +125,34 @@ void main() {
             )).called(1);
       });
     });
+
+    group('launchOpenSourceLink', () {
+      test('launches correct link', () async {
+        final mock = MockUrlLauncher();
+        UrlLauncherPlatform.instance = mock;
+        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+        when(() => mock.launch(
+              any(),
+              useSafariVC: true,
+              useWebView: false,
+              enableJavaScript: false,
+              enableDomStorage: false,
+              universalLinksOnly: false,
+              headers: const {},
+            )).thenAnswer((_) async => true);
+
+        await launchOpenSourceLink();
+
+        verify(() => mock.launch(
+              openSourceLink,
+              useSafariVC: true,
+              useWebView: false,
+              enableJavaScript: false,
+              enableDomStorage: false,
+              universalLinksOnly: false,
+              headers: const {},
+            )).called(1);
+      });
+    });
   });
 }

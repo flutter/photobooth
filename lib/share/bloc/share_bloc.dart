@@ -41,8 +41,6 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   Stream<ShareState> mapEventToState(ShareEvent event) async* {
     if (event is ShareViewLoaded) {
       yield* _mapShareViewLoadedToState(event, state);
-    } else if (event is ShareDownloadTapped) {
-      yield* _mapShareDownloadTappedToState(event, state);
     } else if (event is ShareTapped) {
       yield* _mapShareTappedToState(event, state);
     } else if (event is _ShareCompositeSucceeded) {
@@ -66,21 +64,6 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
         onError: (_) => add(const _ShareCompositeFailed()),
       ),
     );
-  }
-
-  Stream<ShareState> _mapShareDownloadTappedToState(
-    ShareDownloadTapped event,
-    ShareState state,
-  ) async* {
-    yield state.copyWith(isDownloadRequested: true);
-    if (state.compositeStatus.isFailure) {
-      unawaited(
-        _composite().then(
-          (value) => add(_ShareCompositeSucceeded(bytes: value)),
-          onError: (_) => add(const _ShareCompositeFailed()),
-        ),
-      );
-    }
   }
 
   Stream<ShareState> _mapShareTappedToState(
@@ -159,8 +142,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ) async* {
     final file = XFile.fromData(
       event.bytes,
-      mimeType: 'image/jpeg',
-      name: '$imageId.jpg',
+      mimeType: 'image/png',
+      name: '$imageId.png',
     );
     final bytes = event.bytes;
 
