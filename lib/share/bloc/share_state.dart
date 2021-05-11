@@ -22,6 +22,7 @@ class ShareState extends Equatable {
     this.isDownloadRequested = false,
     this.isUploadRequested = false,
     this.shareUrl = ShareUrl.none,
+    this.isPhotoVisible = false,
   });
 
   final ShareStatus compositeStatus;
@@ -34,6 +35,7 @@ class ShareState extends Equatable {
   final bool isUploadRequested;
   final bool isDownloadRequested;
   final ShareUrl shareUrl;
+  final bool isPhotoVisible;
 
   @override
   List<Object?> get props => [
@@ -46,6 +48,7 @@ class ShareState extends Equatable {
         isUploadRequested,
         isDownloadRequested,
         shareUrl,
+        isPhotoVisible,
       ];
 
   ShareState copyWith({
@@ -59,6 +62,7 @@ class ShareState extends Equatable {
     bool? isUploadRequested,
     bool? isDownloadRequested,
     ShareUrl? shareUrl,
+    bool? isPhotoVisible,
   }) {
     return ShareState(
       compositeStatus: compositeStatus ?? this.compositeStatus,
@@ -71,6 +75,7 @@ class ShareState extends Equatable {
       isUploadRequested: isUploadRequested ?? this.isUploadRequested,
       isDownloadRequested: isDownloadRequested ?? this.isDownloadRequested,
       shareUrl: shareUrl ?? this.shareUrl,
+      isPhotoVisible: isPhotoVisible ?? this.isPhotoVisible,
     );
   }
 }

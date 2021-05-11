@@ -31,3 +31,7 @@ class _ShareCompositeSucceeded extends ShareEvent {
 class _ShareCompositeFailed extends ShareEvent {
   const _ShareCompositeFailed();
 }
+
+class ShareAnimationLoaded extends ShareEvent {
+  const ShareAnimationLoaded();
+}

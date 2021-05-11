@@ -100,7 +100,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
         to: widget.sprites.frames,
         loop: widget.mode == AnimationMode.loop,
       );
-      //widget.onAnimationLoaded?.call();
+      widget.onAnimationLoaded?.call();
       setState(() {
         _status = _AnimatedSpriteStatus.loaded;
         if (widget.mode == AnimationMode.loop ||

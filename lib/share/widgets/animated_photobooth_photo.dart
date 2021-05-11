@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimatedPhotoboothPhoto extends StatefulWidget {
@@ -21,16 +22,9 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
 
 class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   late final Timer timer;
-  var _isPhotoVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    timer = Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _isPhotoVisible = true;
-      });
+  void onAnimationLoaded() {
+    timer = Timer(const Duration(milliseconds: 1500), () {
+      context.read<ShareBloc>().add(const ShareAnimationLoaded());
     });
   }
 
@@ -45,18 +39,17 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
     final aspectRatio = context.select(
       (PhotoboothBloc bloc) => bloc.state.aspectRatio,
     );
-
     if (aspectRatio <= PhotoboothAspectRatio.portrait) {
       return AnimatedPhotoboothPhotoPortrait(
         aspectRatio: aspectRatio,
         image: widget.image,
-        isPhotoVisible: _isPhotoVisible,
+        onAnimationLoaded: onAnimationLoaded,
       );
     } else {
       return AnimatedPhotoboothPhotoLandscape(
         aspectRatio: aspectRatio,
         image: widget.image,
-        isPhotoVisible: _isPhotoVisible,
+        onAnimationLoaded: onAnimationLoaded,
       );
     }
   }
@@ -68,32 +61,32 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
     Key? key,
     required this.aspectRatio,
     required this.image,
-    required this.isPhotoVisible,
+    required this.onAnimationLoaded,
   }) : super(key: key);
 
   final double aspectRatio;
   final CameraImage? image;
-  final bool isPhotoVisible;
+  final VoidCallback onAnimationLoaded;
 
   @override
   Widget build(BuildContext context) {
     final image = this.image;
 
-    const sprite = AnimatedSprite(
+    final sprite = AnimatedSprite(
       mode: AnimationMode.oneTime,
-      sprites: Sprites(
+      sprites: const Sprites(
         asset: 'photo_frame_spritesheet_landscape.png',
         size: Size(521, 420),
         frames: 28,
         stepTime: 0.05,
       ),
+      onAnimationLoaded: onAnimationLoaded,
     );
 
     return ResponsiveLayoutBuilder(
       small: (context, _) => _AnimatedPhotoboothPhoto(
         aspectRatio: aspectRatio,
         image: image,
-        isPhotoVisible: isPhotoVisible,
         containerHeight: 301,
         containerWidth: 420,
         sprite: sprite,
@@ -106,7 +99,6 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       large: (context, _) => _AnimatedPhotoboothPhoto(
         aspectRatio: aspectRatio,
         image: image,
-        isPhotoVisible: isPhotoVisible,
         containerHeight: 430,
         containerWidth: 600,
         sprite: sprite,
@@ -119,7 +111,6 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       xLarge: (context, _) => _AnimatedPhotoboothPhoto(
         aspectRatio: aspectRatio,
         image: image,
-        isPhotoVisible: isPhotoVisible,
         containerHeight: 688,
         containerWidth: 960,
         sprite: sprite,
@@ -139,32 +130,32 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
     Key? key,
     required this.aspectRatio,
     required this.image,
-    required this.isPhotoVisible,
+    required this.onAnimationLoaded,
   }) : super(key: key);
 
   final double aspectRatio;
   final CameraImage? image;
-  final bool isPhotoVisible;
+  final VoidCallback onAnimationLoaded;
 
   @override
   Widget build(BuildContext context) {
     final image = this.image;
 
-    const sprite = AnimatedSprite(
+    final sprite = AnimatedSprite(
       mode: AnimationMode.oneTime,
-      sprites: Sprites(
+      sprites: const Sprites(
         asset: 'photo_frame_spritesheet_portrait.png',
         size: Size(520, 698),
         frames: 38,
         stepTime: 0.05,
       ),
+      onAnimationLoaded: onAnimationLoaded,
     );
 
     return ResponsiveLayoutBuilder(
       small: (context, _) => _AnimatedPhotoboothPhoto(
         aspectRatio: aspectRatio,
         image: image,
-        isPhotoVisible: isPhotoVisible,
         containerHeight: 330,
         containerWidth: 250,
         sprite: sprite,
@@ -177,7 +168,6 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
       large: (context, _) => _AnimatedPhotoboothPhoto(
         aspectRatio: aspectRatio,
         image: image,
-        isPhotoVisible: isPhotoVisible,
         containerHeight: 660,
         containerWidth: 500,
         sprite: sprite,
@@ -198,7 +188,6 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
     required this.containerWidth,
     required this.sprite,
     required this.padding,
-    required this.isPhotoVisible,
     required this.aspectRatio,
     required this.image,
   }) : super(key: key);
@@ -207,13 +196,13 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   final double containerWidth;
   final AnimatedSprite sprite;
   final EdgeInsetsGeometry padding;
-  final bool isPhotoVisible;
   final double aspectRatio;
   final CameraImage? image;
 
   @override
   Widget build(BuildContext context) {
     final _image = image;
+    print('build _AnimatedPhotoboothPhoto');
     return Container(
       height: containerHeight,
       width: containerWidth,
@@ -228,21 +217,24 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
               child: sprite,
             ),
           ),
-          _image != null
-              ? Center(
-                  child: Padding(
-                    padding: padding,
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: isPhotoVisible ? 1 : 0,
-                      child: AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: PhotoboothPhoto(image: _image.data),
-                      ),
+          BlocBuilder<ShareBloc, ShareState>(
+            builder: (context, state) {
+              if (_image == null) return const SizedBox();
+              return Center(
+                child: Padding(
+                  padding: padding,
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 2500),
+                    opacity: state.isPhotoVisible ? 1 : 0,
+                    child: AspectRatio(
+                      aspectRatio: aspectRatio,
+                      child: PhotoboothPhoto(image: _image.data),
                     ),
                   ),
-                )
-              : const SizedBox(),
+                ),
+              );
+            },
+          )
         ],
       ),
     );

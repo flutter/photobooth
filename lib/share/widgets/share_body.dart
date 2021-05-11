@@ -14,6 +14,32 @@ class ShareBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const AnimatedPhotoIndicator(),
+          AnimatedPhotoboothPhoto(image: image),
+          _ShareBody(
+            image: image,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShareBody extends StatelessWidget {
+  const _ShareBody({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
+
+  final CameraImage? image;
+
+  @override
+  Widget build(BuildContext context) {
     final file = context.select((ShareBloc bloc) => bloc.state.file);
     final compositeStatus = context.select(
       (ShareBloc bloc) => bloc.state.compositeStatus,
@@ -25,41 +51,33 @@ class ShareBody extends StatelessWidget {
       (ShareBloc bloc) => bloc.state.explicitShareUrl,
     );
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const AnimatedPhotoIndicator(),
-          AnimatedPhotoboothPhoto(image: image),
-          if (compositeStatus.isSuccess) ...[
-            const SizedBox(height: 40),
-            isUploadSuccess
-                ? const ShareSuccessHeading()
-                : const ShareHeading(),
-            const SizedBox(height: 20),
-            isUploadSuccess
-                ? const ShareSuccessSubheading()
-                : const ShareSubheading(),
-            const SizedBox(height: 30),
-            if (isUploadSuccess)
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-                child: ShareCopyableLink(link: shareUrl),
+    return Column(
+      children: [
+        if (compositeStatus.isSuccess) ...[
+          const SizedBox(height: 40),
+          isUploadSuccess ? const ShareSuccessHeading() : const ShareHeading(),
+          const SizedBox(height: 20),
+          isUploadSuccess
+              ? const ShareSuccessSubheading()
+              : const ShareSubheading(),
+          const SizedBox(height: 30),
+          if (isUploadSuccess)
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+              child: ShareCopyableLink(link: shareUrl),
+            ),
+          if (image != null && file != null)
+            ResponsiveLayoutBuilder(
+              small: (_, __) => MobileButtonsLayout(image: image!, file: file),
+              large: (_, __) => DesktopButtonsLayout(
+                image: image!,
+                file: file,
               ),
-            if (image != null && file != null)
-              ResponsiveLayoutBuilder(
-                small: (_, __) => MobileButtonsLayout(image: image, file: file),
-                large: (_, __) => DesktopButtonsLayout(
-                  image: image,
-                  file: file,
-                ),
-              ),
-            const SizedBox(height: 28),
-            if (isUploadSuccess) const ShareSuccessCaption(),
-          ]
-        ],
-      ),
+            ),
+          const SizedBox(height: 28),
+          if (isUploadSuccess) const ShareSuccessCaption(),
+        ]
+      ],
     );
   }
 }

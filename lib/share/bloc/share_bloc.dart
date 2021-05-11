@@ -50,6 +50,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
         compositeStatus: ShareStatus.failure,
         uploadStatus: ShareStatus.failure,
       );
+    } else if (event is ShareAnimationLoaded) {
+      yield state.copyWith(isPhotoVisible: true);
     }
   }
 
