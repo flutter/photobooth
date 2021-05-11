@@ -1,4 +1,5 @@
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,9 @@ class ShareBody extends StatelessWidget {
     final compositeStatus = context.select(
       (ShareBloc bloc) => bloc.state.compositeStatus,
     );
+    final compositedImage = context.select(
+      (ShareBloc bloc) => bloc.state.bytes,
+    );
     final isUploadSuccess = context.select(
       (ShareBloc bloc) => bloc.state.uploadStatus.isSuccess,
     );
@@ -32,32 +36,49 @@ class ShareBody extends StatelessWidget {
         children: [
           const AnimatedPhotoIndicator(),
           AnimatedPhotoboothPhoto(image: image),
-          if (compositeStatus.isSuccess) ...[
-            const SizedBox(height: 40),
-            isUploadSuccess
-                ? const ShareSuccessHeading()
-                : const ShareHeading(),
-            const SizedBox(height: 20),
-            isUploadSuccess
-                ? const ShareSuccessSubheading()
-                : const ShareSubheading(),
-            const SizedBox(height: 30),
-            if (isUploadSuccess)
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-                child: ShareCopyableLink(link: shareUrl),
+          if (compositeStatus.isSuccess)
+            AnimatedFadeIn(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 40),
+                  isUploadSuccess
+                      ? const ShareSuccessHeading()
+                      : const ShareHeading(),
+                  const SizedBox(height: 20),
+                  isUploadSuccess
+                      ? const ShareSuccessSubheading()
+                      : const ShareSubheading(),
+                  const SizedBox(height: 30),
+                  if (isUploadSuccess)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 30,
+                        right: 30,
+                        bottom: 30,
+                      ),
+                      child: ShareCopyableLink(link: shareUrl),
+                    ),
+                  if (compositedImage != null && file != null)
+                    ResponsiveLayoutBuilder(
+                      small: (_, __) => MobileButtonsLayout(
+                        image: compositedImage,
+                        file: file,
+                      ),
+                      large: (_, __) => DesktopButtonsLayout(
+                        image: compositedImage,
+                        file: file,
+                      ),
+                    ),
+                  const SizedBox(height: 28),
+                  if (isUploadSuccess)
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1000),
+                      child: const ShareSuccessCaption(),
+                    ),
+                ],
               ),
-            if (image != null && file != null)
-              ResponsiveLayoutBuilder(
-                small: (_, __) => MobileButtonsLayout(image: image, file: file),
-                large: (_, __) => DesktopButtonsLayout(
-                  image: image,
-                  file: file,
-                ),
-              ),
-            const SizedBox(height: 28),
-            if (isUploadSuccess) const ShareSuccessCaption(),
-          ]
+            )
         ],
       ),
     );
@@ -72,7 +93,7 @@ class DesktopButtonsLayout extends StatelessWidget {
     required this.file,
   }) : super(key: key);
 
-  final CameraImage image;
+  final Uint8List image;
   final XFile file;
 
   @override
@@ -98,7 +119,7 @@ class MobileButtonsLayout extends StatelessWidget {
     required this.file,
   }) : super(key: key);
 
-  final CameraImage image;
+  final Uint8List image;
   final XFile file;
 
   @override
