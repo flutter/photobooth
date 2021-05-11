@@ -32,32 +32,40 @@ class ShareBody extends StatelessWidget {
         children: [
           const AnimatedPhotoIndicator(),
           AnimatedPhotoboothPhoto(image: image),
-          if (compositeStatus.isSuccess) ...[
-            const SizedBox(height: 40),
-            isUploadSuccess
-                ? const ShareSuccessHeading()
-                : const ShareHeading(),
-            const SizedBox(height: 20),
-            isUploadSuccess
-                ? const ShareSuccessSubheading()
-                : const ShareSubheading(),
-            const SizedBox(height: 30),
-            if (isUploadSuccess)
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-                child: ShareCopyableLink(link: shareUrl),
+          if (compositeStatus.isSuccess)
+            AnimatedFadeIn(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 40),
+                  isUploadSuccess
+                      ? const ShareSuccessHeading()
+                      : const ShareHeading(),
+                  const SizedBox(height: 20),
+                  isUploadSuccess
+                      ? const ShareSuccessSubheading()
+                      : const ShareSubheading(),
+                  const SizedBox(height: 30),
+                  if (isUploadSuccess)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 30, right: 30, bottom: 30),
+                      child: ShareCopyableLink(link: shareUrl),
+                    ),
+                  if (image != null && file != null)
+                    ResponsiveLayoutBuilder(
+                      small: (_, __) =>
+                          MobileButtonsLayout(image: image, file: file),
+                      large: (_, __) => DesktopButtonsLayout(
+                        image: image,
+                        file: file,
+                      ),
+                    ),
+                  const SizedBox(height: 28),
+                  if (isUploadSuccess) const ShareSuccessCaption(),
+                ],
               ),
-            if (image != null && file != null)
-              ResponsiveLayoutBuilder(
-                small: (_, __) => MobileButtonsLayout(image: image, file: file),
-                large: (_, __) => DesktopButtonsLayout(
-                  image: image,
-                  file: file,
-                ),
-              ),
-            const SizedBox(height: 28),
-            if (isUploadSuccess) const ShareSuccessCaption(),
-          ]
+            )
         ],
       ),
     );
