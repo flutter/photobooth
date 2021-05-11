@@ -49,7 +49,10 @@ class ShareBody extends StatelessWidget {
                   if (isUploadSuccess)
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 30, right: 30, bottom: 30),
+                        left: 30,
+                        right: 30,
+                        bottom: 30,
+                      ),
                       child: ShareCopyableLink(link: shareUrl),
                     ),
                   if (image != null && file != null)
@@ -62,7 +65,11 @@ class ShareBody extends StatelessWidget {
                       ),
                     ),
                   const SizedBox(height: 28),
-                  if (isUploadSuccess) const ShareSuccessCaption(),
+                  if (isUploadSuccess)
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1000),
+                      child: const ShareSuccessCaption(),
+                    ),
                 ],
               ),
             )
