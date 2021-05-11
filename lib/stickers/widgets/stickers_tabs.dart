@@ -156,12 +156,56 @@ class StickerChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Ink.image(
-        image: AssetImage(asset.path),
-        child: InkWell(onTap: onPressed),
-      ),
+    return Image.asset(
+      asset.path,
+      frameBuilder: (
+        BuildContext context,
+        Widget child,
+        int? frame,
+        bool wasSynchronouslyLoaded,
+      ) {
+        return AnimatedCrossFade(
+          firstChild: SizedBox.fromSize(
+            size: const Size(20, 20),
+            child: const AppCircularProgressIndicator(strokeWidth: 2),
+          ),
+          secondChild: InkWell(
+            onTap: onPressed,
+            child: child,
+          ),
+          crossFadeState: frame == null
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
+          duration: const Duration(seconds: 1),
+          alignment: Alignment.center,
+          firstCurve: Curves.easeOut,
+          secondCurve: Curves.easeOut,
+          sizeCurve: Curves.easeOut,
+          layoutBuilder: (
+            Widget topChild,
+            Key topChildKey,
+            Widget bottomChild,
+            Key bottomChildKey,
+          ) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  key: bottomChildKey,
+                  child: bottomChild,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  key: topChildKey,
+                  child: topChild,
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

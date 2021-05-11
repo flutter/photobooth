@@ -214,7 +214,8 @@ void main() {
             const Offset(-200.0, 0.0),
             1000,
           );
-
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_hatsTabBarView')));
           expect(tabBarView.stickers, equals(Assets.hatProps));
@@ -252,8 +253,8 @@ void main() {
             const Offset(-200.0, 0.0),
             1000,
           );
-
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the third page.
           await tester.fling(
@@ -261,7 +262,8 @@ void main() {
             const Offset(-200.0, 0.0),
             1000,
           );
-
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_eyewearTabBarView')));
           expect(tabBarView.stickers, equals(Assets.eyewearProps));
@@ -300,7 +302,8 @@ void main() {
             1000,
           );
 
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the third page.
           await tester.fling(
@@ -309,7 +312,8 @@ void main() {
             1000,
           );
 
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the fourth page.
           await tester.fling(
@@ -317,6 +321,9 @@ void main() {
             const Offset(-200.0, 0.0),
             1000,
           );
+
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_foodTabBarView')));
@@ -356,7 +363,8 @@ void main() {
             1000,
           );
 
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the third page.
           await tester.fling(
@@ -365,7 +373,8 @@ void main() {
             1000,
           );
 
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the fourth page.
           await tester.fling(
@@ -374,7 +383,8 @@ void main() {
             1000,
           );
 
-          await tester.pumpAndSettle();
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           /// Swipe to the fifth page.
           await tester.fling(
@@ -382,6 +392,9 @@ void main() {
             const Offset(-200.0, 0.0),
             1000,
           );
+
+          await tester.pump();
+          await tester.pump(kThemeAnimationDuration);
 
           final tabBarView = tester.widget<StickersTabBarView>(
               find.byKey(Key('stickersTabs_shapesTabBarView')));

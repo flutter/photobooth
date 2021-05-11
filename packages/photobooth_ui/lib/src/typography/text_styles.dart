@@ -32,7 +32,7 @@ class PhotoboothTextStyle {
   static TextStyle get headline3 {
     return _baseTextStyle.copyWith(
       fontSize: 24,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
