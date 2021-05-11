@@ -31,7 +31,7 @@ class LandingBody extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           const LandingTakePhotoButton(),
-          const SizedBox(height: 50),
+          const SizedBox(height: 48),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Image.asset(
