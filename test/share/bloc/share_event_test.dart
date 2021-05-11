@@ -12,14 +12,6 @@ void main() {
       });
     });
 
-    group('ShareDownloadTapped', () {
-      test('support value equality', () {
-        final instanceA = ShareDownloadTapped();
-        final instanceB = ShareDownloadTapped();
-        expect(instanceA, equals(instanceB));
-      });
-    });
-
     group('ShareOnTwitterTapped', () {
       test('support value equality', () {
         final instanceA = ShareOnTwitterTapped();

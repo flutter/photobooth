@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
@@ -8,17 +9,19 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({
-    Key? key,
-  }) : super(key: key);
+  const ShareBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final image = context.select((PhotoboothBloc bloc) => bloc.state.image);
-    final isSuccess = context.select(
+    final file = context.select((ShareBloc bloc) => bloc.state.file);
+    final compositeStatus = context.select(
+      (ShareBloc bloc) => bloc.state.compositeStatus,
+    );
+    final isUploadSuccess = context.select(
       (ShareBloc bloc) => bloc.state.uploadStatus.isSuccess,
     );
-    final explicitShareUrl = context.select(
+    final shareUrl = context.select(
       (ShareBloc bloc) => bloc.state.explicitShareUrl,
     );
 
@@ -27,25 +30,34 @@ class ShareBody extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedPhotoIndicator(),
+          const AnimatedPhotoIndicator(),
           AnimatedPhotoboothPhoto(image: image),
-          const SizedBox(height: 40),
-          isSuccess ? const ShareSuccessHeading() : const ShareHeading(),
-          const SizedBox(height: 20),
-          isSuccess ? const ShareSuccessSubheading() : const ShareSubheading(),
-          const SizedBox(height: 30),
-          if (isSuccess)
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-              child: ShareCopyableLink(link: explicitShareUrl),
-            ),
-          if (image != null)
-            ResponsiveLayoutBuilder(
-              small: (_, __) => MobileButtonsLayout(image: image),
-              large: (_, __) => DesktopButtonsLayout(image: image),
-            ),
-          const SizedBox(height: 28),
-          if (isSuccess) const ShareSuccessCaption(),
+          if (compositeStatus.isSuccess) ...[
+            const SizedBox(height: 40),
+            isUploadSuccess
+                ? const ShareSuccessHeading()
+                : const ShareHeading(),
+            const SizedBox(height: 20),
+            isUploadSuccess
+                ? const ShareSuccessSubheading()
+                : const ShareSubheading(),
+            const SizedBox(height: 30),
+            if (isUploadSuccess)
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                child: ShareCopyableLink(link: shareUrl),
+              ),
+            if (image != null && file != null)
+              ResponsiveLayoutBuilder(
+                small: (_, __) => MobileButtonsLayout(image: image, file: file),
+                large: (_, __) => DesktopButtonsLayout(
+                  image: image,
+                  file: file,
+                ),
+              ),
+            const SizedBox(height: 28),
+            if (isUploadSuccess) const ShareSuccessCaption(),
+          ]
         ],
       ),
     );
@@ -54,16 +66,21 @@ class ShareBody extends StatelessWidget {
 
 @visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
-  const DesktopButtonsLayout({Key? key, required this.image}) : super(key: key);
+  const DesktopButtonsLayout({
+    Key? key,
+    required this.image,
+    required this.file,
+  }) : super(key: key);
 
   final CameraImage image;
+  final XFile file;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Flexible(child: DownloadButton()),
+        Flexible(child: DownloadButton(file: file)),
         const SizedBox(width: 36),
         Flexible(child: ShareButton(image: image)),
         const SizedBox(width: 36),
@@ -75,20 +92,24 @@ class DesktopButtonsLayout extends StatelessWidget {
 
 @visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
-  const MobileButtonsLayout({Key? key, required this.image}) : super(key: key);
+  const MobileButtonsLayout({
+    Key? key,
+    required this.image,
+    required this.file,
+  }) : super(key: key);
 
   final CameraImage image;
+  final XFile file;
 
   @override
   Widget build(BuildContext context) {
-    final gap = const SizedBox(height: 20);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const DownloadButton(),
-        gap,
+        DownloadButton(file: file),
+        const SizedBox(height: 20),
         ShareButton(image: image),
-        gap,
+        const SizedBox(height: 20),
         const GoToGoogleIOButton(),
       ],
     );
@@ -110,6 +131,22 @@ class GoToGoogleIOButton extends StatelessWidget {
         l10n.goToGoogleIOButtonText,
         style: theme.textTheme.button?.copyWith(color: PhotoboothColors.black),
       ),
+    );
+  }
+}
+
+@visibleForTesting
+class DownloadButton extends StatelessWidget {
+  const DownloadButton({Key? key, required this.file}) : super(key: key);
+
+  final XFile file;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return OutlinedButton(
+      onPressed: () => file.saveTo(''),
+      child: Text(l10n.sharePageDownloadButtonText),
     );
   }
 }
