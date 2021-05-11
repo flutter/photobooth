@@ -31,7 +31,7 @@ class ClearStickersDialog extends StatelessWidget {
             Text(
               l10n.clearStickersDialogSubheading,
               key: const Key('clearStickersDialog_subheading'),
-              style: theme.textTheme.headline2,
+              style: theme.textTheme.headline3,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
