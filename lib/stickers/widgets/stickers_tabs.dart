@@ -165,20 +165,13 @@ class StickerChoice extends StatelessWidget {
         bool wasSynchronouslyLoaded,
       ) {
         return AnimatedCrossFade(
-          firstChild: Stack(
-            fit: StackFit.expand,
-            children: [
-              const Align(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              ),
-            ],
+          firstChild: SizedBox.fromSize(
+            size: const Size(20, 20),
+            child: const AppCircularProgressIndicator(strokeWidth: 2),
           ),
-          secondChild: Center(
-            child: InkWell(
-              onTap: onPressed,
-              child: child,
-            ),
+          secondChild: InkWell(
+            onTap: onPressed,
+            child: child,
           ),
           crossFadeState: frame == null
               ? CrossFadeState.showFirst
@@ -188,6 +181,29 @@ class StickerChoice extends StatelessWidget {
           firstCurve: Curves.easeOut,
           secondCurve: Curves.easeOut,
           sizeCurve: Curves.easeOut,
+          layoutBuilder: (
+            Widget topChild,
+            Key topChildKey,
+            Widget bottomChild,
+            Key bottomChildKey,
+          ) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  key: bottomChildKey,
+                  child: bottomChild,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  key: topChildKey,
+                  child: topChild,
+                ),
+              ],
+            );
+          },
         );
       },
     );
