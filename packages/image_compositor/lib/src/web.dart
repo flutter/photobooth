@@ -36,7 +36,7 @@ class _OffscreenCompositor {
   final double targetAspectRatio;
 
   /// Left, Top, Right border size.
-  static const _frameBorderSize = 8;
+  static const _frameBorderSize = 16;
 
   Future<List<int>> composite() async {
     final layers =
