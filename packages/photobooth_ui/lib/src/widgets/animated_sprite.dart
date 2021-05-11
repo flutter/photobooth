@@ -6,6 +6,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template sprites}
 /// Object which contains meta data for a collection of sprites.
@@ -118,6 +119,23 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
 
   @override
   Widget build(BuildContext context) {
+    if (_animation == null) return const SizedBox();
+    return AnimatedCrossFade(
+      firstChild: SizedBox.fromSize(
+        size: const Size(20, 20),
+        child: const AppCircularProgressIndicator(strokeWidth: 2),
+      ),
+      secondChild: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child:
+            SpriteAnimationWidget(animation: _animation, playing: _isPlaying),
+      ),
+      crossFadeState: _status.isLoaded
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
+      duration: Duration(seconds: 1),
+    );
     return Container(
       width: double.infinity,
       height: double.infinity,
