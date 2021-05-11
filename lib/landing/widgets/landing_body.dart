@@ -15,7 +15,7 @@ class LandingBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          const SizedBox(height: 120),
+          const SizedBox(height: 60),
           SelectableText(
             l10n.landingPageHeading,
             key: const Key('landingPage_heading_text'),
