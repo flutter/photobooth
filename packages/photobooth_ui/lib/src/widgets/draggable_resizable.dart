@@ -118,8 +118,10 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         final normalizedWidth = size.width * widthFactor;
         final normalizedHeight = size.width / aspectRatio;
-        size = Size(normalizedWidth, normalizedHeight);
-
+        final newSize = Size(normalizedWidth, normalizedHeight);
+        if (widget.constraints.isSatisfiedBy(newSize)) {
+          size = Size(normalizedWidth, normalizedHeight);
+        }
         final normalizedLeft = position.dx * widthFactor;
         final normalizedTop = position.dy * heightFactor;
 
