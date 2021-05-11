@@ -159,8 +159,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ) async* {
     final file = XFile.fromData(
       event.bytes,
-      mimeType: 'image/jpeg',
-      name: '$imageId.jpg',
+      mimeType: 'image/png',
+      name: '$imageId.png',
     );
     final bytes = event.bytes;
 
