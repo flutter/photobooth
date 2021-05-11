@@ -154,7 +154,7 @@ void main() {
         await tester
             .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
         await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
-        await tester.pumpAndSettle();
+        await tester.pump();
         verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
       });
     });
