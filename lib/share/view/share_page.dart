@@ -100,7 +100,7 @@ class _ConfirmationDialogContent extends StatelessWidget {
     final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        padding: const EdgeInsets.all(60),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
