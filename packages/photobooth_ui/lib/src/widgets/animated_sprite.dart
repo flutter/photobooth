@@ -54,6 +54,7 @@ class AnimatedSprite extends StatefulWidget {
     Key? key,
     required this.sprites,
     this.mode = AnimationMode.loop,
+    this.showLoadingIndicator = true,
   }) : super(key: key);
 
   /// The collection of sprites which will be animated.
@@ -61,6 +62,9 @@ class AnimatedSprite extends StatefulWidget {
 
   /// The mode of animation (`trigger`, `loop` or `oneTime`).
   final AnimationMode mode;
+
+  /// Where should display a loading indicator while loading the sprite
+  final bool showLoadingIndicator;
 
   @override
   _AnimatedSpriteState createState() => _AnimatedSpriteState();
@@ -120,10 +124,12 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
   @override
   Widget build(BuildContext context) {
     return AppAnimatedCrossFade(
-      firstChild: SizedBox.fromSize(
-        size: const Size(20, 20),
-        child: const AppCircularProgressIndicator(strokeWidth: 2),
-      ),
+      firstChild: widget.showLoadingIndicator
+          ? SizedBox.fromSize(
+              size: const Size(20, 20),
+              child: const AppCircularProgressIndicator(strokeWidth: 2),
+            )
+          : const SizedBox(),
       secondChild: Container(
         width: double.infinity,
         height: double.infinity,
