@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:analytics/analytics.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -166,7 +166,14 @@ class DownloadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return OutlinedButton(
-      onPressed: () => file.saveTo(''),
+      onPressed: () {
+        trackEvent(
+          category: 'button',
+          action: 'click-download-photo',
+          label: 'download-photo',
+        );
+        file.saveTo('');
+      },
       child: Text(l10n.sharePageDownloadButtonText),
     );
   }
