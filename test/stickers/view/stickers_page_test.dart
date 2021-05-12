@@ -193,6 +193,27 @@ void main() {
     });
 
     testWidgets(
+        'does not display pulse animation '
+        'once has been clicked', (tester) async {
+      await tester.pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: photoboothBloc),
+            BlocProvider.value(value: stickersBloc),
+          ],
+          child: StickersView(),
+        ),
+      );
+      expect(find.byType(AnimatedPulse), findsOneWidget);
+      tester
+          .widget<AppTooltipButton>(find
+              .byKey(Key('stickersView_openStickersButton_appTooltipButton')))
+          .onPressed();
+      await tester.pumpAndSettle();
+      expect(find.byType(AnimatedPulse), findsNothing);
+    });
+
+    testWidgets(
         'does not display DraggableResizableAsset when stickers is empty',
         (tester) async {
       await tester.pumpApp(

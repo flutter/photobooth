@@ -429,6 +429,7 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final child = AppTooltipButton(
+      key: const Key('stickersView_openStickersButton_appTooltipButton'),
       onPressed: () {
         widget.onPressed();
         if (_isAnimating)
