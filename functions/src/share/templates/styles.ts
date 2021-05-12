@@ -33,7 +33,6 @@ body {
 
 .fixed-photos {
   position: fixed;
-  top: 0;
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 1;
@@ -75,7 +74,7 @@ h1, h2 {
 h1 {
   line-height: 1.2;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 500;
   width: 67%;
   margin: 0 auto 25px;
 }
@@ -161,15 +160,17 @@ footer li {
   }
 
   .fixed-photos.left  {
+    top: -151px;
     left: -22%;
   }
 
   .fixed-photos.right  {
+    top: -110px;
     right: -22%;
   }
 
   .share-image {
-    margin: 4.25rem auto 3rem;
+    margin: 4.25rem auto 2.5rem;
     width: 710px;
     position: relative;
     left: -22px;
@@ -206,11 +207,11 @@ footer li {
 
 @media (min-width: 1700px) {
   .fixed-photos.left  {
-    left: -10%;
+    left: -5%;
   }
 
   .fixed-photos.right  {
-    right: -10%;
+    right: -5%;
   }
 }
 `;
