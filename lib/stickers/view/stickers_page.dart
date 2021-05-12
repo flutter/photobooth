@@ -414,8 +414,10 @@ extension on PhotoAsset {
 }
 
 class OpenStickersButton extends StatefulWidget {
-  const OpenStickersButton({Key? key, required this.onPressed})
-      : super(key: key);
+  const OpenStickersButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
 
   final VoidCallback onPressed;
 
@@ -425,6 +427,7 @@ class OpenStickersButton extends StatefulWidget {
 
 class _OpenStickersButtonState extends State<OpenStickersButton> {
   bool _isAnimating = true;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -432,10 +435,7 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
       key: const Key('stickersView_openStickersButton_appTooltipButton'),
       onPressed: () {
         widget.onPressed();
-        if (_isAnimating)
-          setState(() {
-            _isAnimating = false;
-          });
+        if (_isAnimating) setState(() => _isAnimating = false);
       },
       message: l10n.openStickersTooltip,
       verticalOffset: 50,
