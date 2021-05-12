@@ -1,19 +1,14 @@
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
-  const ShareDialog({
-    Key? key,
-    required this.aspectRatio,
-    required this.image,
-  }) : super(key: key);
+  const ShareDialog({Key? key, required this.image}) : super(key: key);
 
-  final double aspectRatio;
-  final CameraImage image;
+  final Uint8List image;
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +39,7 @@ class ShareDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 430,
-                      width: 600,
-                      child: FramedPhotoboothPhoto(
-                        aspectRatio: aspectRatio,
-                        image: image.data,
-                      ),
-                    ),
+                    SharePreviewPhoto(image: image),
                     const SizedBox(height: 60),
                     SelectableText(
                       l10n.shareDialogHeading,
@@ -63,7 +51,7 @@ class ShareDialog extends StatelessWidget {
                     SelectableText(
                       l10n.shareDialogSubheading,
                       key: const Key('shareDialog_subheading'),
-                      style: theme.textTheme.headline2,
+                      style: theme.textTheme.headline3,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 30),

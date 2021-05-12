@@ -7,7 +7,7 @@ import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
-class App extends StatefulWidget {
+class App extends StatelessWidget {
   const App({
     Key? key,
     required this.authenticationRepository,
@@ -18,30 +18,13 @@ class App extends StatefulWidget {
   final PhotosRepository photosRepository;
 
   @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  bool _isVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (mounted) setState(() => _isVisible = true);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: widget.authenticationRepository),
-        RepositoryProvider.value(value: widget.photosRepository),
+        RepositoryProvider.value(value: authenticationRepository),
+        RepositoryProvider.value(value: photosRepository),
       ],
-      child: AnimatedOpacity(
-        opacity: _isVisible ? 1.0 : 0.0,
-        duration: const Duration(seconds: 1),
+      child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
           small: (_, __) => _App(theme: PhotoboothTheme.small),
           large: (_, __) => _App(theme: PhotoboothTheme.standard),

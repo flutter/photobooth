@@ -79,7 +79,7 @@ class StickersTabs extends StatelessWidget {
 }
 
 @visibleForTesting
-class StickersTab extends StatelessWidget {
+class StickersTab extends StatefulWidget {
   const StickersTab({
     Key? key,
     required this.assetPath,
@@ -88,17 +88,27 @@ class StickersTab extends StatelessWidget {
   final String assetPath;
 
   @override
+  _StickersTabState createState() => _StickersTabState();
+}
+
+class _StickersTabState extends State<StickersTab>
+    with AutomaticKeepAliveClientMixin<StickersTab> {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Tab(
       iconMargin: const EdgeInsets.only(bottom: 24),
       icon: Image.asset(
-        assetPath,
+        widget.assetPath,
         width: 30,
         height: 30,
         color: IconTheme.of(context).color,
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 @visibleForTesting
@@ -146,12 +156,56 @@ class StickerChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: PhotoboothColors.transparent,
-      child: Ink.image(
-        image: AssetImage(asset.path),
-        child: InkWell(onTap: onPressed),
-      ),
+    return Image.asset(
+      asset.path,
+      frameBuilder: (
+        BuildContext context,
+        Widget child,
+        int? frame,
+        bool wasSynchronouslyLoaded,
+      ) {
+        return AnimatedCrossFade(
+          firstChild: SizedBox.fromSize(
+            size: const Size(20, 20),
+            child: const AppCircularProgressIndicator(strokeWidth: 2),
+          ),
+          secondChild: InkWell(
+            onTap: onPressed,
+            child: child,
+          ),
+          crossFadeState: frame == null
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
+          duration: const Duration(seconds: 1),
+          alignment: Alignment.center,
+          firstCurve: Curves.easeOut,
+          secondCurve: Curves.easeOut,
+          sizeCurve: Curves.easeOut,
+          layoutBuilder: (
+            Widget topChild,
+            Key topChildKey,
+            Widget bottomChild,
+            Key bottomChildKey,
+          ) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  key: bottomChildKey,
+                  child: bottomChild,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  key: topChildKey,
+                  child: topChild,
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

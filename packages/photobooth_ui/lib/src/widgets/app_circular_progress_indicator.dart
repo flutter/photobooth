@@ -10,6 +10,7 @@ class AppCircularProgressIndicator extends StatelessWidget {
     Key? key,
     this.color = PhotoboothColors.orange,
     this.backgroundColor = PhotoboothColors.white,
+    this.strokeWidth = 4.0,
   }) : super(key: key);
 
   /// [Color] of the progress indicator
@@ -18,11 +19,15 @@ class AppCircularProgressIndicator extends StatelessWidget {
   /// [Color] for the background
   final Color? backgroundColor;
 
+  /// Optional stroke width of the progress indicator
+  final double strokeWidth;
+
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
       color: color,
       backgroundColor: backgroundColor,
+      strokeWidth: strokeWidth,
     );
   }
 }

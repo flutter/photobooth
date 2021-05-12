@@ -52,7 +52,7 @@ class ShareErrorDialog extends StatelessWidget {
                     Text(
                       l10n.shareErrorDialogSubheading,
                       key: const Key('shareErrorDialog_subheading'),
-                      style: theme.textTheme.headline2,
+                      style: theme.textTheme.headline3,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 42),

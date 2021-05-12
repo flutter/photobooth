@@ -62,6 +62,10 @@ class _ShareRetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final isLoading = context.select(
+      (ShareBloc bloc) => bloc.state.compositeStatus.isLoading,
+    );
+    if (isLoading) return const SizedBox();
     return Positioned(
       left: 15,
       top: 15,
@@ -76,7 +80,8 @@ class _ShareRetakeButton extends StatelessWidget {
           if (confirmed) {
             context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
             Navigator.of(context).popUntil(
-                (route) => route.settings.name == PhotoboothPage.name);
+              (route) => route.settings.name == PhotoboothPage.name,
+            );
           }
         },
         message: l10n.retakeButtonTooltip,
@@ -95,7 +100,7 @@ class _ConfirmationDialogContent extends StatelessWidget {
     final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
+        padding: const EdgeInsets.all(60),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
