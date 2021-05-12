@@ -441,7 +441,7 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
       mode: TooltipMode.normal,
       child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
     );
-    if (displayPulseAnimation) return PulsingView(child: child);
+    if (displayPulseAnimation) return AnimatedPulse(child: child);
     return child;
   }
 }

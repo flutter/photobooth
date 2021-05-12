@@ -1,4 +1,5 @@
 export 'animated_fade_in.dart';
+export 'animated_pulse.dart';
 export 'animated_sprite.dart';
 export 'app_animated_cross_fade.dart';
 export 'app_circular_progress_indicator.dart';
@@ -10,5 +11,4 @@ export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'platform_builder.dart';
 export 'preview_image.dart';
-export 'pulsing_view.dart';
 export 'responsive_layout_builder.dart';
