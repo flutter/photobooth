@@ -163,6 +163,26 @@ void main() {
       testWidgets(
           'displays AnimatedPhotoboothPhotoLandscape'
           'when aspect ratio is landscape '
+          'and screen size is medium', (tester) async {
+        when(() => photoboothBloc.state).thenReturn(PhotoboothState(
+          image: image,
+          aspectRatio: PhotoboothAspectRatio.landscape,
+        ));
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.medium, 800));
+
+        await tester.pumpApp(
+          AnimatedPhotoboothPhoto(image: image),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(
+          find.byType(AnimatedPhotoboothPhotoLandscape),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'displays AnimatedPhotoboothPhotoLandscape'
+          'when aspect ratio is landscape '
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,

@@ -14,12 +14,16 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     Key? key,
     required this.small,
     required this.large,
+    this.medium,
     this.xLarge,
     this.child,
   }) : super(key: key);
 
   /// [ResponsiveLayoutWidgetBuilder] for small layout.
   final ResponsiveLayoutWidgetBuilder small;
+
+  /// [ResponsiveLayoutWidgetBuilder] for medium layout.
+  final ResponsiveLayoutWidgetBuilder? medium;
 
   /// [ResponsiveLayoutWidgetBuilder] for large layout.
   final ResponsiveLayoutWidgetBuilder large;
@@ -38,6 +42,8 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
       builder: (context, constraints) {
         if (constraints.maxWidth <= PhotoboothBreakpoints.small)
           return small(context, child);
+        if (constraints.maxWidth <= PhotoboothBreakpoints.medium)
+          return (medium ?? large).call(context, child);
         if (constraints.maxWidth <= PhotoboothBreakpoints.large)
           return large(context, child);
 

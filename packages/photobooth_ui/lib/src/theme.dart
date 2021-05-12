@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photobooth_ui/src/typography/typography.dart';
 
-const _smallTextScaleFactor = 0.85;
+const _smallTextScaleFactor = 0.80;
 
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
@@ -25,6 +25,11 @@ class PhotoboothTheme {
 
   /// `ThemeData` for Photobooth UI for small screens.
   static ThemeData get small {
+    return standard.copyWith(textTheme: _smallTextTheme);
+  }
+
+  /// `ThemeData` for Photobooth UI for medium screens.
+  static ThemeData get medium {
     return standard.copyWith(textTheme: _smallTextTheme);
   }
 

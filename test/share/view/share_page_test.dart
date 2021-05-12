@@ -161,6 +161,7 @@ void main() {
     });
 
     testWidgets('displays a AnimatedPhotoIndicator', (tester) async {
+      tester.setDisplaySize(Size(PhotoboothBreakpoints.medium, 800));
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
