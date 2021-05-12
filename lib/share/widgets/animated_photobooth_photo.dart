@@ -23,7 +23,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
 class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
   late final Timer timer;
   void onAnimationLoaded() {
-    timer = Timer(const Duration(milliseconds: 1300), () {
+    timer = Timer(const Duration(milliseconds: 2200), () {
       context.read<ShareBloc>().add(const ShareAnimationLoaded());
     });
   }
@@ -64,15 +64,6 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
   final CameraImage? image;
   final VoidCallback onAnimationLoaded;
 
-  static const sprite = AnimatedSprite(
-    mode: AnimationMode.oneTime,
-    sprites: Sprites(
-      asset: 'photo_frame_spritesheet_landscape.jpg',
-      size: Size(1308, 1038),
-      frames: 19,
-      stepTime: 2 / 19,
-    ),
-  );
   static const aspectRatio = PhotoboothAspectRatio.landscape;
   static const left = 129.0;
   static const top = 88.0;
@@ -81,6 +72,16 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sprite = AnimatedSprite(
+      mode: AnimationMode.oneTime,
+      sprites: const Sprites(
+        asset: 'photo_frame_spritesheet_landscape.jpg',
+        size: Size(1308, 1038),
+        frames: 19,
+        stepTime: 2 / 19,
+      ),
+      onAnimationLoaded: onAnimationLoaded,
+    );
     final smallPhoto = _AnimatedPhotoboothPhoto(
       aspectRatio: aspectRatio,
       image: image,
@@ -131,15 +132,6 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
   final CameraImage? image;
   final VoidCallback onAnimationLoaded;
 
-  static const sprite = AnimatedSprite(
-    mode: AnimationMode.oneTime,
-    sprites: Sprites(
-      asset: 'photo_frame_spritesheet_portrait.png',
-      size: Size(520, 698),
-      frames: 38,
-      stepTime: 0.05,
-    ),
-  );
   static const aspectRatio = PhotoboothAspectRatio.portrait;
   static const left = 93.0;
   static const top = 120.0;
@@ -148,6 +140,16 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sprite = AnimatedSprite(
+      mode: AnimationMode.oneTime,
+      sprites: const Sprites(
+        asset: 'photo_frame_spritesheet_portrait.png',
+        size: Size(520, 698),
+        frames: 38,
+        stepTime: 0.05,
+      ),
+      onAnimationLoaded: onAnimationLoaded,
+    );
     final smallPhoto = _AnimatedPhotoboothPhoto(
       aspectRatio: aspectRatio,
       image: image,
