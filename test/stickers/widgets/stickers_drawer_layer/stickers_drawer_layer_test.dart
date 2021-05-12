@@ -7,7 +7,6 @@ import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -25,8 +24,6 @@ class FakePhotoboothState extends Fake implements PhotoboothState {}
 class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -39,20 +36,33 @@ void main() {
   group('StickersDrawerLayer', () {
     late PhotoboothBloc photoboothBloc;
     late StickersBloc stickersBloc;
-    late PlatformHelper platformHelper;
 
     setUp(() {
       photoboothBloc = MockPhotoboothBloc();
       stickersBloc = MockStickersBloc();
-      platformHelper = MockPlatformHelper();
     });
 
     group('DesktopStickersDrawer', () {
       testWidgets(
+          'does not render DesktopStickersDrawer when '
+          'drawer is inactive', (tester) async {
+        when(() => stickersBloc.state).thenReturn(
+          StickersState(isDrawerActive: false),
+        );
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: stickersBloc,
+            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+          ),
+          photoboothBloc: photoboothBloc,
+        );
+        expect(find.byType(DesktopStickersDrawer), findsNothing);
+      });
+
+      testWidgets(
           'renders DesktopStickersDrawer when '
-          'is not mobile, mode is active and orientation is landscape',
+          'width greater than mobile breakpoint and it is drawer active',
           (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
         when(() => stickersBloc.state).thenReturn(
           StickersState(isDrawerActive: true),
         );
@@ -69,30 +79,11 @@ void main() {
 
       testWidgets(
           'does not render DesktopStickersDrawer when '
-          'is not mobile, and mode is inactive', (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
-        when(() => stickersBloc.state).thenReturn(
-          StickersState(isDrawerActive: false),
-        );
-        tester.setLandscapeDisplaySize();
-        await tester.pumpApp(
-          BlocProvider.value(
-            value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
-          ),
-          photoboothBloc: photoboothBloc,
-        );
-        expect(find.byType(DesktopStickersDrawer), findsNothing);
-      });
-
-      testWidgets(
-          'does not render DesktopStickersDrawer when '
-          'is not mobile, and orientation is portrait', (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
+          'width smaller than mobile and it is drawer active', (tester) async {
         when(() => stickersBloc.state).thenReturn(
           StickersState(isDrawerActive: true),
         );
-        tester.setPortraitDisplaySize();
+        tester.setSmallDisplaySize();
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
@@ -106,7 +97,6 @@ void main() {
       testWidgets('adds StickerSelected when StickerChoice tapped',
           (tester) async {
         final sticker = Assets.props.first;
-        when(() => platformHelper.isMobile).thenReturn(false);
         when(() => stickersBloc.state).thenReturn(
           StickersState(isDrawerActive: true),
         );
@@ -148,14 +138,13 @@ void main() {
     group('MobileStickersDrawer', () {
       testWidgets(
           'opens MobileStickersDrawer when '
-          'is mobile, is active and is portrait', (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(true);
+          'is active and width smaller than mobile breakpoint', (tester) async {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
           initialState: StickersState(isDrawerActive: false),
         );
-        tester.setPortraitDisplaySize();
+        tester.setSmallDisplaySize();
 
         await tester.pumpApp(
           BlocProvider.value(value: stickersBloc, child: StickersDrawerLayer()),
@@ -169,25 +158,27 @@ void main() {
       });
 
       testWidgets(
-          'opens MobileStickersDrawer when '
-          'is not mobile and is portrait', (tester) async {
-        when(() => platformHelper.isMobile).thenReturn(false);
+          'does not open MobileStickersDrawer when '
+          'width greater than mobile breakpoint', (tester) async {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
           initialState: StickersState(isDrawerActive: false),
         );
-        tester.setPortraitDisplaySize();
+        tester.setLandscapeDisplaySize();
 
         await tester.pumpApp(
-          BlocProvider.value(value: stickersBloc, child: StickersDrawerLayer()),
+          BlocProvider.value(
+            value: stickersBloc,
+            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+          ),
           photoboothBloc: photoboothBloc,
         );
         await tester.pump();
-        expect(find.byType(MobileStickersDrawer), findsOneWidget);
+        expect(find.byType(MobileStickersDrawer), findsNothing);
 
         tester.widget<IconButton>(find.byType(IconButton)).onPressed!();
-        await tester.pumpAndSettle();
+        await tester.pump();
       });
 
       testWidgets('can select stickers on MobileStickersDrawer',
@@ -200,6 +191,8 @@ void main() {
           ]),
           initialState: StickersState(isDrawerActive: false),
         );
+        tester.setSmallDisplaySize();
+
         await tester.pumpApp(
           BlocProvider.value(value: stickersBloc, child: StickersDrawerLayer()),
           photoboothBloc: photoboothBloc,
@@ -220,6 +213,8 @@ void main() {
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
           initialState: StickersState(isDrawerActive: false),
         );
+        tester.setSmallDisplaySize();
+
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,

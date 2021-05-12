@@ -3,16 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 class StickersDrawerLayer extends StatelessWidget {
-  StickersDrawerLayer({
-    Key? key,
-    PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
-
-  final PlatformHelper platformHelper;
+  StickersDrawerLayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
