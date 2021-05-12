@@ -13,41 +13,48 @@ void main() {
   });
 
   group('AnimatedPulse', () {
-    testWidgets('renders', (tester) async {
-      var isVisible = true;
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          StatefulBuilder(
-            builder: (context, setState) {
-              return isVisible
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isVisible = false;
-                        });
-                      },
-                      child: AnimatedPulse(
-                        child: SizedBox(),
-                      ),
-                    )
-                  : SizedBox();
-            },
-          ),
-        );
+    testWidgets('renders with default settings', (tester) async {
+      await tester.pumpWidget(AnimatedPulse(child: SizedBox()));
 
-        await tester.pump(Duration(milliseconds: 6000));
-        await tester.pumpAndSettle();
-        await tester.tap(find.byType(GestureDetector));
-        await tester.pumpAndSettle();
-        expect(find.byType(AnimatedPulse), findsNothing);
-      });
+      /// Pulse Animation
+      await tester.pump(Duration(milliseconds: 1600));
+
+      /// Time between pulses
+      await tester.pump(Duration(milliseconds: 800));
+
+      /// Start new animation
+      await tester.pump();
+
+      expect(find.byType(CustomPaint), findsOneWidget);
+    });
+
+    testWidgets('renders with custom settings', (tester) async {
+      const testDuration = Duration(milliseconds: 1);
+      await tester.pumpWidget(
+        AnimatedPulse(
+          pulseDuration: testDuration,
+          timeBetweenPulses: testDuration,
+          child: SizedBox(),
+        ),
+      );
+
+      /// Pulse Animation
+      await tester.pump(Duration(milliseconds: 1));
+
+      /// Time between pulses
+      await tester.pump(testDuration);
+
+      /// Start new animation
+      await tester.pump(testDuration);
+
+      expect(find.byType(CustomPaint), findsOneWidget);
     });
   });
 
-  group('PulsingPainter', () {
+  group('PulsePainter', () {
     test('verifies should repaint', () async {
-      final pulsingPainter = PulsingPainter(animation);
-      expect(pulsingPainter.shouldRepaint(pulsingPainter), true);
+      final pulsePainter = PulsePainter(animation);
+      expect(pulsePainter.shouldRepaint(pulsePainter), true);
     });
   });
 }
