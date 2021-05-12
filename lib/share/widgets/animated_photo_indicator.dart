@@ -11,16 +11,13 @@ class AnimatedPhotoIndicator extends StatelessWidget {
     return ResponsiveLayoutBuilder(
       small: (_, __) => const _AnimatedPhotoIndicator(scale: 0.6),
       medium: (_, __) => const _AnimatedPhotoIndicator(scale: 0.7),
-      large: (_, __) => const _AnimatedPhotoIndicator(scale: 1.0),
+      large: (_, __) => const _AnimatedPhotoIndicator(),
     );
   }
 }
 
 class _AnimatedPhotoIndicator extends StatelessWidget {
-  const _AnimatedPhotoIndicator({
-    Key? key,
-    required this.scale,
-  }) : super(key: key);
+  const _AnimatedPhotoIndicator({Key? key, this.scale = 1.0}) : super(key: key);
   final double scale;
 
   @override
