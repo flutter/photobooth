@@ -20,7 +20,7 @@ class AppAnimatedCrossFade extends StatelessWidget {
   /// Second [Widget] to display
   final Widget secondChild;
 
-  /// Specifies which of two children to show
+  /// Specifies when to display [firstChild] or [secondChild]
   final CrossFadeState crossFadeState;
 
   @override
