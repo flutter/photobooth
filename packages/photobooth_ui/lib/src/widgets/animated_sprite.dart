@@ -55,6 +55,7 @@ class AnimatedSprite extends StatefulWidget {
     required this.sprites,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
+    this.loadingIndicatorColor = PhotoboothColors.orange,
   }) : super(key: key);
 
   /// The collection of sprites which will be animated.
@@ -65,6 +66,9 @@ class AnimatedSprite extends StatefulWidget {
 
   /// Where should display a loading indicator while loading the sprite
   final bool showLoadingIndicator;
+
+  /// Color for loading indicator
+  final Color loadingIndicatorColor;
 
   @override
   _AnimatedSpriteState createState() => _AnimatedSpriteState();
@@ -127,7 +131,10 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
       firstChild: widget.showLoadingIndicator
           ? SizedBox.fromSize(
               size: const Size(20, 20),
-              child: const AppCircularProgressIndicator(strokeWidth: 2),
+              child: AppCircularProgressIndicator(
+                strokeWidth: 2,
+                color: widget.loadingIndicatorColor,
+              ),
             )
           : const SizedBox(),
       secondChild: Container(

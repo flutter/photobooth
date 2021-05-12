@@ -5,6 +5,7 @@ class AnimatedDino extends AnimatedSprite {
   const AnimatedDino({Key? key})
       : super(
           key: key,
+          loadingIndicatorColor: PhotoboothColors.orange,
           sprites: const Sprites(
             asset: 'dino_spritesheet.png',
             size: Size(648, 757),
