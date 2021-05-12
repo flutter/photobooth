@@ -7,23 +7,18 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class MockAnimationController extends Mock implements AnimationController {}
 
 void main() {
-  late AnimationController animation;
-  setUp(() {
-    animation = MockAnimationController();
-  });
-
   group('AnimatedPulse', () {
     testWidgets('renders with default settings', (tester) async {
       await tester.pumpWidget(AnimatedPulse(child: SizedBox()));
 
       /// Pulse Animation
-      await tester.pump(Duration(milliseconds: 1600));
+      await tester.pump(defaultPulseDuration);
 
       /// Time between pulses
-      await tester.pump(Duration(milliseconds: 800));
+      await tester.pump(defaultTimeBetweenPulses);
 
       /// Start new animation
-      await tester.pump();
+      await tester.pump(defaultPulseDuration);
 
       expect(find.byType(CustomPaint), findsOneWidget);
     });
@@ -39,7 +34,7 @@ void main() {
       );
 
       /// Pulse Animation
-      await tester.pump(Duration(milliseconds: 1));
+      await tester.pump(testDuration);
 
       /// Time between pulses
       await tester.pump(testDuration);
@@ -53,7 +48,7 @@ void main() {
 
   group('PulsePainter', () {
     test('verifies should repaint', () async {
-      final pulsePainter = PulsePainter(animation);
+      final pulsePainter = PulsePainter(MockAnimationController());
       expect(pulsePainter.shouldRepaint(pulsePainter), true);
     });
   });
