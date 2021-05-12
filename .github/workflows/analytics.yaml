@@ -1,0 +1,36 @@
+name: analytics
+
+on:
+  pull_request:
+    paths:
+      - "packages/analytics/**"
+      - ".github/workflows/analytics.yaml"
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: packages/analytics
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests chrome
+        run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
+
+      - name: Run tests
+        run: flutter test --no-pub --test-randomize-ordering-seed random
