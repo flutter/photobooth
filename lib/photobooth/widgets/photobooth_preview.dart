@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets.g.dart';
@@ -27,6 +28,11 @@ class PhotoboothPreview extends StatelessWidget {
         icon: const AssetImage('assets/icons/dash_icon.png'),
         isSelected: state.isDashSelected,
         onPressed: () {
+          trackEvent(
+            category: 'button',
+            action: 'click-add-friend',
+            label: 'add-dash-friend',
+          );
           context
               .read<PhotoboothBloc>()
               .add(const PhotoCharacterToggled(character: Assets.dash));
@@ -37,6 +43,11 @@ class PhotoboothPreview extends StatelessWidget {
         icon: const AssetImage('assets/icons/sparky_icon.png'),
         isSelected: state.isSparkySelected,
         onPressed: () {
+          trackEvent(
+            category: 'button',
+            action: 'click-add-friend',
+            label: 'add-sparky-friend',
+          );
           context
               .read<PhotoboothBloc>()
               .add(const PhotoCharacterToggled(character: Assets.sparky));
@@ -47,6 +58,11 @@ class PhotoboothPreview extends StatelessWidget {
         icon: const AssetImage('assets/icons/android_icon.png'),
         isSelected: state.isAndroidSelected,
         onPressed: () {
+          trackEvent(
+            category: 'button',
+            action: 'click-add-friend',
+            label: 'add-bugdroid-friend',
+          );
           context
               .read<PhotoboothBloc>()
               .add(const PhotoCharacterToggled(character: Assets.android));
@@ -57,6 +73,11 @@ class PhotoboothPreview extends StatelessWidget {
         icon: const AssetImage('assets/icons/dino_icon.png'),
         isSelected: state.isDinoSelected,
         onPressed: () {
+          trackEvent(
+            category: 'button',
+            action: 'click-add-friend',
+            label: 'add-dino-friend',
+          );
           context
               .read<PhotoboothBloc>()
               .add(const PhotoCharacterToggled(character: Assets.dino));
