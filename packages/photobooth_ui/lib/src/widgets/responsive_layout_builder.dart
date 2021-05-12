@@ -25,7 +25,6 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   final ResponsiveLayoutWidgetBuilder large;
 
   /// [ResponsiveLayoutWidgetBuilder] for xLarge layout.
-
   final ResponsiveLayoutWidgetBuilder? xLarge;
 
   /// Optional child widget which will be passed
@@ -41,9 +40,8 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
           return small(context, child);
         if (constraints.maxWidth <= PhotoboothBreakpoints.large)
           return large(context, child);
-        if (xLarge == null) return large(context, child);
 
-        return xLarge!(context, child);
+        return (xLarge ?? large).call(context, child);
       },
     );
   }
