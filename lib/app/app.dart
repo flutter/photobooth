@@ -27,6 +27,7 @@ class App extends StatelessWidget {
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
           small: (_, __) => _App(theme: PhotoboothTheme.small),
+          medium: (_, __) => _App(theme: PhotoboothTheme.medium),
           large: (_, __) => _App(theme: PhotoboothTheme.standard),
         ),
       ),
