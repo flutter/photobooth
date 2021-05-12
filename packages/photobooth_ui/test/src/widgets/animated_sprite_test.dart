@@ -32,7 +32,7 @@ void main() async {
       await tester.pumpWidget(AnimatedSprite(
         sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
       ));
-      expect(find.byType(SizedBox), findsOneWidget);
+      expect(find.byType(AppCircularProgressIndicator), findsOneWidget);
     });
 
     testWidgets('renders SpriteAnimationWidget when asset is loaded (loop)',
