@@ -88,7 +88,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
   bool get isTouchInputSupported => widget.platformHelper.isMobile;
 
   Offset position = Offset.zero;
-  Size? initialSize;
 
   @override
   void initState() {
@@ -105,7 +104,6 @@ class _DraggableResizableState extends State<DraggableResizable> {
     final aspectRatio = widget.size.width / widget.size.height;
     return LayoutBuilder(
       builder: (context, constraints) {
-        initialSize ??= Size(constraints.maxWidth, constraints.maxHeight);
         position = position == Offset.zero
             ? Offset(
                 constraints.maxWidth / 2 - (size.width / 2),
@@ -113,17 +111,14 @@ class _DraggableResizableState extends State<DraggableResizable> {
               )
             : position;
 
-        final widthFactor = constraints.maxWidth / initialSize!.width;
-        final heightFactor = constraints.maxHeight / initialSize!.height;
-
-        final normalizedWidth = size.width * widthFactor;
-        final normalizedHeight = size.width / aspectRatio;
+        final normalizedWidth = size.width;
+        final normalizedHeight = normalizedWidth / aspectRatio;
         final newSize = Size(normalizedWidth, normalizedHeight);
-        if (widget.constraints.isSatisfiedBy(newSize)) {
-          size = Size(normalizedWidth, normalizedHeight);
-        }
-        final normalizedLeft = position.dx * widthFactor;
-        final normalizedTop = position.dy * heightFactor;
+
+        if (widget.constraints.isSatisfiedBy(newSize)) size = newSize;
+
+        final normalizedLeft = position.dx;
+        final normalizedTop = position.dy;
 
         void onUpdate() {
           final normalizedPosition = Offset(
@@ -313,10 +308,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
                   onTap: onUpdate,
                   onDrag: (d) {
                     setState(() {
-                      position = Offset(
-                        position.dx + (d.dx / widthFactor),
-                        position.dy + (d.dy / heightFactor),
-                      );
+                      position = Offset(position.dx + d.dx, position.dy + d.dy);
                     });
                     onUpdate();
                   },
