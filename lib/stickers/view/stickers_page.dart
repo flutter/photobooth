@@ -413,21 +413,35 @@ extension on PhotoAsset {
   }
 }
 
-class OpenStickersButton extends StatelessWidget {
+class OpenStickersButton extends StatefulWidget {
   const OpenStickersButton({Key? key, required this.onPressed})
       : super(key: key);
 
   final VoidCallback onPressed;
 
   @override
+  State<OpenStickersButton> createState() => _OpenStickersButtonState();
+}
+
+class _OpenStickersButtonState extends State<OpenStickersButton> {
+  bool displayPulseAnimation = true;
+  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return AppTooltipButton(
-      onPressed: onPressed,
+    final child = AppTooltipButton(
+      onPressed: () {
+        widget.onPressed();
+        if (displayPulseAnimation)
+          setState(() {
+            displayPulseAnimation = false;
+          });
+      },
       message: l10n.openStickersTooltip,
       verticalOffset: 50,
       mode: TooltipMode.normal,
       child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
     );
+    if (displayPulseAnimation) return PulsingView(child: child);
+    return child;
   }
 }

@@ -10,4 +10,5 @@ export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'platform_builder.dart';
 export 'preview_image.dart';
+export 'pulsing_view.dart';
 export 'responsive_layout_builder.dart';
