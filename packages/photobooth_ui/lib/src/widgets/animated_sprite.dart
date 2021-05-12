@@ -119,8 +119,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
 
   @override
   Widget build(BuildContext context) {
-    if (_animation == null) return const SizedBox();
-    return AnimatedCrossFade(
+    return AppAnimatedCrossFade(
       firstChild: SizedBox.fromSize(
         size: const Size(20, 20),
         child: const AppCircularProgressIndicator(strokeWidth: 2),
@@ -128,24 +127,13 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
       secondChild: Container(
         width: double.infinity,
         height: double.infinity,
-        child:
-            SpriteAnimationWidget(animation: _animation, playing: _isPlaying),
-      ),
-      crossFadeState: _status.isLoaded
-          ? CrossFadeState.showSecond
-          : CrossFadeState.showFirst,
-      duration: Duration(seconds: 1),
-    );
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: AnimatedOpacity(
-        opacity: _status.isLoaded ? 1.0 : 0.0,
-        duration: const Duration(milliseconds: 300),
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
             : const SizedBox(),
       ),
+      crossFadeState: _status.isLoaded
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
     );
   }
 }
