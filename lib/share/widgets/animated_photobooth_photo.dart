@@ -48,13 +48,11 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 
     if (aspectRatio <= PhotoboothAspectRatio.portrait) {
       return AnimatedPhotoboothPhotoPortrait(
-        aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       );
     } else {
       return AnimatedPhotoboothPhotoLandscape(
-        aspectRatio: aspectRatio,
         image: widget.image,
         isPhotoVisible: _isPhotoVisible,
       );
@@ -66,69 +64,68 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
   const AnimatedPhotoboothPhotoLandscape({
     Key? key,
-    required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
   }) : super(key: key);
 
-  final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
 
+  static const sprite = AnimatedSprite(
+    mode: AnimationMode.oneTime,
+    sprites: Sprites(
+      asset: 'photo_frame_spritesheet_landscape.jpg',
+      size: Size(1308, 1038),
+      frames: 19,
+      stepTime: 2 / 19,
+    ),
+  );
+  static const aspectRatio = PhotoboothAspectRatio.landscape;
+  static const left = 129.0;
+  static const top = 88.0;
+  static const right = 118.0;
+  static const bottom = 154.0;
+
   @override
   Widget build(BuildContext context) {
-    final image = this.image;
-
-    const sprite = AnimatedSprite(
-      mode: AnimationMode.oneTime,
-      sprites: Sprites(
-        asset: 'photo_frame_spritesheet_landscape.png',
-        size: Size(521, 420),
-        frames: 28,
-        stepTime: 0.05,
-      ),
+    final smallPhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.33,
+    );
+    final largePhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.5,
+    );
+    final xLargePhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.75,
     );
 
     return ResponsiveLayoutBuilder(
-      small: (context, _) => _AnimatedPhotoboothPhoto(
-        aspectRatio: aspectRatio,
-        image: image,
-        isPhotoVisible: isPhotoVisible,
-        containerHeight: 301,
-        containerWidth: 420,
-        sprite: sprite,
-        padding: const EdgeInsets.only(
-          left: 55,
-          right: 47,
-          bottom: 32,
-        ),
-      ),
-      large: (context, _) => _AnimatedPhotoboothPhoto(
-        aspectRatio: aspectRatio,
-        image: image,
-        isPhotoVisible: isPhotoVisible,
-        containerHeight: 430,
-        containerWidth: 600,
-        sprite: sprite,
-        padding: const EdgeInsets.only(
-          left: 77,
-          right: 68,
-          bottom: 45,
-        ),
-      ),
-      xLarge: (context, _) => _AnimatedPhotoboothPhoto(
-        aspectRatio: aspectRatio,
-        image: image,
-        isPhotoVisible: isPhotoVisible,
-        containerHeight: 688,
-        containerWidth: 960,
-        sprite: sprite,
-        padding: const EdgeInsets.only(
-          left: 122.0,
-          right: 105.0,
-          bottom: 82.0,
-        ),
-      ),
+      small: (context, _) => smallPhoto,
+      large: (context, _) => largePhoto,
+      xLarge: (context, _) => xLargePhoto,
     );
   }
 }
@@ -137,56 +134,55 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
 class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
   const AnimatedPhotoboothPhotoPortrait({
     Key? key,
-    required this.aspectRatio,
     required this.image,
     required this.isPhotoVisible,
   }) : super(key: key);
 
-  final double aspectRatio;
   final CameraImage? image;
   final bool isPhotoVisible;
 
+  static const sprite = AnimatedSprite(
+    mode: AnimationMode.oneTime,
+    sprites: Sprites(
+      asset: 'photo_frame_spritesheet_portrait.png',
+      size: Size(520, 698),
+      frames: 38,
+      stepTime: 0.05,
+    ),
+  );
+  static const aspectRatio = PhotoboothAspectRatio.portrait;
+  static const left = 93.0;
+  static const top = 120.0;
+  static const right = 79.0;
+  static const bottom = 107.0;
+
   @override
   Widget build(BuildContext context) {
-    final image = this.image;
-
-    const sprite = AnimatedSprite(
-      mode: AnimationMode.oneTime,
-      sprites: Sprites(
-        asset: 'photo_frame_spritesheet_portrait.png',
-        size: Size(520, 698),
-        frames: 38,
-        stepTime: 0.05,
-      ),
+    final smallPhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.4,
     );
-
+    final largePhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.8,
+    );
     return ResponsiveLayoutBuilder(
-      small: (context, _) => _AnimatedPhotoboothPhoto(
-        aspectRatio: aspectRatio,
-        image: image,
-        isPhotoVisible: isPhotoVisible,
-        containerHeight: 330,
-        containerWidth: 250,
-        sprite: sprite,
-        padding: const EdgeInsets.only(
-          left: 43.0,
-          right: 38.0,
-          top: 5,
-        ),
-      ),
-      large: (context, _) => _AnimatedPhotoboothPhoto(
-        aspectRatio: aspectRatio,
-        image: image,
-        isPhotoVisible: isPhotoVisible,
-        containerHeight: 660,
-        containerWidth: 500,
-        sprite: sprite,
-        padding: const EdgeInsets.only(
-          left: 85.0,
-          right: 75.0,
-          top: 10.0,
-        ),
-      ),
+      small: (context, _) => smallPhoto,
+      large: (context, _) => largePhoto,
     );
   }
 }
@@ -194,29 +190,33 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
 class _AnimatedPhotoboothPhoto extends StatelessWidget {
   const _AnimatedPhotoboothPhoto({
     Key? key,
-    required this.containerHeight,
-    required this.containerWidth,
     required this.sprite,
-    required this.padding,
     required this.isPhotoVisible,
     required this.aspectRatio,
     required this.image,
+    this.top = 0.0,
+    this.left = 0.0,
+    this.right = 0.0,
+    this.bottom = 0.0,
+    this.scale = 1.0,
   }) : super(key: key);
 
-  final double containerHeight;
-  final double containerWidth;
   final AnimatedSprite sprite;
-  final EdgeInsetsGeometry padding;
   final bool isPhotoVisible;
   final double aspectRatio;
   final CameraImage? image;
+  final double top;
+  final double left;
+  final double right;
+  final double bottom;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
     final _image = image;
     return Container(
-      height: containerHeight,
-      width: containerWidth,
+      height: sprite.sprites.size.height * scale,
+      width: sprite.sprites.size.width * scale,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -229,16 +229,17 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
             ),
           ),
           _image != null
-              ? Center(
-                  child: Padding(
-                    padding: padding,
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: isPhotoVisible ? 1 : 0,
-                      child: AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: PhotoboothPhoto(image: _image.data),
-                      ),
+              ? Positioned(
+                  top: top * scale,
+                  left: left * scale,
+                  right: right * scale,
+                  bottom: bottom * scale,
+                  child: AnimatedOpacity(
+                    duration: const Duration(seconds: 2),
+                    opacity: isPhotoVisible ? 1 : 0,
+                    child: AspectRatio(
+                      aspectRatio: aspectRatio,
+                      child: PhotoboothPhoto(image: _image.data),
                     ),
                   ),
                 )

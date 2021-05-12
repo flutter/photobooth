@@ -4,5 +4,5 @@ abstract class PhotoboothBreakpoints {
   static const double small = 760;
 
   /// Max width for a large layout.
-  static const double large = 1200;
+  static const double large = 1920;
 }

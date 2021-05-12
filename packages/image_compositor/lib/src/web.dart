@@ -36,7 +36,7 @@ class _OffscreenCompositor {
   final double targetAspectRatio;
 
   /// Left, Top, Right border size.
-  static const _frameBorderSize = 8;
+  static const _frameBorderSize = 16;
 
   Future<List<int>> composite() async {
     final layers =
@@ -80,10 +80,10 @@ class _OffscreenCompositor {
       // Crop left and right of video
       croppedWidth = height * targetAspectRatio;
       imageCropOffsetX = (croppedWidth - width) ~/ 2;
-    } else if (inputVideoAspectRatio < targetAspectRatio) {
+    } else {
       // Crop top and bottom of video
-      imageCropOffsetY = (croppedHeight - height) ~/ 2;
       croppedHeight = width / targetAspectRatio;
+      imageCropOffsetY = (croppedHeight - height) ~/ 2;
     }
 
     var insideFrameX = _frameBorderSize;

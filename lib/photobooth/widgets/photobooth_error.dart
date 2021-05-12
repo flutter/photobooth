@@ -54,7 +54,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraAccessDeniedSubheadline,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -84,7 +84,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline1,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -92,7 +92,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline2,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraErrorSubheadline1,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -130,7 +130,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraErrorSubheadline2,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -160,7 +160,7 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotSupportedSubheadline,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,

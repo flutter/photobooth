@@ -81,7 +81,7 @@ class _DesktopShareProgressOverlay extends StatelessWidget {
         const SizedBox(height: 14),
         Text(
           l10n.sharePageProgressOverlaySubheading,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class _MobileShareProgressOverlay extends StatelessWidget {
         const SizedBox(height: 15),
         Text(
           l10n.sharePageProgressOverlaySubheading,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.headline3?.copyWith(
             color: PhotoboothColors.white,
             fontSize: 18,
           ),
