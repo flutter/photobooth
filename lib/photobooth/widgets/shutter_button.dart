@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
-const _shutterCountdownDuration = Duration(milliseconds: 3);
+const _shutterCountdownDuration = Duration(seconds: 3);
 
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
