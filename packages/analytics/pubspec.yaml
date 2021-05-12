@@ -1,0 +1,15 @@
+name: analytics
+description: A Flutter package which adds analytics support
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.1.1
+  very_good_analysis: ^2.0.3
