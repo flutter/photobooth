@@ -22,4 +22,8 @@ extension PhotoboothWidgetTester on WidgetTester {
   void setPortraitDisplaySize() {
     setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
   }
+
+  void setSmallDisplaySize() {
+    setDisplaySize(const Size(PhotoboothBreakpoints.small - 1, 1000));
+  }
 }
