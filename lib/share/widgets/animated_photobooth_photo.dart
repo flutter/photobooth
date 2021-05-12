@@ -151,9 +151,9 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
     ),
   );
   static const aspectRatio = PhotoboothAspectRatio.portrait;
-  static const left = 88.0;
+  static const left = 93.0;
   static const top = 120.0;
-  static const right = 78.0;
+  static const right = 79.0;
   static const bottom = 107.0;
 
   @override
@@ -167,7 +167,7 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
       left: left,
       right: right,
       bottom: bottom,
-      scale: 0.65,
+      scale: 0.4,
     );
     final largePhoto = _AnimatedPhotoboothPhoto(
       aspectRatio: aspectRatio,
