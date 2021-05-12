@@ -33,6 +33,7 @@ class _AnimatedPhotoIndicator extends StatelessWidget {
           frames: 51,
           stepTime: 0.05,
         ),
+        showLoadingIndicator: false,
       ),
     );
   }

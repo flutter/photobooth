@@ -28,11 +28,23 @@ void main() async {
       Flame.images = images;
     });
 
-    testWidgets('renders SizedBox when loading asset', (tester) async {
+    testWidgets('renders AppCircularProgressIndicator when loading asset',
+        (tester) async {
       await tester.pumpWidget(AnimatedSprite(
         sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
       ));
-      expect(find.byType(SizedBox), findsOneWidget);
+      expect(find.byType(AppCircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets(
+        'does not render AppCircularProgressIndicator'
+        ' when loading asset and showLoadingIndicator is false',
+        (tester) async {
+      await tester.pumpWidget(AnimatedSprite(
+        sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+        showLoadingIndicator: false,
+      ));
+      expect(find.byType(AppCircularProgressIndicator), findsNothing);
     });
 
     testWidgets('renders SpriteAnimationWidget when asset is loaded (loop)',
