@@ -99,6 +99,17 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       bottom: bottom,
       scale: 0.33,
     );
+    final mediumPhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.37,
+    );
     final largePhoto = _AnimatedPhotoboothPhoto(
       aspectRatio: aspectRatio,
       image: image,
@@ -119,11 +130,12 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       left: left,
       right: right,
       bottom: bottom,
-      scale: 0.75,
+      scale: 0.52,
     );
 
     return ResponsiveLayoutBuilder(
       small: (context, _) => smallPhoto,
+      medium: (context, _) => mediumPhoto,
       large: (context, _) => largePhoto,
       xLarge: (context, _) => xLargePhoto,
     );
