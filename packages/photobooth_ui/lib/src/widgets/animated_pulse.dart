@@ -24,7 +24,7 @@ class AnimatedPulse extends StatefulWidget {
 class _AnimatedPulseState extends State<AnimatedPulse>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Timer? _timer;
+  Timer? _timer;
 
   @override
   void initState() {
