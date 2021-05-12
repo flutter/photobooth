@@ -24,6 +24,7 @@ class AnimatedPulse extends StatefulWidget {
 class _AnimatedPulseState extends State<AnimatedPulse>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late Timer? _timer;
 
   @override
   void initState() {
@@ -32,17 +33,25 @@ class _AnimatedPulseState extends State<AnimatedPulse>
       vsync: this,
       duration: const Duration(milliseconds: 1600),
     )..forward();
+
     _controller.addStatusListener((status) {
+      if (!mounted) return;
       if (status == AnimationStatus.completed) {
-        _delayAnimation(() => _controller.forward(from: 0));
+        _timer = Timer(const Duration(milliseconds: 800), () {
+          _delayAnimation(() {
+            _controller.forward(from: 0);
+          });
+        });
       } else if (status == AnimationStatus.dismissed) {
-        _delayAnimation(() => _controller.forward());
+        _delayAnimation(() {
+          _controller.forward();
+        });
       }
     });
   }
 
   void _delayAnimation(VoidCallback animate) {
-    Future.delayed(const Duration(milliseconds: 800), () {
+    _timer = Timer(const Duration(milliseconds: 800), () {
       if (mounted) animate.call();
     });
   }
@@ -50,6 +59,7 @@ class _AnimatedPulseState extends State<AnimatedPulse>
   @override
   void dispose() {
     _controller.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
