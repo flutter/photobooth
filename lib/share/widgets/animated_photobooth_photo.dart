@@ -79,6 +79,7 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       frames: 19,
       stepTime: 2 / 19,
     ),
+    showLoadingIndicator: false,
   );
   static const aspectRatio = PhotoboothAspectRatio.landscape;
   static const left = 129.0;
@@ -98,6 +99,17 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       right: right,
       bottom: bottom,
       scale: 0.33,
+    );
+    final mediumPhoto = _AnimatedPhotoboothPhoto(
+      aspectRatio: aspectRatio,
+      image: image,
+      isPhotoVisible: isPhotoVisible,
+      sprite: sprite,
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      scale: 0.37,
     );
     final largePhoto = _AnimatedPhotoboothPhoto(
       aspectRatio: aspectRatio,
@@ -119,11 +131,12 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
       left: left,
       right: right,
       bottom: bottom,
-      scale: 0.75,
+      scale: 0.52,
     );
 
     return ResponsiveLayoutBuilder(
       small: (context, _) => smallPhoto,
+      medium: (context, _) => mediumPhoto,
       large: (context, _) => largePhoto,
       xLarge: (context, _) => xLargePhoto,
     );
@@ -149,6 +162,7 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
       frames: 38,
       stepTime: 0.05,
     ),
+    showLoadingIndicator: false,
   );
   static const aspectRatio = PhotoboothAspectRatio.portrait;
   static const left = 93.0;

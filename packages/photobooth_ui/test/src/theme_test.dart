@@ -5,9 +5,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
   group('PhotoboothTheme themeData', () {
-    test('is defined for both default and small screens', () {
-      expect(PhotoboothTheme.standard, isA<ThemeData>());
+    test('is defined for both small, medium, and standard', () {
       expect(PhotoboothTheme.small, isA<ThemeData>());
+      expect(PhotoboothTheme.medium, isA<ThemeData>());
+      expect(PhotoboothTheme.standard, isA<ThemeData>());
     });
   });
 }

@@ -6,12 +6,11 @@ import '../helpers/helpers.dart';
 
 void main() {
   group('ResponsiveLayout', () {
-    testWidgets('displays a large layout if xLarge is not provided',
+    testWidgets('displays a large layout if medium is not provided',
         (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.medium, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
-      const xLargeKey = Key('__xLarge__');
 
       await tester.pumpWidget(ResponsiveLayoutBuilder(
         small: (_, __) => const SizedBox(key: smallKey),
@@ -20,7 +19,38 @@ void main() {
 
       expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(largeKey), findsOneWidget);
-      expect(find.byKey(xLargeKey), findsNothing);
+    });
+
+    testWidgets('displays a medium layout', (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small + 1, 800));
+      const smallKey = Key('__small__');
+      const mediumKey = Key('__medium__');
+      const largeKey = Key('__large__');
+
+      await tester.pumpWidget(ResponsiveLayoutBuilder(
+        small: (_, __) => const SizedBox(key: smallKey),
+        medium: (_, __) => const SizedBox(key: mediumKey),
+        large: (_, __) => const SizedBox(key: largeKey),
+      ));
+
+      expect(find.byKey(smallKey), findsNothing);
+      expect(find.byKey(mediumKey), findsOneWidget);
+      expect(find.byKey(largeKey), findsNothing);
+    });
+
+    testWidgets('displays a large layout if xLarge is not provided',
+        (tester) async {
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      const smallKey = Key('__small__');
+      const largeKey = Key('__large__');
+
+      await tester.pumpWidget(ResponsiveLayoutBuilder(
+        small: (_, __) => const SizedBox(key: smallKey),
+        large: (_, __) => const SizedBox(key: largeKey),
+      ));
+
+      expect(find.byKey(smallKey), findsNothing);
+      expect(find.byKey(largeKey), findsOneWidget);
     });
 
     testWidgets('displays a xLarge layout', (tester) async {

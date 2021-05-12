@@ -5,6 +5,7 @@ class AnimatedSparky extends AnimatedSprite {
   const AnimatedSparky({Key? key})
       : super(
           key: key,
+          loadingIndicatorColor: PhotoboothColors.red,
           sprites: const Sprites(
             asset: 'sparky_spritesheet.png',
             size: Size(730, 588),
