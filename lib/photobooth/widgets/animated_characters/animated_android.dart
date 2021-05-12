@@ -5,6 +5,7 @@ class AnimatedAndroid extends AnimatedSprite {
   const AnimatedAndroid({Key? key})
       : super(
           key: key,
+          loadingIndicatorColor: PhotoboothColors.green,
           sprites: const Sprites(
             asset: 'android_spritesheet.png',
             size: Size(450, 658),

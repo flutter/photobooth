@@ -6,6 +6,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template sprites}
 /// Object which contains meta data for a collection of sprites.
@@ -53,6 +54,8 @@ class AnimatedSprite extends StatefulWidget {
     Key? key,
     required this.sprites,
     this.mode = AnimationMode.loop,
+    this.showLoadingIndicator = true,
+    this.loadingIndicatorColor = PhotoboothColors.orange,
   }) : super(key: key);
 
   /// The collection of sprites which will be animated.
@@ -60,6 +63,12 @@ class AnimatedSprite extends StatefulWidget {
 
   /// The mode of animation (`trigger`, `loop` or `oneTime`).
   final AnimationMode mode;
+
+  /// Where should display a loading indicator while loading the sprite
+  final bool showLoadingIndicator;
+
+  /// Color for loading indicator
+  final Color loadingIndicatorColor;
 
   @override
   _AnimatedSpriteState createState() => _AnimatedSpriteState();
@@ -118,16 +127,26 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: AnimatedOpacity(
-        opacity: _status.isLoaded ? 1.0 : 0.0,
-        duration: const Duration(milliseconds: 300),
+    return AppAnimatedCrossFade(
+      firstChild: widget.showLoadingIndicator
+          ? SizedBox.fromSize(
+              size: const Size(20, 20),
+              child: AppCircularProgressIndicator(
+                strokeWidth: 2,
+                color: widget.loadingIndicatorColor,
+              ),
+            )
+          : const SizedBox(),
+      secondChild: Container(
+        width: double.infinity,
+        height: double.infinity,
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
             : const SizedBox(),
       ),
+      crossFadeState: _status.isLoaded
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
     );
   }
 }
