@@ -3,25 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 class StickersDrawerLayer extends StatelessWidget {
-  StickersDrawerLayer({
-    Key? key,
-    PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
-
-  final PlatformHelper platformHelper;
+  StickersDrawerLayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
     return BlocConsumer<StickersBloc, StickersState>(
       listenWhen: (previous, current) =>
           current.isDrawerActive && current != previous,
       listener: (context, state) {
-        if (platformHelper.isMobile || orientation == Orientation.portrait) {
+        if (MediaQuery.of(context).size.width < PhotoboothBreakpoints.small) {
           showModalBottomSheet(
             context: context,
             barrierColor: PhotoboothColors.black.withOpacity(0.75),
@@ -36,9 +28,10 @@ class StickersDrawerLayer extends StatelessWidget {
           context.read<StickersBloc>().add(const StickersDrawerToggled());
         }
       },
-      buildWhen: (previous, current) => !isMobile && current != previous,
+      buildWhen: (previous, current) => current != previous,
       builder: (context, state) {
-        if (orientation == Orientation.landscape && state.isDrawerActive)
+        if (MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small &&
+            state.isDrawerActive)
           return const Positioned(
             right: 0,
             top: 0,
