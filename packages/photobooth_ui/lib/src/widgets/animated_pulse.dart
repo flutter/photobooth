@@ -37,10 +37,8 @@ class _AnimatedPulseState extends State<AnimatedPulse>
     _controller.addStatusListener((status) {
       if (!mounted) return;
       if (status == AnimationStatus.completed) {
-        _timer = Timer(const Duration(milliseconds: 800), () {
-          _delayAnimation(() {
-            _controller.forward(from: 0);
-          });
+        _delayAnimation(() {
+          _controller.forward(from: 0);
         });
       } else if (status == AnimationStatus.dismissed) {
         _delayAnimation(() {
