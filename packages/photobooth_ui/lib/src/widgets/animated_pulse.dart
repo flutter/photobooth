@@ -56,14 +56,15 @@ class _AnimatedPulseState extends State<AnimatedPulse>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _PulsingPainting(_controller),
+      painter: PulsingPainter(_controller),
       child: widget.child,
     );
   }
 }
 
-class _PulsingPainting extends CustomPainter {
-  _PulsingPainting(this._animation) : super(repaint: _animation);
+/// Painter for the pulse animation
+class PulsingPainter extends CustomPainter {
+  PulsingPainter(this._animation) : super(repaint: _animation);
   final Animation<double> _animation;
 
   @override
@@ -81,7 +82,7 @@ class _PulsingPainting extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PulsingPainting oldDelegate) {
+  bool shouldRepaint(PulsingPainter oldDelegate) {
     return true;
   }
 }

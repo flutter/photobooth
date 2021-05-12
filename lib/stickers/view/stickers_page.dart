@@ -424,16 +424,16 @@ class OpenStickersButton extends StatefulWidget {
 }
 
 class _OpenStickersButtonState extends State<OpenStickersButton> {
-  bool displayPulseAnimation = true;
+  bool _isAnimating = true;
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final child = AppTooltipButton(
       onPressed: () {
         widget.onPressed();
-        if (displayPulseAnimation)
+        if (_isAnimating)
           setState(() {
-            displayPulseAnimation = false;
+            _isAnimating = false;
           });
       },
       message: l10n.openStickersTooltip,
@@ -441,7 +441,7 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
       mode: TooltipMode.normal,
       child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
     );
-    if (displayPulseAnimation) return AnimatedPulse(child: child);
+    if (_isAnimating) return AnimatedPulse(child: child);
     return child;
   }
 }
