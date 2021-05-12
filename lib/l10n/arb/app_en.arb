@@ -84,7 +84,7 @@
     "@sharePageDownloadButtonText": {
         "description": "Button text shown on the share page which downloads the taken photo."
     },
-    "socialMediaShareLinkText": "Check out my photo taken at the #IOPhotoBooth. Join the fun at #GoogleIO and take your own!",
+    "socialMediaShareLinkText": "Just took a selfie at the #IOPhotoBooth. See you at #GoogleIO!",
     "@socialMediaShareLinkText": {
         "description": "Text that is put into the social media share URL link."
     },
@@ -147,7 +147,7 @@
     "shareDialogFacebookButtonText": "Facebook",
     "@shareDialogFacebookButtonText": {
         "description": "Button text shown on the share dialog which shares on Facebook the photo."
-    },    
+    },
     "photoBoothCameraAccessDeniedHeadline": "Camera access denied",
     "@photoBoothCameraAccessDeniedHeadline": {
         "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
