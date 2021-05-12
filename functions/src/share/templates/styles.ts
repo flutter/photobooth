@@ -161,12 +161,12 @@ footer li {
 
   .fixed-photos.left  {
     top: -151px;
-    left: -22%;
+    left: -550px;
   }
 
   .fixed-photos.right  {
     top: -110px;
-    right: -22%;
+    right: -550px;
   }
 
   .share-image {
@@ -205,13 +205,23 @@ footer li {
   }
 }
 
-@media (min-width: 1700px) {
+@media (min-width: 992px) {
   .fixed-photos.left  {
-    left: -5%;
+    left: -400px;
   }
 
   .fixed-photos.right  {
-    right: -5%;
+    right: -400px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .fixed-photos.left  {
+    left: -150px;
+  }
+
+  .fixed-photos.right  {
+    right: -150px;
   }
 }
 `;
