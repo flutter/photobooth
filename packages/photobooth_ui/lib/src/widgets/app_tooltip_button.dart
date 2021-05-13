@@ -63,6 +63,8 @@ class _AppTooltipButtonState extends State<AppTooltipButton> {
     );
     return Material(
       color: PhotoboothColors.transparent,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.hardEdge,
       child: AppTooltip.custom(
         visible: _isTooltipVisible,
         message: widget.message,
