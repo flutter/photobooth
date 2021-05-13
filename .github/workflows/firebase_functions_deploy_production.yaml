@@ -1,4 +1,4 @@
-name: functions_deploy_production
+name: firebase_functions_deploy_production
 
 on: workflow_dispatch
 
