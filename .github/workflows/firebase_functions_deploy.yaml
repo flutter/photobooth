@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - functions/**
-      - workflows/firebase_functions_deploy.yaml
+      - .github/workflows/firebase_functions_deploy.yaml
 
 jobs:
   deploy:    
