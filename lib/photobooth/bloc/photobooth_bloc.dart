@@ -12,7 +12,7 @@ part 'photobooth_state.dart';
 
 typedef UuidGetter = String Function();
 
-const _debounceDuration = Duration(milliseconds: 100);
+const _debounceDuration = Duration(milliseconds: 16);
 
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   PhotoboothBloc([UuidGetter? uuid])

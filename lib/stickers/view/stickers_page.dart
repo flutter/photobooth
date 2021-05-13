@@ -187,7 +187,9 @@ class _RetakeButton extends StatelessWidget {
         );
         if (confirmed) {
           context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-          Navigator.of(context).pop();
+          unawaited(
+            Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+          );
         }
       },
       message: l10n.retakeButtonTooltip,
@@ -214,7 +216,7 @@ class _NextButton extends StatelessWidget {
             portraitChild: const _NextConfirmationBottomSheet(),
           );
           if (confirmed) {
-            unawaited(Navigator.of(context).push(SharePage.route()));
+            unawaited(Navigator.of(context).pushReplacement(SharePage.route()));
           }
         },
         child: Image.asset(
