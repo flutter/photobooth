@@ -85,8 +85,9 @@ class _ShareRetakeButton extends StatelessWidget {
             );
           }
         },
+        verticalOffset: 50,
         message: l10n.retakeButtonTooltip,
-        child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
       ),
     );
   }
@@ -121,6 +122,8 @@ class _ConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -136,7 +139,6 @@ class _ConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     key: const Key('sharePage_retakeConfirm_elevatedButton'),
                     onPressed: () => Navigator.of(context).pop(true),
