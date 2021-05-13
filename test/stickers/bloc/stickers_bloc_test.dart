@@ -14,6 +14,25 @@ void main() {
       expect(StickersBloc().state, equals(StickersState()));
     });
 
+    group('StickersDrawerTabSelected', () {
+      blocTest<StickersBloc, StickersState>(
+        'emits state with updated tab selected',
+        build: () => StickersBloc(),
+        seed: () => StickersState(
+          isDrawerActive: true,
+          shouldDisplayPropsReminder: false,
+        ),
+        act: (bloc) => bloc.add(StickersDrawerTabSelected(tabSelected: 1)),
+        expect: () => [
+          StickersState(
+            isDrawerActive: true,
+            shouldDisplayPropsReminder: false,
+            tabSelected: 1,
+          ),
+        ],
+      );
+    });
+
     group('StickersDrawerToggled', () {
       blocTest<StickersBloc, StickersState>(
         'emits isDrawerActive: true when isDrawerActive: false',
@@ -46,22 +65,22 @@ void main() {
           ),
         ],
       );
-    });
 
-    blocTest<StickersBloc, StickersState>(
-      'emits shouldDisplayPropsReminder:false when StickersDrawerToggled',
-      build: () => StickersBloc(),
-      seed: () => StickersState(
-        isDrawerActive: false,
-        shouldDisplayPropsReminder: true,
-      ),
-      act: (bloc) => bloc.add(StickersDrawerToggled()),
-      expect: () => [
-        StickersState(
-          isDrawerActive: true,
-          shouldDisplayPropsReminder: false,
+      blocTest<StickersBloc, StickersState>(
+        'emits shouldDisplayPropsReminder:false when StickersDrawerToggled',
+        build: () => StickersBloc(),
+        seed: () => StickersState(
+          isDrawerActive: false,
+          shouldDisplayPropsReminder: true,
         ),
-      ],
-    );
+        act: (bloc) => bloc.add(StickersDrawerToggled()),
+        expect: () => [
+          StickersState(
+            isDrawerActive: true,
+            shouldDisplayPropsReminder: false,
+          ),
+        ],
+      );
+    });
   });
 }

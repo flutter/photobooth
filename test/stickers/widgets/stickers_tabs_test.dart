@@ -13,7 +13,19 @@ void main() {
   const foodTabAssetPath = 'assets/icons/food_icon.png';
   const shapesTabAssetPath = 'assets/icons/shapes_icon.png';
 
-  group('StickersTab', () {
+  group('StickersTabs', () {
+    testWidgets('clicks in tab calls StickersDrawerTabSelected',
+        (tester) async {
+      await tester.pumpApp(
+        Scaffold(
+          body: StickersTabs(
+            onStickerSelected: (sticker) => {},
+          ),
+        ),
+      );
+      final tabBar = tester.widget<TabBar>(find.byType(TabBar));
+      expect(tabBar.tabs[0].key, equals(Key('stickersTabs_googleTab')));
+    });
     group('TabBar', () {
       group('google', () {
         testWidgets('renders as first tab', (tester) async {
