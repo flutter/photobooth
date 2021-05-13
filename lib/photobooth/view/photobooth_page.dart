@@ -24,8 +24,6 @@ class PhotoboothPage extends StatelessWidget {
     return AppPageRoute(builder: (_) => const PhotoboothPage());
   }
 
-  static const String name = 'PhotoboothPage';
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,7 +31,6 @@ class PhotoboothPage extends StatelessWidget {
       child: Navigator(
         onGenerateRoute: (_) => AppPageRoute(
           builder: (_) => const PhotoboothView(),
-          settings: const RouteSettings(name: name),
         ),
       ),
     );

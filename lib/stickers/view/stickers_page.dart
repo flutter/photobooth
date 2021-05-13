@@ -187,7 +187,9 @@ class _RetakeButton extends StatelessWidget {
         );
         if (confirmed) {
           context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-          Navigator.of(context).pop();
+          unawaited(
+            Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+          );
         }
       },
       message: l10n.retakeButtonTooltip,
