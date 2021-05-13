@@ -30,6 +30,13 @@ class _StickersTabsState extends State<StickersTabs>
       vsync: this,
       initialIndex: widget.tabSelected,
     );
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        context
+            .read<StickersBloc>()
+            .add(StickersDrawerTabSelected(tabSelected: _tabController.index));
+      }
+    });
   }
 
   @override
@@ -37,9 +44,6 @@ class _StickersTabsState extends State<StickersTabs>
     return Column(
       children: [
         TabBar(
-          onTap: (value) => context
-              .read<StickersBloc>()
-              .add(StickersDrawerTabSelected(tabSelected: value)),
           controller: _tabController,
           tabs: [
             const StickersTab(
