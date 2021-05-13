@@ -13,3 +13,4 @@ jobs:
           credentials: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
           name: shareImage
           runtime: nodejs14
+          project_id: io-photobooth-20667
