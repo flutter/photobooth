@@ -66,7 +66,6 @@ class StickersView extends StatelessWidget {
                     child: Row(
                       children: [
                         const _RetakeButton(),
-                        const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
                       ],
                     ),
@@ -120,7 +119,6 @@ class _StickerReminderText extends StatelessWidget {
         key: const Key('stickersPage_propsReminder_appTooltip'),
         visible: true,
         message: context.l10n.propsReminderText,
-        padding: const EdgeInsets.all(24),
       ),
     );
   }
@@ -192,8 +190,9 @@ class _RetakeButton extends StatelessWidget {
           );
         }
       },
+      verticalOffset: 50,
       message: l10n.retakeButtonTooltip,
-      child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+      child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
     );
   }
 }
@@ -444,7 +443,7 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
       message: l10n.openStickersTooltip,
       verticalOffset: 50,
       mode: TooltipMode.normal,
-      child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
+      child: Image.asset('assets/icons/stickers_button_icon.png', height: 100),
     );
     return _isAnimating ? AnimatedPulse(child: child) : child;
   }
