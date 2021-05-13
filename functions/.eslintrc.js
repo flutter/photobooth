@@ -30,7 +30,7 @@ module.exports = {
     'quotes': [ 'error', 'single' ],
     'array-bracket-spacing': [ 'error', 'always' ],
     'object-curly-spacing': [ 'error', 'always' ],
-    'max-len': [ 'error', { code: 100, tabWidth: 2 } ],
+    'max-len': [ 'error', { code: 130, tabWidth: 2 } ],
     'indent': [ 'error', 2 ],
     'no-unused-vars': [ 'warn' ],
     'new-cap': [ 'warn' ],
