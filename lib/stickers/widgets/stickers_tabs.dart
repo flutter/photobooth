@@ -4,6 +4,8 @@ import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+PageStorageBucket bucket = PageStorageBucket();
+
 class StickersTabs extends StatefulWidget {
   const StickersTabs({
     Key? key,
@@ -21,6 +23,7 @@ class StickersTabs extends StatefulWidget {
 class _StickersTabsState extends State<StickersTabs>
     with TickerProviderStateMixin {
   late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -72,26 +75,31 @@ class _StickersTabsState extends State<StickersTabs>
                 key: const Key('stickersTabs_googleTabBarView'),
                 stickers: Assets.googleProps,
                 onStickerSelected: widget.onStickerSelected,
+                bucket: bucket,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_hatsTabBarView'),
                 stickers: Assets.hatProps,
                 onStickerSelected: widget.onStickerSelected,
+                bucket: bucket,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_eyewearTabBarView'),
                 stickers: Assets.eyewearProps,
                 onStickerSelected: widget.onStickerSelected,
+                bucket: bucket,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_foodTabBarView'),
                 stickers: Assets.foodProps,
                 onStickerSelected: widget.onStickerSelected,
+                bucket: bucket,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_shapesTabBarView'),
                 stickers: Assets.shapeProps,
                 onStickerSelected: widget.onStickerSelected,
+                bucket: bucket,
               ),
             ],
           ),
@@ -135,33 +143,49 @@ class _StickersTabState extends State<StickersTab>
 }
 
 @visibleForTesting
-class StickersTabBarView extends StatelessWidget {
+class StickersTabBarView extends StatefulWidget {
   const StickersTabBarView({
     Key? key,
     required this.stickers,
     required this.onStickerSelected,
+    required this.bucket,
   }) : super(key: key);
 
   final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
+  final PageStorageBucket bucket;
+
+  @override
+  State<StickersTabBarView> createState() => _StickersTabBarViewState();
+}
+
+class _StickersTabBarViewState extends State<StickersTabBarView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 15,
+    return PageStorage(
+      bucket: widget.bucket,
+      child: GridView.builder(
+        key: PageStorageKey<String>(widget.key.toString()),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 15,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
+        itemCount: widget.stickers.length,
+        itemBuilder: (context, index) {
+          final sticker = widget.stickers.elementAt(index);
+          return StickerChoice(
+            asset: sticker,
+            onPressed: () => widget.onStickerSelected.call(sticker),
+          );
+        },
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
-      itemCount: stickers.length,
-      itemBuilder: (context, index) {
-        final sticker = stickers.elementAt(index);
-        return StickerChoice(
-          asset: sticker,
-          onPressed: () => onStickerSelected.call(sticker),
-        );
-      },
     );
   }
 }
