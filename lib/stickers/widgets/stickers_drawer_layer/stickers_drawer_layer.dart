@@ -7,6 +7,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class StickersDrawerLayer extends StatelessWidget {
   StickersDrawerLayer({Key? key}) : super(key: key);
 
+  final PageStorageBucket pageStorageBucket = PageStorageBucket();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StickersBloc, StickersState>(
@@ -22,6 +24,7 @@ class StickersDrawerLayer extends StatelessWidget {
             builder: (_) => BlocProvider.value(
               value: context.read<StickersBloc>(),
               child: MobileStickersDrawer(
+                bucket: pageStorageBucket,
                 onStickerSelected: (sticker) => context
                     .read<PhotoboothBloc>()
                     .add(PhotoStickerTapped(sticker: sticker)),
@@ -35,11 +38,11 @@ class StickersDrawerLayer extends StatelessWidget {
       builder: (context, state) {
         if (MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small &&
             state.isDrawerActive)
-          return const Positioned(
+          return Positioned(
             right: 0,
             top: 0,
             bottom: 0,
-            child: DesktopStickersDrawer(),
+            child: DesktopStickersDrawer(bucket: pageStorageBucket),
           );
         return const SizedBox();
       },
