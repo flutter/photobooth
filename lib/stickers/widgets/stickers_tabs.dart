@@ -8,7 +8,7 @@ class StickersTabs extends StatefulWidget {
   const StickersTabs({
     Key? key,
     required this.onStickerSelected,
-    required this.tabSelected,
+    this.tabSelected = 0,
   }) : super(key: key);
 
   final ValueSetter<Asset> onStickerSelected;

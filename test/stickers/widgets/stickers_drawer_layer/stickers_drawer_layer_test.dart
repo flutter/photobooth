@@ -124,7 +124,10 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: DesktopStickersDrawer()),
+            child: Scaffold(
+                body: DesktopStickersDrawer(
+              bucket: PageStorageBucket(),
+            )),
           ),
         );
         await tester
