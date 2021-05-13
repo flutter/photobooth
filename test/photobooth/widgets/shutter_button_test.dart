@@ -28,6 +28,13 @@ void main() {
     when(() => audioPlayer.stop()).thenAnswer((_) async => null);
     when(() => audioPlayer.seek(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.dispose()).thenAnswer((_) async => null);
+    when(() => audioPlayer.playerStateStream).thenAnswer(
+      (_) => Stream.fromIterable(
+        [
+          PlayerState(true, ProcessingState.ready),
+        ],
+      ),
+    );
   });
 
   group('ShutterButton', () {
