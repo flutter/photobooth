@@ -1,0 +1,16 @@
+name: firebase_functions_deploy_production
+
+on: workflow_dispatch
+
+jobs:
+  deploy:    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: Deploy
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          credentials: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          name: shareImage
+          runtime: nodejs14
+          project_id: io-photobooth-20667
