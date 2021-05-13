@@ -36,6 +36,7 @@ class ClearStickersDialog extends StatelessWidget {
             ),
             const SizedBox(height: 48),
             Wrap(
+              alignment: WrapAlignment.center,
               spacing: 30,
               runSpacing: 15,
               children: [

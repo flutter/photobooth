@@ -257,6 +257,8 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -271,7 +273,6 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(true),
                     child: Text(
@@ -345,6 +346,8 @@ class _NextConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -359,7 +362,6 @@ class _NextConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(true),
                     child: Text(
