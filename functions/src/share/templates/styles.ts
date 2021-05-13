@@ -58,7 +58,7 @@ main {
 
 .share-image img {
   width: 100%;
-  box-shadow: -3px 9px 7px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: -3px 9px 7px 1px rgba(0, 0, 0, 0.3);
 }
 
 .share-image.no-shadow img {
@@ -75,15 +75,15 @@ h1 {
   line-height: 1.2;
   font-size: 32px;
   font-weight: 500;
-  width: 67%;
-  margin: 0 auto 25px;
+  width: 80%;
+  margin: 0 auto 15px;
 }
 
 h2 {
   line-height: 1.3;
   font-size: 18px;
   font-weight: 100;
-  width: 75%;
+  width: 85%;
   margin: 0 auto 35px;
 }
 
@@ -150,6 +150,11 @@ footer li {
   margin-left: 1rem;
 }
 
+@media (min-width: 375px) {
+  h1 { width: 67%; }
+  h2 { width: 75%; }
+}
+
 @media (min-width: 768px) {
   .backdrop {
     background-image: url("{{{assetUrls.bg}}}");
@@ -170,10 +175,11 @@ footer li {
   }
 
   .share-image {
-    margin: 4.25rem auto 2.5rem;
-    width: 710px;
+    margin: 4.25rem auto 3rem;
     position: relative;
     left: -22px;
+    width: calc(100vh * 0.7);
+    max-width: 740px;
   }
 
   h1, h2 {
@@ -181,11 +187,11 @@ footer li {
   }
 
   h1 {
-    font-size: 56px;
+    font-size: 44px;
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 21px;
   }
 
   .share-btn {
@@ -215,6 +221,13 @@ footer li {
   }
 }
 
+@media (min-width: 1200px) {}
+
+@media (min-width: 1644px) {
+  h1 { font-size: 56px; }
+  h2 { font-size: 24px; }
+}
+
 @media (min-width: 1920px) {
   .fixed-photos.left  {
     left: -150px;
@@ -222,6 +235,11 @@ footer li {
 
   .fixed-photos.right  {
     right: -150px;
+  }
+
+  .share-image {
+    margin-top: 9.5rem;
+    margin-bottom: 4rem;
   }
 }
 `;
