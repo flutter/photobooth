@@ -42,6 +42,12 @@ class _ShutterButtonState extends State<ShutterButton>
       vsync: this,
       duration: _shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
+    unawaited(audioPlayer.play());
+    audioPlayer.playerStateStream.listen((event) {
+      if (event.processingState == ProcessingState.ready) {
+        audioPlayer.pause();
+      }
+    });
   }
 
   @override
@@ -56,12 +62,7 @@ class _ShutterButtonState extends State<ShutterButton>
   void _onShutterPressed() async {
     await audioPlayer.seek(null);
     unawaited(audioPlayer.play());
-    audioPlayer.playerStateStream.listen((event) {
-      if (event.processingState == ProcessingState.ready &&
-          !controller.isAnimating) {
-        unawaited(controller.reverse(from: 1));
-      }
-    });
+    unawaited(controller.reverse(from: 1));
   }
 
   @override
