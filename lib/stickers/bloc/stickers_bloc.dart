@@ -13,11 +13,13 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
   Stream<StickersState> mapEventToState(StickersEvent event) async* {
     if (event is StickersDrawerToggled) {
       yield _mapStickersDrawerToggledToState(state);
+    } else if (event is StickersDrawerTabSelected) {
+      yield state.copyWith(tabSelected: event.tabSelected);
     }
   }
 
   StickersState _mapStickersDrawerToggledToState(StickersState state) {
-    return StickersState(
+    return state.copyWith(
       isDrawerActive: !state.isDrawerActive,
       shouldDisplayPropsReminder: false,
     );

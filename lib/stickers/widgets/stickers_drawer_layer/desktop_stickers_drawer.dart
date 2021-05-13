@@ -45,6 +45,7 @@ class DesktopStickersDrawer extends StatelessWidget {
           const SizedBox(height: 15),
           Flexible(
             child: StickersTabs(
+              tabSelected: context.read<StickersBloc>().state.tabSelected,
               onStickerSelected: (sticker) => context
                   .read<PhotoboothBloc>()
                   .add(PhotoStickerTapped(sticker: sticker)),

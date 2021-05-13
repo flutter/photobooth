@@ -10,3 +10,9 @@ abstract class StickersEvent extends Equatable {
 class StickersDrawerToggled extends StickersEvent {
   const StickersDrawerToggled();
 }
+
+class StickersDrawerTabSelected extends StickersEvent {
+  const StickersDrawerTabSelected({required this.tabSelected});
+
+  final int tabSelected;
+}

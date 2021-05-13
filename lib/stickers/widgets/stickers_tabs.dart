@@ -1,79 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class StickersTabs extends StatelessWidget {
+class StickersTabs extends StatefulWidget {
   const StickersTabs({
     Key? key,
     required this.onStickerSelected,
+    required this.tabSelected,
   }) : super(key: key);
 
   final ValueSetter<Asset> onStickerSelected;
+  final int tabSelected;
+
+  @override
+  State<StickersTabs> createState() => _StickersTabsState();
+}
+
+class _StickersTabsState extends State<StickersTabs>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+  @override
+  void initState() {
+    super.initState();
+    print(widget.tabSelected);
+    _tabController = TabController(
+      length: 5,
+      vsync: this,
+      initialIndex: widget.tabSelected,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Column(
-        children: [
-          const TabBar(
-            tabs: [
-              StickersTab(
-                key: Key('stickersTabs_googleTab'),
-                assetPath: 'assets/icons/google_icon.png',
+    return Column(
+      children: [
+        TabBar(
+          onTap: (value) => context
+              .read<StickersBloc>()
+              .add(StickersDrawerTabSelected(tabSelected: value)),
+          controller: _tabController,
+          tabs: [
+            StickersTab(
+              key: Key('stickersTabs_googleTab'),
+              assetPath: 'assets/icons/google_icon.png',
+            ),
+            StickersTab(
+              key: Key('stickersTabs_hatsTab'),
+              assetPath: 'assets/icons/hats_icon.png',
+            ),
+            StickersTab(
+              key: Key('stickersTabs_eyewearTab'),
+              assetPath: 'assets/icons/eyewear_icon.png',
+            ),
+            StickersTab(
+              key: Key('stickersTabs_foodTab'),
+              assetPath: 'assets/icons/food_icon.png',
+            ),
+            StickersTab(
+              key: Key('stickersTabs_shapesTab'),
+              assetPath: 'assets/icons/shapes_icon.png',
+            ),
+          ],
+        ),
+        const Divider(),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              StickersTabBarView(
+                key: const Key('stickersTabs_googleTabBarView'),
+                stickers: Assets.googleProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_hatsTab'),
-                assetPath: 'assets/icons/hats_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_hatsTabBarView'),
+                stickers: Assets.hatProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_eyewearTab'),
-                assetPath: 'assets/icons/eyewear_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_eyewearTabBarView'),
+                stickers: Assets.eyewearProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_foodTab'),
-                assetPath: 'assets/icons/food_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_foodTabBarView'),
+                stickers: Assets.foodProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_shapesTab'),
-                assetPath: 'assets/icons/shapes_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_shapesTabBarView'),
+                stickers: Assets.shapeProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
             ],
           ),
-          const Divider(),
-          Expanded(
-            child: TabBarView(
-              children: [
-                StickersTabBarView(
-                  key: const Key('stickersTabs_googleTabBarView'),
-                  stickers: Assets.googleProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_hatsTabBarView'),
-                  stickers: Assets.hatProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_eyewearTabBarView'),
-                  stickers: Assets.eyewearProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_foodTabBarView'),
-                  stickers: Assets.foodProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_shapesTabBarView'),
-                  stickers: Assets.shapeProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
