@@ -175,7 +175,7 @@ void main() {
         expect(
           widget.link,
           equals(
-            '',
+            'https://medium.com/flutter/i-o-photo-booth-powered-by-flutter-firebase-fc1381264e08',
           ),
         );
       });
