@@ -360,42 +360,11 @@ void main() {
       testWidgets(
           'tapping on retake button + close '
           'does not go back to PhotoboothPage', (tester) async {
-        const photoboothPage = Key('photoboothPage');
         await tester.pumpApp(
-          Builder(
-            builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(key: photoboothPage),
-                      settings: RouteSettings(name: PhotoboothPage.name),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(),
-                      settings: RouteSettings(name: 'IntermediatePage'),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => Scaffold(body: ShareView()),
-                    ),
-                  );
-                },
-                child: const SizedBox(),
-              );
-            },
-          ),
+          ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
-
-        await tester.tap(find.byType(ElevatedButton));
-        await tester.pumpAndSettle();
 
         final retakeButtonFinder = find.byKey(
           const Key('sharePage_retake_appTooltipButton'),
@@ -409,7 +378,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(retakeButtonFinder, findsOneWidget);
-        expect(find.byKey(photoboothPage), findsNothing);
+        expect(find.byType(PhotoboothPage), findsNothing);
 
         verifyNever(() => photoboothBloc.add(PhotoClearAllTapped()));
       });
@@ -417,42 +386,11 @@ void main() {
       testWidgets(
           'tapping on retake button + cancel '
           'does not go back to PhotoboothPage', (tester) async {
-        const photoboothPage = Key('photoboothPage');
         await tester.pumpApp(
-          Builder(
-            builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(key: photoboothPage),
-                      settings: RouteSettings(name: PhotoboothPage.name),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(),
-                      settings: RouteSettings(name: 'IntermediatePage'),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => Scaffold(body: ShareView()),
-                    ),
-                  );
-                },
-                child: const SizedBox(),
-              );
-            },
-          ),
+          ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
-
-        await tester.tap(find.byType(ElevatedButton));
-        await tester.pumpAndSettle();
 
         final retakeButtonFinder = find.byKey(
           const Key('sharePage_retake_appTooltipButton'),
@@ -470,7 +408,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(retakeButtonFinder, findsOneWidget);
-        expect(find.byKey(photoboothPage), findsNothing);
+        expect(find.byType(PhotoboothPage), findsNothing);
 
         verifyNever(() => photoboothBloc.add(PhotoClearAllTapped()));
       });
@@ -478,42 +416,11 @@ void main() {
       testWidgets(
           'tapping on retake button + confirm goes back to PhotoboothPage',
           (tester) async {
-        const photoboothPage = Key('photoboothPage');
         await tester.pumpApp(
-          Builder(
-            builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(key: photoboothPage),
-                      settings: RouteSettings(name: PhotoboothPage.name),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SizedBox(),
-                      settings: RouteSettings(name: 'IntermediatePage'),
-                    ),
-                  );
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => Scaffold(body: ShareView()),
-                    ),
-                  );
-                },
-                child: const SizedBox(),
-              );
-            },
-          ),
+          ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
-
-        await tester.tap(find.byType(ElevatedButton));
-        await tester.pumpAndSettle();
 
         final retakeButtonFinder = find.byKey(
           const Key('sharePage_retake_appTooltipButton'),
@@ -531,7 +438,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(retakeButtonFinder, findsNothing);
-        expect(find.byKey(photoboothPage), findsOneWidget);
+        expect(find.byType(PhotoboothPage), findsOneWidget);
 
         verify(() => photoboothBloc.add(PhotoClearAllTapped())).called(1);
       });
