@@ -85,8 +85,9 @@ class _ShareRetakeButton extends StatelessWidget {
             );
           }
         },
+        verticalOffset: 50,
         message: l10n.retakeButtonTooltip,
-        child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
       ),
     );
   }
