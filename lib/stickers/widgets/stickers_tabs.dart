@@ -24,7 +24,6 @@ class _StickersTabsState extends State<StickersTabs>
   @override
   void initState() {
     super.initState();
-    print(widget.tabSelected);
     _tabController = TabController(
       length: 5,
       vsync: this,
@@ -42,23 +41,23 @@ class _StickersTabsState extends State<StickersTabs>
               .add(StickersDrawerTabSelected(tabSelected: value)),
           controller: _tabController,
           tabs: [
-            StickersTab(
+            const StickersTab(
               key: Key('stickersTabs_googleTab'),
               assetPath: 'assets/icons/google_icon.png',
             ),
-            StickersTab(
+            const StickersTab(
               key: Key('stickersTabs_hatsTab'),
               assetPath: 'assets/icons/hats_icon.png',
             ),
-            StickersTab(
+            const StickersTab(
               key: Key('stickersTabs_eyewearTab'),
               assetPath: 'assets/icons/eyewear_icon.png',
             ),
-            StickersTab(
+            const StickersTab(
               key: Key('stickersTabs_foodTab'),
               assetPath: 'assets/icons/food_icon.png',
             ),
-            StickersTab(
+            const StickersTab(
               key: Key('stickersTabs_shapesTab'),
               assetPath: 'assets/icons/shapes_icon.png',
             ),

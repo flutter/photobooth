@@ -19,10 +19,13 @@ class StickersDrawerLayer extends StatelessWidget {
             barrierColor: PhotoboothColors.black.withOpacity(0.75),
             backgroundColor: PhotoboothColors.transparent,
             isScrollControlled: true,
-            builder: (_) => MobileStickersDrawer(
-              onStickerSelected: (sticker) => context
-                  .read<PhotoboothBloc>()
-                  .add(PhotoStickerTapped(sticker: sticker)),
+            builder: (_) => BlocProvider.value(
+              value: context.read<StickersBloc>(),
+              child: MobileStickersDrawer(
+                onStickerSelected: (sticker) => context
+                    .read<PhotoboothBloc>()
+                    .add(PhotoStickerTapped(sticker: sticker)),
+              ),
             ),
           );
           context.read<StickersBloc>().add(const StickersDrawerToggled());
