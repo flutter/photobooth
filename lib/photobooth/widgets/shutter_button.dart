@@ -38,11 +38,16 @@ class _ShutterButtonState extends State<ShutterButton>
   void initState() {
     super.initState();
     audioPlayer = widget._audioPlayer()..setAsset('assets/audio/camera.mp3');
-
     controller = AnimationController(
       vsync: this,
       duration: _shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
+    unawaited(audioPlayer.play());
+    audioPlayer.playerStateStream.listen((event) {
+      if (event.processingState == ProcessingState.ready) {
+        audioPlayer.pause();
+      }
+    });
   }
 
   @override
@@ -55,7 +60,6 @@ class _ShutterButtonState extends State<ShutterButton>
   }
 
   void _onShutterPressed() async {
-    await audioPlayer.stop();
     await audioPlayer.seek(null);
     unawaited(audioPlayer.play());
     unawaited(controller.reverse(from: 1));
