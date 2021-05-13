@@ -128,19 +128,19 @@ void main() {
         expect(
           shareUrls.explicitShareUrl,
           equals(
-            'https://io-photobooth-dev.web.app/share/photo.jpg',
+            'https://io-photobooth.web.app/share/photo.jpg',
           ),
         );
         expect(
           shareUrls.facebookShareUrl,
           equals(
-            'https://www.facebook.com/sharer.php?u=https://io-photobooth-dev.web.app/share/photo.jpg&quote=Share%20text',
+            'https://www.facebook.com/sharer.php?u=https://io-photobooth.web.app/share/photo.jpg&quote=Share%20text',
           ),
         );
         expect(
           shareUrls.twitterShareUrl,
           equals(
-            'https://twitter.com/intent/tweet?url=https://io-photobooth-dev.web.app/share/photo.jpg&text=Share%20text',
+            'https://twitter.com/intent/tweet?url=https://io-photobooth.web.app/share/photo.jpg&text=Share%20text',
           ),
         );
       });
