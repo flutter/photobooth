@@ -214,7 +214,7 @@ class _NextButton extends StatelessWidget {
             portraitChild: const _NextConfirmationBottomSheet(),
           );
           if (confirmed) {
-            unawaited(Navigator.of(context).push(SharePage.route()));
+            unawaited(Navigator.of(context).pushReplacement(SharePage.route()));
           }
         },
         child: Image.asset(

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _videoConstraints = VideoConstraints(
   facingMode: FacingMode(
@@ -91,8 +92,7 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         .add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
     final stickersPage = StickersPage.route();
     await _stop();
-    await Navigator.of(context).push(stickersPage);
-    await _play();
+    unawaited(Navigator.of(context).pushReplacement(stickersPage));
   }
 
   @override
