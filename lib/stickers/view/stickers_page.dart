@@ -66,7 +66,6 @@ class StickersView extends StatelessWidget {
                     child: Row(
                       children: [
                         const _RetakeButton(),
-                        const SizedBox(width: 15),
                         const ClearStickersButtonLayer(),
                       ],
                     ),
@@ -120,7 +119,6 @@ class _StickerReminderText extends StatelessWidget {
         key: const Key('stickersPage_propsReminder_appTooltip'),
         visible: true,
         message: context.l10n.propsReminderText,
-        padding: const EdgeInsets.all(24),
       ),
     );
   }
@@ -187,11 +185,14 @@ class _RetakeButton extends StatelessWidget {
         );
         if (confirmed) {
           context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-          Navigator.of(context).pop();
+          unawaited(
+            Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+          );
         }
       },
+      verticalOffset: 50,
       message: l10n.retakeButtonTooltip,
-      child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+      child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
     );
   }
 }
@@ -214,7 +215,7 @@ class _NextButton extends StatelessWidget {
             portraitChild: const _NextConfirmationBottomSheet(),
           );
           if (confirmed) {
-            unawaited(Navigator.of(context).push(SharePage.route()));
+            unawaited(Navigator.of(context).pushReplacement(SharePage.route()));
           }
         },
         child: Image.asset(
@@ -255,6 +256,8 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -269,7 +272,6 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(true),
                     child: Text(
@@ -343,6 +345,8 @@ class _NextConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -357,7 +361,6 @@ class _NextConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(true),
                     child: Text(
@@ -413,21 +416,35 @@ extension on PhotoAsset {
   }
 }
 
-class OpenStickersButton extends StatelessWidget {
-  const OpenStickersButton({Key? key, required this.onPressed})
-      : super(key: key);
+class OpenStickersButton extends StatefulWidget {
+  const OpenStickersButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
 
   final VoidCallback onPressed;
 
   @override
+  State<OpenStickersButton> createState() => _OpenStickersButtonState();
+}
+
+class _OpenStickersButtonState extends State<OpenStickersButton> {
+  bool _isAnimating = true;
+
+  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return AppTooltipButton(
-      onPressed: onPressed,
+    final child = AppTooltipButton(
+      key: const Key('stickersView_openStickersButton_appTooltipButton'),
+      onPressed: () {
+        widget.onPressed();
+        if (_isAnimating) setState(() => _isAnimating = false);
+      },
       message: l10n.openStickersTooltip,
       verticalOffset: 50,
       mode: TooltipMode.normal,
-      child: Image.asset('assets/icons/stickers_button_icon.png', height: 80),
+      child: Image.asset('assets/icons/stickers_button_icon.png', height: 100),
     );
+    return _isAnimating ? AnimatedPulse(child: child) : child;
   }
 }

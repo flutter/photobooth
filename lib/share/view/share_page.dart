@@ -7,6 +7,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:very_good_analysis/very_good_analysis.dart';
 
 class SharePage extends StatelessWidget {
   const SharePage({Key? key}) : super(key: key);
@@ -79,13 +80,14 @@ class _ShareRetakeButton extends StatelessWidget {
           );
           if (confirmed) {
             context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-            Navigator.of(context).popUntil(
-              (route) => route.settings.name == PhotoboothPage.name,
+            unawaited(
+              Navigator.of(context).pushReplacement(PhotoboothPage.route()),
             );
           }
         },
+        verticalOffset: 50,
         message: l10n.retakeButtonTooltip,
-        child: Image.asset('assets/icons/retake_button_icon.png', height: 50),
+        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
       ),
     );
   }
@@ -120,6 +122,8 @@ class _ConfirmationDialogContent extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 24,
                 children: [
                   OutlinedButton(
@@ -135,7 +139,6 @@ class _ConfirmationDialogContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24),
                   ElevatedButton(
                     key: const Key('sharePage_retakeConfirm_elevatedButton'),
                     onPressed: () => Navigator.of(context).pop(true),

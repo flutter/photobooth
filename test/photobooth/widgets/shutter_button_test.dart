@@ -25,9 +25,17 @@ void main() {
     when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.load()).thenAnswer((_) async => null);
     when(() => audioPlayer.play()).thenAnswer((_) async => null);
+    when(() => audioPlayer.pause()).thenAnswer((_) async => null);
     when(() => audioPlayer.stop()).thenAnswer((_) async => null);
     when(() => audioPlayer.seek(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.dispose()).thenAnswer((_) async => null);
+    when(() => audioPlayer.playerStateStream).thenAnswer(
+      (_) => Stream.fromIterable(
+        [
+          PlayerState(true, ProcessingState.ready),
+        ],
+      ),
+    );
   });
 
   group('ShutterButton', () {
@@ -55,7 +63,8 @@ void main() {
         expect(find.byType(CountdownTimer), findsOneWidget);
         await tester.pumpAndSettle();
         verify(() => audioPlayer.setAsset(any())).called(1);
-        verify(() => audioPlayer.play()).called(1);
+        verify(() => audioPlayer.play()).called(2);
+        verify(() => audioPlayer.pause()).called(1);
       });
     });
   });
