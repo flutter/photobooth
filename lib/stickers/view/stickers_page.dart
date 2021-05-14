@@ -96,7 +96,7 @@ class StickersView extends StatelessWidget {
               ),
             ),
           ),
-          StickersDrawerLayer(),
+          const StickersDrawerLayer(),
         ],
       ),
     );
