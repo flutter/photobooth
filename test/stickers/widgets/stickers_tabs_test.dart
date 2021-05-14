@@ -13,14 +13,30 @@ void main() {
   const foodTabAssetPath = 'assets/icons/food_icon.png';
   const shapesTabAssetPath = 'assets/icons/shapes_icon.png';
 
-  group('StickersTab', () {
+  group('StickersTabs', () {
+    testWidgets('onTabChanged is called with correct index', (tester) async {
+      var onTabChangedCalls = <int>[];
+      await tester.pumpApp(
+        Scaffold(
+          body: StickersTabs(
+            onStickerSelected: (_) {},
+            onTabChanged: onTabChangedCalls.add,
+          ),
+        ),
+      );
+      await tester.tap(find.byKey(Key('stickersTabs_hatsTab')));
+      await tester.pump();
+      expect(onTabChangedCalls, equals([1]));
+    });
+
     group('TabBar', () {
       group('google', () {
         testWidgets('renders as first tab', (tester) async {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -32,12 +48,14 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
-          final tab = tester
-              .widget<StickersTab>(find.byKey(Key('stickersTabs_googleTab')));
+          final tab = tester.widget<StickersTab>(
+            find.byKey(Key('stickersTabs_googleTab')),
+          );
           expect(tab.assetPath, equals(googleTabAssetPath));
         });
       });
@@ -47,7 +65,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -59,12 +78,14 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
-          final tab = tester
-              .widget<StickersTab>(find.byKey(Key('stickersTabs_hatsTab')));
+          final tab = tester.widget<StickersTab>(
+            find.byKey(Key('stickersTabs_hatsTab')),
+          );
           expect(tab.assetPath, equals(hatsTabAssetPath));
         });
       });
@@ -74,7 +95,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -86,7 +108,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -101,7 +124,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -113,7 +137,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -128,7 +153,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -140,7 +166,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -157,7 +184,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -172,7 +200,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -188,7 +217,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -203,7 +233,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -217,7 +248,8 @@ void main() {
           await tester.pump();
           await tester.pump(kThemeAnimationDuration);
           final tabBarView = tester.widget<StickersTabBarView>(
-              find.byKey(Key('stickersTabs_hatsTabBarView')));
+            find.byKey(Key('stickersTabs_hatsTabBarView')),
+          );
           expect(tabBarView.stickers, equals(Assets.hatProps));
         });
       });
@@ -227,7 +259,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -242,7 +275,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -265,7 +299,8 @@ void main() {
           await tester.pump();
           await tester.pump(kThemeAnimationDuration);
           final tabBarView = tester.widget<StickersTabBarView>(
-              find.byKey(Key('stickersTabs_eyewearTabBarView')));
+            find.byKey(Key('stickersTabs_eyewearTabBarView')),
+          );
           expect(tabBarView.stickers, equals(Assets.eyewearProps));
         });
       });
@@ -275,7 +310,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -290,7 +326,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -326,7 +363,8 @@ void main() {
           await tester.pump(kThemeAnimationDuration);
 
           final tabBarView = tester.widget<StickersTabBarView>(
-              find.byKey(Key('stickersTabs_foodTabBarView')));
+            find.byKey(Key('stickersTabs_foodTabBarView')),
+          );
           expect(tabBarView.stickers, equals(Assets.foodProps));
         });
       });
@@ -336,7 +374,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -351,7 +390,8 @@ void main() {
           await tester.pumpApp(
             Scaffold(
               body: StickersTabs(
-                onStickerSelected: (sticker) => {},
+                onStickerSelected: (_) {},
+                onTabChanged: (_) {},
               ),
             ),
           );
@@ -397,7 +437,8 @@ void main() {
           await tester.pump(kThemeAnimationDuration);
 
           final tabBarView = tester.widget<StickersTabBarView>(
-              find.byKey(Key('stickersTabs_shapesTabBarView')));
+            find.byKey(Key('stickersTabs_shapesTabBarView')),
+          );
           expect(tabBarView.stickers, equals(Assets.shapeProps));
         });
       });

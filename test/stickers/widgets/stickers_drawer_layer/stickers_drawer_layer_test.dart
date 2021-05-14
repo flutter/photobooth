@@ -33,6 +33,7 @@ void main() {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
   });
+
   group('StickersDrawerLayer', () {
     late PhotoboothBloc photoboothBloc;
     late StickersBloc stickersBloc;
@@ -114,24 +115,54 @@ void main() {
         final stickerChoice =
             tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
         stickerChoice.onPressed();
-        verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
-            .called(1);
+        await tester.pump();
+        verify(
+          () => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)),
+        ).called(1);
+        verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
       });
 
-      testWidgets('can be closed', (tester) async {
-        when(() => stickersBloc.state)
-            .thenReturn(StickersState(isDrawerActive: true));
+      testWidgets('adds StickersDrawerTabTapped when tab is selected',
+          (tester) async {
+        final sticker = Assets.props.first;
+        when(() => stickersBloc.state).thenReturn(
+          StickersState(isDrawerActive: true),
+        );
+        tester.setLandscapeDisplaySize();
+        when(() => photoboothBloc.state).thenReturn(
+          PhotoboothState(stickers: [PhotoAsset(id: '0', asset: sticker)]),
+        );
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: DesktopStickersDrawer()),
+            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+          ),
+          photoboothBloc: photoboothBloc,
+        );
+        await tester.tap(find.byKey(Key('stickersTabs_eyewearTab')));
+        verify(
+          () => stickersBloc.add(StickersDrawerTabTapped(index: 2)),
+        ).called(1);
+      });
+
+      testWidgets('can be closed', (tester) async {
+        var onCloseTappedCallCount = 0;
+        await tester.pumpApp(
+          Scaffold(
+            body: DesktopStickersDrawer(
+              initialIndex: 0,
+              onTabChanged: (_) {},
+              onStickerSelected: (_) {},
+              onCloseTapped: () => onCloseTappedCallCount++,
+              bucket: PageStorageBucket(),
+            ),
           ),
         );
         await tester
             .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
         await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
         await tester.pump();
-        verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
+        expect(onCloseTappedCallCount, equals(1));
       });
     });
 
@@ -186,9 +217,7 @@ void main() {
         final sticker = Assets.props.first;
         whenListen(
           stickersBloc,
-          Stream.fromIterable([
-            StickersState(isDrawerActive: true),
-          ]),
+          Stream.fromIterable([StickersState(isDrawerActive: true)]),
           initialState: StickersState(isDrawerActive: false),
         );
         tester.setSmallDisplaySize();
@@ -203,8 +232,39 @@ void main() {
             tester.widgetList<StickerChoice>(find.byType(StickerChoice)).first;
         stickerChoice.onPressed();
         await tester.pumpAndSettle();
-        verify(() => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)))
-            .called(1);
+        verify(
+          () => photoboothBloc.add(PhotoStickerTapped(sticker: sticker)),
+        ).called(1);
+        expect(find.byType(MobileStickersDrawer), findsNothing);
+      });
+
+      testWidgets('can change tabs on MobileStickersDrawer', (tester) async {
+        whenListen(
+          stickersBloc,
+          Stream.fromIterable([StickersState(isDrawerActive: true)]),
+          initialState: StickersState(isDrawerActive: false),
+        );
+        tester.setSmallDisplaySize();
+
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: stickersBloc,
+            child: Scaffold(body: StickersDrawerLayer()),
+          ),
+          photoboothBloc: photoboothBloc,
+        );
+        await tester.pump();
+        expect(find.byType(MobileStickersDrawer), findsOneWidget);
+        final tabBar = tester.widget<TabBar>(find.byType(TabBar));
+        tabBar.onTap!(4);
+        verify(
+          () => stickersBloc.add(StickersDrawerTabTapped(index: 4)),
+        ).called(1);
+        final closeButtonFinder = find.byKey(
+          Key('stickersDrawer_close_iconButton'),
+        );
+        tester.widget<IconButton>(closeButtonFinder).onPressed!();
+        await tester.pumpAndSettle();
       });
 
       testWidgets('can close MobileStickersDrawer', (tester) async {
