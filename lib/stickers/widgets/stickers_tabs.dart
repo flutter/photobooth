@@ -153,13 +153,14 @@ class StickersTabBarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: PageStorageKey<String>(key.toString()),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 15,
+      key: PageStorageKey<String>('$key'),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 150,
+        childAspectRatio: 1,
+        mainAxisSpacing: 64,
+        crossAxisSpacing: 42,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
       itemCount: stickers.length,
       itemBuilder: (context, index) {
         final sticker = stickers.elementAt(index);
