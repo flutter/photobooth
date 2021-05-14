@@ -46,10 +46,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     } else if (event is _ShareCompositeSucceeded) {
       yield* _mapShareCompositeSucceededToState(event, state);
     } else if (event is _ShareCompositeFailed) {
-      yield state.copyWith(
-        compositeStatus: ShareStatus.failure,
-        uploadStatus: ShareStatus.failure,
-      );
+      yield state.copyWith(compositeStatus: ShareStatus.failure);
     }
   }
 

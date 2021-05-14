@@ -112,6 +112,14 @@
     "@sharePageLinkedCopiedButton": {
         "description": "Title of the button used to indicate that the link has been copied."
     },
+    "sharePageErrorHeading": "We're having trouble processing your image",
+    "@sharePageErrorHeading": {
+        "description": "Heading shown on the share page when an error occurs."
+    },
+    "sharePageErrorSubheading": "Please make sure your device and browser are up to date. If this issue persists, please contact flutter-photo-booth@google.com.",
+    "@sharePageErrorSubheading": {
+        "description": "Subheading shown on the share page when an error occurs."
+    },
     "shareDialogHeading": "Share your photo!",
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
@@ -124,7 +132,7 @@
     "@shareErrorDialogHeading": {
         "description": "Heading shown on the share error dialog."
     },
-    "shareErrorDialogTryAgainButton": "Try again",
+    "shareErrorDialogTryAgainButton": "Go back",
     "@shareErrorDialogTryAgainButton": {
         "description": "Title of the button displayed on the share error dialog used to retry the upload operation."
     },
