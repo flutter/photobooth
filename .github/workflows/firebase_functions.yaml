@@ -1,4 +1,4 @@
-me: firebase_functions
+name: firebase_functions
 
 on:
   pull_request:

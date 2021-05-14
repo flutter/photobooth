@@ -12,14 +12,12 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
   @override
   Stream<StickersState> mapEventToState(StickersEvent event) async* {
     if (event is StickersDrawerToggled) {
-      yield _mapStickersDrawerToggledToState(state);
+      yield state.copyWith(
+        isDrawerActive: !state.isDrawerActive,
+        shouldDisplayPropsReminder: false,
+      );
+    } else if (event is StickersDrawerTabTapped) {
+      yield state.copyWith(tabIndex: event.index);
     }
-  }
-
-  StickersState _mapStickersDrawerToggledToState(StickersState state) {
-    return StickersState(
-      isDrawerActive: !state.isDrawerActive,
-      shouldDisplayPropsReminder: false,
-    );
   }
 }

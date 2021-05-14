@@ -93,7 +93,7 @@ void main() {
           ShareState(compositeStatus: ShareStatus.loading),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.initial,
           ),
         ],
       );
@@ -265,7 +265,7 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.initial,
             isUploadRequested: true,
             shareUrl: ShareUrl.twitter,
           ),
@@ -528,7 +528,7 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.failure,
+            uploadStatus: ShareStatus.initial,
             isUploadRequested: true,
             shareUrl: ShareUrl.facebook,
           ),

@@ -56,7 +56,7 @@ class ShareUrls {
   final String twitterShareUrl;
 }
 
-const _shareUrl = 'https://io-photobooth.web.app/share';
+const _shareUrl = 'https://photobooth.flutter.dev/share';
 
 /// {@template photos_repository}
 /// Repository that persists photos in a Firebase Storage.

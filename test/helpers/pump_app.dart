@@ -42,12 +42,8 @@ extension PumpApp on WidgetTester {
 
     return mockNetworkImages(() async {
       return pumpWidget(
-        MultiRepositoryProvider(
-          providers: [
-            RepositoryProvider<PhotosRepository>.value(
-              value: photosRepository ?? MockPhotosRepository(),
-            ),
-          ],
+        RepositoryProvider.value(
+          value: photosRepository ?? MockPhotosRepository(),
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(value: photoboothBloc ?? MockPhotoboothBloc()),

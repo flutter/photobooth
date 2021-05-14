@@ -2,78 +2,112 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class StickersTabs extends StatelessWidget {
+class StickersTabs extends StatefulWidget {
   const StickersTabs({
     Key? key,
     required this.onStickerSelected,
+    required this.onTabChanged,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   final ValueSetter<Asset> onStickerSelected;
+  final ValueSetter<int> onTabChanged;
+  final int initialIndex;
+
+  @override
+  State<StickersTabs> createState() => _StickersTabsState();
+}
+
+class _StickersTabsState extends State<StickersTabs>
+    with TickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 5,
+      vsync: this,
+      initialIndex: widget.initialIndex,
+    );
+    _tabController.addListener(() {
+      // False when swipe
+      if (!_tabController.indexIsChanging) {
+        widget.onTabChanged(_tabController.index);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Column(
-        children: [
-          const TabBar(
-            tabs: [
-              StickersTab(
-                key: Key('stickersTabs_googleTab'),
-                assetPath: 'assets/icons/google_icon.png',
+    return Column(
+      children: [
+        TabBar(
+          onTap: widget.onTabChanged,
+          controller: _tabController,
+          tabs: [
+            const StickersTab(
+              key: Key('stickersTabs_googleTab'),
+              assetPath: 'assets/icons/google_icon.png',
+            ),
+            const StickersTab(
+              key: Key('stickersTabs_hatsTab'),
+              assetPath: 'assets/icons/hats_icon.png',
+            ),
+            const StickersTab(
+              key: Key('stickersTabs_eyewearTab'),
+              assetPath: 'assets/icons/eyewear_icon.png',
+            ),
+            const StickersTab(
+              key: Key('stickersTabs_foodTab'),
+              assetPath: 'assets/icons/food_icon.png',
+            ),
+            const StickersTab(
+              key: Key('stickersTabs_shapesTab'),
+              assetPath: 'assets/icons/shapes_icon.png',
+            ),
+          ],
+        ),
+        const Divider(),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              StickersTabBarView(
+                key: const Key('stickersTabs_googleTabBarView'),
+                stickers: Assets.googleProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_hatsTab'),
-                assetPath: 'assets/icons/hats_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_hatsTabBarView'),
+                stickers: Assets.hatProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_eyewearTab'),
-                assetPath: 'assets/icons/eyewear_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_eyewearTabBarView'),
+                stickers: Assets.eyewearProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_foodTab'),
-                assetPath: 'assets/icons/food_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_foodTabBarView'),
+                stickers: Assets.foodProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
-              StickersTab(
-                key: Key('stickersTabs_shapesTab'),
-                assetPath: 'assets/icons/shapes_icon.png',
+              StickersTabBarView(
+                key: const Key('stickersTabs_shapesTabBarView'),
+                stickers: Assets.shapeProps,
+                onStickerSelected: widget.onStickerSelected,
               ),
             ],
           ),
-          const Divider(),
-          Expanded(
-            child: TabBarView(
-              children: [
-                StickersTabBarView(
-                  key: const Key('stickersTabs_googleTabBarView'),
-                  stickers: Assets.googleProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_hatsTabBarView'),
-                  stickers: Assets.hatProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_eyewearTabBarView'),
-                  stickers: Assets.eyewearProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_foodTabBarView'),
-                  stickers: Assets.foodProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-                StickersTabBarView(
-                  key: const Key('stickersTabs_shapesTabBarView'),
-                  stickers: Assets.shapeProps,
-                  onStickerSelected: onStickerSelected,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -122,21 +156,36 @@ class StickersTabBarView extends StatelessWidget {
   final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
 
+  static const _smallGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 100,
+    childAspectRatio: 1,
+    mainAxisSpacing: 48,
+    crossAxisSpacing: 24,
+  );
+
+  static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 150,
+    childAspectRatio: 1,
+    mainAxisSpacing: 64,
+    crossAxisSpacing: 42,
+  );
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final gridDelegate = size.width < PhotoboothBreakpoints.small
+        ? _smallGridDelegate
+        : _defaultGridDelegate;
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 15,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
+      key: PageStorageKey<String>('$key'),
+      gridDelegate: gridDelegate,
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
       itemCount: stickers.length,
       itemBuilder: (context, index) {
         final sticker = stickers.elementAt(index);
         return StickerChoice(
           asset: sticker,
-          onPressed: () => onStickerSelected.call(sticker),
+          onPressed: () => onStickerSelected(sticker),
         );
       },
     );

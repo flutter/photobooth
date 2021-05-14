@@ -212,6 +212,26 @@ void main() {
       );
     });
 
+    testWidgets(
+        'displays a ShareErrorHeading '
+        'when compositeStatus is failure', (tester) async {
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.failure,
+        uploadStatus: ShareStatus.initial,
+        file: file,
+      ));
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(
+        find.byType(ShareErrorHeading),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('displays a ShareSubheading', (tester) async {
       await tester.pumpApp(
         ShareView(),
@@ -237,6 +257,23 @@ void main() {
       );
 
       expect(find.byType(ShareSuccessSubheading), findsOneWidget);
+    });
+
+    testWidgets(
+        'displays a ShareErrorSubheading '
+        'when compositeStatus is failure', (tester) async {
+      when(() => shareBloc.state).thenReturn(ShareState(
+        compositeStatus: ShareStatus.failure,
+        uploadStatus: ShareStatus.initial,
+        file: file,
+      ));
+      await tester.pumpApp(
+        ShareView(),
+        photoboothBloc: photoboothBloc,
+        shareBloc: shareBloc,
+      );
+
+      expect(find.byType(ShareErrorSubheading), findsOneWidget);
     });
 
     testWidgets(
