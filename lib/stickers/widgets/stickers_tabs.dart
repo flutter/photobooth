@@ -30,6 +30,11 @@ class _StickersTabsState extends State<StickersTabs>
       vsync: this,
       initialIndex: widget.initialIndex,
     );
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        widget.onTabChanged(_tabController.index);
+      }
+    });
   }
 
   @override
@@ -43,7 +48,6 @@ class _StickersTabsState extends State<StickersTabs>
     return Column(
       children: [
         TabBar(
-          onTap: widget.onTabChanged,
           controller: _tabController,
           tabs: [
             const StickersTab(
