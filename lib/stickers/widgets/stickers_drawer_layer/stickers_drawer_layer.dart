@@ -31,7 +31,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
               bucket: _bucket,
               onTabChanged: (index) => context
                   .read<StickersBloc>()
-                  .add(StickersDrawerTabSelected(index: index)),
+                  .add(StickersDrawerTabTapped(index: index)),
               onStickerSelected: (sticker) {
                 context
                     .read<PhotoboothBloc>()
@@ -56,7 +56,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
               bucket: _bucket,
               onTabChanged: (index) => context
                   .read<StickersBloc>()
-                  .add(StickersDrawerTabSelected(index: index)),
+                  .add(StickersDrawerTabTapped(index: index)),
               onStickerSelected: (sticker) {
                 context.read<StickersBloc>().add(const StickersDrawerToggled());
                 context

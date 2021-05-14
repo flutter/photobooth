@@ -14,7 +14,7 @@ void main() {
       expect(StickersBloc().state, equals(StickersState()));
     });
 
-    group('StickersDrawerTabSelected', () {
+    group('StickersDrawerTabTapped', () {
       blocTest<StickersBloc, StickersState>(
         'emits state with updated tab index',
         build: () => StickersBloc(),
@@ -22,7 +22,7 @@ void main() {
           isDrawerActive: true,
           shouldDisplayPropsReminder: false,
         ),
-        act: (bloc) => bloc.add(StickersDrawerTabSelected(index: 1)),
+        act: (bloc) => bloc.add(StickersDrawerTabTapped(index: 1)),
         expect: () => [
           StickersState(
             isDrawerActive: true,

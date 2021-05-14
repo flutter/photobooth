@@ -11,8 +11,8 @@ class StickersDrawerToggled extends StickersEvent {
   const StickersDrawerToggled();
 }
 
-class StickersDrawerTabSelected extends StickersEvent {
-  const StickersDrawerTabSelected({required this.index});
+class StickersDrawerTabTapped extends StickersEvent {
+  const StickersDrawerTabTapped({required this.index});
 
   final int index;
 }
