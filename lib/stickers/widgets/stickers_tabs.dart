@@ -31,6 +31,7 @@ class _StickersTabsState extends State<StickersTabs>
       initialIndex: widget.initialIndex,
     );
     _tabController.addListener(() {
+      // False when swipe
       if (!_tabController.indexIsChanging) {
         widget.onTabChanged(_tabController.index);
       }
@@ -48,8 +49,8 @@ class _StickersTabsState extends State<StickersTabs>
     return Column(
       children: [
         TabBar(
-          controller: _tabController,
           onTap: widget.onTabChanged,
+          controller: _tabController,
           tabs: [
             const StickersTab(
               key: Key('stickersTabs_googleTab'),
