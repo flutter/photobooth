@@ -150,16 +150,29 @@ class StickersTabBarView extends StatelessWidget {
   final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
 
+  static const _smallGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 100,
+    childAspectRatio: 1,
+    mainAxisSpacing: 48,
+    crossAxisSpacing: 24,
+  );
+
+  static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 150,
+    childAspectRatio: 1,
+    mainAxisSpacing: 64,
+    crossAxisSpacing: 42,
+  );
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final gridDelegate = size.width < PhotoboothBreakpoints.small
+        ? _smallGridDelegate
+        : _defaultGridDelegate;
     return GridView.builder(
       key: PageStorageKey<String>('$key'),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 150,
-        childAspectRatio: 1,
-        mainAxisSpacing: 64,
-        crossAxisSpacing: 42,
-      ),
+      gridDelegate: gridDelegate,
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
       itemCount: stickers.length,
       itemBuilder: (context, index) {
