@@ -49,6 +49,7 @@ class _StickersTabsState extends State<StickersTabs>
       children: [
         TabBar(
           controller: _tabController,
+          onTap: widget.onTabChanged,
           tabs: [
             const StickersTab(
               key: Key('stickersTabs_googleTab'),
