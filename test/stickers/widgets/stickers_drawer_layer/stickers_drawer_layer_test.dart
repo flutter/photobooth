@@ -33,6 +33,7 @@ void main() {
     registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
     registerFallbackValue<PhotoboothState>(FakePhotoboothState());
   });
+
   group('StickersDrawerLayer', () {
     late PhotoboothBloc photoboothBloc;
     late StickersBloc stickersBloc;
@@ -119,22 +120,23 @@ void main() {
       });
 
       testWidgets('can be closed', (tester) async {
-        when(() => stickersBloc.state)
-            .thenReturn(StickersState(isDrawerActive: true));
+        var onCloseTappedCallCount = 0;
         await tester.pumpApp(
-          BlocProvider.value(
-            value: stickersBloc,
-            child: Scaffold(
-                body: DesktopStickersDrawer(
+          Scaffold(
+            body: DesktopStickersDrawer(
+              initialIndex: 0,
+              onTabChanged: (_) {},
+              onStickerSelected: (_) {},
+              onCloseTapped: () => onCloseTappedCallCount++,
               bucket: PageStorageBucket(),
-            )),
+            ),
           ),
         );
         await tester
             .ensureVisible(find.byKey(Key('stickersDrawer_close_iconButton')));
         await tester.tap(find.byKey(Key('stickersDrawer_close_iconButton')));
         await tester.pump();
-        verify(() => stickersBloc.add(StickersDrawerToggled())).called(1);
+        expect(onCloseTappedCallCount, equals(1));
       });
     });
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -7,11 +6,15 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class MobileStickersDrawer extends StatelessWidget {
   const MobileStickersDrawer({
     Key? key,
+    required this.initialIndex,
     required this.onStickerSelected,
+    required this.onTabChanged,
     required this.bucket,
   }) : super(key: key);
 
-  final Function(Asset) onStickerSelected;
+  final int initialIndex;
+  final ValueSetter<Asset> onStickerSelected;
+  final ValueSetter<int> onTabChanged;
   final PageStorageBucket bucket;
 
   @override
@@ -50,11 +53,9 @@ class MobileStickersDrawer extends StatelessWidget {
                 const SizedBox(height: 35),
                 Flexible(
                   child: StickersTabs(
-                    tabSelected: context.read<StickersBloc>().state.tabSelected,
-                    onStickerSelected: (sticker) {
-                      onStickerSelected(sticker);
-                      Navigator.of(context).pop();
-                    },
+                    initialIndex: initialIndex,
+                    onTabChanged: onTabChanged,
+                    onStickerSelected: onStickerSelected,
                   ),
                 ),
               ],

@@ -13,7 +13,7 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
     if (event is StickersDrawerToggled) {
       yield _mapStickersDrawerToggledToState(state);
     } else if (event is StickersDrawerTabSelected) {
-      yield state.copyWith(tabSelected: event.tabSelected);
+      yield state.copyWith(tabIndex: event.index);
     }
   }
 

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets.g.dart';
-import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatefulWidget {
   const StickersTabs({
     Key? key,
     required this.onStickerSelected,
-    this.tabSelected = 0,
+    required this.onTabChanged,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   final ValueSetter<Asset> onStickerSelected;
-  final int tabSelected;
+  final ValueSetter<int> onTabChanged;
+  final int initialIndex;
 
   @override
   State<StickersTabs> createState() => _StickersTabsState();
@@ -20,7 +20,7 @@ class StickersTabs extends StatefulWidget {
 
 class _StickersTabsState extends State<StickersTabs>
     with TickerProviderStateMixin {
-  late TabController _tabController;
+  late final TabController _tabController;
 
   @override
   void initState() {
@@ -28,15 +28,14 @@ class _StickersTabsState extends State<StickersTabs>
     _tabController = TabController(
       length: 5,
       vsync: this,
-      initialIndex: widget.tabSelected,
+      initialIndex: widget.initialIndex,
     );
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        context
-            .read<StickersBloc>()
-            .add(StickersDrawerTabSelected(tabSelected: _tabController.index));
-      }
-    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,6 +43,7 @@ class _StickersTabsState extends State<StickersTabs>
     return Column(
       children: [
         TabBar(
+          onTap: widget.onTabChanged,
           controller: _tabController,
           tabs: [
             const StickersTab(
@@ -140,7 +140,7 @@ class _StickersTabState extends State<StickersTab>
 }
 
 @visibleForTesting
-class StickersTabBarView extends StatefulWidget {
+class StickersTabBarView extends StatelessWidget {
   const StickersTabBarView({
     Key? key,
     required this.stickers,
@@ -151,31 +151,21 @@ class StickersTabBarView extends StatefulWidget {
   final ValueSetter<Asset> onStickerSelected;
 
   @override
-  State<StickersTabBarView> createState() => _StickersTabBarViewState();
-}
-
-class _StickersTabBarViewState extends State<StickersTabBarView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: PageStorageKey<String>(widget.key.toString()),
+      key: PageStorageKey<String>(key.toString()),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 5,
         crossAxisSpacing: 15,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 65),
-      itemCount: widget.stickers.length,
+      itemCount: stickers.length,
       itemBuilder: (context, index) {
-        final sticker = widget.stickers.elementAt(index);
+        final sticker = stickers.elementAt(index);
         return StickerChoice(
           asset: sticker,
-          onPressed: () => widget.onStickerSelected.call(sticker),
+          onPressed: () => onStickerSelected(sticker),
         );
       },
     );

@@ -12,7 +12,7 @@ class StickersDrawerToggled extends StickersEvent {
 }
 
 class StickersDrawerTabSelected extends StickersEvent {
-  const StickersDrawerTabSelected({required this.tabSelected});
+  const StickersDrawerTabSelected({required this.index});
 
-  final int tabSelected;
+  final int index;
 }

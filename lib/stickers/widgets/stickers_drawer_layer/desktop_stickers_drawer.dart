@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DesktopStickersDrawer extends StatelessWidget {
   const DesktopStickersDrawer({
     Key? key,
+    required this.initialIndex,
+    required this.onStickerSelected,
+    required this.onTabChanged,
+    required this.onCloseTapped,
     required this.bucket,
   }) : super(key: key);
 
+  final int initialIndex;
+  final ValueSetter<Asset> onStickerSelected;
+  final ValueSetter<int> onTabChanged;
+  final VoidCallback onCloseTapped;
   final PageStorageBucket bucket;
 
   @override
@@ -39,9 +45,7 @@ class DesktopStickersDrawer extends StatelessWidget {
                   ),
                   IconButton(
                     key: const Key('stickersDrawer_close_iconButton'),
-                    onPressed: () => context
-                        .read<StickersBloc>()
-                        .add(const StickersDrawerToggled()),
+                    onPressed: onCloseTapped,
                     icon: const Icon(Icons.clear),
                   ),
                 ],
@@ -50,10 +54,9 @@ class DesktopStickersDrawer extends StatelessWidget {
             const SizedBox(height: 15),
             Flexible(
               child: StickersTabs(
-                tabSelected: context.read<StickersBloc>().state.tabSelected,
-                onStickerSelected: (sticker) => context
-                    .read<PhotoboothBloc>()
-                    .add(PhotoStickerTapped(sticker: sticker)),
+                initialIndex: initialIndex,
+                onTabChanged: onTabChanged,
+                onStickerSelected: onStickerSelected,
               ),
             ),
           ],
