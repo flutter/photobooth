@@ -63,3 +63,19 @@ class ShareSuccessSubheading extends StatelessWidget {
     );
   }
 }
+
+class ShareErrorSubheading extends StatelessWidget {
+  const ShareErrorSubheading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
+    return SelectableText(
+      l10n.sharePageErrorSubheading,
+      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
+      textAlign: TextAlign.center,
+    );
+  }
+}
