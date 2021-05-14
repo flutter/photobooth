@@ -30,6 +30,12 @@ class _StickersTabsState extends State<StickersTabs>
       vsync: this,
       initialIndex: widget.initialIndex,
     );
+    _tabController.addListener(() {
+      // False when swipe
+      if (!_tabController.indexIsChanging) {
+        widget.onTabChanged(_tabController.index);
+      }
+    });
   }
 
   @override
