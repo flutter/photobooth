@@ -15,7 +15,7 @@ jobs:
         with:
           channel: master
       - run: flutter packages get
-      - run: flutter build web --web-renderer html --dart-define SHARING_ENABLED=false
+      - run: flutter build web --web-renderer html --dart-define SHARING_ENABLED=true
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
