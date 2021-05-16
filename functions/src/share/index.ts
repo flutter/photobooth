@@ -29,8 +29,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   meta: {
     title: 'Google I/O Photo Booth',
     desc: (
-      'Take a photo at the Google I/O Photo Booth! ' +
-      'Built for Google I/O 2021 with Flutter & Firebase.'
+      'Take a photo in the I/O Photo Booth with your favorite Google Developer Mascots! ' +
+      'Built with Flutter & Firebase for Google I/O 2021.'
     ),
   },
   footer: footerTmpl,
