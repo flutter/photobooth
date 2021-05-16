@@ -7,5 +7,6 @@ export const ALLOWED_HOSTS = [
   'io-photo-booth.web.app',
   'us-central1-io-photobooth-dev.cloudfunctions.net',
   'us-central1-io-photo-booth.cloudfunctions.net',
+  'us-central1-io-photobooth-20667.cloudfunctions.net',
   'photobooth.flutter.dev',
 ];
