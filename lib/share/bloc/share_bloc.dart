@@ -140,7 +140,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     final file = XFile.fromData(
       event.bytes,
       mimeType: 'image/png',
-      name: '$imageId.png',
+      name: _getPhotoFileName(imageId),
     );
     final bytes = event.bytes;
 
@@ -209,5 +209,5 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     return Uint8List.fromList(composite);
   }
 
-  String _getPhotoFileName(String photoName) => '$photoName.jpg';
+  String _getPhotoFileName(String photoName) => '$photoName.png';
 }
