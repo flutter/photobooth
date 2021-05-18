@@ -70,24 +70,32 @@ class _ShareRetakeButton extends StatelessWidget {
     return Positioned(
       left: 15,
       top: 15,
-      child: AppTooltipButton(
-        key: const Key('sharePage_retake_appTooltipButton'),
-        onPressed: () async {
-          final confirmed = await showAppModal(
-            context: context,
-            landscapeChild: const _ConfirmationDialogContent(),
-            portraitChild: const _ConfirmationBottomSheet(),
-          );
-          if (confirmed) {
-            context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-            unawaited(
-              Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+      child: Semantics(
+        focusable: true,
+        button: true,
+        label: l10n.retakePhotoButtonLabelText,
+        child: AppTooltipButton(
+          key: const Key('sharePage_retake_appTooltipButton'),
+          onPressed: () async {
+            final confirmed = await showAppModal(
+              context: context,
+              landscapeChild: const _ConfirmationDialogContent(),
+              portraitChild: const _ConfirmationBottomSheet(),
             );
-          }
-        },
-        verticalOffset: 50,
-        message: l10n.retakeButtonTooltip,
-        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
+            if (confirmed) {
+              context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+              unawaited(
+                Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+              );
+            }
+          },
+          verticalOffset: 50,
+          message: l10n.retakeButtonTooltip,
+          child: Image.asset(
+            'assets/icons/retake_button_icon.png',
+            height: 100,
+          ),
+        ),
       ),
     );
   }

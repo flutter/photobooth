@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
@@ -122,16 +123,22 @@ class CameraButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        onTap: onPressed,
-        child: Image.asset(
-          'assets/icons/camera_button_icon.png',
-          height: 100,
-          width: 100,
+    final l10n = context.l10n;
+    return Semantics(
+      focusable: true,
+      button: true,
+      label: l10n.shutterButtonLabelText,
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        shape: const CircleBorder(),
+        color: PhotoboothColors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          child: Image.asset(
+            'assets/icons/camera_button_icon.png',
+            height: 100,
+            width: 100,
+          ),
         ),
       ),
     );
