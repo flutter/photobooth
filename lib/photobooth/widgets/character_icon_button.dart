@@ -9,12 +9,14 @@ class CharacterIconButton extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.isSelected,
+    required this.label,
     this.onPressed,
   }) : super(key: key);
 
   final AssetImage icon;
   final VoidCallback? onPressed;
   final bool isSelected;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class CharacterIconButton extends StatelessWidget {
     return Semantics(
       focusable: true,
       button: true,
+      label: label,
       onTap: onPressed,
       child: Opacity(
         opacity: isSelected ? 0.6 : 1,
