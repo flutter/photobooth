@@ -311,5 +311,21 @@
     "stickersNextButtonLabelText": "Create final photo",
     "@stickersNextButtonLabelText": {
         "description": "Semantic label for the next button used to proceed to the share page"
+    },
+    "dashButtonLabelText": "Add dash friend",
+    "@dashButtonLabelText": {
+        "description": "Semantic label for the dash character button"
+    },
+    "sparkyButtonLabelText": "Add sparky friend",
+    "@sparkyButtonLabelText": {
+        "description": "Semantic label for the sparky character button"
+    },
+    "dinoButtonLabelText": "Add dino friend",
+    "@dinoButtonLabelText": {
+        "description": "Semantic label for the dino character button"
+    },
+    "androidButtonLabelText": "Add android jetpack friend",
+    "@androidButtonLabelText": {
+        "description": "Semantic label for the android jetpack character button"
     }
 }
