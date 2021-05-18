@@ -26,6 +26,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_dash_characterIconButton'),
         icon: const AssetImage('assets/icons/dash_icon.png'),
+        label: 'Dash',
         isSelected: state.isDashSelected,
         onPressed: () {
           trackEvent(
@@ -41,6 +42,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_sparky_characterIconButton'),
         icon: const AssetImage('assets/icons/sparky_icon.png'),
+        label: 'Sparky',
         isSelected: state.isSparkySelected,
         onPressed: () {
           trackEvent(
@@ -56,6 +58,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_android_characterIconButton'),
         icon: const AssetImage('assets/icons/android_icon.png'),
+        label: 'Android Jetpack',
         isSelected: state.isAndroidSelected,
         onPressed: () {
           trackEvent(
@@ -71,6 +74,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_dino_characterIconButton'),
         icon: const AssetImage('assets/icons/dino_icon.png'),
+        label: 'Dino',
         isSelected: state.isDinoSelected,
         onPressed: () {
           trackEvent(
