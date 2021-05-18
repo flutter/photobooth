@@ -49,15 +49,15 @@
         "description": "Heading shown on the share page."
     },
     "sharePageSubheading": "Share your photo with the community!",
-    "@sharePageHeading": {
-        "description": "Heading shown on the share page."
+    "@sharePageSubheading": {
+        "description": "Subheading shown on the share page."
     },
     "sharePageSuccessHeading": "Photo Shared!",
     "@sharePageSuccessHeading": {
         "description": "Heading shown on the share page after successful share."
     },
     "sharePageSuccessSubheading": "Thanks for using our Flutter web app! Your photo has been published at this unique URL",
-    "@sharePageSuccessHeading": {
+    "@sharePageSuccessSubheading": {
         "description": "Subheading shown on the share page after successful share."
     },
     "sharePageSuccessCaption1": "Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact ",
