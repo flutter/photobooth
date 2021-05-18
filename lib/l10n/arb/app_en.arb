@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "landingPageHeading": "Welcome to the I∕O Photo Booth",
+    "landingPageHeading": "Welcome to the I\u2215O Photo Booth",
     "@landingPageHeading": {
         "description": "Heading shown on the landing page."
     },
@@ -24,9 +24,9 @@
     "@footerMadeWithFirebaseLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Firebase page"
     },
-    "footerGoogleIOLinkText": "Google I∕O",
+    "footerGoogleIOLinkText": "Google I\u2215O",
     "@footerGoogleIOLinkText": {
-        "description": "Text on the link shown on the footer which navigates to the Google I∕O page."
+        "description": "Text on the link shown on the footer which navigates to the Google I\u2215O page."
     },
     "footerCodelabLinkText": "Codelab",
     "@footerCodelabLinkText": {
@@ -45,16 +45,19 @@
         "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
     },
     "sharePageHeading": "Share your photo with the community!",
-    "sharePageSubheading": "Share your photo with the community!",
     "@sharePageHeading": {
         "description": "Heading shown on the share page."
+    },
+    "sharePageSubheading": "Share your photo with the community!",
+    "@sharePageSubheading": {
+        "description": "Subheading shown on the share page."
     },
     "sharePageSuccessHeading": "Photo Shared!",
     "@sharePageSuccessHeading": {
         "description": "Heading shown on the share page after successful share."
     },
     "sharePageSuccessSubheading": "Thanks for using our Flutter web app! Your photo has been published at this unique URL",
-    "@sharePageSuccessSubHeading": {
+    "@sharePageSuccessSubheading": {
         "description": "Subheading shown on the share page after successful share."
     },
     "sharePageSuccessCaption1": "Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact ",
@@ -121,7 +124,7 @@
     "@shareDialogHeading": {
         "description": "Heading shown on the share dialog."
     },
-    "shareDialogSubheading": "Let everyone know you're at Google I∕O by sharing your photo & updating your profile picture during the event!",
+    "shareDialogSubheading": "Let everyone know you're at Google I\u2215O by sharing your photo & updating your profile picture during the event!",
     "@shareDialogSubheading": {
         "description": "Subheading shown on the share dialog."
     },
@@ -169,7 +172,7 @@
     "@photoBoothCameraNotFoundSubheadline1": {
         "description": "Text displayed on the first subheadline on the photobooth page when camera is not found"
     },
-    "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I∕O Photo Booth from a device with a camera.",
+    "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I\u2215O Photo Booth from a device with a camera.",
     "@photoBoothCameraNotFoundSubheadline2": {
         "description": "Text displayed on the second subheadline on the photobooth page when camera is not found"
     },
@@ -229,9 +232,9 @@
     "@sharePageLearnMoreAboutTextPart4": {
         "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
     },
-    "goToGoogleIOButtonText": "Go to Google I∕O",
+    "goToGoogleIOButtonText": "Go to Google I\u2215O",
     "@goToGoogleIOButtonText": {
-        "description": "Text displayed on the button to navigate to Google I∕O"
+        "description": "Text displayed on the button to navigate to Google I\u2215O"
     },
     "clearStickersDialogHeading": "Clear all props?",
     "@clearStickersDialogHeading": {
