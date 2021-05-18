@@ -327,5 +327,17 @@
     "androidButtonLabelText": "Add android jetpack friend",
     "@androidButtonLabelText": {
         "description": "Semantic label for the android jetpack character button"
+    },
+    "addStickersButtonLabelText": "Add props",
+    "@addStickersButtonLabelText": {
+        "description": "Semantic label for the add props button"
+    },
+    "retakePhotoButtonLabelText": "Retake photo",
+    "@retakePhotoButtonLabelText": {
+        "description": "Semantic label for the retake photo button"
+    },
+    "clearAllStickersButtonLabelText": "Clear all props",
+    "@clearAllStickersButtonLabelText": {
+        "description": "Semantic label for the clear all stickers button"
     }
 }

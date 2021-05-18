@@ -175,24 +175,29 @@ class _RetakeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return AppTooltipButton(
-      key: const Key('stickersPage_retake_appTooltipButton'),
-      onPressed: () async {
-        final confirmed = await showAppModal(
-          context: context,
-          landscapeChild: const _RetakeConfirmationDialogContent(),
-          portraitChild: const _RetakeConfirmationBottomSheet(),
-        );
-        if (confirmed) {
-          context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-          unawaited(
-            Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+    return Semantics(
+      focusable: true,
+      button: true,
+      label: l10n.retakePhotoButtonLabelText,
+      child: AppTooltipButton(
+        key: const Key('stickersPage_retake_appTooltipButton'),
+        onPressed: () async {
+          final confirmed = await showAppModal(
+            context: context,
+            landscapeChild: const _RetakeConfirmationDialogContent(),
+            portraitChild: const _RetakeConfirmationBottomSheet(),
           );
-        }
-      },
-      verticalOffset: 50,
-      message: l10n.retakeButtonTooltip,
-      child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
+          if (confirmed) {
+            context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+            unawaited(
+              Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+            );
+          }
+        },
+        verticalOffset: 50,
+        message: l10n.retakeButtonTooltip,
+        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
+      ),
     );
   }
 }
@@ -442,16 +447,24 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final child = AppTooltipButton(
-      key: const Key('stickersView_openStickersButton_appTooltipButton'),
-      onPressed: () {
-        widget.onPressed();
-        if (_isAnimating) setState(() => _isAnimating = false);
-      },
-      message: l10n.openStickersTooltip,
-      verticalOffset: 50,
-      mode: TooltipMode.normal,
-      child: Image.asset('assets/icons/stickers_button_icon.png', height: 100),
+    final child = Semantics(
+      focusable: true,
+      button: true,
+      label: l10n.addStickersButtonLabelText,
+      child: AppTooltipButton(
+        key: const Key('stickersView_openStickersButton_appTooltipButton'),
+        onPressed: () {
+          widget.onPressed();
+          if (_isAnimating) setState(() => _isAnimating = false);
+        },
+        message: l10n.openStickersTooltip,
+        verticalOffset: 50,
+        mode: TooltipMode.normal,
+        child: Image.asset(
+          'assets/icons/stickers_button_icon.png',
+          height: 100,
+        ),
+      ),
     );
     return _isAnimating ? AnimatedPulse(child: child) : child;
   }
