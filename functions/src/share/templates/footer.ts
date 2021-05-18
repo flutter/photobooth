@@ -2,7 +2,7 @@ export default `
 <footer>
   <div class="left">
     <span>Made with
-      <a href="https://flutter.dev">Futter</a> &amp;
+      <a href="https://flutter.dev">Flutter</a> &amp;
       <a href="https://firebase.google.com">Firebase</a>
     </ul>
   </div>
