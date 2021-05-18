@@ -202,25 +202,33 @@ class _NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      shape: const CircleBorder(),
-      color: PhotoboothColors.transparent,
-      child: InkWell(
-        key: const Key('stickersPage_next_inkWell'),
-        onTap: () async {
-          final confirmed = await showAppModal(
-            context: context,
-            landscapeChild: const _NextConfirmationDialogContent(),
-            portraitChild: const _NextConfirmationBottomSheet(),
-          );
-          if (confirmed) {
-            unawaited(Navigator.of(context).pushReplacement(SharePage.route()));
-          }
-        },
-        child: Image.asset(
-          'assets/icons/go_next_button_icon.png',
-          height: 100,
+    final l10n = context.l10n;
+    return Semantics(
+      focusable: true,
+      button: true,
+      label: l10n.stickersNextButtonLabelText,
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        shape: const CircleBorder(),
+        color: PhotoboothColors.transparent,
+        child: InkWell(
+          key: const Key('stickersPage_next_inkWell'),
+          onTap: () async {
+            final confirmed = await showAppModal(
+              context: context,
+              landscapeChild: const _NextConfirmationDialogContent(),
+              portraitChild: const _NextConfirmationBottomSheet(),
+            );
+            if (confirmed) {
+              unawaited(
+                Navigator.of(context).pushReplacement(SharePage.route()),
+              );
+            }
+          },
+          child: Image.asset(
+            'assets/icons/go_next_button_icon.png',
+            height: 100,
+          ),
         ),
       ),
     );

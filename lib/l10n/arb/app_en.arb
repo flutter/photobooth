@@ -307,5 +307,9 @@
     "shutterButtonLabelText": "Take photo",
     "@shutterButtonLabelText": {
         "description": "Semantic label for the shutter button used to take a photo"
+    },
+    "stickersNextButtonLabelText": "Create final photo",
+    "@stickersNextButtonLabelText": {
+        "description": "Semantic label for the next button used to proceed to the share page"
     }
 }
