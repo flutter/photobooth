@@ -15,6 +15,7 @@ void main() {
             body: CharacterIconButton(
               isSelected: true,
               icon: const AssetImage('assets/icons/dash_icon.png'),
+              label: 'Dash',
             ),
           ),
         ),
@@ -31,6 +32,7 @@ void main() {
             body: CharacterIconButton(
               isSelected: true,
               icon: const AssetImage('assets/icons/dash_icon.png'),
+              label: 'Dash',
               onPressed: () => tapCounter++,
             ),
           ),
@@ -51,6 +53,7 @@ void main() {
             body: CharacterIconButton(
               isSelected: true,
               icon: const AssetImage('assets/icons/dash_icon.png'),
+              label: 'Dash',
             ),
           ),
         ),
@@ -76,6 +79,7 @@ void main() {
             body: CharacterIconButton(
               isSelected: true,
               icon: const AssetImage('assets/icons/dash_icon.png'),
+              label: 'Dash',
             ),
           ),
         ),
@@ -90,6 +94,23 @@ void main() {
 
       expect(inkWidget.height, equals(60));
       expect(inkWidget.width, equals(60));
+    });
+
+    testWidgets('has a semantic label', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CharacterIconButton(
+              isSelected: true,
+              icon: const AssetImage('assets/icons/dash_icon.png'),
+              label: 'Dash',
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Dash'), findsOneWidget);
     });
   });
 }
