@@ -303,5 +303,9 @@
     "shareRetakeConfirmationConfirmButtonText": "Yes, retake photo",
     "@shareRetakeConfirmationConfirmButtonText": {
         "description": "Confirm button text shown in the confirmation when user taps the retake button"
+    },
+    "shutterButtonLabelText": "Take photo",
+    "@shutterButtonLabelText": {
+        "description": "Semantic label for the shutter button used to take a photo"
     }
 }
