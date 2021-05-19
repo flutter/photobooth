@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -21,11 +22,13 @@ class PhotoboothPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final state = context.watch<PhotoboothBloc>().state;
     final children = <Widget>[
       CharacterIconButton(
         key: const Key('photoboothView_dash_characterIconButton'),
         icon: const AssetImage('assets/icons/dash_icon.png'),
+        label: l10n.dashButtonLabelText,
         isSelected: state.isDashSelected,
         onPressed: () {
           trackEvent(
@@ -41,6 +44,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_sparky_characterIconButton'),
         icon: const AssetImage('assets/icons/sparky_icon.png'),
+        label: l10n.sparkyButtonLabelText,
         isSelected: state.isSparkySelected,
         onPressed: () {
           trackEvent(
@@ -56,6 +60,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_android_characterIconButton'),
         icon: const AssetImage('assets/icons/android_icon.png'),
+        label: l10n.androidButtonLabelText,
         isSelected: state.isAndroidSelected,
         onPressed: () {
           trackEvent(
@@ -71,6 +76,7 @@ class PhotoboothPreview extends StatelessWidget {
       CharacterIconButton(
         key: const Key('photoboothView_dino_characterIconButton'),
         icon: const AssetImage('assets/icons/dino_icon.png'),
+        label: l10n.dinoButtonLabelText,
         isSelected: state.isDinoSelected,
         onPressed: () {
           trackEvent(

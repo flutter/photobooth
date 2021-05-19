@@ -8,9 +8,12 @@ class CharactersCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return AppTooltip.custom(
-      visible: true,
-      message: l10n.charactersCaptionText,
+    return Semantics(
+      button: false,
+      child: AppTooltip.custom(
+        visible: true,
+        message: l10n.charactersCaptionText,
+      ),
     );
   }
 }
