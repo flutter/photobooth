@@ -1,0 +1,343 @@
+{
+    "@@locale": "te",
+    "landingPageHeading": "గూగుల్ ఐ\u2215ఓ ఫోటో బూత్ కి స్వాగతం ",
+    "@landingPageHeading": {
+        "description": "Heading shown on the landing page."
+    },
+    "landingPageSubheading": "ఒక చిత్రం తీస్కొని సమాజం తో పంచుకోండి!",
+    "@landingPageSubheading": {
+        "description": "Subheading shown on the landing page."
+    },
+    "landingPageTakePhotoButtonText": "మొదలు పెట్టండి",
+    "@landingPageTakePhotoButtonText": {
+        "description": "Button text shown on the landing page which navigates to the photo booth."
+    },
+    "footerMadeWithText": "తయారు చెయ్యబడింది ",
+    "@footerMadeWithText": {
+        "description": "Text shown on the footer which mentiones technologies used to build the app."
+    },
+    "footerMadeWithFlutterLinkText": "ఫ్లట్టర్ ",
+    "@footerMadeWithFlutterLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Flutter page"
+    },
+    "footerMadeWithFirebaseLinkText": "ఫైర్బేస్ తో ",
+    "@footerMadeWithFirebaseLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Firebase page"
+    },
+    "footerGoogleIOLinkText": "గూగుల్ ఐ\u2215ఓ",
+    "@footerGoogleIOLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Google I\u2215O page."
+    },
+    "footerCodelabLinkText": "కోడ్ ల్యాబ్ ",
+    "@footerCodelabLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Codelab page."
+    },
+    "footerHowItsMadeLinkText": "ఎలా తయారు చేయబడింది",
+    "@footerHowItsMadeLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the How It's Made page."
+    },
+    "footerTermsOfServiceLinkText": "నిబంధనలు మరియు సేవలు",
+    "@footerTermsOfServiceLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Terms of Service page."
+    },
+    "footerPrivacyPolicyLinkText": "ప్రైవసి పాలసీ",
+    "@footerPrivacyPolicyLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
+    },
+    "sharePageHeading": "మీ చిత్రం సమాజం తో పంచుకోండి!",
+    "@sharePageHeading": {
+        "description": "Heading shown on the share page."
+    },
+    "sharePageSubheading": "మీ చిత్రం సమాజం తో పంచుకోండి!",
+    "@sharePageSubheading": {
+        "description": "Subheading shown on the share page."
+    },
+    "sharePageSuccessHeading": "చిత్రం పంచబడినది!",
+    "@sharePageSuccessHeading": {
+        "description": "Heading shown on the share page after successful share."
+    },
+    "sharePageSuccessSubheading": "ఫ్లట్టర్ వెబ్ యాప్ను  ఉపయోగించినందుకు కృతఙ్ఞతలు !  మీ చిత్రం ఈ ఏకైక యు.ఆర్.ఎల్  వద్ద ప్రచురింపబడినది",
+    "@sharePageSuccessSubheading": {
+        "description": "Subheading shown on the share page after successful share."
+    },
+    "sharePageSuccessCaption1": "మీ చిత్రం ఈ యు.ఆర్.ఎల్  వద్ద నుండి 30 రోజుల్లో స్వయంగా చెరపబడుతుంది. త్వరగా చెరపవలెను అంటే సంప్రదించండి ",
+    "@sharePageSuccessCaption1": {
+        "description": "First part of the caption shown at the bottom of the share page after successful share."
+    },
+    "sharePageSuccessCaption2": "flutter-photo-booth@google.com",
+    "@sharePageSuccessCaption2": {
+        "description": "Second part of the caption shown at the bottom of the share page after successful share."
+    },
+    "sharePageSuccessCaption3": " మీ ఏకైక  యు.ఆర్.ఎల్ ని చేర్చడం మరవకండి.",
+    "@sharePageSuccessCaption3": {
+        "description": "Third part of the caption shown at the bottom of the share page after successful share."
+    },
+    "sharePageRetakeButtonText": "కొత్త చిత్రం తీయుము",
+    "@sharePageRetakeButtonText": {
+        "description": "Button text shown on the share page which navigates back to the photo booth."
+    },
+    "sharePageShareButtonText": "పంచుము",
+    "@sharePageShareButtonText": {
+        "description": "Button text shown on the share page which opens a dialog to share the taken photo."
+    },
+    "sharePageDownloadButtonText": "డౌన్లోడ్",
+    "@sharePageDownloadButtonText": {
+        "description": "Button text shown on the share page which downloads the taken photo."
+    },
+    "socialMediaShareLinkText": "ఇప్పుడే #IOPhotoBooth వద్ద  ఒక సెల్ఫీ  తీసుకున్నా.  #GoogleIO లో కలుద్దాం!",
+    "@socialMediaShareLinkText": {
+        "description": "Text that is put into the social media share URL link."
+    },
+    "previewPageCameraNotAllowedText": "మీరు అనుమతి తిరస్కరించారు. అప్ ని ఉపయోగించాలి అంటే అనుమతి ఇవ్వండి",
+    "@previewPageCameraNotAllowedText": {
+        "description": "Text shown when user denies camera permission"
+    },
+    "sharePageSocialMediaShareClarification1": "సోషల్ మీడియాపై మీ చిత్రాన్ని  పంచుకోవాలి అంటే , మీ చిత్రం ఒక ఏకైక  యు.ఆర్.ఎల్  వద్ద నుండి 30 రోజులు ఉండును, ఆ తర్వాత స్వయంగా చెరపబడుతుంది. త్వరగా చెరపవలెను అంటే సంప్రదించండి ",
+    "@sharePageSocialMediaShareClarification1": {
+        "description": "First part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    },
+    "sharePageSocialMediaShareClarification2": "flutter-photo-booth@google.com",
+    "@sharePageSocialMediaShareClarification2": {
+        "description": "Second part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    },
+    "sharePageSocialMediaShareClarification3": " మీ ఏకైక  యు.ఆర్.ఎల్ ని చేర్చడం మరవకండి.",
+    "@sharePageSocialMediaShareClarification3": {
+        "description": "Third part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
+    },
+    "sharePageCopyLinkButton": "కాపీ",
+    "@sharePageCopyLinkButton": {
+        "description": "Title of the button used to copy the share link."
+    },
+    "sharePageLinkedCopiedButton": "కాపీ అయ్యింది",
+    "@sharePageLinkedCopiedButton": {
+        "description": "Title of the button used to indicate that the link has been copied."
+    },
+    "sharePageErrorHeading": "మీ చిత్రాన్ని ప్రాసెస్ చెయ్యడంలో మాకు ఇబ్బందులు వస్తున్నాయి",
+    "@sharePageErrorHeading": {
+        "description": "Heading shown on the share page when an error occurs."
+    },
+    "sharePageErrorSubheading": "మీ డివైస్ మరియు బ్రౌసర్ తాజాగా ఉన్నట్టు చూసుకోండి. ఈ ఇబ్బంది కొనసాగితే flutter-photo-booth@google.com ను సంప్రదించండి.",
+    "@sharePageErrorSubheading": {
+        "description": "Subheading shown on the share page when an error occurs."
+    },
+    "shareDialogHeading": "మీ చిత్రాన్ని పంచుకోండి!",
+    "@shareDialogHeading": {
+        "description": "Heading shown on the share dialog."
+    },
+    "shareDialogSubheading": "ఈవెంట్ జరుగుతున్నప్పుడు మీ చిత్రాన్ని పంచుకొని మరియు మీ ప్రొఫైల్ చిత్రాన్ని మార్చుకొని, మీరు గూగుల్ ఐ\u2215ఓ వద్ద ఉన్నట్టు అందరికి తెలియచేయండి!",
+    "@shareDialogSubheading": {
+        "description": "Subheading shown on the share dialog."
+    },
+    "shareErrorDialogHeading": "అయ్యాయో!",
+    "@shareErrorDialogHeading": {
+        "description": "Heading shown on the share error dialog."
+    },
+    "shareErrorDialogTryAgainButton": "వెనుకకు వెళ్ళండి",
+    "@shareErrorDialogTryAgainButton": {
+        "description": "Title of the button displayed on the share error dialog used to retry the upload operation."
+    },
+    "shareErrorDialogSubheading": "ఎదో తప్పు జరిగినందువల్ల మీ చిత్రాన్ని లోడ్ చెయ్యలేకపోతున్నాం.",
+    "@shareErrorDialogSubheading": {
+        "description": "Subheading shown on the share error dialog."
+    },
+    "sharePageProgressOverlayHeading": "మీ చిత్రాన్ని ఫ్లట్టర్తో పిక్సెల్ పర్ఫెక్ట్ చేస్తున్నాం! ",
+    "@sharePageProgressOverlayHeading": {
+        "description": "Heading shown on the share page progress overlay."
+    },
+    "sharePageProgressOverlaySubheading": "ఈ ట్యాబ్ను మూయవద్దు.",
+    "@sharePageProgressOverlaySubheading": {
+        "description": "Subheading shown on the share page progress overlay."
+    },
+    "shareDialogTwitterButtonText": "ట్విట్టర్",
+    "@shareDialogTwitterButtonText": {
+        "description": "Button text shown on the share dialog which shares on Twitter the photo."
+    },
+    "shareDialogFacebookButtonText": "ఫేస్బుక్",
+    "@shareDialogFacebookButtonText": {
+        "description": "Button text shown on the share dialog which shares on Facebook the photo."
+    },
+    "photoBoothCameraAccessDeniedHeadline": "కెమెరా అనుమతి తిరస్కరించబడినది",
+    "@photoBoothCameraAccessDeniedHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
+    },
+    "photoBoothCameraAccessDeniedSubheadline": "చిత్రాన్ని తీయాలంటే బ్రౌసర్కి కెమెరా అనుమతి ఇవ్వవలెను.",
+    "@photoBoothCameraAccessDeniedSubheadline": {
+        "description": "Text displayed on subheadline on the photobooth page when camera permissions is not granted"
+    },
+    "photoBoothCameraNotFoundHeadline": "కెమెరా ని కనిబెట్టలేకపోతున్నాము",
+    "@photoBoothCameraNotFoundHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera is not found"
+    },
+    "photoBoothCameraNotFoundSubheadline1": "మీ డెవిస్లో కెమెరా లేనట్టు లేక పనిచేయడం లేనట్లు ఉంది.",
+    "@photoBoothCameraNotFoundSubheadline1": {
+        "description": "Text displayed on the first subheadline on the photobooth page when camera is not found"
+    },
+    "photoBoothCameraNotFoundSubheadline2": "చిత్రం తీయాలంటే ఐ\u2215ఓ ఫోటో బూత్ను కెమెరా ఉన్న డివైస్ నుండి సందర్శించండి",
+    "@photoBoothCameraNotFoundSubheadline2": {
+        "description": "Text displayed on the second subheadline on the photobooth page when camera is not found"
+    },
+    "photoBoothCameraErrorHeadline": "అయ్యాయో! ఎదో పొరపాటు జరిగింది.",
+    "@photoBoothCameraErrorHeadline": {
+        "description": "Text displayed on headline on the photobooth page when unknown error occurs"
+    },
+    "photoBoothCameraErrorSubheadline1": "మీ బ్రౌజర్ను రిఫ్రెష్ చేసి మల్లి ప్రయత్నించండి.",
+    "@photoBoothCameraErrorSubheadline1": {
+        "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
+    },
+    "photoBoothCameraErrorSubheadline2": "ఈ ఇబ్బంది కొనసాగినట్లైతే flutter-photo-booth@google.com ను సంప్రదించండి.",
+    "@photoBoothCameraErrorSubheadline2": {
+        "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
+    },
+    "photoBoothCameraNotSupportedHeadline": "అయ్యాయో! ఎదో పొరపాటు జరిగింది.",
+    "@photoBoothCameraNotSupportedHeadline": {
+        "description": "Text displayed on headline on the photobooth page when camera is not supported"
+    },
+    "photoBoothCameraNotSupportedSubheadline": "మీ డివైస్ మరియు బ్రౌసర్ తాజాగా ఉన్నట్టు చూసుకోండి.",
+    "@photoBoothCameraNotSupportedSubheadline": {
+        "description": "Text displayed on subheadline on the photobooth page when camera is not supported"
+    },
+    "stickersDrawerTitle": "ప్రాప్స్ ను జోడించండి",
+    "@stickersDrawerTitle": {
+        "description": "Text displayed on the stickers drawer as title"
+    },
+    "openStickersTooltip": "ప్రాప్స్ ను జోడించండి",
+    "@openStickersTooltip": {
+        "description": "Text displayed on the tooltip for the open stickers button"
+    },
+    "retakeButtonTooltip": "మళ్ళీ తీయండి",
+    "@retakeButtonTooltip": {
+        "description": "Text displayed on the tooltip for the retake button"
+    },
+    "clearStickersButtonTooltip": "ప్రాప్స్ ను తీసేయండి",
+    "@clearStickersButtonTooltip": {
+        "description": "Text displayed on the tooltip for the clear stickers button"
+    },
+    "charactersCaptionText": "స్నేహితులను కలపండి",
+    "@charactersCaptionText": {
+        "description": "Text displayed as a caption on the characters layout"
+    },
+    "sharePageLearnMoreAboutTextPart1": "ఇంకా తెలుసుకోండి ",
+    "@sharePageLearnMoreAboutTextPart1": {
+        "description": "Part 1 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart2": " మరియు ",
+    "@sharePageLearnMoreAboutTextPart2": {
+        "description": "Part 2 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart3": "  లేదా నేరుగా దూకండి ",
+    "@sharePageLearnMoreAboutTextPart3": {
+        "description": "Part 3 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "sharePageLearnMoreAboutTextPart4": "ఓపెన్ సోర్స్ కోడ్",
+    "@sharePageLearnMoreAboutTextPart4": {
+        "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
+    },
+    "goToGoogleIOButtonText": "గూగుల్ ఐ\u2215ఓ కి వెళ్ళండి",
+    "@goToGoogleIOButtonText": {
+        "description": "Text displayed on the button to navigate to Google I\u2215O"
+    },
+    "clearStickersDialogHeading": "అన్ని ప్రాప్స్ ను తొలగించాలా?",
+    "@clearStickersDialogHeading": {
+        "description": "Heading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogSubheading": "స్క్రీన్ పైనుండి అన్ని   ప్రాప్స్ ను తొలగించాలి అనుకుంటున్నారా?",
+    "@clearStickersDialogSubheading": {
+        "description": "Subheading displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogCancelButtonText": "వద్దు,వెనుకకు తీసుకెళ్లండి",
+    "@clearStickersDialogCancelButtonText": {
+        "description": "Cancel button text displayed on the clear stickers dialog"
+    },
+    "clearStickersDialogConfirmButtonText": "అవును,తొలగించండి",
+    "@clearStickersDialogConfirmButtonText": {
+        "description": "Confirm button text displayed on the clear stickers dialog"
+    },
+    "propsReminderText": "కొన్ని ప్రాప్స్ ను జోడించండి",
+    "@propsReminderText": {
+        "description": "Helper text to add props"
+    },
+    "stickersNextConfirmationHeading": "చివరి చిత్రం చూడటానికి సిద్ధంగా ఉన్నారా?",
+    "@stickersNextConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationSubheading": "ఈ స్క్రీన్ ను విడిస్తే మళ్ళీ ఏ రకమైన మార్పులు చెయ్యలేరు",
+    "@stickersNextConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationCancelButtonText": "లేదు, నేను ఇంకా తయారుచేస్తున్నాను",
+    "@stickersNextConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the next button"
+    },
+    "stickersNextConfirmationConfirmButtonText": "అవును, చూపించండి",
+    "@stickersNextConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the next button"
+    },
+    "stickersRetakeConfirmationHeading": "మీరు ఖచ్చితంగా ఉన్నారా ?",
+    "@stickersRetakeConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationSubheading": "చిత్రాన్ని మళ్ళీ తీస్తే మీరు జోడించిన ప్రాప్స్ పోతాయి",
+    "@stickersRetakeConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationCancelButtonText": "వద్దు, ఇక్కడే ఉండండి",
+    "@stickersRetakeConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the retake button"
+    },
+    "stickersRetakeConfirmationConfirmButtonText": "అవును, చిత్రం మళ్ళీ తీయండి",
+    "@stickersRetakeConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationHeading": "కొత్త చిత్రం తీయటానికి సిద్ధంగా ఉన్నారా?",
+    "@shareRetakeConfirmationHeading": {
+        "description": "Heading shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationSubheading": "ముందు దీనిని డౌన్లోడ్ లేక పంచుకోవడం గుర్తుంచుకోండి",
+    "@shareRetakeConfirmationSubheading": {
+        "description": "Subheading shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationCancelButtonText": "వద్దు, ఇక్కడే ఉండండి",
+    "@shareRetakeConfirmationCancelButtonText": {
+        "description": "Cancel button text shown in the confirmation when user taps the retake button"
+    },
+    "shareRetakeConfirmationConfirmButtonText": "అవును, చిత్రం మళ్ళీ తీయండి",
+    "@shareRetakeConfirmationConfirmButtonText": {
+        "description": "Confirm button text shown in the confirmation when user taps the retake button"
+    },
+    "shutterButtonLabelText": "ఫోటో తీయండి",
+    "@shutterButtonLabelText": {
+        "description": "Semantic label for the shutter button used to take a photo"
+    },
+    "stickersNextButtonLabelText": "చివరి ఫోటో తయారుచేయండి",
+    "@stickersNextButtonLabelText": {
+        "description": "Semantic label for the next button used to proceed to the share page"
+    },
+    "dashButtonLabelText": "డ్యాష్ మిత్రుడిని కలపండి",
+    "@dashButtonLabelText": {
+        "description": "Semantic label for the dash character button"
+    },
+    "sparkyButtonLabelText": "స్పార్కి మిత్రుడిని కలపండి",
+    "@sparkyButtonLabelText": {
+        "description": "Semantic label for the sparky character button"
+    },
+    "dinoButtonLabelText": "డైనో మిత్రుడిని కలపండి",
+    "@dinoButtonLabelText": {
+        "description": "Semantic label for the dino character button"
+    },
+    "androidButtonLabelText": "ఆండ్రాయిడ్ జెట్ప్యాక్ మిత్రుడిని కలపండి",
+    "@androidButtonLabelText": {
+        "description": "Semantic label for the android jetpack character button"
+    },
+    "addStickersButtonLabelText": "ప్రాప్స్ జోడించండి",
+    "@addStickersButtonLabelText": {
+        "description": "Semantic label for the add props button"
+    },
+    "retakePhotoButtonLabelText": "చిత్రాన్ని మళ్ళీ తీయండి",
+    "@retakePhotoButtonLabelText": {
+        "description": "Semantic label for the retake photo button"
+    },
+    "clearAllStickersButtonLabelText": "అన్నీ ప్రాప్స్ ను తొలగించండి",
+    "@clearAllStickersButtonLabelText": {
+        "description": "Semantic label for the clear all stickers button"
+    }
+}
