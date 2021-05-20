@@ -1,343 +1,88 @@
 {
     "@@locale": "vi",
-    "landingPageHeading": "Chào mừng đã đến với tới buồng chụp ảnh I\u2215O",
-    "@landingPageHeading": {
-        "description": "Tiêu đề hiển thị trên trang chủ."
-    },
-    "landingPageSubheading": "Chụp ảnh và chia sẻ với cộng đồng!",
-    "@landingPageSubheading": {
-        "description": "Tiêu đề phụ hiển thị trên trang chủ."
-    },
-    "landingPageTakePhotoButtonText": "Bắt đầu",
-    "@landingPageTakePhotoButtonText": {
-        "description": "Nút hiển thị trên trang chủ chuyển đến buồng chụp ảnh."
-    },
-    "footerMadeWithText": "Làm bởi ",
-    "@footerMadeWithText": {
-        "description": "Văn bản hiển thị trên chân trang đề cập đến các công nghệ được sử dụng để xây dựng ứng dụng."
-    },
-    "footerMadeWithFlutterLinkText": "Flutter",
-    "@footerMadeWithFlutterLinkText": {
-        "description": "Văn bản trên liên kết hiển thị trên chân trang dành cho trang Flutter"
-    },
-    "footerMadeWithFirebaseLinkText": "Firebase",
-    "@footerMadeWithFirebaseLinkText": {
-        "description": "Văn bản trên liên kết được hiển thị trên chân trang để mở trang FireBase"
-    },
-    "footerGoogleIOLinkText": "Google I\u2215O",
-    "@footerGoogleIOLinkText": {
-        "description": "Văn bản trên liên kết hiển thị trên chân trang để mở trang Google I\u2215O."
-    },
-    "footerCodelabLinkText": "Codelab",
-    "@footerCodelabLinkText": {
-        "description": "Văn bản trên liên kết hiển thị trên chân trang để mở trang Codelab."
-    },
-    "footerHowItsMadeLinkText": "Nó được làm như thế nào",
-    "@footerHowItsMadeLinkText": {
-        "description": "Văn bản trên liên kết được hiển thị trên chân trang để mở trang của nó được tạo ra như thế nào."
-    },
-    "footerTermsOfServiceLinkText": "Điều khoản dịch vụ",
-    "@footerTermsOfServiceLinkText": {
-        "description": "Văn bản trên liên kết được hiển thị trên chân trang mở trang điều khoản dịch vụ."
-    },
-    "footerPrivacyPolicyLinkText": "Chính sách bảo mật",
-    "@footerPrivacyPolicyLinkText": {
-        "description": "Văn bản trên liên kết hiển thị trên chân trang mở trang chính sách bảo mật."
-    },
-    "sharePageHeading": "Chia sẻ ảnh của bạn với cộng đồng!",
-    "@sharePageHeading": {
-        "description": "Tiêu đề hiển thị trên trang chia sẻ."
-    },
-    "sharePageSubheading": "Chia sẻ ảnh của bạn với cộng đồng!",
-    "@sharePageSubheading": {
-        "description": "Tiêu đề phụ hiển thị trên trang chia sẻ."
-    },
-    "sharePageSuccessHeading": "Chia sẻ ảnh!",
-    "@sharePageSuccessHeading": {
-        "description": "Tiêu đề hiển thị trên trang chia sẻ sau khi chia sẻ thành công. "
-    },
-    "sharePageSuccessSubheading": "Cảm ơn vì đã sử dụng Flutter web app! Ảnh của bạn đã được xuất bản tại URL này",
-    "@sharePageSuccessSubheading": {
-        "description": "Tiêu đề phụ hiển thị trên trang chia sẻ sau khi chia sẻ thành công."
-    },
-    "sharePageSuccessCaption1": "Ảnh của bạn sẽ có sẵn tại URL trong 30 ngày và sau đó tự động bị xóa. Để yêu cầu xóa sớm ảnh của bạn, vui lòng liên hệ ",
-    "@sharePageSuccessCaption1": {
-        "description": "Phần đầu tiên của chú thích được hiển thị ở dưới cùng của trang chia sẻ sau khi chia sẻ thành công."
-    },
-    "sharePageSuccessCaption2": "flutter-photo-booth@google.com",
-    "@sharePageSuccessCaption2": {
-        "description": "Phần thứ hai của chú thích được hiển thị ở dưới cùng của trang chia sẻ sau khi chia sẻ thành công."
-    },
-    "sharePageSuccessCaption3": " và hãy chắc chắn bao gồm URL duy nhất của bạn trong yêu cầu của bạn.",
-    "@sharePageSuccessCaption3": {
-        "description": "Phần thứ ba của chú thích được hiển thị ở dưới cùng của trang chia sẻ sau khi chia sẻ thành công."
-    },
-    "sharePageRetakeButtonText": "Chụp ảnh mới",
-    "@sharePageRetakeButtonText": {
-        "description": "Nút văn bản hiển thị trên trang chia sẻ để trở lại gian hàng ảnh."
-    },
-    "sharePageShareButtonText": "Chia sẻ",
-    "@sharePageShareButtonText": {
-        "description": "Nút văn bản hiển thị trên trang chia sẻ mở hộp thoại để chia sẻ ảnh chụp."
-    },
-    "sharePageDownloadButtonText": "Tải xuống",
-    "@sharePageDownloadButtonText": {
-        "description": "Nút văn bản hiển thị trên trang chia sẻ tải xuống ảnh chụp."
-    },
-    "socialMediaShareLinkText": "Chỉ cần chụp ảnh tự sướng tại #IOPhotoBooth. Hẹn gặp bạn tại #GoogleIO!",
-    "@socialMediaShareLinkText": {
-        "description": "Văn bản được đưa vào liên kết URL chia sẻ phương tiện truyền thông xã hội."
-    },
-    "previewPageCameraNotAllowedText": "Bạn đã từ chối quyền camera.Vui lòng cấp quyền truy cập để sử dụng ứng dụng.",
-    "@previewPageCameraNotAllowedText": {
-        "description": "Văn bản hiển thị khi người dùng từ chối quyền camera"
-    },
-    "sharePageSocialMediaShareClarification1": "Nếu bạn chọn chia sẻ ảnh của mình trên phương tiện truyền thông xã hội, nó sẽ có sẵn tại một URL duy nhất trong 30 ngày và sau đó tự động bị xóa. Ảnh không được chia sẻ, không được lưu trữ. Để yêu cầu xóa sớm ảnh của bạn, vui lòng liên hệ ",
-    "@sharePageSocialMediaShareClarification1": {
-        "description": "Phần đầu tiên của văn bản được hiển thị ở dưới cùng của trang chia sẻ làm rõ cách các hình ảnh được lưu trữ trên phần phụ trợ khi được chia sẻ trên mạng xã hội"
-    },
-    "sharePageSocialMediaShareClarification2": "flutter-photo-booth@google.com",
-    "@sharePageSocialMediaShareClarification2": {
-        "description": "Phần thứ hai của văn bản hiển thị ở dưới cùng của trang chia sẻ làm rõ cách các hình ảnh được lưu trữ trên phần phụ trợ khi được chia sẻ trên mạng xã hội"
-    },
-    "sharePageSocialMediaShareClarification3": " và hãy chắc chắn bao gồm URL duy nhất của bạn trong yêu cầu của bạn.",
-    "@sharePageSocialMediaShareClarification3": {
-        "description": "Phần thứ ba của văn bản được hiển thị ở dưới cùng của trang chia sẻ làm rõ cách các hình ảnh được lưu trữ trên phần phụ trợ khi được chia sẻ trên mạng xã hội"
-    },
-    "sharePageCopyLinkButton": "Sao chép",
-    "@sharePageCopyLinkButton": {
-        "description": "Tiêu đề của nút được sử dụng để sao chép liên kết chia sẻ."
-    },
-    "sharePageLinkedCopiedButton": "Đã sao chép.",
-    "@sharePageLinkedCopiedButton": {
-        "description": "Tiêu đề của nút được sử dụng để chỉ ra rằng liên kết đã được sao chép."
-    },
-    "sharePageErrorHeading": "Chúng tôi đang gặp sự cố khi xử lý hình ảnh của bạn",
-    "@sharePageErrorHeading": {
-        "description": "Tiêu đề hiển thị trên trang chia sẻ khi xảy ra lỗi."
-    },
-    "sharePageErrorSubheading": "Vui lòng đảm bảo thiết bị và trình duyệt của bạn được cập nhật. Nếu vấn đề này vẫn còn, xin vui lòng liên hệ flutter-photo-booth@google.com.",
-    "@sharePageErrorSubheading": {
-        "description": "Tiêu đề phụ hiển thị trên trang chia sẻ khi xảy ra lỗi."
-    },
-    "shareDialogHeading": "Chia sẻ ảnh của bạn!",
-    "@shareDialogHeading": {
-        "description": "Tiêu đề hiển thị trên hộp thoại chia sẻ."
-    },
-    "shareDialogSubheading": "Hãy để mọi người biết bạn đang ở Google I\u2215O bằng cách chia sẻ ảnh của bạn và cập nhật ảnh hồ sơ của bạn trong sự kiện!",
-    "@shareDialogSubheading": {
-        "description": "Tiêu đề phụ hiển thị trên hộp thoại chia sẻ."
-    },
-    "shareErrorDialogHeading": "Oops!",
-    "@shareErrorDialogHeading": {
-        "description": "Tiêu đề trên hộp thoại chia sẻ lỗi."
-    },
-    "shareErrorDialogTryAgainButton": "Quay lại",
-    "@shareErrorDialogTryAgainButton": {
-        "description": "Tiêu đề của nút được hiển thị trên hộp thoại lỗi chia sẻ được sử dụng để thử lại thao tác tải lên."
-    },
-    "shareErrorDialogSubheading": "Một cái gì đó đã sai và chúng tôi không thể tải ảnh của bạn.",
-    "@shareErrorDialogSubheading": {
-        "description": "Tiêu đề phụ trên hộp thoại lỗi chia sẻ."
-    },
-    "sharePageProgressOverlayHeading": "Chúng tôi đang làm cho pixel ảnh của bạn hoàn hảo với Flutter!",
-    "@sharePageProgressOverlayHeading": {
-        "description": "Tiêu đề trên lớp phủ tiến trình trang chia sẻ."
-    },
-    "sharePageProgressOverlaySubheading": "Xin vui lòng không đóng tab này.",
-    "@sharePageProgressOverlaySubheading": {
-        "description": "Tiêu đề mô tả hiển thị trên lớp chia sẻ Tiến trình Overlay."
-    },
-    "shareDialogTwitterButtonText": "Twitter.",
-    "@shareDialogTwitterButtonText": {
-        "description": "Văn bản nút hiển thị trên hộp thoại chia sẻ chia sẻ trên Twitter."
-    },
-    "shareDialogFacebookButtonText": "Facebook",
-    "@shareDialogFacebookButtonText": {
-        "description": "Văn bản nút hiển thị trên hộp thoại chia sẻ chia sẻ trên Facebook."
-    },
-    "photoBoothCameraAccessDeniedHeadline": "Truy cập camera bị từ chối",
-    "@photoBoothCameraAccessDeniedHeadline": {
-        "description": "Văn bản hiển thị trên tiêu đề trên trang Buồng chụp ảnh khi các quyền của Camera không được cấp"
-    },
-    "photoBoothCameraAccessDeniedSubheadline": "Để chụp ảnh, bạn phải cho phép trình duyệt truy cập vào máy ảnh của bạn.",
-    "@photoBoothCameraAccessDeniedSubheadline": {
-        "description": "Văn bản hiển thị trên tiêu đề phụ trên trang Buồng chụp ảnh khi các quyền của máy ảnh không được cấp"
-    },
-    "photoBoothCameraNotFoundHeadline": "Chúng tôi không thể tìm thấy máy ảnh của bạn",
-    "@photoBoothCameraNotFoundHeadline": {
-        "description": "Văn bản hiển thị trên tiêu đề trên trang Buồng chụp ảnh khi không tìm thấy máy ảnh"
-    },
-    "photoBoothCameraNotFoundSubheadline1": "Có vẻ như thiết bị của bạn không có máy ảnh hoặc nó không hoạt động.",
-    "@photoBoothCameraNotFoundSubheadline1": {
-        "description": "Văn bản được hiển thị trên tiêu đề phụ đầu tiên trên trang Buồng chụp ảnh khi không tìm thấy máy ảnh"
-    },
-    "photoBoothCameraNotFoundSubheadline2": "Để chụp ảnh, xin vui lòng truy cập buồng chụp ảnh I\u2215O từ một thiết bị có camera.",
-    "@photoBoothCameraNotFoundSubheadline2": {
-        "description": "Văn bản hiển thị trên tiêu đề phụ thứ hai trên trang Buồng chụp ảnh khi không tìm thấy máy ảnh"
-    },
-    "photoBoothCameraErrorHeadline": "Oops! Đã xảy ra lỗi",
-    "@photoBoothCameraErrorHeadline": {
-        "description": "Văn bản hiển thị trên tiêu đề trên trang Buồng chụp ảnh khi xảy ra lỗi không xác định"
-    },
-    "photoBoothCameraErrorSubheadline1": "Vui lòng làm mới trình duyệt của bạn và thử lại.",
-    "@photoBoothCameraErrorSubheadline1": {
-        "description": "Văn bản hiển thị trên tiêu đề phụ đầu tiên trên trang Buồng chụp ảnh khi xảy ra lỗi không xác định"
-    },
-    "photoBoothCameraErrorSubheadline2": "Nếu vấn đề này vẫn còn, xin vui lòng liên hệ flutter-photo-booth@google.com",
-    "@photoBoothCameraErrorSubheadline2": {
-        "description": "Văn bản được hiển thị trên tiêu đề phụ thứ hai trên trang Buồng chụp ảnh khi xảy ra lỗi không xác địnhs"
-    },
-    "photoBoothCameraNotSupportedHeadline": "Oops! Đã xảy ra lỗi",
-    "@photoBoothCameraNotSupportedHeadline": {
-        "description": "Văn bản hiển thị trên tiêu đề trên trang Buồng chụp ảnh khi máy ảnh không được hỗ trợ"
-    },
-    "photoBoothCameraNotSupportedSubheadline": "Vui lòng đảm bảo thiết bị và trình duyệt của bạn được cập nhật.",
-    "@photoBoothCameraNotSupportedSubheadline": {
-        "description": "Văn bản hiển thị trên tiêu đề phụ trên trang Buồng chụp ảnh khi máy ảnh không được hỗ trợ"
-    },
-    "stickersDrawerTitle": "Thêm sticker",
-    "@stickersDrawerTitle": {
-        "description": "Văn bản hiển thị trên ngăn kéo dán dưới dạng tiêu đề"
-    },
-    "openStickersTooltip": "Thêm sticker",
-    "@openStickersTooltip": {
-        "description": "Văn bản hiển thị trên Tooltip cho nút dán mở"
-    },
-    "retakeButtonTooltip": "Chụp lại",
-    "@retakeButtonTooltip": {
-        "description": "Văn bản hiển thị trên Tooltip cho nút chụp ảnh lại"
-    },
-    "clearStickersButtonTooltip": "Xoá sticker",
-    "@clearStickersButtonTooltip": {
-        "description": "Văn bản hiển thị trên Tooltip cho nut xoá sticker"
-    },
-    "charactersCaptionText": "Thêm bạn bè",
-    "@charactersCaptionText": {
-        "description": "Văn bản được hiển thị dưới dạng chú thích trên bố cục ký tự"
-    },
-    "sharePageLearnMoreAboutTextPart1": "Học nhiều hơn về ",
-    "@sharePageLearnMoreAboutTextPart1": {
-        "description": "Phần 1 Văn bản hiển thị trên trang chia sẻ đề cập đến các công nghệ được sử dụng để xây dựng ứng dụng."
-    },
-    "sharePageLearnMoreAboutTextPart2": " và ",
-    "@sharePageLearnMoreAboutTextPart2": {
-        "description": "Phần 2 Văn bản hiển thị trên trang chia sẻ đề cập đến các công nghệ được sử dụng để xây dựng ứng dụng."
-    },
-    "sharePageLearnMoreAboutTextPart3": " hoặc lặn ngay vào ",
-    "@sharePageLearnMoreAboutTextPart3": {
-        "description": "Phần 3 Văn bản hiển thị trên trang chia sẻ đề cập đến các công nghệ được sử dụng để xây dựng ứng dụng."
-    },
-    "sharePageLearnMoreAboutTextPart4": "open source code",
-    "@sharePageLearnMoreAboutTextPart4": {
-        "description": "Phần 4 Văn bản hiển thị trên trang chia sẻ đề cập đến các công nghệ được sử dụng để xây dựng ứng dụng."
-    },
-    "goToGoogleIOButtonText": "Đi đến Google I\u2215O",
-    "@goToGoogleIOButtonText": {
-        "description": "Văn bản hiển thị trên nút để mở Google I\u2215O"
-    },
-    "clearStickersDialogHeading": "Xóa tất cả các sticker?",
-    "@clearStickersDialogHeading": {
-        "description": "Nhóm được hiển thị trên hộp thoại xoá sticker"
-    },
-    "clearStickersDialogSubheading": "Bạn có muốn loại bỏ tất cả các sticker ra khỏi màn hình?",
-    "@clearStickersDialogSubheading": {
-        "description": "Mô tả hiển thị trên hộp thoại xoá sticker"
-    },
-    "clearStickersDialogCancelButtonText": "Không, đưa tôi về",
-    "@clearStickersDialogCancelButtonText": {
-        "description": "Hủy văn bản nút hiển thị trên hộp thoại xoá sticker"
-    },
-    "clearStickersDialogConfirmButtonText": "Vâng, xóa tất cả các sticker",
-    "@clearStickersDialogConfirmButtonText": {
-        "description": "Xác nhận văn bản nút được hiển thị trên hộp thoại xoá sticker"
-    },
-    "propsReminderText": "Thêm một số sticker",
-    "@propsReminderText": {
-        "description": "Văn bản trợ giúp để thêm sticker"
-    },
-    "stickersNextConfirmationHeading": "Sẵn sàng để xem ảnh cuối cùng?",
-    "@stickersNextConfirmationHeading": {
-        "description": "Nhóm được hiển thị trong xác nhận khi người dùng nhấn nút tiếp theo"
-    },
-    "stickersNextConfirmationSubheading": "Khi bạn rời khỏi màn hình này, bạn sẽ không thể thực hiện bất kỳ thay đổi nào",
-    "@stickersNextConfirmationSubheading": {
-        "description": "Mô tả được hiển thị trong xác nhận khi người dùng nhấn nút tiếp theo"
-    },
-    "stickersNextConfirmationCancelButtonText": "Không, tôi vẫn đang tạo ra",
-    "@stickersNextConfirmationCancelButtonText": {
-        "description": "Hủy văn bản nút hiển thị trong xác nhận khi người dùng nhấn nút tiếp theo"
-    },
-    "stickersNextConfirmationConfirmButtonText": "Vâng, hãy cho tôi xem",
-    "@stickersNextConfirmationConfirmButtonText": {
-        "description": "Xác nhận nút văn bản hiển thị trong xác nhận khi người dùng nhấn nút tiếp theo"
-    },
-    "stickersRetakeConfirmationHeading": "Bạn có chắc không?",
-    "@stickersRetakeConfirmationHeading": {
-        "description": "Nhóm được hiển thị trong xác nhận khi người dùng chạm vào nút chụp ảnh lại"
-    },
-    "stickersRetakeConfirmationSubheading": "Lấy lại ảnh sẽ loại bỏ bất kỳ sticker nào bạn đã thêm",
-    "@stickersRetakeConfirmationSubheading": {
-        "description": "Mô tả được hiển thị trong xác nhận khi người dùng nhấn nút kiểm tra"
-    },
-    "stickersRetakeConfirmationCancelButtonText": "Không, ở lại đây",
-    "@stickersRetakeConfirmationCancelButtonText": {
-        "description": "Hủy văn bản nút được hiển thị trong xác nhận khi người dùng nhấn nút chụp ảnh lại"
-    },
-    "stickersRetakeConfirmationConfirmButtonText": "Có, phát lại ảnh",
-    "@stickersRetakeConfirmationConfirmButtonText": {
-        "description": "Xác nhận văn bản nút được hiển thị trong xác nhận khi người dùng chạm vào nút chụp ảnh lại"
-    },
-    "shareRetakeConfirmationHeading": "Sẵn sàng để chụp ảnh mới?",
-    "@shareRetakeConfirmationHeading": {
-        "description": "Nhóm được hiển thị trong xác nhận khi người dùng chạm vào nút chụp ảnh lại"
-    },
-    "shareRetakeConfirmationSubheading": "Hãy nhớ tải về hoặc chia sẻ ảnh",
-    "@shareRetakeConfirmationSubheading": {
-        "description": "Mô tả được hiển thị trong xác nhận khi người dùng nhấn nút kiểm tra"
-    },
-    "shareRetakeConfirmationCancelButtonText": "Không, ở lại đây",
-    "@shareRetakeConfirmationCancelButtonText": {
-        "description": "Hủy văn bản nút được hiển thị trong xác nhận khi người dùng nhấn nút KIDOKE"
-    },
-    "shareRetakeConfirmationConfirmButtonText": "Có, chụp ảnh lại",
-    "@shareRetakeConfirmationConfirmButtonText": {
-        "description": "Xác nhận văn bản nút được hiển thị trong xác nhận khi người dùng chạm vào nút Chụp ảnh lại"
-    },
-    "shutterButtonLabelText": "Chụp hình",
-    "@shutterButtonLabelText": {
-        "description": "Mô tả cho nút chụp được sử dụng để chụp ảnh"
-    },
-    "stickersNextButtonLabelText": "Tạo ảnh cuối cùng",
-    "@stickersNextButtonLabelText": {
-        "description": "Mô tả cho nút tiếp theo được sử dụng để tiến hành trang chia sẻ"
-    },
-    "dashButtonLabelText": "Thêm bạn Dash.",
-    "@dashButtonLabelText": {
-        "description": "Mô tả cho nút ký tự dash"
-    },
-    "sparkyButtonLabelText": "Thêm bạn Sparky",
-    "@sparkyButtonLabelText": {
-        "description": "Mô tả cho nút ký tự Sparky"
-    },
-    "dinoButtonLabelText": "Thêm bạn Dino",
-    "@dinoButtonLabelText": {
-        "description": "Mô tả cho nút Dino"
-    },
-    "androidButtonLabelText": "Thêm bạn Jetpack Android",
-    "@androidButtonLabelText": {
-        "description": "Mô tả cho nút Android Jetpack"
-    },
-    "addStickersButtonLabelText": "Thêm sticker",
-    "@addStickersButtonLabelText": {
-        "description": "Mô tả cho nút thêm sticker"
-    },
-    "retakePhotoButtonLabelText": "Chụp lại ảnh",
-    "@retakePhotoButtonLabelText": {
-        "description": "Mô tả cho nút chụp ảnh lại"
-    },
-    "clearAllStickersButtonLabelText": "Xóa tất cả các sticker",
-    "@clearAllStickersButtonLabelText": {
-        "description": "Mô tả cho nút xóa tất cả sticker"
-    }
+    "landingPageHeading": "Chào mừng đã đến với tới buồng chụp ảnh I∕O",    
+    "landingPageSubheading": "Chụp ảnh và chia sẻ với cộng đồng!",    
+    "landingPageTakePhotoButtonText": "Bắt đầu",    
+    "footerMadeWithText": "Làm bởi ",    
+    "footerMadeWithFlutterLinkText": "Flutter",    
+    "footerMadeWithFirebaseLinkText": "Firebase",    
+    "footerGoogleIOLinkText": "Google I∕O",    
+    "footerCodelabLinkText": "Codelab",    
+    "footerHowItsMadeLinkText": "Nó được làm như thế nào",    
+    "footerTermsOfServiceLinkText": "Điều khoản dịch vụ",    
+    "footerPrivacyPolicyLinkText": "Chính sách bảo mật",    
+    "sharePageHeading": "Chia sẻ ảnh của bạn với cộng đồng!",    
+    "sharePageSubheading": "Chia sẻ ảnh của bạn với cộng đồng!",    
+    "sharePageSuccessHeading": "Chia sẻ ảnh!",    
+    "sharePageSuccessSubheading": "Cảm ơn vì đã sử dụng Flutter web app! Ảnh của bạn đã được xuất bản tại URL này",    
+    "sharePageSuccessCaption1": "Ảnh của bạn sẽ có sẵn tại URL trong 30 ngày và sau đó tự động bị xóa. Để yêu cầu xóa sớm ảnh của bạn, vui lòng liên hệ ",    
+    "sharePageSuccessCaption2": "flutter-photo-booth@google.com",    
+    "sharePageSuccessCaption3": " và hãy chắc chắn bao gồm URL duy nhất của bạn trong yêu cầu của bạn.",    
+    "sharePageRetakeButtonText": "Chụp ảnh mới",    
+    "sharePageShareButtonText": "Chia sẻ",    
+    "sharePageDownloadButtonText": "Tải xuống",    
+    "socialMediaShareLinkText": "Chỉ cần chụp ảnh tự sướng tại #IOPhotoBooth. Hẹn gặp bạn tại #GoogleIO!",    
+    "previewPageCameraNotAllowedText": "Bạn đã từ chối quyền camera.Vui lòng cấp quyền truy cập để sử dụng ứng dụng.",    
+    "sharePageSocialMediaShareClarification1": "Nếu bạn chọn chia sẻ ảnh của mình trên phương tiện truyền thông xã hội, nó sẽ có sẵn tại một URL duy nhất trong 30 ngày và sau đó tự động bị xóa. Ảnh không được chia sẻ, không được lưu trữ. Để yêu cầu xóa sớm ảnh của bạn, vui lòng liên hệ ",    
+    "sharePageSocialMediaShareClarification2": "flutter-photo-booth@google.com",    
+    "sharePageSocialMediaShareClarification3": " và hãy chắc chắn bao gồm URL duy nhất của bạn trong yêu cầu của bạn.",    
+    "sharePageCopyLinkButton": "Sao chép",    
+    "sharePageLinkedCopiedButton": "Đã sao chép.",    
+    "sharePageErrorHeading": "Chúng tôi đang gặp sự cố khi xử lý hình ảnh của bạn",    
+    "sharePageErrorSubheading": "Vui lòng đảm bảo thiết bị và trình duyệt của bạn được cập nhật. Nếu vấn đề này vẫn còn, xin vui lòng liên hệ flutter-photo-booth@google.com.",    
+    "shareDialogHeading": "Chia sẻ ảnh của bạn!",    
+    "shareDialogSubheading": "Hãy để mọi người biết bạn đang ở Google I∕O bằng cách chia sẻ ảnh của bạn và cập nhật ảnh hồ sơ của bạn trong sự kiện!",    
+    "shareErrorDialogHeading": "Oops!",    
+    "shareErrorDialogTryAgainButton": "Quay lại",    
+    "shareErrorDialogSubheading": "Một cái gì đó đã sai và chúng tôi không thể tải ảnh của bạn.",    
+    "sharePageProgressOverlayHeading": "Chúng tôi đang làm cho pixel ảnh của bạn hoàn hảo với Flutter!",    
+    "sharePageProgressOverlaySubheading": "Xin vui lòng không đóng tab này.",    
+    "shareDialogTwitterButtonText": "Twitter.",    
+    "shareDialogFacebookButtonText": "Facebook",    
+    "photoBoothCameraAccessDeniedHeadline": "Truy cập camera bị từ chối",    
+    "photoBoothCameraAccessDeniedSubheadline": "Để chụp ảnh, bạn phải cho phép trình duyệt truy cập vào máy ảnh của bạn.",    
+    "photoBoothCameraNotFoundHeadline": "Chúng tôi không thể tìm thấy máy ảnh của bạn",    
+    "photoBoothCameraNotFoundSubheadline1": "Có vẻ như thiết bị của bạn không có máy ảnh hoặc nó không hoạt động.",    
+    "photoBoothCameraNotFoundSubheadline2": "Để chụp ảnh, xin vui lòng truy cập buồng chụp ảnh I∕O từ một thiết bị có camera.",    
+    "photoBoothCameraErrorHeadline": "Oops! Đã xảy ra lỗi",    
+    "photoBoothCameraErrorSubheadline1": "Vui lòng làm mới trình duyệt của bạn và thử lại.",    
+    "photoBoothCameraErrorSubheadline2": "Nếu vấn đề này vẫn còn, xin vui lòng liên hệ flutter-photo-booth@google.com",    
+    "photoBoothCameraNotSupportedHeadline": "Oops! Đã xảy ra lỗi",    
+    "photoBoothCameraNotSupportedSubheadline": "Vui lòng đảm bảo thiết bị và trình duyệt của bạn được cập nhật.",    
+    "stickersDrawerTitle": "Thêm sticker",    
+    "openStickersTooltip": "Thêm sticker",    
+    "retakeButtonTooltip": "Chụp lại",    
+    "clearStickersButtonTooltip": "Xoá sticker",    
+    "charactersCaptionText": "Thêm bạn bè",    
+    "sharePageLearnMoreAboutTextPart1": "Học nhiều hơn về ",    
+    "sharePageLearnMoreAboutTextPart2": " và ",    
+    "sharePageLearnMoreAboutTextPart3": " hoặc lặn ngay vào ",    
+    "sharePageLearnMoreAboutTextPart4": "open source code",    
+    "goToGoogleIOButtonText": "Đi đến Google I∕O",    
+    "clearStickersDialogHeading": "Xóa tất cả các sticker?",    
+    "clearStickersDialogSubheading": "Bạn có muốn loại bỏ tất cả các sticker ra khỏi màn hình?",    
+    "clearStickersDialogCancelButtonText": "Không, đưa tôi về",    
+    "clearStickersDialogConfirmButtonText": "Vâng, xóa tất cả các sticker",    
+    "propsReminderText": "Thêm một số sticker",    
+    "stickersNextConfirmationHeading": "Sẵn sàng để xem ảnh cuối cùng?",    
+    "stickersNextConfirmationSubheading": "Khi bạn rời khỏi màn hình này, bạn sẽ không thể thực hiện bất kỳ thay đổi nào",    
+    "stickersNextConfirmationCancelButtonText": "Không, tôi vẫn đang tạo ra",    
+    "stickersNextConfirmationConfirmButtonText": "Vâng, hãy cho tôi xem",    
+    "stickersRetakeConfirmationHeading": "Bạn có chắc không?",    
+    "stickersRetakeConfirmationSubheading": "Lấy lại ảnh sẽ loại bỏ bất kỳ sticker nào bạn đã thêm",    
+    "stickersRetakeConfirmationCancelButtonText": "Không, ở lại đây",    
+    "stickersRetakeConfirmationConfirmButtonText": "Có, phát lại ảnh",    
+    "shareRetakeConfirmationHeading": "Sẵn sàng để chụp ảnh mới?",    
+    "shareRetakeConfirmationSubheading": "Hãy nhớ tải về hoặc chia sẻ ảnh",    
+    "shareRetakeConfirmationCancelButtonText": "Không, ở lại đây",    
+    "shareRetakeConfirmationConfirmButtonText": "Có, chụp ảnh lại",    
+    "shutterButtonLabelText": "Chụp hình",    
+    "stickersNextButtonLabelText": "Tạo ảnh cuối cùng",    
+    "dashButtonLabelText": "Thêm bạn Dash.",    
+    "sparkyButtonLabelText": "Thêm bạn Sparky",    
+    "dinoButtonLabelText": "Thêm bạn Dino",    
+    "androidButtonLabelText": "Thêm bạn Jetpack Android",    
+    "addStickersButtonLabelText": "Thêm sticker",    
+    "retakePhotoButtonLabelText": "Chụp lại ảnh",    
+    "clearAllStickersButtonLabelText": "Xóa tất cả các sticker"
 }
