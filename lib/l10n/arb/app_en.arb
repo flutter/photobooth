@@ -14,7 +14,7 @@
     },
     "footerMadeWithText": "Made with ",
     "@footerMadeWithText": {
-        "description": "Text shown on the footer which mentiones technologies used to build the app."
+        "description": "Text shown on the footer which mentions technologies used to build the app."
     },
     "footerMadeWithFlutterLinkText": "Flutter",
     "@footerMadeWithFlutterLinkText": {
@@ -218,19 +218,19 @@
     },
     "sharePageLearnMoreAboutTextPart1": "Learn more about ",
     "@sharePageLearnMoreAboutTextPart1": {
-        "description": "Part 1 text shown on the share page which mentiones technologies used to build the app."
+        "description": "Part 1 text shown on the share page which mentions technologies used to build the app."
     },
     "sharePageLearnMoreAboutTextPart2": " and ",
     "@sharePageLearnMoreAboutTextPart2": {
-        "description": "Part 2 text shown on the share page which mentiones technologies used to build the app."
+        "description": "Part 2 text shown on the share page which mentions technologies used to build the app."
     },
     "sharePageLearnMoreAboutTextPart3": " or dive right into the ",
     "@sharePageLearnMoreAboutTextPart3": {
-        "description": "Part 3 text shown on the share page which mentiones technologies used to build the app."
+        "description": "Part 3 text shown on the share page which mentions technologies used to build the app."
     },
     "sharePageLearnMoreAboutTextPart4": "open source code",
     "@sharePageLearnMoreAboutTextPart4": {
-        "description": "Part 4 text shown on the share page which mentiones technologies used to build the app."
+        "description": "Part 4 text shown on the share page which mentions technologies used to build the app."
     },
     "goToGoogleIOButtonText": "Go to Google I\u2215O",
     "@goToGoogleIOButtonText": {
