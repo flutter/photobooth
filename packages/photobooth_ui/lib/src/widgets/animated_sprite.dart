@@ -137,7 +137,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
               ),
             )
           : const SizedBox(),
-      secondChild: Container(
+      secondChild: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: _status.isLoaded

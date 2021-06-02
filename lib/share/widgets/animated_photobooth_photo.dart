@@ -228,7 +228,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _image = image;
-    return Container(
+    return SizedBox(
       height: sprite.sprites.size.height * scale,
       width: sprite.sprites.size.width * scale,
       child: Stack(

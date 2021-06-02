@@ -63,7 +63,7 @@ void main() {
         ),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: '0', asset: Assets.android)],
+            characters: const [PhotoAsset(id: '0', asset: Assets.android)],
             selectedAssetId: '0',
           )
         ],
@@ -76,7 +76,7 @@ void main() {
         act: (bloc) => bloc.add(PhotoCharacterToggled(character: Assets.dash)),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+            characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
             selectedAssetId: '0',
           )
         ],
@@ -86,11 +86,12 @@ void main() {
         'emits updated state with character '
         'when character did not exist (sparky)',
         build: () => PhotoboothBloc(uuid),
-        act: (bloc) =>
-            bloc.add(PhotoCharacterToggled(character: Assets.sparky)),
+        act: (bloc) => bloc.add(
+          PhotoCharacterToggled(character: Assets.sparky),
+        ),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+            characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
             selectedAssetId: '0',
           )
         ],
@@ -101,7 +102,7 @@ void main() {
         'when character did exist (android)',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.android),
@@ -114,7 +115,7 @@ void main() {
         'when character did exist (dash)',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.dash),
@@ -127,7 +128,7 @@ void main() {
         'when character did exist (sparky)',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterToggled(character: Assets.sparky),
@@ -141,7 +142,7 @@ void main() {
         'emits updated state',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
         ),
         act: (bloc) => bloc.add(
           PhotoCharacterDragged(
@@ -156,7 +157,7 @@ void main() {
         ),
         expect: () => [
           PhotoboothState(
-            characters: [
+            characters: const [
               PhotoAsset(
                 id: '0',
                 asset: Assets.sparky,
@@ -241,7 +242,7 @@ void main() {
         'emits updated state with no characters or stickers',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
           stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
         ),
         act: (bloc) => bloc.add(PhotoClearAllTapped()),
@@ -254,14 +255,14 @@ void main() {
         'emits updated state with no selectedAssetId',
         build: () => PhotoboothBloc(uuid),
         seed: () => PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
           stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           selectedAssetId: '0',
         ),
         act: (bloc) => bloc.add(PhotoTapped()),
         expect: () => [
           PhotoboothState(
-            characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+            characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
             stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           ),
         ],

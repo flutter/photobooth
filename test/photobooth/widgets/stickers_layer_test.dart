@@ -36,7 +36,7 @@ void main() {
     testWidgets('displays selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
           stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
           image: image,
         ),
@@ -54,7 +54,7 @@ void main() {
     testWidgets('displays multiple selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
           stickers: [
             PhotoAsset(id: '0', asset: Assets.props.first),
             PhotoAsset(id: '1', asset: Assets.props.first),

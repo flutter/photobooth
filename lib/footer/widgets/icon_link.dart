@@ -56,10 +56,10 @@ class MadeWithIconLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        const FlutterIconLink(),
-        const SizedBox(width: 8),
-        const FirebaseIconLink(),
+      children: const [
+        FlutterIconLink(),
+        SizedBox(width: 8),
+        FirebaseIconLink(),
       ],
     );
   }

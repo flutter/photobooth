@@ -18,7 +18,7 @@ enum TooltipMode {
 /// {@endtemplate}
 class AppTooltipButton extends StatefulWidget {
   /// {@macro app_tooltip_button}
-  AppTooltipButton({
+  const AppTooltipButton({
     Key? key,
     required this.onPressed,
     required this.message,

@@ -53,7 +53,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );
@@ -71,7 +73,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );
@@ -88,7 +92,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );
@@ -108,7 +114,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );
@@ -135,7 +143,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );
@@ -201,7 +211,9 @@ void main() {
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
-            child: Scaffold(body: Stack(children: [StickersDrawerLayer()])),
+            child: Scaffold(
+              body: Stack(children: const [StickersDrawerLayer()]),
+            ),
           ),
           photoboothBloc: photoboothBloc,
         );

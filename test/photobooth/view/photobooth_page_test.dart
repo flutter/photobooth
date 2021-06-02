@@ -382,7 +382,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
         ),
       );
       const preview = SizedBox();
@@ -407,7 +407,7 @@ void main() {
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
         ),
       );
       const preview = SizedBox();
@@ -436,7 +436,7 @@ void main() {
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
         ),
       );
       const preview = SizedBox();
@@ -458,7 +458,9 @@ void main() {
 
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(id: '0', asset: Assets.dash)]),
+        PhotoboothState(
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
+        ),
       );
       const preview = SizedBox();
 
@@ -485,7 +487,9 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [
+            PhotoAsset(id: '0', asset: Assets.sparky),
+          ],
         ),
       );
       const preview = SizedBox();
@@ -509,7 +513,9 @@ void main() {
 
     testWidgets('renders only dino when only dino is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [PhotoAsset(id: '0', asset: Assets.dino)]),
+        PhotoboothState(
+          characters: const [PhotoAsset(id: '0', asset: Assets.dino)],
+        ),
       );
       const preview = SizedBox();
 
@@ -533,7 +539,7 @@ void main() {
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
         ),
       );
       const preview = SizedBox();
@@ -563,7 +569,7 @@ void main() {
     testWidgets('renders dash, sparky, dino, and android when all are selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: [
+        PhotoboothState(characters: const [
           PhotoAsset(id: '0', asset: Assets.android),
           PhotoAsset(id: '1', asset: Assets.dash),
           PhotoAsset(id: '2', asset: Assets.sparky),
@@ -752,7 +758,7 @@ void main() {
         'any character is selected', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(PhotoboothState(
-        characters: [PhotoAsset(id: '0', asset: Assets.android)],
+        characters: const [PhotoAsset(id: '0', asset: Assets.android)],
       ));
       const preview = SizedBox();
       await tester.pumpApp(

@@ -22,7 +22,7 @@ void main() {
     });
 
     testWidgets('downloads file on tap', (tester) async {
-      when(() => file.saveTo(any())).thenAnswer((_) async => null);
+      when(() => file.saveTo(any())).thenAnswer((_) async {});
 
       await tester.pumpApp(DownloadButton(file: file));
       await tester.tap(find.byType(OutlinedButton));

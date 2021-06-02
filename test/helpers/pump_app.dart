@@ -50,7 +50,7 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(value: shareBloc ?? MockShareBloc()),
             ],
             child: MaterialApp(
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
               ],

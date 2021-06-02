@@ -88,7 +88,7 @@ class PulsePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
-    final color = PhotoboothColors.blue;
+    const color = PhotoboothColors.blue;
     final circleSize = rect.width / 2;
     final area = circleSize * circleSize;
     final radius = sqrt(area * _animation.value * 3);
