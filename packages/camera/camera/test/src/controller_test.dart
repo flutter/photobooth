@@ -109,7 +109,7 @@ void main() {
       });
 
       test('invokes CameraPlatform.takePicture', () async {
-        final image = const CameraImage(data: '', width: 1, height: 1);
+        const image = CameraImage(data: '', width: 1, height: 1);
         when(() => platform.takePicture(any())).thenAnswer((_) async => image);
         expect(await controller.takePicture(), equals(image));
         verify(() => platform.takePicture(textureId)).called(1);

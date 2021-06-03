@@ -103,6 +103,7 @@ BrowserEngine detectBrowserEngineByVendorAgent(String vendor, String agent) {
     return BrowserEngine.firefox;
   }
   // Assume unknown otherwise, but issue a warning.
+  // ignore: avoid_print
   print('WARNING: failed to detect current browser engine.');
   return BrowserEngine.unknown;
 }
