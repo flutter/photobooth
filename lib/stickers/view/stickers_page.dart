@@ -64,9 +64,9 @@ class StickersView extends StatelessWidget {
                     left: 15,
                     top: 15,
                     child: Row(
-                      children: [
-                        const _RetakeButton(),
-                        const ClearStickersButtonLayer(),
+                      children: const [
+                        _RetakeButton(),
+                        ClearStickersButtonLayer(),
                       ],
                     ),
                   ),
@@ -154,7 +154,7 @@ class _DraggableStickers extends StatelessWidget {
                 .add(const PhotoDeleteSelectedStickerTapped()),
             size: sticker.asset.size * _initialStickerScale,
             constraints: sticker.getImageConstraints(),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: Image.asset(

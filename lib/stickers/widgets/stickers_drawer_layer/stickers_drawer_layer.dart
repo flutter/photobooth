@@ -46,7 +46,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
       buildWhen: (previous, current) => current != previous,
       builder: (context, state) {
         if (state.isDrawerActive &&
-            MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small)
+            MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small) {
           return Positioned(
             right: 0,
             top: 0,
@@ -68,6 +68,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
                   .add(const StickersDrawerToggled()),
             ),
           );
+        }
         return const SizedBox();
       },
     );

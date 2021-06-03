@@ -45,7 +45,7 @@ class _App extends StatelessWidget {
     return MaterialApp(
       title: 'I/O Photo Booth',
       theme: theme,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],

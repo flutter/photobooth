@@ -18,8 +18,8 @@ class ShareProgressOverlay extends StatelessWidget {
     return BlocBuilder<ShareBloc, ShareState>(
       builder: (context, state) => state.uploadStatus.isLoading ||
               (state.compositeStatus.isLoading && state.isUploadRequested)
-          ? _ShareProgressOverlay(
-              key: const Key('shareProgressOverlay_loading'),
+          ? const _ShareProgressOverlay(
+              key: Key('shareProgressOverlay_loading'),
             )
           : const SizedBox(key: Key('shareProgressOverlay_nothing')),
     );
@@ -27,9 +27,7 @@ class ShareProgressOverlay extends StatelessWidget {
 }
 
 class _ShareProgressOverlay extends StatelessWidget {
-  _ShareProgressOverlay({
-    Key? key,
-  }) : super(key: key);
+  const _ShareProgressOverlay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +37,11 @@ class _ShareProgressOverlay extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
         child: Center(
           child: ResponsiveLayoutBuilder(
-            small: (_, __) => _MobileShareProgressOverlay(
-              key: const Key('shareProgressOverlay_mobile'),
+            small: (_, __) => const _MobileShareProgressOverlay(
+              key: Key('shareProgressOverlay_mobile'),
             ),
-            large: (_, __) => _DesktopShareProgressOverlay(
-              key: const Key('shareProgressOverlay_desktop'),
+            large: (_, __) => const _DesktopShareProgressOverlay(
+              key: Key('shareProgressOverlay_desktop'),
             ),
           ),
         ),
@@ -53,9 +51,7 @@ class _ShareProgressOverlay extends StatelessWidget {
 }
 
 class _DesktopShareProgressOverlay extends StatelessWidget {
-  _DesktopShareProgressOverlay({
-    Key? key,
-  }) : super(key: key);
+  const _DesktopShareProgressOverlay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +88,7 @@ class _DesktopShareProgressOverlay extends StatelessWidget {
 }
 
 class _MobileShareProgressOverlay extends StatelessWidget {
-  _MobileShareProgressOverlay({
-    Key? key,
-  }) : super(key: key);
+  const _MobileShareProgressOverlay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -21,8 +21,9 @@ class ClearStickersButtonLayer extends StatelessWidget {
           context: context,
           child: const ClearStickersDialog(),
         );
-        if (confirmed)
+        if (confirmed) {
           context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
+        }
       },
     );
   }

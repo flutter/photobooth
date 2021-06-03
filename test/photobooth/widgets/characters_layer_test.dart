@@ -35,7 +35,7 @@ void main() {
     testWidgets('renders Android character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
           image: image,
         ),
       );
@@ -52,7 +52,7 @@ void main() {
     testWidgets('renders Dash character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
           image: image,
         ),
       );
@@ -69,7 +69,7 @@ void main() {
     testWidgets('renders Sparky character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
           image: image,
         ),
       );

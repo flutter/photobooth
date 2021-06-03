@@ -22,13 +22,13 @@ class MockAsset extends Mock implements Asset {}
 void main() {
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: 0, height: 0, data: data);
-  final aspectRatio = PhotoboothAspectRatio.portrait;
-  final imageId = 'image-name';
-  final shareText = 'share-text';
   final imageData = Uint8List.fromList(transparentImage);
-  final explicitShareUrl = 'explicit-share-url';
-  final twitterShareUrl = 'twitter-share-url';
-  final facebookShareUrl = 'facebook-share-url';
+  const aspectRatio = PhotoboothAspectRatio.portrait;
+  const imageId = 'image-name';
+  const shareText = 'share-text';
+  const explicitShareUrl = 'explicit-share-url';
+  const twitterShareUrl = 'twitter-share-url';
+  const facebookShareUrl = 'facebook-share-url';
 
   group('ShareBloc', () {
     late PhotosRepository photosRepository;

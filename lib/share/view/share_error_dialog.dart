@@ -24,7 +24,7 @@ class ShareErrorDialog extends StatelessWidget {
       child: Stack(
         children: [
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               width: 900,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -35,7 +35,7 @@ class ShareErrorDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 300,
                       child: Image.asset(
                         'assets/images/error_photo_desktop.png',

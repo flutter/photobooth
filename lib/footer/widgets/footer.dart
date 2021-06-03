@@ -32,8 +32,8 @@ class Footer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
-          small: (_, __) => _ColumnFooter(key: const Key('footer_column')),
-          large: (_, __) => _RowFooter(key: const Key('footer_row')),
+          small: (_, __) => const _ColumnFooter(key: Key('footer_column')),
+          large: (_, __) => const _RowFooter(key: Key('footer_row')),
         ),
       ),
     );
@@ -41,7 +41,7 @@ class Footer extends StatelessWidget {
 }
 
 class _ColumnFooter extends StatelessWidget {
-  _ColumnFooter({Key? key}) : super(key: key);
+  const _ColumnFooter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +55,22 @@ class _ColumnFooter extends StatelessWidget {
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: [
-            const FooterGoogleIOLink(),
-            const SizedBox(width: 30),
-            const FooterCodelabLink(),
-            const SizedBox(width: 30),
-            const FooterHowItsMadeLink(),
+          children: const [
+            FooterGoogleIOLink(),
+            SizedBox(width: 30),
+            FooterCodelabLink(),
+            SizedBox(width: 30),
+            FooterHowItsMadeLink(),
           ],
         ),
         gap,
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: [
-            const FooterTermsOfServiceLink(),
-            const SizedBox(width: 30),
-            const FooterPrivacyPolicyLink(),
+          children: const [
+            FooterTermsOfServiceLink(),
+            SizedBox(width: 30),
+            FooterPrivacyPolicyLink(),
           ],
         ),
       ],
@@ -79,24 +79,24 @@ class _ColumnFooter extends StatelessWidget {
 }
 
 class _RowFooter extends StatelessWidget {
-  _RowFooter({Key? key}) : super(key: key);
+  const _RowFooter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(width: 32);
     return Row(
-      children: [
-        const FooterMadeWithLink(),
-        const Spacer(),
-        const FooterGoogleIOLink(),
+      children: const [
+        FooterMadeWithLink(),
+        Spacer(),
+        FooterGoogleIOLink(),
         gap,
-        const FooterCodelabLink(),
+        FooterCodelabLink(),
         gap,
-        const FooterHowItsMadeLink(),
+        FooterHowItsMadeLink(),
         gap,
-        const FooterTermsOfServiceLink(),
+        FooterTermsOfServiceLink(),
         gap,
-        const FooterPrivacyPolicyLink(),
+        FooterPrivacyPolicyLink(),
       ],
     );
   }

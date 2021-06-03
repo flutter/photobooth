@@ -51,24 +51,24 @@ class _StickersTabsState extends State<StickersTabs>
         TabBar(
           onTap: widget.onTabChanged,
           controller: _tabController,
-          tabs: [
-            const StickersTab(
+          tabs: const [
+            StickersTab(
               key: Key('stickersTabs_googleTab'),
               assetPath: 'assets/icons/google_icon.png',
             ),
-            const StickersTab(
+            StickersTab(
               key: Key('stickersTabs_hatsTab'),
               assetPath: 'assets/icons/hats_icon.png',
             ),
-            const StickersTab(
+            StickersTab(
               key: Key('stickersTabs_eyewearTab'),
               assetPath: 'assets/icons/eyewear_icon.png',
             ),
-            const StickersTab(
+            StickersTab(
               key: Key('stickersTabs_foodTab'),
               assetPath: 'assets/icons/food_icon.png',
             ),
-            const StickersTab(
+            StickersTab(
               key: Key('stickersTabs_shapesTab'),
               assetPath: 'assets/icons/shapes_icon.png',
             ),

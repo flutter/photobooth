@@ -23,12 +23,12 @@ void main() {
   setUp(() {
     audioPlayer = MockAudioPlayer();
     when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
-    when(() => audioPlayer.load()).thenAnswer((_) async => null);
-    when(() => audioPlayer.play()).thenAnswer((_) async => null);
-    when(() => audioPlayer.pause()).thenAnswer((_) async => null);
-    when(() => audioPlayer.stop()).thenAnswer((_) async => null);
-    when(() => audioPlayer.seek(any())).thenAnswer((_) async => null);
-    when(() => audioPlayer.dispose()).thenAnswer((_) async => null);
+    when(() => audioPlayer.load()).thenAnswer((_) async {});
+    when(() => audioPlayer.play()).thenAnswer((_) async {});
+    when(() => audioPlayer.pause()).thenAnswer((_) async {});
+    when(() => audioPlayer.stop()).thenAnswer((_) async {});
+    when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+    when(() => audioPlayer.dispose()).thenAnswer((_) async {});
     when(() => audioPlayer.playerStateStream).thenAnswer(
       (_) => Stream.fromIterable(
         [
@@ -107,10 +107,8 @@ void main() {
 
       final canvas = MockCanvas();
 
-      TimerPainter(
-        animation: animation,
-        countdown: 3,
-      )..paint(canvas, const Size(200, 200));
+      TimerPainter(animation: animation, countdown: 3)
+          .paint(canvas, const Size(200, 200));
 
       verify(() => canvas.drawCircle(any(), any(), any())).called(1);
       verify(() => canvas.drawArc(any(), any(), any(), any(), any())).called(1);

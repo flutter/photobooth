@@ -39,9 +39,9 @@ class ClearStickersDialog extends StatelessWidget {
               alignment: WrapAlignment.center,
               spacing: 30,
               runSpacing: 15,
-              children: [
-                const ClearStickersCancelButton(),
-                const ClearStickersConfirmButton(),
+              children: const [
+                ClearStickersCancelButton(),
+                ClearStickersConfirmButton(),
               ],
             ),
           ],

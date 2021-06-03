@@ -83,12 +83,12 @@ class ShareBody extends StatelessWidget {
             AnimatedFadeIn(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 20),
-                  const ShareErrorHeading(),
-                  const SizedBox(height: 20),
-                  const ShareErrorSubheading(),
-                  const SizedBox(height: 30),
+                children: const [
+                  SizedBox(height: 20),
+                  ShareErrorHeading(),
+                  SizedBox(height: 20),
+                  ShareErrorSubheading(),
+                  SizedBox(height: 30),
                 ],
               ),
             )

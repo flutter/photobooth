@@ -28,7 +28,7 @@ class ShareDialog extends StatelessWidget {
       child: Stack(
         children: [
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               width: 900,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -57,10 +57,10 @@ class ShareDialog extends StatelessWidget {
                     const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const TwitterButton(),
-                        const SizedBox(width: 36),
-                        const FacebookButton(),
+                      children: const [
+                        TwitterButton(),
+                        SizedBox(width: 36),
+                        FacebookButton(),
                       ],
                     ),
                     const SizedBox(height: 30),
