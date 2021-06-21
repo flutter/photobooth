@@ -18,8 +18,8 @@ void main() {
     });
 
     testWidgets('renders with provided colors', (tester) async {
-      final color = PhotoboothColors.black;
-      final backgroundColor = PhotoboothColors.blue;
+      const color = PhotoboothColors.black;
+      const backgroundColor = PhotoboothColors.blue;
       await tester.pumpWidget(
         AppCircularProgressIndicator(
           color: color,
