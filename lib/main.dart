@@ -11,12 +11,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
+import 'package:io_photobooth/landing/loading_indicator_io.dart'
+    if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
-
-import 'landing/loading_indicator_io.dart'
-    if (dart.library.html) 'landing/loading_indicator_web.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
