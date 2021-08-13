@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:image_compositor/image_compositor.dart';
 
-import 'image_loader.dart';
-import 'offscreen_canvas.dart';
+import 'package:image_compositor/src/image_loader.dart';
+import 'package:image_compositor/src/offscreen_canvas.dart';
 
 /// {@macro image_compositor}
 class ImageCompositor {
