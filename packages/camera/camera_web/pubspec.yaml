@@ -15,15 +15,17 @@ flutter:
         fileName: camera_web.dart
 
 dependencies:
+  camera_platform_interface:
+    path: ../camera_platform_interface
   flutter:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  camera_platform_interface:
-    path: ../camera_platform_interface
+  meta: ^1.8.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^0.1.1
-  very_good_analysis: ^2.0.4
+  mocktail: ^0.3.0
+  test: ^1.21.7
+  very_good_analysis: ^3.1.0

@@ -41,12 +41,10 @@ class AppAnimatedCrossFade extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Align(
-              alignment: Alignment.center,
               key: bottomChildKey,
               child: bottomChild,
             ),
             Align(
-              alignment: Alignment.center,
               key: topChildKey,
               child: topChild,
             ),

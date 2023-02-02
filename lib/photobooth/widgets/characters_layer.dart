@@ -26,7 +26,6 @@ class CharactersLayer extends StatelessWidget {
                     top: character.position.dy * heightFactor,
                     left: character.position.dx * widthFactor,
                     child: Transform.rotate(
-                      alignment: Alignment.center,
                       angle: character.angle,
                       child: Image.asset(
                         character.asset.path,

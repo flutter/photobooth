@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 /// {@template clickable}
 /// Makes the given [child] tappable and clickable.

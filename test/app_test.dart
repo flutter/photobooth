@@ -18,35 +18,41 @@ void main() {
   group('App', () {
     testWidgets('uses default theme on large devices', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
-      await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
-      ));
+      await tester.pumpWidget(
+        App(
+          authenticationRepository: MockAuthenticationRepository(),
+          photosRepository: MockPhotosRepository(),
+        ),
+      );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
-        materialApp.theme!.textTheme.headline1!.fontSize,
-        equals(PhotoboothTheme.standard.textTheme.headline1!.fontSize),
+        materialApp.theme!.textTheme.displayLarge!.fontSize,
+        equals(PhotoboothTheme.standard.textTheme.displayLarge!.fontSize),
       );
     });
 
     testWidgets('uses small theme on small devices', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 500));
-      await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
-      ));
+      await tester.pumpWidget(
+        App(
+          authenticationRepository: MockAuthenticationRepository(),
+          photosRepository: MockPhotosRepository(),
+        ),
+      );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
-        materialApp.theme!.textTheme.headline1!.fontSize,
-        equals(PhotoboothTheme.small.textTheme.headline1!.fontSize),
+        materialApp.theme!.textTheme.displayLarge!.fontSize,
+        equals(PhotoboothTheme.small.textTheme.displayLarge!.fontSize),
       );
     });
 
     testWidgets('renders LandingPage', (tester) async {
-      await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
-      ));
+      await tester.pumpWidget(
+        App(
+          authenticationRepository: MockAuthenticationRepository(),
+          photosRepository: MockPhotosRepository(),
+        ),
+      );
       expect(find.byType(LandingPage), findsOneWidget);
     });
   });

@@ -122,7 +122,7 @@ class StickersTab extends StatefulWidget {
   final String assetPath;
 
   @override
-  _StickersTabState createState() => _StickersTabState();
+  State<StickersTab> createState() => _StickersTabState();
 }
 
 class _StickersTabState extends State<StickersTab>
@@ -158,14 +158,12 @@ class StickersTabBarView extends StatelessWidget {
 
   static const _smallGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 100,
-    childAspectRatio: 1,
     mainAxisSpacing: 48,
     crossAxisSpacing: 24,
   );
 
   static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 150,
-    childAspectRatio: 1,
     mainAxisSpacing: 64,
     crossAxisSpacing: 42,
   );

@@ -10,32 +10,26 @@ class MockUrlLauncher extends Mock
 
 void main() {
   group('External links', () {
+    late UrlLauncherPlatform originalUrlLauncher;
+
+    setUp(() {
+      originalUrlLauncher = UrlLauncherPlatform.instance;
+    });
+
+    tearDown(() {
+      UrlLauncherPlatform.instance = originalUrlLauncher;
+    });
+
     group('launchGoogleIOLink', () {
       test('launches correct link', () async {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
 
         await launchGoogleIOLink();
 
-        verify(() => mock.launch(
-              googleIOExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(() => mock.launchUrl(googleIOExternalLink, any())).called(1);
       });
     });
 
@@ -44,27 +38,11 @@ void main() {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
 
         await launchFlutterDevLink();
 
-        verify(() => mock.launch(
-              flutterDevExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(() => mock.launchUrl(flutterDevExternalLink, any())).called(1);
       });
     });
 
@@ -73,27 +51,11 @@ void main() {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
 
         await launchFirebaseLink();
 
-        verify(() => mock.launch(
-              firebaseExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(() => mock.launchUrl(firebaseExternalLink, any())).called(1);
       });
     });
 
@@ -102,27 +64,11 @@ void main() {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: false,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
 
         await launchPhotoboothEmail();
 
-        verify(() => mock.launch(
-              photoboothEmail,
-              useSafariVC: false,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(() => mock.launchUrl(photoboothEmail, any())).called(1);
       });
     });
 
@@ -131,27 +77,11 @@ void main() {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
 
         await launchOpenSourceLink();
 
-        verify(() => mock.launch(
-              openSourceLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).called(1);
+        verify(() => mock.launchUrl(openSourceLink, any())).called(1);
       });
     });
   });

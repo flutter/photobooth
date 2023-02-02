@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -6,7 +8,6 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _initialStickerScale = 0.25;
 const _minStickerScale = 0.05;
@@ -16,7 +17,7 @@ class StickersPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static Route route() {
+  static Route<void> route() {
     return AppPageRoute(builder: (_) => const StickersPage());
   }
 
@@ -154,9 +155,7 @@ class _DraggableStickers extends StatelessWidget {
                 .add(const PhotoDeleteSelectedStickerTapped()),
             size: sticker.asset.size * _initialStickerScale,
             constraints: sticker.getImageConstraints(),
-            child: SizedBox(
-              width: double.infinity,
-              height: double.infinity,
+            child: SizedBox.expand(
               child: Image.asset(
                 sticker.asset.path,
                 fit: BoxFit.fill,
@@ -182,15 +181,17 @@ class _RetakeButton extends StatelessWidget {
       child: AppTooltipButton(
         key: const Key('stickersPage_retake_appTooltipButton'),
         onPressed: () async {
-          final confirmed = await showAppModal(
+          final photoboothBloc = context.read<PhotoboothBloc>();
+          final navigator = Navigator.of(context);
+          final confirmed = await showAppModal<bool>(
             context: context,
             landscapeChild: const _RetakeConfirmationDialogContent(),
             portraitChild: const _RetakeConfirmationBottomSheet(),
           );
-          if (confirmed) {
-            context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+          if (confirmed ?? false) {
+            photoboothBloc.add(const PhotoClearAllTapped());
             unawaited(
-              Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+              navigator.pushReplacement(PhotoboothPage.route()),
             );
           }
         },
@@ -219,15 +220,14 @@ class _NextButton extends StatelessWidget {
         child: InkWell(
           key: const Key('stickersPage_next_inkWell'),
           onTap: () async {
-            final confirmed = await showAppModal(
+            final navigator = Navigator.of(context);
+            final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _NextConfirmationDialogContent(),
               portraitChild: const _NextConfirmationBottomSheet(),
             );
-            if (confirmed) {
-              unawaited(
-                Navigator.of(context).pushReplacement(SharePage.route()),
-              );
+            if (confirmed ?? false) {
+              unawaited(navigator.pushReplacement(SharePage.route()));
             }
           },
           child: Image.asset(
@@ -254,18 +254,17 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersRetakeConfirmationHeading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline1,
+                style: theme.textTheme.displayLarge,
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.stickersRetakeConfirmationSubheading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline3,
+                style: theme.textTheme.displaySmall,
               ),
               const SizedBox(height: 24),
               Wrap(
@@ -280,7 +279,7 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text(
                       l10n.stickersRetakeConfirmationCancelButtonText,
-                      style: theme.textTheme.button?.copyWith(
+                      style: theme.textTheme.labelLarge?.copyWith(
                         color: PhotoboothColors.black,
                       ),
                     ),
@@ -343,18 +342,17 @@ class _NextConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersNextConfirmationHeading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline1,
+                style: theme.textTheme.displayLarge,
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.stickersNextConfirmationSubheading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline3,
+                style: theme.textTheme.displaySmall,
               ),
               const SizedBox(height: 24),
               Wrap(
@@ -369,7 +367,7 @@ class _NextConfirmationDialogContent extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text(
                       l10n.stickersNextConfirmationCancelButtonText,
-                      style: theme.textTheme.button?.copyWith(
+                      style: theme.textTheme.labelLarge?.copyWith(
                         color: PhotoboothColors.black,
                       ),
                     ),
@@ -423,8 +421,6 @@ extension on PhotoAsset {
     return BoxConstraints(
       minWidth: asset.size.width * _minStickerScale,
       minHeight: asset.size.height * _minStickerScale,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
     );
   }
 }
@@ -459,7 +455,6 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
         },
         message: l10n.openStickersTooltip,
         verticalOffset: 50,
-        mode: TooltipMode.normal,
         child: Image.asset(
           'assets/icons/stickers_button_icon.png',
           height: 100,

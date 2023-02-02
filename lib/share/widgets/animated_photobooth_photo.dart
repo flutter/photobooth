@@ -15,7 +15,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
   final CameraImage? image;
 
   @override
-  _AnimatedPhotoboothPhotoState createState() =>
+  State<AnimatedPhotoboothPhoto> createState() =>
       _AnimatedPhotoboothPhotoState();
 }
 
@@ -227,7 +227,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _image = image;
+    final image = this.image;
     return SizedBox(
       height: sprite.sprites.size.height * scale,
       width: sprite.sprites.size.width * scale,
@@ -236,28 +236,26 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
         children: [
           FittedBox(
             fit: BoxFit.cover,
-            alignment: Alignment.center,
             child: ConstrainedBox(
               constraints: BoxConstraints.loose(sprite.sprites.size),
               child: sprite,
             ),
           ),
-          _image != null
-              ? Positioned(
-                  top: top * scale,
-                  left: left * scale,
-                  right: right * scale,
-                  bottom: bottom * scale,
-                  child: AnimatedOpacity(
-                    duration: const Duration(seconds: 2),
-                    opacity: isPhotoVisible ? 1 : 0,
-                    child: AspectRatio(
-                      aspectRatio: aspectRatio,
-                      child: PhotoboothPhoto(image: _image.data),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
+          if (image != null)
+            Positioned(
+              top: top * scale,
+              left: left * scale,
+              right: right * scale,
+              bottom: bottom * scale,
+              child: AnimatedOpacity(
+                duration: const Duration(seconds: 2),
+                opacity: isPhotoVisible ? 1 : 0,
+                child: AspectRatio(
+                  aspectRatio: aspectRatio,
+                  child: PhotoboothPhoto(image: image.data),
+                ),
+              ),
+            ),
         ],
       ),
     );

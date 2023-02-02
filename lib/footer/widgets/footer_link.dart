@@ -38,7 +38,7 @@ class FooterMadeWithLink extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         text: l10n.footerMadeWithText,
-        style: theme.textTheme.bodyText1?.copyWith(
+        style: theme.textTheme.bodyLarge?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
           color: defaultTextStyle.style.color,
         ),

@@ -6,13 +6,13 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   camera:
     path: ../
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
-  very_good_analysis: ^2.0.4
+  very_good_analysis: ^3.1.0
 
 flutter:
   uses-material-design: true

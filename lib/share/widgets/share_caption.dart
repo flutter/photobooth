@@ -14,7 +14,7 @@ class ShareSuccessCaption extends StatelessWidget {
 
     return SelectableText.rich(
       TextSpan(
-        style: theme.textTheme.caption?.copyWith(
+        style: theme.textTheme.bodySmall?.copyWith(
           color: PhotoboothColors.white,
         ),
         children: <TextSpan>[

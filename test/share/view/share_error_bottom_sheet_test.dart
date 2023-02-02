@@ -16,7 +16,9 @@ void main() {
     testWidgets('displays subheading', (tester) async {
       await tester.pumpApp(Scaffold(body: ShareErrorBottomSheet()));
       expect(
-          find.byKey(Key('shareErrorBottomSheet_subheading')), findsOneWidget);
+        find.byKey(Key('shareErrorBottomSheet_subheading')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays a ShareTryAgainButton button', (tester) async {

@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
 import '../../helpers/helpers.dart';
 
 void main() {
@@ -57,19 +59,26 @@ void main() {
 
     testWidgets('tapping on take photo button navigates to PhotoboothPage',
         (tester) async {
-      await runZonedGuarded(() async {
-        await tester.pumpApp(const LandingView());
-        await tester.ensureVisible(find.byType(
-          LandingTakePhotoButton,
-          skipOffstage: false,
-        ));
-        await tester.pumpAndSettle();
-        await tester.tap(find.byType(
-          LandingTakePhotoButton,
-          skipOffstage: false,
-        ));
-        await tester.pumpAndSettle();
-      }, (_, __) {});
+      await runZonedGuarded(
+        () async {
+          await tester.pumpApp(const LandingView());
+          await tester.ensureVisible(
+            find.byType(
+              LandingTakePhotoButton,
+              skipOffstage: false,
+            ),
+          );
+          await tester.pumpAndSettle();
+          await tester.tap(
+            find.byType(
+              LandingTakePhotoButton,
+              skipOffstage: false,
+            ),
+          );
+          await tester.pumpAndSettle();
+        },
+        (_, __) {},
+      );
 
       expect(find.byType(PhotoboothPage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);

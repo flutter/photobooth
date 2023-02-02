@@ -56,8 +56,12 @@ class OffScreenCanvas {
       _offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
         fileReader.onLoad.listen((event) {
-          completer.complete(js_util.getProperty(
-              js_util.getProperty(event, 'target')!, 'result')!);
+          completer.complete(
+            js_util.getProperty(
+              js_util.getProperty(event, 'target')!,
+              'result',
+            ),
+          );
         });
         fileReader.readAsDataUrl(value);
       });
@@ -69,42 +73,45 @@ class OffScreenCanvas {
 
   /// Returns CanvasRenderContext2D or OffscreenCanvasRenderingContext2D to
   /// paint into.
-  Object? getContext2d() => _context ??= (_offScreenCanvas != null
+  Object? getContext2d() => _context ??= _offScreenCanvas != null
       ? _offScreenCanvas!.getContext('2d')
-      : _canvasElement!.getContext('2d'));
+      : _canvasElement!.getContext('2d');
 
   /// Proxy to `canvas.getContext('2d').save()`.
   void save() {
-    js_util.callMethod(_context!, 'save', const <dynamic>[]);
+    js_util.callMethod<void>(_context!, 'save', const <dynamic>[]);
   }
 
   /// Proxy to `canvas.getContext('2d').restore()`.
   void restore() {
-    js_util.callMethod(_context!, 'restore', const <dynamic>[]);
+    js_util.callMethod<void>(_context!, 'restore', const <dynamic>[]);
   }
 
   /// Proxy to `canvas.getContext('2d').translate()`.
   void translate(double x, double y) {
-    js_util.callMethod(_context!, 'translate', <dynamic>[x, y]);
+    js_util.callMethod<void>(_context!, 'translate', <dynamic>[x, y]);
   }
 
   /// Proxy to `canvas.getContext('2d').rotate()`.
   void rotate(double angle) {
-    js_util.callMethod(_context!, 'rotate', <dynamic>[angle]);
+    js_util.callMethod<void>(_context!, 'rotate', <dynamic>[angle]);
   }
 
   /// Proxy to `canvas.getContext('2d').drawImage()`.
   void drawImage(Object image, int x, int y, int width, int height) {
-    js_util.callMethod(
-        _context!, 'drawImage', <dynamic>[image, x, y, width, height]);
+    js_util.callMethod<void>(
+      _context!,
+      'drawImage',
+      <dynamic>[image, x, y, width, height],
+    );
   }
 
   /// Creates a rectangular path whose starting point is at (x, y) and
   /// whose size is specified by width and height and clips the path.
   void clipRect(int x, int y, int width, int height) {
-    js_util.callMethod(_context!, 'beginPath', const <dynamic>[]);
-    js_util.callMethod(_context!, 'rect', <dynamic>[x, y, width, height]);
-    js_util.callMethod(_context!, 'clip', const <dynamic>[]);
+    js_util.callMethod<void>(_context!, 'beginPath', const <dynamic>[]);
+    js_util.callMethod<void>(_context!, 'rect', <dynamic>[x, y, width, height]);
+    js_util.callMethod<void>(_context!, 'clip', const <dynamic>[]);
   }
 
   /// Feature detection for transferToImageBitmap on OffscreenCanvas.
@@ -124,7 +131,7 @@ class OffScreenCanvas {
   void transferImage(Object targetContext) {
     // Actual size of canvas may be larger than viewport size. Use
     // source/destination to draw part of the image data.
-    js_util.callMethod(targetContext, 'drawImage', <dynamic>[
+    js_util.callMethod<void>(targetContext, 'drawImage', <dynamic>[
       _offScreenCanvas ?? _canvasElement!,
       0,
       0,

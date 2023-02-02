@@ -15,7 +15,7 @@ class ShareSubheading extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
-        style: theme.textTheme.headline3?.copyWith(
+        style: theme.textTheme.displaySmall?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
           color: PhotoboothColors.white,
         ),
@@ -58,7 +58,9 @@ class ShareSuccessSubheading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageSuccessSubheading,
-      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displaySmall?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }
@@ -74,7 +76,9 @@ class ShareErrorSubheading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageErrorSubheading,
-      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displaySmall?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }

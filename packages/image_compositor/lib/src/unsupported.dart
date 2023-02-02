@@ -6,7 +6,7 @@ class ImageCompositor {
     required String data,
     required int width,
     required int height,
-    required List layers,
+    required List<dynamic> layers,
     required double aspectRatio,
   }) {
     throw UnsupportedError(

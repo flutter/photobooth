@@ -5,15 +5,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 /// A custom [Tooltip] for the photobooth_ui toolkit.
 /// {@endtemplate}
 class AppTooltip extends StatelessWidget {
-  const AppTooltip._({
-    Key? key,
-    required this.message,
-    required this.child,
-    this.visible = false,
-    this.padding,
-    this.verticalOffset,
-  }) : super(key: key);
-
   /// {@macro app_tooltip}
   const AppTooltip({
     Key? key,
@@ -26,6 +17,15 @@ class AppTooltip extends StatelessWidget {
           child: child,
           padding: padding,
         );
+
+  const AppTooltip._({
+    Key? key,
+    required this.message,
+    required this.child,
+    this.visible = false,
+    this.padding,
+    this.verticalOffset,
+  }) : super(key: key);
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({
@@ -78,7 +78,7 @@ class AppTooltip extends StatelessWidget {
               message,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2
+                  .bodyMedium
                   ?.copyWith(color: PhotoboothColors.white),
             ),
           ),

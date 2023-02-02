@@ -40,7 +40,7 @@ abstract class WebGLVersion {
 }
 
 /// Lazily initialized current browser engine.
-late final BrowserEngine _browserEngine = _detectBrowserEngine();
+final BrowserEngine _browserEngine = _detectBrowserEngine();
 
 /// Override the value of [browserEngine].
 ///
@@ -75,7 +75,8 @@ BrowserEngine _detectBrowserEngine() {
 ///    SPH/SCH are very old Palm models.
 bool _isSamsungBrowser(String agent) {
   final exp = RegExp(
-      r'SAMSUNG|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L');
+    'SAMSUNG|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L',
+  );
   return exp.hasMatch(agent.toUpperCase());
 }
 
@@ -133,7 +134,7 @@ enum OperatingSystem {
 }
 
 /// Lazily initialized current operating system.
-late final OperatingSystem _operatingSystem = _detectOperatingSystem();
+final _operatingSystem = _detectOperatingSystem();
 
 /// Returns the [OperatingSystem] the current browsers works on.
 ///

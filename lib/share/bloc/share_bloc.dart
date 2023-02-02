@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 import 'package:image_compositor/image_compositor.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 part 'share_event.dart';
 part 'share_state.dart';
@@ -21,13 +20,21 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     required this.assets,
     required this.aspectRatio,
     required this.shareText,
-    bool isSharingEnabled = const bool.fromEnvironment(
-      'SHARING_ENABLED',
-      defaultValue: false,
-    ),
+    bool isSharingEnabled = const bool.fromEnvironment('SHARING_ENABLED'),
   })  : _photosRepository = photosRepository,
         _isSharingEnabled = isSharingEnabled,
-        super(const ShareState());
+        super(const ShareState()) {
+    on<ShareViewLoaded>(_onShareViewLoaded);
+    on<ShareTapped>(_onShareTapped);
+    on<_ShareCompositeSucceeded>(_onShareCompositeSucceeded);
+    on<_ShareCompositeFailed>(
+      (event, emit) => emit(
+        state.copyWith(
+          compositeStatus: ShareStatus.failure,
+        ),
+      ),
+    );
+  }
 
   final PhotosRepository _photosRepository;
   final String imageId;
@@ -37,24 +44,11 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final bool _isSharingEnabled;
   final String shareText;
 
-  @override
-  Stream<ShareState> mapEventToState(ShareEvent event) async* {
-    if (event is ShareViewLoaded) {
-      yield* _mapShareViewLoadedToState(event, state);
-    } else if (event is ShareTapped) {
-      yield* _mapShareTappedToState(event, state);
-    } else if (event is _ShareCompositeSucceeded) {
-      yield* _mapShareCompositeSucceededToState(event, state);
-    } else if (event is _ShareCompositeFailed) {
-      yield state.copyWith(compositeStatus: ShareStatus.failure);
-    }
-  }
-
-  Stream<ShareState> _mapShareViewLoadedToState(
+  void _onShareViewLoaded(
     ShareViewLoaded event,
-    ShareState state,
-  ) async* {
-    yield state.copyWith(compositeStatus: ShareStatus.loading);
+    Emitter<ShareState> emit,
+  ) {
+    emit(state.copyWith(compositeStatus: ShareStatus.loading));
     unawaited(
       _composite().then(
         (value) => add(_ShareCompositeSucceeded(bytes: value)),
@@ -63,20 +57,22 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     );
   }
 
-  Stream<ShareState> _mapShareTappedToState(
+  Future<void> _onShareTapped(
     ShareTapped event,
-    ShareState state,
-  ) async* {
+    Emitter<ShareState> emit,
+  ) async {
     if (!_isSharingEnabled) return;
 
     final shareUrl =
         event is ShareOnTwitterTapped ? ShareUrl.twitter : ShareUrl.facebook;
 
-    yield state.copyWith(
-      uploadStatus: ShareStatus.initial,
-      isDownloadRequested: false,
-      isUploadRequested: true,
-      shareUrl: shareUrl,
+    emit(
+      state.copyWith(
+        uploadStatus: ShareStatus.initial,
+        isDownloadRequested: false,
+        isUploadRequested: true,
+        shareUrl: shareUrl,
+      ),
     );
 
     if (state.compositeStatus.isLoading) return;
@@ -84,12 +80,14 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     if (state.uploadStatus.isSuccess) return;
 
     if (state.compositeStatus.isFailure) {
-      yield state.copyWith(
-        compositeStatus: ShareStatus.loading,
-        uploadStatus: ShareStatus.initial,
-        isDownloadRequested: false,
-        isUploadRequested: true,
-        shareUrl: shareUrl,
+      emit(
+        state.copyWith(
+          compositeStatus: ShareStatus.loading,
+          uploadStatus: ShareStatus.initial,
+          isDownloadRequested: false,
+          isUploadRequested: true,
+          shareUrl: shareUrl,
+        ),
       );
 
       unawaited(
@@ -99,11 +97,13 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
         ),
       );
     } else if (state.compositeStatus.isSuccess) {
-      yield state.copyWith(
-        uploadStatus: ShareStatus.loading,
-        isDownloadRequested: false,
-        isUploadRequested: true,
-        shareUrl: shareUrl,
+      emit(
+        state.copyWith(
+          uploadStatus: ShareStatus.loading,
+          isDownloadRequested: false,
+          isUploadRequested: true,
+          shareUrl: shareUrl,
+        ),
       );
 
       try {
@@ -112,31 +112,35 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
           data: state.bytes!,
           shareText: shareText,
         );
-        yield state.copyWith(
-          uploadStatus: ShareStatus.success,
-          isDownloadRequested: false,
-          isUploadRequested: true,
-          file: state.file,
-          bytes: state.bytes,
-          explicitShareUrl: shareUrls.explicitShareUrl,
-          facebookShareUrl: shareUrls.facebookShareUrl,
-          twitterShareUrl: shareUrls.twitterShareUrl,
-          shareUrl: shareUrl,
+        emit(
+          state.copyWith(
+            uploadStatus: ShareStatus.success,
+            isDownloadRequested: false,
+            isUploadRequested: true,
+            file: state.file,
+            bytes: state.bytes,
+            explicitShareUrl: shareUrls.explicitShareUrl,
+            facebookShareUrl: shareUrls.facebookShareUrl,
+            twitterShareUrl: shareUrls.twitterShareUrl,
+            shareUrl: shareUrl,
+          ),
         );
       } catch (_) {
-        yield state.copyWith(
-          uploadStatus: ShareStatus.failure,
-          isDownloadRequested: false,
-          shareUrl: shareUrl,
+        emit(
+          state.copyWith(
+            uploadStatus: ShareStatus.failure,
+            isDownloadRequested: false,
+            shareUrl: shareUrl,
+          ),
         );
       }
     }
   }
 
-  Stream<ShareState> _mapShareCompositeSucceededToState(
+  Future<void> _onShareCompositeSucceeded(
     _ShareCompositeSucceeded event,
-    ShareState state,
-  ) async* {
+    Emitter<ShareState> emit,
+  ) async {
     final file = XFile.fromData(
       event.bytes,
       mimeType: 'image/png',
@@ -144,19 +148,23 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     );
     final bytes = event.bytes;
 
-    yield state.copyWith(
-      compositeStatus: ShareStatus.success,
-      bytes: bytes,
-      file: file,
+    emit(
+      state.copyWith(
+        compositeStatus: ShareStatus.success,
+        bytes: bytes,
+        file: file,
+      ),
     );
 
     if (state.isUploadRequested) {
-      yield state.copyWith(
-        uploadStatus: ShareStatus.loading,
-        bytes: bytes,
-        file: file,
-        isDownloadRequested: false,
-        isUploadRequested: true,
+      emit(
+        state.copyWith(
+          uploadStatus: ShareStatus.loading,
+          bytes: bytes,
+          file: file,
+          isDownloadRequested: false,
+          isUploadRequested: true,
+        ),
       );
 
       try {
@@ -165,24 +173,28 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
           data: event.bytes,
           shareText: shareText,
         );
-        yield state.copyWith(
-          compositeStatus: ShareStatus.success,
-          uploadStatus: ShareStatus.success,
-          isDownloadRequested: false,
-          isUploadRequested: true,
-          bytes: bytes,
-          file: file,
-          explicitShareUrl: shareUrls.explicitShareUrl,
-          facebookShareUrl: shareUrls.facebookShareUrl,
-          twitterShareUrl: shareUrls.twitterShareUrl,
+        emit(
+          state.copyWith(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.success,
+            isDownloadRequested: false,
+            isUploadRequested: true,
+            bytes: bytes,
+            file: file,
+            explicitShareUrl: shareUrls.explicitShareUrl,
+            facebookShareUrl: shareUrls.facebookShareUrl,
+            twitterShareUrl: shareUrls.twitterShareUrl,
+          ),
         );
       } catch (_) {
-        yield state.copyWith(
-          compositeStatus: ShareStatus.success,
-          uploadStatus: ShareStatus.failure,
-          bytes: bytes,
-          file: file,
-          isDownloadRequested: false,
+        emit(
+          state.copyWith(
+            compositeStatus: ShareStatus.success,
+            uploadStatus: ShareStatus.failure,
+            bytes: bytes,
+            file: file,
+            isDownloadRequested: false,
+          ),
         );
       }
     }

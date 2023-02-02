@@ -43,7 +43,7 @@ class AppTooltipButton extends StatefulWidget {
   final Widget child;
 
   @override
-  _AppTooltipButtonState createState() => _AppTooltipButtonState();
+  State<AppTooltipButton> createState() => _AppTooltipButtonState();
 }
 
 class _AppTooltipButtonState extends State<AppTooltipButton> {

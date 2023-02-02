@@ -36,7 +36,7 @@ void main() {
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
         expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
+          PhotoboothState(image: image, imageId: id)
         ],
       );
 
@@ -48,7 +48,7 @@ void main() {
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
         expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
+          PhotoboothState(image: image, imageId: id)
         ],
       );
     });

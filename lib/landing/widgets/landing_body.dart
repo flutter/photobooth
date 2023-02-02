@@ -19,14 +19,14 @@ class LandingBody extends StatelessWidget {
           SelectableText(
             l10n.landingPageHeading,
             key: const Key('landingPage_heading_text'),
-            style: theme.textTheme.headline1,
+            style: theme.textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 40),
           SelectableText(
             l10n.landingPageSubheading,
             key: const Key('landingPage_subheading_text'),
-            style: theme.textTheme.headline3,
+            style: theme.textTheme.displaySmall,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),

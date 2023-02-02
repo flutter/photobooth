@@ -38,7 +38,7 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: _backgroundColor,
         borderRadius: BorderRadius.circular(10),
@@ -52,7 +52,7 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
           Flexible(
             child: SelectableText(
               widget.link,
-              style: theme.textTheme.button?.copyWith(
+              style: theme.textTheme.labelLarge?.copyWith(
                 color: _textColor,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -61,7 +61,7 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
           ),
           const SizedBox(width: 16),
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(6),
             child: copied
                 ? _CopiedButton(
                     key: const Key('shareCopyableLink_copiedButton'),

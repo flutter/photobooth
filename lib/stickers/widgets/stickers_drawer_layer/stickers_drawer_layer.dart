@@ -21,7 +21,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
           current.isDrawerActive && current != previous,
       listener: (context, state) {
         if (MediaQuery.of(context).size.width < PhotoboothBreakpoints.small) {
-          showModalBottomSheet(
+          showModalBottomSheet<void>(
             context: context,
             barrierColor: PhotoboothColors.black.withOpacity(0.75),
             backgroundColor: PhotoboothColors.transparent,

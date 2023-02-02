@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
@@ -17,70 +15,44 @@ const _debounceDuration = Duration(milliseconds: 16);
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   PhotoboothBloc([UuidGetter? uuid])
       : uuid = uuid ?? const Uuid().v4,
-        super(const PhotoboothState());
+        super(const PhotoboothState()) {
+    EventTransformer<E> debounce<E extends PhotoboothEvent>() =>
+        (Stream<E> events, EventMapper<E> mapper) =>
+            events.debounceTime(_debounceDuration).asyncExpand(mapper);
+
+    on<PhotoCharacterDragged>(
+      _onPhotoCharacterDragged,
+      transformer: debounce(),
+    );
+    on<PhotoStickerDragged>(
+      _onPhotoStickerDragged,
+      transformer: debounce(),
+    );
+    on<PhotoCaptured>(_onPhotoCaptured);
+    on<PhotoCharacterToggled>(_onPhotoCharacterToggled);
+    on<PhotoStickerTapped>(_onPhotoStickerTapped);
+    on<PhotoClearStickersTapped>(_onPhotoClearStickersTapped);
+    on<PhotoClearAllTapped>(_onPhotoClearAllTapped);
+    on<PhotoDeleteSelectedStickerTapped>(_onPhotoDeleteSelectedStickerTapped);
+    on<PhotoTapped>(_onPhotoTapped);
+  }
 
   final UuidGetter uuid;
 
-  bool _isDragEvent(PhotoboothEvent e) {
-    return e is PhotoCharacterDragged || e is PhotoStickerDragged;
-  }
-
-  bool _isNotDragEvent(PhotoboothEvent e) {
-    return e is! PhotoCharacterDragged && e is! PhotoStickerDragged;
-  }
-
-  @override
-  Stream<Transition<PhotoboothEvent, PhotoboothState>> transformEvents(
-    Stream<PhotoboothEvent> events,
-    TransitionFunction<PhotoboothEvent, PhotoboothState> transitionFn,
-  ) {
-    return Rx.merge([
-      events.where(_isDragEvent).debounceTime(_debounceDuration),
-      events.where(_isNotDragEvent),
-    ]).asyncExpand(transitionFn);
-  }
-
-  @override
-  Stream<PhotoboothState> mapEventToState(PhotoboothEvent event) async* {
-    if (event is PhotoCaptured) {
-      yield state.copyWith(
+  void _onPhotoCaptured(PhotoCaptured event, Emitter<PhotoboothState> emit) {
+    emit(
+      state.copyWith(
         aspectRatio: event.aspectRatio,
         image: event.image,
         imageId: uuid(),
         selectedAssetId: emptyAssetId,
-      );
-    } else if (event is PhotoCharacterToggled) {
-      yield _mapCharacterToggledToState(event, state);
-    } else if (event is PhotoCharacterDragged) {
-      yield _mapCharacterDraggedToState(event, state);
-    } else if (event is PhotoStickerTapped) {
-      yield _mapStickerTappedToState(event, state);
-    } else if (event is PhotoStickerDragged) {
-      yield _mapStickerDraggedToState(event, state);
-    } else if (event is PhotoClearStickersTapped) {
-      yield state.copyWith(
-        stickers: const <PhotoAsset>[],
-        selectedAssetId: emptyAssetId,
-      );
-    } else if (event is PhotoClearAllTapped) {
-      yield state.copyWith(
-        characters: const <PhotoAsset>[],
-        stickers: const <PhotoAsset>[],
-        selectedAssetId: emptyAssetId,
-      );
-    } else if (event is PhotoDeleteSelectedStickerTapped) {
-      yield _mapDeleteSelectedStickerTappedToState(
-        event,
-        state,
-      );
-    } else if (event is PhotoTapped) {
-      yield state.copyWith(selectedAssetId: emptyAssetId);
-    }
+      ),
+    );
   }
 
-  PhotoboothState _mapCharacterToggledToState(
+  void _onPhotoCharacterToggled(
     PhotoCharacterToggled event,
-    PhotoboothState state,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.character;
     final characters = List.of(state.characters);
@@ -89,20 +61,26 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
     if (characterExists) {
       characters.removeAt(index);
-      return state.copyWith(characters: characters);
+      return emit(
+        state.copyWith(
+          characters: characters,
+        ),
+      );
     }
 
     final newCharacter = PhotoAsset(id: uuid(), asset: asset);
     characters.add(newCharacter);
-    return state.copyWith(
-      characters: characters,
-      selectedAssetId: newCharacter.id,
+    emit(
+      state.copyWith(
+        characters: characters,
+        selectedAssetId: newCharacter.id,
+      ),
     );
   }
 
-  PhotoboothState _mapCharacterDraggedToState(
+  void _onPhotoCharacterDragged(
     PhotoCharacterDragged event,
-    PhotoboothState state,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.character;
     final characters = List.of(state.characters);
@@ -125,24 +103,31 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
         ),
       ),
     );
-    return state.copyWith(characters: characters, selectedAssetId: asset.id);
-  }
-
-  PhotoboothState _mapStickerTappedToState(
-    PhotoStickerTapped event,
-    PhotoboothState state,
-  ) {
-    final asset = event.sticker;
-    final newSticker = PhotoAsset(id: uuid(), asset: asset);
-    return state.copyWith(
-      stickers: List.of(state.stickers)..add(newSticker),
-      selectedAssetId: newSticker.id,
+    emit(
+      state.copyWith(
+        characters: characters,
+        selectedAssetId: asset.id,
+      ),
     );
   }
 
-  PhotoboothState _mapStickerDraggedToState(
+  void _onPhotoStickerTapped(
+    PhotoStickerTapped event,
+    Emitter<PhotoboothState> emit,
+  ) {
+    final asset = event.sticker;
+    final newSticker = PhotoAsset(id: uuid(), asset: asset);
+    emit(
+      state.copyWith(
+        stickers: List.of(state.stickers)..add(newSticker),
+        selectedAssetId: newSticker.id,
+      ),
+    );
+  }
+
+  void _onPhotoStickerDragged(
     PhotoStickerDragged event,
-    PhotoboothState state,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.sticker;
     final stickers = List.of(state.stickers);
@@ -165,12 +150,42 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
         ),
       ),
     );
-    return state.copyWith(stickers: stickers, selectedAssetId: asset.id);
+    emit(
+      state.copyWith(
+        stickers: stickers,
+        selectedAssetId: asset.id,
+      ),
+    );
   }
 
-  PhotoboothState _mapDeleteSelectedStickerTappedToState(
+  void _onPhotoClearStickersTapped(
+    PhotoClearStickersTapped event,
+    Emitter<PhotoboothState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        stickers: const <PhotoAsset>[],
+        selectedAssetId: emptyAssetId,
+      ),
+    );
+  }
+
+  void _onPhotoClearAllTapped(
+    PhotoClearAllTapped event,
+    Emitter<PhotoboothState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        characters: const <PhotoAsset>[],
+        stickers: const <PhotoAsset>[],
+        selectedAssetId: emptyAssetId,
+      ),
+    );
+  }
+
+  void _onPhotoDeleteSelectedStickerTapped(
     PhotoDeleteSelectedStickerTapped event,
-    PhotoboothState state,
+    Emitter<PhotoboothState> emit,
   ) {
     final stickers = List.of(state.stickers);
     final index = stickers.indexWhere(
@@ -182,9 +197,17 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
       stickers.removeAt(index);
     }
 
-    return state.copyWith(
-      stickers: stickers,
-      selectedAssetId: emptyAssetId,
+    emit(
+      state.copyWith(
+        stickers: stickers,
+        selectedAssetId: emptyAssetId,
+      ),
+    );
+  }
+
+  void _onPhotoTapped(PhotoTapped event, Emitter<PhotoboothState> emit) {
+    emit(
+      state.copyWith(selectedAssetId: emptyAssetId),
     );
   }
 }

@@ -149,8 +149,6 @@ BoxConstraints? _getAnimatedSpriteConstraints(String name) {
   return BoxConstraints(
     minWidth: size.width * _minCharacterScale,
     minHeight: size.height * _minCharacterScale,
-    maxWidth: double.infinity,
-    maxHeight: double.infinity,
   );
 }
 
@@ -225,7 +223,6 @@ class LandscapeCharactersIconLayout extends StatelessWidget {
             Flexible(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
                   children: children,
                 ),
               ),
@@ -258,7 +255,6 @@ class PortraitCharactersIconLayout extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: children,
               ),
             ),

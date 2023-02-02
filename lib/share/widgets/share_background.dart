@@ -8,9 +8,7 @@ class ShareBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: double.infinity,
+        SizedBox.expand(
           child: Image.asset(
             'assets/backgrounds/photobooth_background.jpg',
             repeat: ImageRepeat.repeat,

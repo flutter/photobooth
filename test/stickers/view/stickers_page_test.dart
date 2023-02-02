@@ -54,12 +54,12 @@ void main() {
   final image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeStickersEvent());
+    registerFallbackValue(FakeStickersState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
   });
 
   group('StickersPage', () {
@@ -67,13 +67,15 @@ void main() {
 
     setUp(() {
       photoboothBloc = MockPhotoboothBloc();
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState(
-        image: image,
-      ));
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          image: image,
+        ),
+      );
     });
 
     test('is routable', () {
-      expect(StickersPage.route(), isA<MaterialPageRoute>());
+      expect(StickersPage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('renders PreviewImage', (tester) async {
@@ -206,8 +208,9 @@ void main() {
       );
       expect(find.byType(AnimatedPulse), findsOneWidget);
       tester
-          .widget<AppTooltipButton>(find
-              .byKey(Key('stickersView_openStickersButton_appTooltipButton')))
+          .widget<AppTooltipButton>(
+            find.byKey(Key('stickersView_openStickersButton_appTooltipButton')),
+          )
           .onPressed();
       await tester.pumpAndSettle();
       expect(find.byType(AnimatedPulse), findsNothing);
@@ -282,25 +285,27 @@ void main() {
 
     testWidgets('tapping on retake + close does nothing', (tester) async {
       const initialPage = Key('__target__');
-      await tester.pumpApp(Builder(
-        builder: (context) {
-          return ElevatedButton(
-            key: initialPage,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: photoboothBloc),
-                    BlocProvider.value(value: stickersBloc),
-                  ],
-                  child: StickersView(),
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return ElevatedButton(
+              key: initialPage,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: photoboothBloc),
+                      BlocProvider.value(value: stickersBloc),
+                    ],
+                    child: StickersView(),
+                  ),
                 ),
               ),
-            ),
-            child: const SizedBox(),
-          );
-        },
-      ));
+              child: const SizedBox(),
+            );
+          },
+        ),
+      );
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
@@ -327,25 +332,27 @@ void main() {
 
     testWidgets('tapping on retake + cancel does nothing', (tester) async {
       const initialPage = Key('__target__');
-      await tester.pumpApp(Builder(
-        builder: (context) {
-          return ElevatedButton(
-            key: initialPage,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: photoboothBloc),
-                    BlocProvider.value(value: stickersBloc),
-                  ],
-                  child: StickersView(),
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return ElevatedButton(
+              key: initialPage,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: photoboothBloc),
+                      BlocProvider.value(value: stickersBloc),
+                    ],
+                    child: StickersView(),
+                  ),
                 ),
               ),
-            ),
-            child: const SizedBox(),
-          );
-        },
-      ));
+              child: const SizedBox(),
+            );
+          },
+        ),
+      );
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
@@ -635,9 +642,7 @@ void main() {
     testWidgets(
         'renders StickersCaption when shouldDisplayPropsReminder is true',
         (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(shouldDisplayPropsReminder: true),
-      );
+      when(() => stickersBloc.state).thenReturn(StickersState());
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [

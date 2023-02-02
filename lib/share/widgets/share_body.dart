@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:analytics/analytics.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,15 @@ class ShareBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessHeading()
-                      : const ShareHeading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessHeading()
+                  else
+                    const ShareHeading(),
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessSubheading()
-                      : const ShareSubheading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessSubheading()
+                  else
+                    const ShareSubheading(),
                   const SizedBox(height: 30),
                   if (isUploadSuccess)
                     Padding(
@@ -159,11 +162,15 @@ class GoToGoogleIOButton extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: PhotoboothColors.white),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: PhotoboothColors.white,
+      ),
       onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
-        style: theme.textTheme.button?.copyWith(color: PhotoboothColors.black),
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: PhotoboothColors.black,
+        ),
       ),
     );
   }

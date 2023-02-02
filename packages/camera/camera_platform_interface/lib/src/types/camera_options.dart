@@ -18,6 +18,7 @@ class CameraOptions {
 }
 
 enum CameraType { rear, user }
+
 enum Constrain { exact, ideal }
 
 class FacingMode {
@@ -68,7 +69,7 @@ class VideoConstraints {
     if (deviceId == defaultDeviceId) {
       json['deviceId'] = await CameraPlatform.instance.getDefaultDeviceId();
     } else if (deviceId != null) {
-      json['deviceId'] = deviceId!;
+      json['deviceId'] = deviceId;
     }
     return json;
   }

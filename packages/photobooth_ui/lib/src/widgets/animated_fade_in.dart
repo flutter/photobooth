@@ -20,7 +20,7 @@ class AnimatedFadeIn extends StatefulWidget {
   final Duration duration;
 
   @override
-  _AnimatedFadeInState createState() => _AnimatedFadeInState();
+  State<AnimatedFadeIn> createState() => _AnimatedFadeInState();
 }
 
 class _AnimatedFadeInState extends State<AnimatedFadeIn> {
@@ -29,7 +29,7 @@ class _AnimatedFadeInState extends State<AnimatedFadeIn> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() => _isVisible = true);
     });
   }

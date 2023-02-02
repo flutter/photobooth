@@ -31,7 +31,7 @@ class _ShareProgressOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: PhotoboothColors.black.withOpacity(0.8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
@@ -68,7 +68,7 @@ class _DesktopShareProgressOverlay extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 258),
           child: Text(
             l10n.sharePageProgressOverlayHeading,
-            style: theme.textTheme.headline1?.copyWith(
+            style: theme.textTheme.displayLarge?.copyWith(
               color: PhotoboothColors.white,
             ),
             textAlign: TextAlign.center,
@@ -77,7 +77,7 @@ class _DesktopShareProgressOverlay extends StatelessWidget {
         const SizedBox(height: 14),
         Text(
           l10n.sharePageProgressOverlaySubheading,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class _MobileShareProgressOverlay extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Text(
             l10n.sharePageProgressOverlayHeading,
-            style: theme.textTheme.headline1?.copyWith(
+            style: theme.textTheme.displayLarge?.copyWith(
               color: PhotoboothColors.white,
               fontSize: 32,
             ),
@@ -113,7 +113,7 @@ class _MobileShareProgressOverlay extends StatelessWidget {
         const SizedBox(height: 15),
         Text(
           l10n.sharePageProgressOverlaySubheading,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
             fontSize: 18,
           ),

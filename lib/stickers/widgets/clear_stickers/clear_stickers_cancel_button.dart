@@ -11,7 +11,7 @@ class ClearStickersCancelButton extends StatelessWidget {
 
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        primary: PhotoboothColors.black,
+        foregroundColor: PhotoboothColors.black,
         side: const BorderSide(color: PhotoboothColors.black),
       ),
       onPressed: () => Navigator.of(context).pop(false),

@@ -44,13 +44,16 @@ void main() {
   late PhotoboothBloc photoboothBloc;
   late ShareBloc shareBloc;
   late XFile file;
+  late UrlLauncherPlatform originalUrlLauncher;
 
   setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
 
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
+
+    registerFallbackValue(LaunchOptions());
   });
 
   setUp(() {
@@ -74,11 +77,17 @@ void main() {
       Stream.fromIterable([ShareState()]),
       initialState: ShareState(),
     );
+
+    originalUrlLauncher = UrlLauncherPlatform.instance;
+  });
+
+  tearDown(() {
+    UrlLauncherPlatform.instance = originalUrlLauncher;
   });
 
   group('SharePage', () {
     test('is routable', () {
-      expect(SharePage.route(), isA<MaterialPageRoute>());
+      expect(SharePage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('renders a ShareView', (tester) async {
@@ -144,11 +153,13 @@ void main() {
 
   group('ShareBody', () {
     setUp(() {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.success,
-        bytes: Uint8List(0),
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          bytes: Uint8List(0),
+          file: file,
+        ),
+      );
     });
 
     testWidgets('renders', (tester) async {
@@ -195,11 +206,13 @@ void main() {
     testWidgets(
         'displays a ShareSuccessHeading '
         'when uploadStatus is success', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.success,
-        uploadStatus: ShareStatus.success,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.success,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -215,11 +228,12 @@ void main() {
     testWidgets(
         'displays a ShareErrorHeading '
         'when compositeStatus is failure', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.failure,
-        uploadStatus: ShareStatus.initial,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.failure,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -245,11 +259,13 @@ void main() {
     testWidgets(
         'displays a ShareSuccessSubheading '
         'when uploadStatus is success', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.success,
-        uploadStatus: ShareStatus.success,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.success,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -262,11 +278,12 @@ void main() {
     testWidgets(
         'displays a ShareErrorSubheading '
         'when compositeStatus is failure', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.failure,
-        uploadStatus: ShareStatus.initial,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.failure,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -279,11 +296,13 @@ void main() {
     testWidgets(
         'displays a ShareSuccessCaption '
         'when uploadStatus is success', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.success,
-        uploadStatus: ShareStatus.success,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.success,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -296,11 +315,13 @@ void main() {
     testWidgets(
         'displays a ShareCopyableLink '
         'when uploadStatus is success', (tester) async {
-      when(() => shareBloc.state).thenReturn(ShareState(
-        compositeStatus: ShareStatus.success,
-        uploadStatus: ShareStatus.success,
-        file: file,
-      ));
+      when(() => shareBloc.state).thenReturn(
+        ShareState(
+          compositeStatus: ShareStatus.success,
+          uploadStatus: ShareStatus.success,
+          file: file,
+        ),
+      );
       await tester.pumpApp(
         ShareView(),
         photoboothBloc: photoboothBloc,
@@ -356,40 +377,22 @@ void main() {
         const url = googleIOExternalLink;
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(
-          () => mock.launch(
-            url,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
-        ).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(url, any())).thenAnswer((_) async => true);
         tester.setDisplaySize(Size(2500, 2500));
         await tester.pumpApp(
           ShareView(),
           photoboothBloc: photoboothBloc,
           shareBloc: shareBloc,
         );
-        await tester.ensureVisible(find.byType(
-          GoToGoogleIOButton,
-          skipOffstage: false,
-        ));
+        await tester.ensureVisible(
+          find.byType(
+            GoToGoogleIOButton,
+            skipOffstage: false,
+          ),
+        );
         await tester.tap(find.byType(GoToGoogleIOButton, skipOffstage: false));
 
-        verify(
-          () => mock.launch(
-            url,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
-        ).called(1);
+        verify(() => mock.launchUrl(url, any())).called(1);
       });
     });
 

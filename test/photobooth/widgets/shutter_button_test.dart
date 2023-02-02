@@ -23,7 +23,7 @@ void main() {
   setUp(() {
     audioPlayer = MockAudioPlayer();
     when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
-    when(() => audioPlayer.load()).thenAnswer((_) async {});
+    when(() => audioPlayer.load()).thenAnswer((_) async => null);
     when(() => audioPlayer.play()).thenAnswer((_) async {});
     when(() => audioPlayer.pause()).thenAnswer((_) async {});
     when(() => audioPlayer.stop()).thenAnswer((_) async {});
@@ -54,10 +54,12 @@ void main() {
     testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
         (tester) async {
       await tester.runAsync(() async {
-        await tester.pumpApp(ShutterButton(
-          onCountdownComplete: () {},
-          audioPlayer: () => audioPlayer,
-        ));
+        await tester.pumpApp(
+          ShutterButton(
+            onCountdownComplete: () {},
+            audioPlayer: () => audioPlayer,
+          ),
+        );
         await tester.tap(find.byType(CameraButton));
         await tester.pump();
         expect(find.byType(CountdownTimer), findsOneWidget);
@@ -74,9 +76,9 @@ void main() {
 
     setUp(() {
       animation = MockAnimationController();
-      registerFallbackValue<Paint>(Paint());
-      registerFallbackValue<Offset>(const Offset(200, 200));
-      registerFallbackValue<Rect>(RectFake());
+      registerFallbackValue(Paint());
+      registerFallbackValue(const Offset(200, 200));
+      registerFallbackValue(RectFake());
     });
 
     test('verifies should not repaint', () async {

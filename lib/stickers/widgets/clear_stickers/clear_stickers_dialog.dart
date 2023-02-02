@@ -19,19 +19,18 @@ class ClearStickersDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               l10n.clearStickersDialogHeading,
               key: const Key('clearStickersDialog_heading'),
-              style: theme.textTheme.headline1,
+              style: theme.textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             Text(
               l10n.clearStickersDialogSubheading,
               key: const Key('clearStickersDialog_subheading'),
-              style: theme.textTheme.headline3,
+              style: theme.textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),

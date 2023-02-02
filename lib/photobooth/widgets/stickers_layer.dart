@@ -26,7 +26,6 @@ class StickersLayer extends StatelessWidget {
                     top: sticker.position.dy * heightFactor,
                     left: sticker.position.dx * widthFactor,
                     child: Transform.rotate(
-                      alignment: Alignment.center,
                       angle: sticker.angle,
                       child: Image.asset(
                         sticker.asset.path,

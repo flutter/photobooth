@@ -10,51 +10,40 @@ class MockUrlLauncher extends Mock
 
 void main() {
   late UrlLauncherPlatform mock;
+  late UrlLauncherPlatform original;
+
+  setUpAll(() {
+    registerFallbackValue(const LaunchOptions());
+  });
 
   setUp(() {
+    original = UrlLauncherPlatform.instance;
     mock = MockUrlLauncher();
     UrlLauncherPlatform.instance = mock;
+  });
+
+  tearDown(() {
+    UrlLauncherPlatform.instance = original;
   });
 
   group('openLink', () {
     test('launches the link', () async {
       when(() => mock.canLaunch('url')).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
+      when(() => mock.launchUrl('url', any())).thenAnswer((_) async => true);
       await openLink('url');
-      verify(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(() => mock.launchUrl('url', any())).called(1);
     });
 
     test('executes the onError callback when it cannot launch', () async {
       var wasCalled = false;
       when(() => mock.canLaunch('url')).thenAnswer((_) async => false);
-      when(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
-      await openLink('url', onError: () {
-        wasCalled = true;
-      });
+      when(() => mock.launchUrl('url', any())).thenAnswer((_) async => true);
+      await openLink(
+        'url',
+        onError: () {
+          wasCalled = true;
+        },
+      );
       await expectLater(wasCalled, isTrue);
     });
   });

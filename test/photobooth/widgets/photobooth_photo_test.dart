@@ -20,8 +20,8 @@ void main() {
   late PhotoboothBloc photoboothBloc;
 
   setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
   });
 
   setUp(() {

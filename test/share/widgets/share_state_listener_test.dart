@@ -29,10 +29,11 @@ void main() {
   late ShareBloc shareBloc;
   late PlatformHelper platformHelper;
   late XFile file;
+  late UrlLauncherPlatform originalUrlLauncher;
 
   setUpAll(() {
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
   });
 
   setUp(() {
@@ -41,6 +42,12 @@ void main() {
 
     file = MockXFile();
     platformHelper = MockPlatformHelper();
+
+    originalUrlLauncher = UrlLauncherPlatform.instance;
+  });
+
+  tearDown(() {
+    UrlLauncherPlatform.instance = originalUrlLauncher;
   });
 
   group('ShareStateListener', () {
@@ -179,17 +186,8 @@ void main() {
         final mock = MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(
-          () => mock.launch(
-            shareUrl,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
-        ).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(shareUrl, any()))
+            .thenAnswer((_) async => true);
 
         whenListen(
           shareBloc,
@@ -219,17 +217,7 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        verify(
-          () => mock.launch(
-            shareUrl,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
-        ).called(1);
+        verify(() => mock.launchUrl(shareUrl, any())).called(1);
       });
     });
   });

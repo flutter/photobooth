@@ -85,7 +85,7 @@ class PhotosRepository {
     } catch (e, st) {
       throw UploadPhotoException(
         'Uploading photo $fileName failed. '
-        'Couldn\'t get storage reference \'uploads/$fileName\'.'
+        "Couldn't get storage reference 'uploads/$fileName'.\n"
         'Error: $e. StackTrace: $st',
       );
     }
@@ -103,7 +103,7 @@ class PhotosRepository {
     } catch (error, stackTrace) {
       throw UploadPhotoException(
         'Uploading photo $fileName failed. '
-        'Couldn\'t upload data to ${reference.fullPath}.'
+        "Couldn't upload data to ${reference.fullPath}.\n"
         'Error: $error. StackTrace: $stackTrace',
       );
     }

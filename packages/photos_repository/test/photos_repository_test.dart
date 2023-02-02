@@ -29,13 +29,11 @@ typedef UploadTaskSnapshot = FutureOr<firebase_storage.TaskSnapshot> Function(
 
 void main() {
   setUpAll(() {
-    registerFallbackValue<Uint8List>(Uint8List(0));
-    registerFallbackValue<firebase_storage.UploadTask>(MockUploadTask());
-    registerFallbackValue<firebase_storage.TaskSnapshot>(MockTaskSnapshot());
-    registerFallbackValue<firebase_storage.SettableMetadata>(
-      FakeSettableMetadata(),
-    );
-    registerFallbackValue<UploadTaskSnapshot>((_) async => MockTaskSnapshot());
+    registerFallbackValue(Uint8List(0));
+    registerFallbackValue(MockUploadTask());
+    registerFallbackValue(MockTaskSnapshot());
+    registerFallbackValue(FakeSettableMetadata());
+    registerFallbackValue((_) async => MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {
@@ -80,7 +78,7 @@ void main() {
       when(() => reference.putData(any())).thenAnswer((_) => uploadTask);
       when(() => reference.fullPath).thenReturn(referenceFullPath);
       when(
-        () => uploadTask.then<firebase_storage.TaskSnapshot>(
+        () => uploadTask.then<dynamic>(
           any(),
           onError: any(named: 'onError'),
         ),
@@ -151,7 +149,7 @@ void main() {
         when(() => firebaseStorage.ref(any())).thenThrow(() => Exception());
 
         expect(
-          () async => await photosRepository.sharePhoto(
+          () => photosRepository.sharePhoto(
             fileName: photoName,
             data: photoData,
             shareText: shareText,
@@ -165,7 +163,7 @@ void main() {
           'when reference.putData throws', () async {
         when(() => reference.putData(photoData)).thenThrow(() => Exception());
         expect(
-          () async => await photosRepository.sharePhoto(
+          () => photosRepository.sharePhoto(
             fileName: photoName,
             data: photoData,
             shareText: shareText,
@@ -182,7 +180,7 @@ void main() {
       const height = 4;
       const layers = [
         CompositeLayer(
-          angle: 0.0,
+          angle: 0,
           assetPath: 'path',
           constraints: Vector2D(1, 2),
           position: Vector2D(3, 4),
@@ -248,7 +246,7 @@ void main() {
           ),
         ).thenThrow(Exception('oops'));
         expect(
-          () async => await photosRepository.composite(
+          () => photosRepository.composite(
             width: width,
             height: height,
             data: data,

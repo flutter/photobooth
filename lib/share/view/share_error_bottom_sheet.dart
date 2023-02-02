@@ -20,11 +20,10 @@ class ShareErrorBottomSheet extends StatelessWidget {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 32),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 58.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 58),
                   child: Image.asset(
                     'assets/images/error_photo_mobile.png',
                   ),
@@ -33,14 +32,14 @@ class ShareErrorBottomSheet extends StatelessWidget {
                 Text(
                   l10n.shareErrorDialogHeading,
                   key: const Key('shareErrorBottomSheet_heading'),
-                  style: theme.textTheme.headline1?.copyWith(fontSize: 32),
+                  style: theme.textTheme.displayLarge?.copyWith(fontSize: 32),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
                 Text(
                   l10n.shareErrorDialogSubheading,
                   key: const Key('shareErrorBottomSheet_subheading'),
-                  style: theme.textTheme.headline3?.copyWith(fontSize: 18),
+                  style: theme.textTheme.displaySmall?.copyWith(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 42),

@@ -22,7 +22,7 @@ class Camera extends StatefulWidget {
   final ErrorBuilder error;
 
   @override
-  _CameraState createState() => _CameraState();
+  State<Camera> createState() => _CameraState();
 }
 
 class _CameraState extends State<Camera> {
