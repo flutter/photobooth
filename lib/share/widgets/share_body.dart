@@ -104,9 +104,9 @@ class ShareBody extends StatelessWidget {
 @visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({
-    Key? key,
     required this.image,
     required this.file,
+    Key? key,
   }) : super(key: key);
 
   final Uint8List image;
@@ -130,9 +130,9 @@ class DesktopButtonsLayout extends StatelessWidget {
 @visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({
-    Key? key,
     required this.image,
     required this.file,
+    Key? key,
   }) : super(key: key);
 
   final Uint8List image;
@@ -178,7 +178,7 @@ class GoToGoogleIOButton extends StatelessWidget {
 
 @visibleForTesting
 class DownloadButton extends StatelessWidget {
-  const DownloadButton({Key? key, required this.file}) : super(key: key);
+  const DownloadButton({required this.file, Key? key}) : super(key: key);
 
   final XFile file;
 

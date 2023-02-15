@@ -6,9 +6,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class FooterLink extends StatelessWidget {
   const FooterLink({
-    Key? key,
     required this.text,
     required this.link,
+    Key? key,
   }) : super(key: key);
 
   final String text;

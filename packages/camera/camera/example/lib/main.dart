@@ -71,9 +71,9 @@ class _HomePageState extends State<HomePage> {
 
 class CameraFrame extends StatelessWidget {
   const CameraFrame({
-    Key? key,
     required this.onSnapPressed,
     required this.child,
+    Key? key,
   }) : super(key: key);
 
   final Widget child;
@@ -97,7 +97,7 @@ class CameraFrame extends StatelessWidget {
 }
 
 class PreviewPage extends StatelessWidget {
-  const PreviewPage({Key? key, required this.image}) : super(key: key);
+  const PreviewPage({required this.image, Key? key}) : super(key: key);
 
   static Route<void> route({required String image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));

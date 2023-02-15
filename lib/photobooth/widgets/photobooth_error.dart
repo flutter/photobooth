@@ -4,7 +4,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothError extends StatelessWidget {
-  const PhotoboothError({Key? key, required this.error}) : super(key: key);
+  const PhotoboothError({required this.error, Key? key}) : super(key: key);
 
   final CameraException error;
 
@@ -172,8 +172,8 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
 
 class _PhotoboothErrorContent extends StatelessWidget {
   const _PhotoboothErrorContent({
-    Key? key,
     required this.children,
+    Key? key,
   }) : super(key: key);
 
   final List<Widget> children;

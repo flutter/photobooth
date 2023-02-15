@@ -1,5 +1,4 @@
 /// Unsupported Implementation of [ImageCompositor]
-
 class ImageCompositor {
   /// Throws [UnsupportedError].
   Future<List<int>> composite({

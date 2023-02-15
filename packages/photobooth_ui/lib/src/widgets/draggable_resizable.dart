@@ -39,7 +39,6 @@ const _floatingActionPadding = 100.0;
 class DraggableResizable extends StatefulWidget {
   /// {@macro draggable_resizable}
   DraggableResizable({
-    Key? key,
     required this.child,
     required this.size,
     BoxConstraints? constraints,
@@ -47,6 +46,7 @@ class DraggableResizable extends StatefulWidget {
     this.onDelete,
     this.canTransform = false,
     PlatformHelper? platformHelper,
+    Key? key,
   })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
         platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
@@ -410,9 +410,9 @@ const _cursorLookup = <_ResizePointType, MouseCursor>{
 
 class _ResizePoint extends StatelessWidget {
   const _ResizePoint({
-    Key? key,
     required this.onDrag,
     required this.type,
+    Key? key,
   }) : super(key: key);
 
   final ValueSetter<Offset> onDrag;
@@ -452,13 +452,13 @@ enum _PositionMode { local, global }
 
 class _DraggablePoint extends StatefulWidget {
   const _DraggablePoint({
-    Key? key,
     required this.child,
     this.onDrag,
     this.onScale,
     this.onRotate,
     this.onTap,
     this.mode = _PositionMode.global,
+    Key? key,
   }) : super(key: key);
 
   final Widget child;
@@ -528,9 +528,9 @@ class _DraggablePointState extends State<_DraggablePoint> {
 
 class _FloatingActionIcon extends StatelessWidget {
   const _FloatingActionIcon({
-    Key? key,
     required this.iconData,
     this.onTap,
+    Key? key,
   }) : super(key: key);
 
   final IconData iconData;

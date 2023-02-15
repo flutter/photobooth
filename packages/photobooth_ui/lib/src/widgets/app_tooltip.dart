@@ -7,10 +7,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class AppTooltip extends StatelessWidget {
   /// {@macro app_tooltip}
   const AppTooltip({
-    Key? key,
     required String message,
     required Widget child,
     EdgeInsets? padding,
+    Key? key,
   }) : this._(
           key: key,
           message: message,
@@ -19,22 +19,22 @@ class AppTooltip extends StatelessWidget {
         );
 
   const AppTooltip._({
-    Key? key,
     required this.message,
     required this.child,
     this.visible = false,
     this.padding,
     this.verticalOffset,
+    Key? key,
   }) : super(key: key);
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({
-    Key? key,
     required String message,
     required bool visible,
     EdgeInsets? padding,
     double? verticalOffset,
     Widget? child,
+    Key? key,
   }) : this._(
           key: key,
           message: message,

@@ -11,9 +11,9 @@ import 'package:platform_helper/platform_helper.dart';
 
 class ShareButton extends StatelessWidget {
   ShareButton({
-    Key? key,
     required this.image,
     PlatformHelper? platformHelper,
+    Key? key,
   })  : platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 

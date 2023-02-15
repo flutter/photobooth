@@ -4,9 +4,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class IconLink extends StatelessWidget {
   const IconLink({
-    Key? key,
     required this.icon,
     required this.link,
+    Key? key,
   }) : super(key: key);
 
   final Widget icon;

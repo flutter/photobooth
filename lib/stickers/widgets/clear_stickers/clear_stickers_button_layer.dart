@@ -32,8 +32,8 @@ class ClearStickersButtonLayer extends StatelessWidget {
 
 class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
-    Key? key,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;

@@ -427,8 +427,8 @@ extension on PhotoAsset {
 
 class OpenStickersButton extends StatefulWidget {
   const OpenStickersButton({
-    Key? key,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;

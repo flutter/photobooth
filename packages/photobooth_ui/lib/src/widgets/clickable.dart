@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 class Clickable extends StatelessWidget {
   /// {@macro clickable}
   const Clickable({
-    Key? key,
     required this.child,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   /// Child to be rendered

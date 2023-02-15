@@ -21,7 +21,7 @@ class BlackFooter extends StatelessWidget {
 }
 
 class Footer extends StatelessWidget {
-  const Footer({Key? key, required this.textColor}) : super(key: key);
+  const Footer({required this.textColor, Key? key}) : super(key: key);
 
   final Color textColor;
 

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class PreviewImage extends StatelessWidget {
   /// {@macro preview_image}
   const PreviewImage({
-    Key? key,
     required this.data,
     this.height,
     this.width,
+    Key? key,
   }) : super(key: key);
 
   /// Data URI representing the data of the image

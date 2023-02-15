@@ -8,10 +8,10 @@ class AppAnimatedCrossFade extends StatelessWidget {
   /// {@macro app_animated_cross_fade}
 
   const AppAnimatedCrossFade({
-    Key? key,
     required this.firstChild,
     required this.secondChild,
     required this.crossFadeState,
+    Key? key,
   }) : super(key: key);
 
   /// First [Widget] to display

@@ -49,11 +49,11 @@ enum AnimationMode {
 class AnimatedSprite extends StatefulWidget {
   /// {@macro animated_sprite}
   const AnimatedSprite({
-    Key? key,
     required this.sprites,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
     this.loadingIndicatorColor = PhotoboothColors.orange,
+    Key? key,
   }) : super(key: key);
 
   /// The collection of sprites which will be animated.

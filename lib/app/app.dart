@@ -9,9 +9,9 @@ import 'package:photos_repository/photos_repository.dart';
 
 class App extends StatelessWidget {
   const App({
-    Key? key,
     required this.authenticationRepository,
     required this.photosRepository,
+    Key? key,
   }) : super(key: key);
 
   final AuthenticationRepository authenticationRepository;
@@ -36,7 +36,7 @@ class App extends StatelessWidget {
 }
 
 class _App extends StatelessWidget {
-  const _App({Key? key, required this.theme}) : super(key: key);
+  const _App({required this.theme, Key? key}) : super(key: key);
 
   final ThemeData theme;
 

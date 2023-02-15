@@ -10,9 +10,9 @@ const _textColor = Color(0xFF80858A);
 
 class ShareCopyableLink extends StatefulWidget {
   const ShareCopyableLink({
-    Key? key,
     required this.link,
     this.suspendDuration = const Duration(seconds: 5),
+    Key? key,
   }) : super(key: key);
 
   /// The link that will be stored in the [Clipboard]
@@ -113,8 +113,8 @@ final _copyButtonsShape = MaterialStateProperty.all(
 
 class _CopyButton extends StatelessWidget {
   const _CopyButton({
-    Key? key,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;
@@ -136,8 +136,8 @@ class _CopyButton extends StatelessWidget {
 
 class _CopiedButton extends StatelessWidget {
   const _CopiedButton({
-    Key? key,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;

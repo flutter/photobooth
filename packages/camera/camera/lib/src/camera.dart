@@ -6,11 +6,11 @@ typedef ErrorBuilder = Widget Function(BuildContext, CameraException);
 
 class Camera extends StatefulWidget {
   Camera({
-    Key? key,
     required this.controller,
     PlaceholderBuilder? placeholder,
     PreviewBuilder? preview,
     ErrorBuilder? error,
+    Key? key,
   })  : placeholder = (placeholder ?? (_) => const SizedBox()),
         preview = (preview ?? (_, preview) => preview),
         error = (error ?? (_, __) => const SizedBox()),

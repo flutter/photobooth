@@ -5,11 +5,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MobileStickersDrawer extends StatelessWidget {
   const MobileStickersDrawer({
-    Key? key,
     required this.initialIndex,
     required this.onStickerSelected,
     required this.onTabChanged,
     required this.bucket,
+    Key? key,
   }) : super(key: key);
 
   final int initialIndex;

@@ -4,10 +4,10 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatefulWidget {
   const StickersTabs({
-    Key? key,
     required this.onStickerSelected,
     required this.onTabChanged,
     this.initialIndex = 0,
+    Key? key,
   }) : super(key: key);
 
   final ValueSetter<Asset> onStickerSelected;
@@ -115,8 +115,8 @@ class _StickersTabsState extends State<StickersTabs>
 @visibleForTesting
 class StickersTab extends StatefulWidget {
   const StickersTab({
-    Key? key,
     required this.assetPath,
+    Key? key,
   }) : super(key: key);
 
   final String assetPath;
@@ -148,9 +148,9 @@ class _StickersTabState extends State<StickersTab>
 @visibleForTesting
 class StickersTabBarView extends StatelessWidget {
   const StickersTabBarView({
-    Key? key,
     required this.stickers,
     required this.onStickerSelected,
+    Key? key,
   }) : super(key: key);
 
   final Set<Asset> stickers;
@@ -193,9 +193,9 @@ class StickersTabBarView extends StatelessWidget {
 @visibleForTesting
 class StickerChoice extends StatelessWidget {
   const StickerChoice({
-    Key? key,
     required this.asset,
     required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   final Asset asset;

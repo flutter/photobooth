@@ -116,9 +116,9 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
 class _PhotoboothBackground extends StatelessWidget {
   const _PhotoboothBackground({
-    Key? key,
     required this.aspectRatio,
     required this.child,
+    Key? key,
   }) : super(key: key);
 
   final double aspectRatio;
