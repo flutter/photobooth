@@ -9,6 +9,10 @@ class MockUrlLauncher extends Mock
     implements UrlLauncherPlatform {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(const LaunchOptions());
+  });
+
   group('External links', () {
     late UrlLauncherPlatform originalUrlLauncher;
 

@@ -34,6 +34,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(FakeShareEvent());
     registerFallbackValue(FakeShareState());
+    registerFallbackValue(const LaunchOptions());
   });
 
   setUp(() {
