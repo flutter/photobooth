@@ -9,8 +9,8 @@ class MobileStickersDrawer extends StatelessWidget {
     required this.onStickerSelected,
     required this.onTabChanged,
     required this.bucket,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int initialIndex;
   final ValueSetter<Asset> onStickerSelected;

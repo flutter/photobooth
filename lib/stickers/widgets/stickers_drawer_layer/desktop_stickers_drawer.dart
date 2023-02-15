@@ -10,8 +10,8 @@ class DesktopStickersDrawer extends StatelessWidget {
     required this.onTabChanged,
     required this.onCloseTapped,
     required this.bucket,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int initialIndex;
   final ValueSetter<Asset> onStickerSelected;

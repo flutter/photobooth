@@ -8,8 +8,8 @@ class Clickable extends StatelessWidget {
   const Clickable({
     required this.child,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Child to be rendered
   final Widget child;

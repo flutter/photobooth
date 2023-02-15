@@ -6,7 +6,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
-  const ShareDialog({required this.image, Key? key}) : super(key: key);
+  const ShareDialog({required this.image, super.key});
 
   final Uint8List image;
 

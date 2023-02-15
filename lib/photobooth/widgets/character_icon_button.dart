@@ -10,8 +10,8 @@ class CharacterIconButton extends StatelessWidget {
     required this.isSelected,
     required this.label,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final AssetImage icon;
   final VoidCallback? onPressed;

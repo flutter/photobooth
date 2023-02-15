@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class StickersLayer extends StatelessWidget {
-  const StickersLayer({Key? key}) : super(key: key);
+  const StickersLayer({super.key});
 
   @override
   Widget build(BuildContext context) {

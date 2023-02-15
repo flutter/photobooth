@@ -12,8 +12,8 @@ class ShareCopyableLink extends StatefulWidget {
   const ShareCopyableLink({
     required this.link,
     this.suspendDuration = const Duration(seconds: 5),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The link that will be stored in the [Clipboard]
   /// when [_CopyButton] is tapped.
@@ -114,8 +114,8 @@ final _copyButtonsShape = MaterialStateProperty.all(
 class _CopyButton extends StatelessWidget {
   const _CopyButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 
@@ -137,8 +137,8 @@ class _CopyButton extends StatelessWidget {
 class _CopiedButton extends StatelessWidget {
   const _CopiedButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 

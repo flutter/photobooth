@@ -9,8 +9,8 @@ class PreviewImage extends StatelessWidget {
     required this.data,
     this.height,
     this.width,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Data URI representing the data of the image
   final String data;

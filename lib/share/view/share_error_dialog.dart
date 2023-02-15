@@ -4,7 +4,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareErrorDialog extends StatelessWidget {
-  const ShareErrorDialog({Key? key}) : super(key: key);
+  const ShareErrorDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

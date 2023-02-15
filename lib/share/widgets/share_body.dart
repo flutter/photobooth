@@ -11,7 +11,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({Key? key}) : super(key: key);
+  const ShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +106,8 @@ class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({
     required this.image,
     required this.file,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
   final XFile file;
@@ -132,8 +132,8 @@ class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({
     required this.image,
     required this.file,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
   final XFile file;
@@ -155,7 +155,7 @@ class MobileButtonsLayout extends StatelessWidget {
 
 @visibleForTesting
 class GoToGoogleIOButton extends StatelessWidget {
-  const GoToGoogleIOButton({Key? key}) : super(key: key);
+  const GoToGoogleIOButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class GoToGoogleIOButton extends StatelessWidget {
 
 @visibleForTesting
 class DownloadButton extends StatelessWidget {
-  const DownloadButton({required this.file, Key? key}) : super(key: key);
+  const DownloadButton({required this.file, super.key});
 
   final XFile file;
 

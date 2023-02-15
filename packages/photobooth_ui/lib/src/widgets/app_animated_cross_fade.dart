@@ -11,8 +11,8 @@ class AppAnimatedCrossFade extends StatelessWidget {
     required this.firstChild,
     required this.secondChild,
     required this.crossFadeState,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// First [Widget] to display
   final Widget firstChild;

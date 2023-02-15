@@ -3,7 +3,7 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class WhiteFooter extends StatelessWidget {
-  const WhiteFooter({Key? key}) : super(key: key);
+  const WhiteFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class WhiteFooter extends StatelessWidget {
 }
 
 class BlackFooter extends StatelessWidget {
-  const BlackFooter({Key? key}) : super(key: key);
+  const BlackFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class BlackFooter extends StatelessWidget {
 }
 
 class Footer extends StatelessWidget {
-  const Footer({required this.textColor, Key? key}) : super(key: key);
+  const Footer({required this.textColor, super.key});
 
   final Color textColor;
 
@@ -41,7 +41,7 @@ class Footer extends StatelessWidget {
 }
 
 class _ColumnFooter extends StatelessWidget {
-  const _ColumnFooter({Key? key}) : super(key: key);
+  const _ColumnFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _ColumnFooter extends StatelessWidget {
 }
 
 class _RowFooter extends StatelessWidget {
-  const _RowFooter({Key? key}) : super(key: key);
+  const _RowFooter({super.key});
 
   @override
   Widget build(BuildContext context) {

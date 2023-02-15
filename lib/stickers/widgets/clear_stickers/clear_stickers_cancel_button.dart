@@ -3,7 +3,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ClearStickersCancelButton extends StatelessWidget {
-  const ClearStickersCancelButton({Key? key}) : super(key: key);
+  const ClearStickersCancelButton({super.key});
 
   @override
   Widget build(BuildContext context) {

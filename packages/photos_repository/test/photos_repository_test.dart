@@ -146,7 +146,7 @@ void main() {
       test(
           'throws UploadPhotoException '
           'when firebaseStorage.ref throws', () async {
-        when(() => firebaseStorage.ref(any())).thenThrow(() => Exception());
+        when(() => firebaseStorage.ref(any())).thenThrow(Exception.new);
 
         expect(
           () => photosRepository.sharePhoto(
@@ -161,7 +161,7 @@ void main() {
       test(
           'throws UploadPhotoException '
           'when reference.putData throws', () async {
-        when(() => reference.putData(photoData)).thenThrow(() => Exception());
+        when(() => reference.putData(photoData)).thenThrow(Exception.new);
         expect(
           () => photosRepository.sharePhoto(
             fileName: photoName,

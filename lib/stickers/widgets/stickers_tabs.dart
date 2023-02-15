@@ -7,8 +7,8 @@ class StickersTabs extends StatefulWidget {
     required this.onStickerSelected,
     required this.onTabChanged,
     this.initialIndex = 0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueSetter<Asset> onStickerSelected;
   final ValueSetter<int> onTabChanged;
@@ -116,8 +116,8 @@ class _StickersTabsState extends State<StickersTabs>
 class StickersTab extends StatefulWidget {
   const StickersTab({
     required this.assetPath,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String assetPath;
 
@@ -150,8 +150,8 @@ class StickersTabBarView extends StatelessWidget {
   const StickersTabBarView({
     required this.stickers,
     required this.onStickerSelected,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
@@ -195,8 +195,8 @@ class StickerChoice extends StatelessWidget {
   const StickerChoice({
     required this.asset,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Asset asset;
   final VoidCallback onPressed;

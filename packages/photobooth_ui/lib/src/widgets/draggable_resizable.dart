@@ -46,10 +46,9 @@ class DraggableResizable extends StatefulWidget {
     this.onDelete,
     this.canTransform = false,
     PlatformHelper? platformHelper,
-    Key? key,
+    super.key,
   })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
-        platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+        platformHelper = platformHelper ?? PlatformHelper();
 
   /// The child which will be draggable/resizable.
   final Widget child;
@@ -412,8 +411,8 @@ class _ResizePoint extends StatelessWidget {
   const _ResizePoint({
     required this.onDrag,
     required this.type,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueSetter<Offset> onDrag;
   final _ResizePointType type;
@@ -458,8 +457,8 @@ class _DraggablePoint extends StatefulWidget {
     this.onRotate,
     this.onTap,
     this.mode = _PositionMode.global,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final _PositionMode mode;
@@ -530,8 +529,8 @@ class _FloatingActionIcon extends StatelessWidget {
   const _FloatingActionIcon({
     required this.iconData,
     this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final IconData iconData;
   final VoidCallback? onTap;

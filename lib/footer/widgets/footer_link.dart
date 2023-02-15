@@ -8,8 +8,8 @@ class FooterLink extends StatelessWidget {
   const FooterLink({
     required this.text,
     required this.link,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
   final String link;
@@ -25,8 +25,8 @@ class FooterLink extends StatelessWidget {
 
 class FooterMadeWithLink extends StatelessWidget {
   const FooterMadeWithLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +68,8 @@ class FooterMadeWithLink extends StatelessWidget {
 
 class FooterGoogleIOLink extends StatelessWidget {
   const FooterGoogleIOLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +84,8 @@ class FooterGoogleIOLink extends StatelessWidget {
 
 class FooterCodelabLink extends StatelessWidget {
   const FooterCodelabLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +101,8 @@ class FooterCodelabLink extends StatelessWidget {
 
 class FooterHowItsMadeLink extends StatelessWidget {
   const FooterHowItsMadeLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +118,8 @@ class FooterHowItsMadeLink extends StatelessWidget {
 
 class FooterTermsOfServiceLink extends StatelessWidget {
   const FooterTermsOfServiceLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +134,8 @@ class FooterTermsOfServiceLink extends StatelessWidget {
 
 class FooterPrivacyPolicyLink extends StatelessWidget {
   const FooterPrivacyPolicyLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

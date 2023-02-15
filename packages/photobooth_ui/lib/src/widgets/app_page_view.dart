@@ -12,8 +12,8 @@ class AppPageView extends StatelessWidget {
     required this.footer,
     this.background = const SizedBox(),
     this.overlays = const <Widget>[],
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// A body of the [AppPageView]
   final Widget body;

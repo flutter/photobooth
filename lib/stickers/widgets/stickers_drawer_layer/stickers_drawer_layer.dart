@@ -5,7 +5,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersDrawerLayer extends StatefulWidget {
-  const StickersDrawerLayer({Key? key}) : super(key: key);
+  const StickersDrawerLayer({super.key});
 
   @override
   State<StickersDrawerLayer> createState() => _StickersDrawerLayerState();

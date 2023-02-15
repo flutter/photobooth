@@ -5,7 +5,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareSubheading extends StatelessWidget {
-  const ShareSubheading({Key? key}) : super(key: key);
+  const ShareSubheading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ShareSubheading extends StatelessWidget {
 }
 
 class ShareSuccessSubheading extends StatelessWidget {
-  const ShareSuccessSubheading({Key? key}) : super(key: key);
+  const ShareSuccessSubheading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class ShareSuccessSubheading extends StatelessWidget {
 }
 
 class ShareErrorSubheading extends StatelessWidget {
-  const ShareErrorSubheading({Key? key}) : super(key: key);
+  const ShareErrorSubheading({super.key});
 
   @override
   Widget build(BuildContext context) {

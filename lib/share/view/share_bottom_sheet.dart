@@ -8,8 +8,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class ShareBottomSheet extends StatelessWidget {
   const ShareBottomSheet({
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
 

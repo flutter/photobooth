@@ -5,7 +5,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareSuccessCaption extends StatelessWidget {
-  const ShareSuccessCaption({Key? key}) : super(key: key);
+  const ShareSuccessCaption({super.key});
 
   @override
   Widget build(BuildContext context) {

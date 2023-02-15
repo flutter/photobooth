@@ -17,7 +17,7 @@ const _videoConstraints = VideoConstraints(
 );
 
 class PhotoboothPage extends StatelessWidget {
-  const PhotoboothPage({Key? key}) : super(key: key);
+  const PhotoboothPage({super.key});
 
   static Route<void> route() {
     return AppPageRoute(builder: (_) => const PhotoboothPage());
@@ -37,7 +37,7 @@ class PhotoboothPage extends StatelessWidget {
 }
 
 class PhotoboothView extends StatefulWidget {
-  const PhotoboothView({Key? key}) : super(key: key);
+  const PhotoboothView({super.key});
 
   @override
   State<PhotoboothView> createState() => _PhotoboothViewState();
@@ -118,8 +118,7 @@ class _PhotoboothBackground extends StatelessWidget {
   const _PhotoboothBackground({
     required this.aspectRatio,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final double aspectRatio;
   final Widget child;

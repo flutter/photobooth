@@ -15,7 +15,7 @@ Future<T?> showAppDialog<T>({
     );
 
 class _AppDialog extends StatelessWidget {
-  const _AppDialog({required this.child, Key? key}) : super(key: key);
+  const _AppDialog({required this.child});
 
   final Widget child;
 

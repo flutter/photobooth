@@ -4,7 +4,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothError extends StatelessWidget {
-  const PhotoboothError({required this.error, Key? key}) : super(key: key);
+  const PhotoboothError({required this.error, super.key});
 
   final CameraException error;
 
@@ -35,7 +35,7 @@ class PhotoboothError extends StatelessWidget {
 }
 
 class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
-  const _PhotoboothCameraAccessDeniedError({Key? key}) : super(key: key);
+  const _PhotoboothCameraAccessDeniedError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
 }
 
 class _PhotoboothCameraNotFoundError extends StatelessWidget {
-  const _PhotoboothCameraNotFoundError({Key? key}) : super(key: key);
+  const _PhotoboothCameraNotFoundError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
 }
 
 class _PhotoboothCameraUnknownError extends StatelessWidget {
-  const _PhotoboothCameraUnknownError({Key? key}) : super(key: key);
+  const _PhotoboothCameraUnknownError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +141,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
 }
 
 class _PhotoboothCameraNotSupportedError extends StatelessWidget {
-  const _PhotoboothCameraNotSupportedError({Key? key}) : super(key: key);
+  const _PhotoboothCameraNotSupportedError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -173,8 +173,7 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
 class _PhotoboothErrorContent extends StatelessWidget {
   const _PhotoboothErrorContent({
     required this.children,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 

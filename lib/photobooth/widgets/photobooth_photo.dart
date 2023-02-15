@@ -7,8 +7,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class PhotoboothPhoto extends StatelessWidget {
   const PhotoboothPhoto({
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String image;
 

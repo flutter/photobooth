@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBackground extends StatelessWidget {
-  const ShareBackground({Key? key}) : super(key: key);
+  const ShareBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

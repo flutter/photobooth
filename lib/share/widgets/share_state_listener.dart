@@ -7,10 +7,9 @@ import 'package:platform_helper/platform_helper.dart';
 class ShareStateListener extends StatelessWidget {
   ShareStateListener({
     required this.child,
-    Key? key,
+    super.key,
     PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+  }) : platformHelper = platformHelper ?? PlatformHelper();
 
   final Widget child;
 

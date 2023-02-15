@@ -4,8 +4,8 @@ import 'package:io_photobooth/stickers/stickers.dart';
 
 class ClearStickersDialog extends StatelessWidget {
   const ClearStickersDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

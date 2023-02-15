@@ -4,7 +4,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareErrorBottomSheet extends StatelessWidget {
-  const ShareErrorBottomSheet({Key? key}) : super(key: key);
+  const ShareErrorBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

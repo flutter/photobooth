@@ -16,8 +16,8 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     this.medium,
     this.xLarge,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// [ResponsiveLayoutWidgetBuilder] for small layout.
   final ResponsiveLayoutWidgetBuilder small;

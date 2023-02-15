@@ -9,8 +9,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class AnimatedPhotoboothPhoto extends StatefulWidget {
   const AnimatedPhotoboothPhoto({
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final CameraImage? image;
 
@@ -65,8 +65,8 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
   const AnimatedPhotoboothPhotoLandscape({
     required this.image,
     required this.isPhotoVisible,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final CameraImage? image;
   final bool isPhotoVisible;
@@ -148,8 +148,8 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
   const AnimatedPhotoboothPhotoPortrait({
     required this.image,
     required this.isPhotoVisible,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final CameraImage? image;
   final bool isPhotoVisible;
@@ -212,8 +212,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
     this.right = 0.0,
     this.bottom = 0.0,
     this.scale = 1.0,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AnimatedSprite sprite;
   final bool isPhotoVisible;

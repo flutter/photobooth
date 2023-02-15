@@ -6,8 +6,8 @@ class IconLink extends StatelessWidget {
   const IconLink({
     required this.icon,
     required this.link,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget icon;
   final String link;
@@ -23,8 +23,8 @@ class IconLink extends StatelessWidget {
 
 class FlutterIconLink extends StatelessWidget {
   const FlutterIconLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class FlutterIconLink extends StatelessWidget {
 
 class FirebaseIconLink extends StatelessWidget {
   const FirebaseIconLink({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class FirebaseIconLink extends StatelessWidget {
 }
 
 class MadeWithIconLinks extends StatelessWidget {
-  const MadeWithIconLinks({Key? key}) : super(key: key);
+  const MadeWithIconLinks({super.key});
 
   @override
   Widget build(BuildContext context) {

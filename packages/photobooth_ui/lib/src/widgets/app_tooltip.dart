@@ -24,8 +24,8 @@ class AppTooltip extends StatelessWidget {
     this.visible = false,
     this.padding,
     this.verticalOffset,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({

@@ -17,10 +17,10 @@ class AnimatedPulse extends StatefulWidget {
   /// {@macro animated_pulse}
   const AnimatedPulse({
     required this.child,
-    Key? key,
+    super.key,
     this.pulseDuration = defaultPulseDuration,
     this.timeBetweenPulses = defaultTimeBetweenPulses,
-  }) : super(key: key);
+  });
 
   /// [Widget] that will have the pulse animation
   final Widget child;

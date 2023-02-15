@@ -13,9 +13,8 @@ class ShareButton extends StatelessWidget {
   ShareButton({
     required this.image,
     PlatformHelper? platformHelper,
-    Key? key,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+    super.key,
+  }) : platformHelper = platformHelper ?? PlatformHelper();
 
   /// Composited image
   final Uint8List image;

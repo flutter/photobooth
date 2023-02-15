@@ -10,8 +10,8 @@ class AnimatedFadeIn extends StatefulWidget {
   const AnimatedFadeIn({
     required this.child,
     this.duration = _defaultFadeInDuration,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The child which will be faded in.
   final Widget child;

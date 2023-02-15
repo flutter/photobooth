@@ -13,10 +13,9 @@ AudioPlayer _getAudioPlayer() => AudioPlayer();
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
     required this.onCountdownComplete,
-    Key? key,
+    super.key,
     ValueGetter<AudioPlayer>? audioPlayer,
-  })  : _audioPlayer = audioPlayer ?? _getAudioPlayer,
-        super(key: key);
+  }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
 
   final VoidCallback onCountdownComplete;
   final ValueGetter<AudioPlayer> _audioPlayer;
@@ -81,7 +80,7 @@ class _ShutterButtonState extends State<ShutterButton>
 }
 
 class CountdownTimer extends StatelessWidget {
-  const CountdownTimer({required this.controller, Key? key}) : super(key: key);
+  const CountdownTimer({required this.controller, super.key});
 
   final AnimationController controller;
 
@@ -117,7 +116,7 @@ class CountdownTimer extends StatelessWidget {
 }
 
 class CameraButton extends StatelessWidget {
-  const CameraButton({required this.onPressed, Key? key}) : super(key: key);
+  const CameraButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 

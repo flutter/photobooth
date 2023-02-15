@@ -24,8 +24,8 @@ class AppTooltipButton extends StatefulWidget {
     required this.child,
     this.mode = TooltipMode.normal,
     this.verticalOffset,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// [VoidCallback] which is invoked when the user taps the [child].
   final VoidCallback onPressed;

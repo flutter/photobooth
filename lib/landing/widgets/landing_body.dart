@@ -4,7 +4,7 @@ import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class LandingBody extends StatelessWidget {
-  const LandingBody({Key? key}) : super(key: key);
+  const LandingBody({super.key});
 
   @override
   Widget build(BuildContext context) {

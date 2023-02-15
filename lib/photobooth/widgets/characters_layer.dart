@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class CharactersLayer extends StatelessWidget {
-  const CharactersLayer({Key? key}) : super(key: key);
+  const CharactersLayer({super.key});
 
   @override
   Widget build(BuildContext context) {
