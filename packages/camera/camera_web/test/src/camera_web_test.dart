@@ -1,4 +1,5 @@
 @TestOn('chrome')
+library;
 
 import 'dart:html';
 import 'package:camera_platform_interface/camera_platform_interface.dart';

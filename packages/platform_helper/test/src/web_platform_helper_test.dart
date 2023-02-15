@@ -1,4 +1,6 @@
 @TestOn('chrome')
+library;
+
 import 'dart:html' as html;
 import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/src/web.dart';

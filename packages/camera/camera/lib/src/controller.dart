@@ -1,4 +1,4 @@
-part of camera;
+part of '../camera.dart';
 
 enum CameraStatus { uninitialized, available, unavailable }
 
