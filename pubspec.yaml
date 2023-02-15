@@ -37,7 +37,7 @@ dependencies:
     path: packages/platform_helper
   rxdart: ^0.27.7
   uuid: ^3.0.7
-  very_good_analysis: ^3.1.0
+  very_good_analysis: ^4.0.0+1
 
 dev_dependencies:
   bloc_test: ^9.1.0
