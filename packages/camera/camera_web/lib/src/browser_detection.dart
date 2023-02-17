@@ -40,7 +40,8 @@ abstract class WebGLVersion {
 }
 
 /// Lazily initialized current browser engine.
-final BrowserEngine _browserEngine = _detectBrowserEngine();
+// ignore: unnecessary_late
+late final BrowserEngine _browserEngine = _detectBrowserEngine();
 
 /// Override the value of [browserEngine].
 ///
@@ -134,7 +135,8 @@ enum OperatingSystem {
 }
 
 /// Lazily initialized current operating system.
-final _operatingSystem = _detectOperatingSystem();
+// ignore: unnecessary_late
+late final _operatingSystem = _detectOperatingSystem();
 
 /// Returns the [OperatingSystem] the current browsers works on.
 ///
