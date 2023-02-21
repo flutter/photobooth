@@ -83,10 +83,10 @@ class ShareBody extends StatelessWidget {
               ),
             ),
           if (compositeStatus.isFailure)
-            AnimatedFadeIn(
+            const AnimatedFadeIn(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   SizedBox(height: 20),
                   ShareErrorHeading(),
                   SizedBox(height: 20),

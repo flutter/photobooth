@@ -54,9 +54,9 @@ class ShareDialog extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 30),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         TwitterButton(),
                         SizedBox(width: 36),
                         FacebookButton(),
