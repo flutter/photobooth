@@ -46,16 +46,16 @@ class _ColumnFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(height: 16);
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const FooterMadeWithLink(),
-        const SizedBox(height: 32),
+        FooterMadeWithLink(),
+        SizedBox(height: 32),
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: const [
+          children: [
             FooterGoogleIOLink(),
             SizedBox(width: 30),
             FooterCodelabLink(),
@@ -67,7 +67,7 @@ class _ColumnFooter extends StatelessWidget {
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: const [
+          children: [
             FooterTermsOfServiceLink(),
             SizedBox(width: 30),
             FooterPrivacyPolicyLink(),
@@ -84,8 +84,8 @@ class _RowFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(width: 32);
-    return Row(
-      children: const [
+    return const Row(
+      children: [
         FooterMadeWithLink(),
         Spacer(),
         FooterGoogleIOLink(),

@@ -52,8 +52,8 @@ class ShareBottomSheet extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 42),
-                  Column(
-                    children: const [
+                  const Column(
+                    children: [
                       TwitterButton(),
                       SizedBox(height: 18),
                       FacebookButton(),

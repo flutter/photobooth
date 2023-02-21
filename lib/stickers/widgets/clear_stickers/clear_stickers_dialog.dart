@@ -34,11 +34,11 @@ class ClearStickersDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
-            Wrap(
+            const Wrap(
               alignment: WrapAlignment.center,
               spacing: 30,
               runSpacing: 15,
-              children: const [
+              children: [
                 ClearStickersCancelButton(),
                 ClearStickersConfirmButton(),
               ],

@@ -61,11 +61,11 @@ class StickersView extends StatelessWidget {
                   ),
                   const CharactersLayer(),
                   const _DraggableStickers(),
-                  Positioned(
+                  const Positioned(
                     left: 15,
                     top: 15,
                     child: Row(
-                      children: const [
+                      children: [
                         _RetakeButton(),
                         ClearStickersButtonLayer(),
                       ],
