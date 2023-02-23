@@ -6,7 +6,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
-  const ShareDialog({Key? key, required this.image}) : super(key: key);
+  const ShareDialog({required this.image, super.key});
 
   final Uint8List image;
 
@@ -14,7 +14,7 @@ class ShareDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -37,27 +37,26 @@ class ShareDialog extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SharePreviewPhoto(image: image),
                     const SizedBox(height: 60),
                     SelectableText(
                       l10n.shareDialogHeading,
                       key: const Key('shareDialog_heading'),
-                      style: theme.textTheme.headline1,
+                      style: theme.textTheme.displayLarge,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
                     SelectableText(
                       l10n.shareDialogSubheading,
                       key: const Key('shareDialog_subheading'),
-                      style: theme.textTheme.headline3,
+                      style: theme.textTheme.displaySmall,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 30),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         TwitterButton(),
                         SizedBox(width: 36),
                         FacebookButton(),

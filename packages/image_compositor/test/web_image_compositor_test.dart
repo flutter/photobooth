@@ -1,4 +1,5 @@
 @TestOn('chrome')
+library;
 
 import 'package:image_compositor/src/web.dart';
 import 'package:test/test.dart';

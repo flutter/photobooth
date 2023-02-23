@@ -5,12 +5,12 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MobileStickersDrawer extends StatelessWidget {
   const MobileStickersDrawer({
-    Key? key,
     required this.initialIndex,
     required this.onStickerSelected,
     required this.onTabChanged,
     required this.bucket,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int initialIndex;
   final ValueSetter<Asset> onStickerSelected;
@@ -40,12 +40,12 @@ class MobileStickersDrawer extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 24.0),
+                    padding: const EdgeInsets.only(left: 24),
                     child: Text(
                       l10n.stickersDrawerTitle,
                       style: Theme.of(context)
                           .textTheme
-                          .headline3
+                          .displaySmall
                           ?.copyWith(fontSize: 24),
                     ),
                   ),

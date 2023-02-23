@@ -16,7 +16,7 @@ class MockUrlLauncher extends Mock
 
 bool findTextAndTap(InlineSpan visitor, String text) {
   if (visitor is TextSpan && visitor.text == text) {
-    (visitor.recognizer as TapGestureRecognizer).onTap?.call();
+    (visitor.recognizer! as TapGestureRecognizer).onTap?.call();
 
     return false;
   }
@@ -33,37 +33,37 @@ bool tapTextSpan(RichText richText, String text) {
 }
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(LaunchOptions());
+  });
+
   group('FooterLink', () {
+    late UrlLauncherPlatform originalUrlLauncher;
+
+    setUp(() {
+      originalUrlLauncher = UrlLauncherPlatform.instance;
+    });
+
+    tearDown(() {
+      UrlLauncherPlatform.instance = originalUrlLauncher;
+    });
+
     testWidgets('opens link when tapped', (tester) async {
       final mock = MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            any(),
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
-      await tester.pumpApp(FooterLink(
-        link: 'https://example.com',
-        text: 'Link',
-      ));
+      when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
+      await tester.pumpApp(
+        FooterLink(
+          link: 'https://example.com',
+          text: 'Link',
+        ),
+      );
 
       await tester.tap(find.byType(FooterLink));
       await tester.pumpAndSettle();
 
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(() => mock.launchUrl('https://example.com', any())).called(1);
     });
 
     group('MadeWith', () {
@@ -76,15 +76,7 @@ void main() {
 
       testWidgets('opens the Flutter website when tapped', (tester) async {
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -93,28 +85,12 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              flutterDevExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(() => mock.launchUrl(flutterDevExternalLink, any()));
       });
 
       testWidgets('opens the Firebase website when tapped', (tester) async {
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(() => mock.launchUrl(any(), any())).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -123,15 +99,7 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              firebaseExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(() => mock.launchUrl(firebaseExternalLink, any()));
       });
     });
 

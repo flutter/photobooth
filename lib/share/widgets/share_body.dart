@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:analytics/analytics.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({Key? key}) : super(key: key);
+  const ShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +43,15 @@ class ShareBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessHeading()
-                      : const ShareHeading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessHeading()
+                  else
+                    const ShareHeading(),
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessSubheading()
-                      : const ShareSubheading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessSubheading()
+                  else
+                    const ShareSubheading(),
                   const SizedBox(height: 30),
                   if (isUploadSuccess)
                     Padding(
@@ -80,10 +83,10 @@ class ShareBody extends StatelessWidget {
               ),
             ),
           if (compositeStatus.isFailure)
-            AnimatedFadeIn(
+            const AnimatedFadeIn(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   SizedBox(height: 20),
                   ShareErrorHeading(),
                   SizedBox(height: 20),
@@ -101,10 +104,10 @@ class ShareBody extends StatelessWidget {
 @visibleForTesting
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({
-    Key? key,
     required this.image,
     required this.file,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
   final XFile file;
@@ -127,10 +130,10 @@ class DesktopButtonsLayout extends StatelessWidget {
 @visibleForTesting
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({
-    Key? key,
     required this.image,
     required this.file,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
   final XFile file;
@@ -152,18 +155,22 @@ class MobileButtonsLayout extends StatelessWidget {
 
 @visibleForTesting
 class GoToGoogleIOButton extends StatelessWidget {
-  const GoToGoogleIOButton({Key? key}) : super(key: key);
+  const GoToGoogleIOButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: PhotoboothColors.white),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: PhotoboothColors.white,
+      ),
       onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
-        style: theme.textTheme.button?.copyWith(color: PhotoboothColors.black),
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: PhotoboothColors.black,
+        ),
       ),
     );
   }
@@ -171,7 +178,7 @@ class GoToGoogleIOButton extends StatelessWidget {
 
 @visibleForTesting
 class DownloadButton extends StatelessWidget {
-  const DownloadButton({Key? key, required this.file}) : super(key: key);
+  const DownloadButton({required this.file, super.key});
 
   final XFile file;
 

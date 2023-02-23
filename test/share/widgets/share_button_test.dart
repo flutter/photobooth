@@ -31,8 +31,8 @@ void main() {
   late PlatformHelper platformHelper;
 
   setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
   });
 
   setUp(() {

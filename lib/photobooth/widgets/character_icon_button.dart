@@ -6,12 +6,12 @@ const _characterIconButtonSizePortait = 60.0;
 
 class CharacterIconButton extends StatelessWidget {
   const CharacterIconButton({
-    Key? key,
     required this.icon,
     required this.isSelected,
     required this.label,
     this.onPressed,
-  }) : super(key: key);
+    super.key,
+  });
 
   final AssetImage icon;
   final VoidCallback? onPressed;

@@ -16,11 +16,11 @@ const defaultTimeBetweenPulses = Duration(milliseconds: 800);
 class AnimatedPulse extends StatefulWidget {
   /// {@macro animated_pulse}
   const AnimatedPulse({
-    Key? key,
+    required this.child,
+    super.key,
     this.pulseDuration = defaultPulseDuration,
     this.timeBetweenPulses = defaultTimeBetweenPulses,
-    required this.child,
-  }) : super(key: key);
+  });
 
   /// [Widget] that will have the pulse animation
   final Widget child;
@@ -32,7 +32,7 @@ class AnimatedPulse extends StatefulWidget {
   final Duration timeBetweenPulses;
 
   @override
-  _AnimatedPulseState createState() => _AnimatedPulseState();
+  State<AnimatedPulse> createState() => _AnimatedPulseState();
 }
 
 class _AnimatedPulseState extends State<AnimatedPulse>
@@ -87,12 +87,12 @@ class PulsePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    final rect = Rect.fromLTRB(0, 0, size.width, size.height);
     const color = PhotoboothColors.blue;
     final circleSize = rect.width / 2;
     final area = circleSize * circleSize;
     final radius = sqrt(area * _animation.value * 3);
-    final opacity = (1.0 - (_animation.value).clamp(0.0, 1.0));
+    final opacity = 1.0 - _animation.value.clamp(0.0, 1.0);
     final paint = Paint()..color = color.withOpacity(opacity);
     canvas.drawCircle(rect.center, radius, paint);
   }

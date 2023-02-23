@@ -6,11 +6,10 @@ import 'package:platform_helper/platform_helper.dart';
 
 class ShareStateListener extends StatelessWidget {
   ShareStateListener({
-    Key? key,
-    PlatformHelper? platformHelper,
     required this.child,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+    super.key,
+    PlatformHelper? platformHelper,
+  }) : platformHelper = platformHelper ?? PlatformHelper();
 
   final Widget child;
 
@@ -34,7 +33,7 @@ class ShareStateListener extends StatelessWidget {
   }
 
   void _onShareError(BuildContext context, ShareState state) {
-    showAppModal(
+    showAppModal<void>(
       platformHelper: platformHelper,
       context: context,
       portraitChild: const ShareErrorBottomSheet(),

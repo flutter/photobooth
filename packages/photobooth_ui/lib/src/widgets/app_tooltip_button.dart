@@ -19,13 +19,13 @@ enum TooltipMode {
 class AppTooltipButton extends StatefulWidget {
   /// {@macro app_tooltip_button}
   const AppTooltipButton({
-    Key? key,
     required this.onPressed,
     required this.message,
+    required this.child,
     this.mode = TooltipMode.normal,
     this.verticalOffset,
-    required this.child,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// [VoidCallback] which is invoked when the user taps the [child].
   final VoidCallback onPressed;
@@ -43,7 +43,7 @@ class AppTooltipButton extends StatefulWidget {
   final Widget child;
 
   @override
-  _AppTooltipButtonState createState() => _AppTooltipButtonState();
+  State<AppTooltipButton> createState() => _AppTooltipButtonState();
 }
 
 class _AppTooltipButtonState extends State<AppTooltipButton> {

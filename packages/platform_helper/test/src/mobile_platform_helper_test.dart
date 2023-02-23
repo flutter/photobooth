@@ -1,4 +1,5 @@
 @TestOn('!chrome')
+library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:platform_helper/platform_helper.dart';

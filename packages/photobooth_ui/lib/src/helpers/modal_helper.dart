@@ -9,10 +9,10 @@ Future<T?> showAppModal<T>({
   required Widget landscapeChild,
   PlatformHelper? platformHelper,
 }) {
-  platformHelper = platformHelper ?? PlatformHelper();
+  final isMobile = (platformHelper ?? PlatformHelper()).isMobile;
   final orientation = MediaQuery.of(context).orientation;
 
-  if (platformHelper.isMobile || orientation == Orientation.portrait) {
+  if (isMobile || orientation == Orientation.portrait) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,

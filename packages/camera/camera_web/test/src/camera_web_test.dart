@@ -1,4 +1,5 @@
 @TestOn('chrome')
+library;
 
 import 'dart:html';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -36,7 +37,7 @@ void main() {
         () => mediaDevices.getUserMedia(any()),
       ).thenAnswer((_) async => videoElement.captureStream());
       CameraPlatform.instance = CameraPlugin()..window = window;
-      textureId = (await CameraPlatform.instance.create(const CameraOptions()));
+      textureId = await CameraPlatform.instance.create(const CameraOptions());
     });
 
     testWidgets('$CameraPlugin is the live instance', (tester) async {

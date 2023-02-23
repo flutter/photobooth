@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimatedAndroid extends AnimatedSprite {
-  const AnimatedAndroid({Key? key})
+  const AnimatedAndroid({super.key})
       : super(
-          key: key,
           loadingIndicatorColor: PhotoboothColors.green,
           sprites: const Sprites(
             asset: 'android_spritesheet.png',

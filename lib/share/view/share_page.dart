@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -6,13 +8,11 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:provider/provider.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage({Key? key}) : super(key: key);
+  const SharePage({super.key});
 
-  static Route route() {
+  static Route<void> route() {
     return AppPageRoute(builder: (_) => const SharePage());
   }
 
@@ -37,7 +37,7 @@ class SharePage extends StatelessWidget {
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({Key? key}) : super(key: key);
+  const ShareView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class ShareView extends StatelessWidget {
 }
 
 class _ShareRetakeButton extends StatelessWidget {
-  const _ShareRetakeButton({Key? key}) : super(key: key);
+  const _ShareRetakeButton();
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +77,16 @@ class _ShareRetakeButton extends StatelessWidget {
         child: AppTooltipButton(
           key: const Key('sharePage_retake_appTooltipButton'),
           onPressed: () async {
-            final confirmed = await showAppModal(
+            final photoboothBloc = context.read<PhotoboothBloc>();
+            final navigator = Navigator.of(context);
+            final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _ConfirmationDialogContent(),
               portraitChild: const _ConfirmationBottomSheet(),
             );
-            if (confirmed) {
-              context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
-              unawaited(
-                Navigator.of(context).pushReplacement(PhotoboothPage.route()),
-              );
+            if (confirmed ?? false) {
+              photoboothBloc.add(const PhotoClearAllTapped());
+              unawaited(navigator.pushReplacement(PhotoboothPage.route()));
             }
           },
           verticalOffset: 50,
@@ -102,7 +102,7 @@ class _ShareRetakeButton extends StatelessWidget {
 }
 
 class _ConfirmationDialogContent extends StatelessWidget {
-  const _ConfirmationDialogContent({Key? key}) : super(key: key);
+  const _ConfirmationDialogContent();
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +115,17 @@ class _ConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.shareRetakeConfirmationHeading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline1,
+                style: theme.textTheme.displayLarge,
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.shareRetakeConfirmationSubheading,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline3,
+                style: theme.textTheme.displaySmall,
               ),
               const SizedBox(height: 24),
               Wrap(
@@ -142,7 +141,7 @@ class _ConfirmationDialogContent extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text(
                       l10n.shareRetakeConfirmationCancelButtonText,
-                      style: theme.textTheme.button?.copyWith(
+                      style: theme.textTheme.labelLarge?.copyWith(
                         color: PhotoboothColors.black,
                       ),
                     ),
@@ -163,7 +162,7 @@ class _ConfirmationDialogContent extends StatelessWidget {
 }
 
 class _ConfirmationBottomSheet extends StatelessWidget {
-  const _ConfirmationBottomSheet({Key? key}) : super(key: key);
+  const _ConfirmationBottomSheet();
 
   @override
   Widget build(BuildContext context) {

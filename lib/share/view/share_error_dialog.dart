@@ -4,13 +4,13 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareErrorDialog extends StatelessWidget {
-  const ShareErrorDialog({Key? key}) : super(key: key);
+  const ShareErrorDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -33,7 +33,6 @@ class ShareErrorDialog extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: 300,
@@ -45,14 +44,14 @@ class ShareErrorDialog extends StatelessWidget {
                     Text(
                       l10n.shareErrorDialogHeading,
                       key: const Key('shareErrorDialog_heading'),
-                      style: theme.textTheme.headline1,
+                      style: theme.textTheme.displayLarge,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
                     Text(
                       l10n.shareErrorDialogSubheading,
                       key: const Key('shareErrorDialog_subheading'),
-                      style: theme.textTheme.headline3,
+                      style: theme.textTheme.displaySmall,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 42),

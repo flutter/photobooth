@@ -35,9 +35,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
@@ -47,9 +45,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
     });
 

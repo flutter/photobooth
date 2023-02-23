@@ -3,7 +3,7 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class WhiteFooter extends StatelessWidget {
-  const WhiteFooter({Key? key}) : super(key: key);
+  const WhiteFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class WhiteFooter extends StatelessWidget {
 }
 
 class BlackFooter extends StatelessWidget {
-  const BlackFooter({Key? key}) : super(key: key);
+  const BlackFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +21,14 @@ class BlackFooter extends StatelessWidget {
 }
 
 class Footer extends StatelessWidget {
-  const Footer({Key? key, required this.textColor}) : super(key: key);
+  const Footer({required this.textColor, super.key});
 
   final Color textColor;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.caption!.copyWith(color: textColor),
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: textColor),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
         child: ResponsiveLayoutBuilder(
@@ -41,21 +41,21 @@ class Footer extends StatelessWidget {
 }
 
 class _ColumnFooter extends StatelessWidget {
-  const _ColumnFooter({Key? key}) : super(key: key);
+  const _ColumnFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(height: 16);
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const FooterMadeWithLink(),
-        const SizedBox(height: 32),
+        FooterMadeWithLink(),
+        SizedBox(height: 32),
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: const [
+          children: [
             FooterGoogleIOLink(),
             SizedBox(width: 30),
             FooterCodelabLink(),
@@ -67,7 +67,7 @@ class _ColumnFooter extends StatelessWidget {
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 16,
-          children: const [
+          children: [
             FooterTermsOfServiceLink(),
             SizedBox(width: 30),
             FooterPrivacyPolicyLink(),
@@ -79,13 +79,13 @@ class _ColumnFooter extends StatelessWidget {
 }
 
 class _RowFooter extends StatelessWidget {
-  const _RowFooter({Key? key}) : super(key: key);
+  const _RowFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(width: 32);
-    return Row(
-      children: const [
+    return const Row(
+      children: [
         FooterMadeWithLink(),
         Spacer(),
         FooterGoogleIOLink(),

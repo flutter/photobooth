@@ -2,11 +2,9 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:flame/assets.dart';
-import 'package:flame/flame.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -19,9 +17,14 @@ class MockImage extends Mock implements ui.Image {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final image = await decodeImageFromList(Uint8List.fromList(transparentImage));
+
   group('AnimatedSprite', () {
+    late ui.Image image;
     late Images images;
+
+    setUpAll(() async {
+      image = await decodeImageFromList(Uint8List.fromList(transparentImage));
+    });
 
     setUp(() {
       images = MockImages();
@@ -30,9 +33,11 @@ void main() async {
 
     testWidgets('renders AppCircularProgressIndicator when loading asset',
         (tester) async {
-      await tester.pumpWidget(AnimatedSprite(
-        sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-      ));
+      await tester.pumpWidget(
+        AnimatedSprite(
+          sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+        ),
+      );
       expect(find.byType(AppCircularProgressIndicator), findsOneWidget);
     });
 
@@ -40,10 +45,12 @@ void main() async {
         'does not render AppCircularProgressIndicator'
         ' when loading asset and showLoadingIndicator is false',
         (tester) async {
-      await tester.pumpWidget(AnimatedSprite(
-        sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-        showLoadingIndicator: false,
-      ));
+      await tester.pumpWidget(
+        AnimatedSprite(
+          sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+          showLoadingIndicator: false,
+        ),
+      );
       expect(find.byType(AppCircularProgressIndicator), findsNothing);
     });
 
@@ -53,14 +60,19 @@ void main() async {
         final images = MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.loop,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: AnimatedSprite(
+                sprites: Sprites(
+                  asset: 'test.png',
+                  size: Size(1, 1),
+                  frames: 1,
+                ),
+              ),
             ),
           ),
-        ));
+        );
         await tester.pump();
         final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
         final widget = tester.widget<SpriteAnimationWidget>(
@@ -76,14 +88,20 @@ void main() async {
         final images = MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.oneTime,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: AnimatedSprite(
+                sprites: Sprites(
+                  asset: 'test.png',
+                  size: Size(1, 1),
+                  frames: 1,
+                ),
+                mode: AnimationMode.oneTime,
+              ),
             ),
           ),
-        ));
+        );
         await tester.pump();
         final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
         final widget = tester.widget<SpriteAnimationWidget>(

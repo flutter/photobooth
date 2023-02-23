@@ -12,7 +12,8 @@ void main() {
     testWidgets('renders with default colors', (tester) async {
       await tester.pumpWidget(AppCircularProgressIndicator());
       final widget = tester.widget<AppCircularProgressIndicator>(
-          find.byType(AppCircularProgressIndicator));
+        find.byType(AppCircularProgressIndicator),
+      );
       expect(widget.color, PhotoboothColors.orange);
       expect(widget.backgroundColor, PhotoboothColors.white);
     });
@@ -27,7 +28,8 @@ void main() {
         ),
       );
       final widget = tester.widget<AppCircularProgressIndicator>(
-          find.byType(AppCircularProgressIndicator));
+        find.byType(AppCircularProgressIndicator),
+      );
       expect(widget.color, color);
       expect(widget.backgroundColor, backgroundColor);
     });

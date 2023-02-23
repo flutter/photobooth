@@ -4,45 +4,53 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: 2.3.0-1.0.pre.227
+  sdk: ">=2.19.0 <3.0.0"
+  flutter: 3.8.0-14.0.pre.10
 
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  firebase_core: ^1.0.4
-  firebase_auth: ^1.1.1
-  firebase_storage: ^8.0.4
   analytics:
     path: packages/analytics
-  bloc: ^7.0.0
-  camera:
-    path: packages/camera/camera
-  cross_file: ^0.3.1
-  equatable: ^2.0.0
-  flutter_bloc: ^7.0.0
-  rxdart: ^0.26.0
-  image_compositor:
-    path: packages/image_compositor
-  intl: ^0.17.0
-  just_audio: ^0.7.4
-  photos_repository:
-    path: packages/photos_repository
   authentication_repository:
     path: packages/authentication_repository
+  bloc: ^8.1.0
+  camera:
+    path: packages/camera/camera
+  cross_file: ^0.3.3+2
+  equatable: ^2.0.5
+  firebase_auth: ^4.2.9
+  firebase_core: ^2.4.1
+  firebase_storage: ^11.0.10
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.1
+  flutter_localizations:
+    sdk: flutter
+  image_compositor:
+    path: packages/image_compositor
+  intl: ^0.18.0
+  just_audio: ^0.9.31
   photobooth_ui:
     path: packages/photobooth_ui
-  uuid: ^3.0.3
-  very_good_analysis: ^2.0.4
+  photos_repository:
+    path: packages/photos_repository
+  platform_helper:
+    path: packages/platform_helper
+  rxdart: ^0.27.7
+  uuid: ^3.0.7
+  very_good_analysis: ^4.0.0+1
 
 dev_dependencies:
+  bloc_test: ^9.1.0
   flutter_test:
     sdk: flutter
-  bloc_test: ^8.0.0
-  mocktail: ^0.1.2
-  mocktail_image_network: ^0.1.0
+  mocktail: ^0.3.0
+  mocktail_image_network: ^0.3.1
+  plugin_platform_interface: ^2.1.3
+  test: ^1.21.7
+  url_launcher_platform_interface: ^2.1.1
+
+dependency_overrides:
+  intl: ^0.18.0
 
 flutter:
   uses-material-design: true

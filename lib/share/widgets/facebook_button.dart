@@ -5,7 +5,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class FacebookButton extends StatelessWidget {
-  const FacebookButton({Key? key}) : super(key: key);
+  const FacebookButton({super.key});
 
   @override
   Widget build(BuildContext context) {

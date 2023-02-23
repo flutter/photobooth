@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBackground extends StatelessWidget {
-  const ShareBackground({Key? key}) : super(key: key);
+  const ShareBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: double.infinity,
+        SizedBox.expand(
           child: Image.asset(
             'assets/backgrounds/photobooth_background.jpg',
             repeat: ImageRepeat.repeat,

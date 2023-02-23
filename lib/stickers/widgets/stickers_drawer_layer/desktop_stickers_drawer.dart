@@ -5,13 +5,13 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DesktopStickersDrawer extends StatelessWidget {
   const DesktopStickersDrawer({
-    Key? key,
     required this.initialIndex,
     required this.onStickerSelected,
     required this.onTabChanged,
     required this.onCloseTapped,
     required this.bucket,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int initialIndex;
   final ValueSetter<Asset> onStickerSelected;
@@ -40,7 +40,7 @@ class DesktopStickersDrawer extends StatelessWidget {
                   Flexible(
                     child: Text(
                       l10n.stickersDrawerTitle,
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ),
                   IconButton(

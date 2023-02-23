@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class CharactersLayer extends StatelessWidget {
-  const CharactersLayer({Key? key}) : super(key: key);
+  const CharactersLayer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,6 @@ class CharactersLayer extends StatelessWidget {
                     top: character.position.dy * heightFactor,
                     left: character.position.dx * widthFactor,
                     child: Transform.rotate(
-                      alignment: Alignment.center,
                       angle: character.angle,
                       child: Image.asset(
                         character.asset.path,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class ShareTryAgainButton extends StatelessWidget {
-  const ShareTryAgainButton({Key? key}) : super(key: key);
+  const ShareTryAgainButton({super.key});
 
   @override
   Widget build(BuildContext context) {

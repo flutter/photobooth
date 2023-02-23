@@ -5,7 +5,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class TwitterButton extends StatelessWidget {
-  const TwitterButton({Key? key}) : super(key: key);
+  const TwitterButton({super.key});
 
   @override
   Widget build(BuildContext context) {

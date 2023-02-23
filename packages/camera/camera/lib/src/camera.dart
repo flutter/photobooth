@@ -1,4 +1,4 @@
-part of camera;
+part of '../camera.dart';
 
 typedef PlaceholderBuilder = Widget Function(BuildContext);
 typedef PreviewBuilder = Widget Function(BuildContext, Widget);
@@ -6,15 +6,14 @@ typedef ErrorBuilder = Widget Function(BuildContext, CameraException);
 
 class Camera extends StatefulWidget {
   Camera({
-    Key? key,
     required this.controller,
     PlaceholderBuilder? placeholder,
     PreviewBuilder? preview,
     ErrorBuilder? error,
+    super.key,
   })  : placeholder = (placeholder ?? (_) => const SizedBox()),
         preview = (preview ?? (_, preview) => preview),
-        error = (error ?? (_, __) => const SizedBox()),
-        super(key: key);
+        error = (error ?? (_, __) => const SizedBox());
 
   final CameraController controller;
   final PlaceholderBuilder placeholder;
@@ -22,7 +21,7 @@ class Camera extends StatefulWidget {
   final ErrorBuilder error;
 
   @override
-  _CameraState createState() => _CameraState();
+  State<Camera> createState() => _CameraState();
 }
 
 class _CameraState extends State<Camera> {

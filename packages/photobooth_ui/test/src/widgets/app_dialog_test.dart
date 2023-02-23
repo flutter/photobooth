@@ -9,7 +9,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppDialog(
+              onPressed: () => showAppDialog<void>(
                 context: context,
                 child: const Text('dialog'),
               ),

@@ -4,7 +4,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoboothError extends StatelessWidget {
-  const PhotoboothError({Key? key, required this.error}) : super(key: key);
+  const PhotoboothError({required this.error, super.key});
 
   final CameraException error;
 
@@ -35,7 +35,7 @@ class PhotoboothError extends StatelessWidget {
 }
 
 class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
-  const _PhotoboothCameraAccessDeniedError({Key? key}) : super(key: key);
+  const _PhotoboothCameraAccessDeniedError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
       children: [
         SelectableText(
           l10n.photoBoothCameraAccessDeniedHeadline,
-          style: theme.textTheme.headline1?.copyWith(
+          style: theme.textTheme.displayLarge?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -54,7 +54,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraAccessDeniedSubheadline,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -65,7 +65,7 @@ class _PhotoboothCameraAccessDeniedError extends StatelessWidget {
 }
 
 class _PhotoboothCameraNotFoundError extends StatelessWidget {
-  const _PhotoboothCameraNotFoundError({Key? key}) : super(key: key);
+  const _PhotoboothCameraNotFoundError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
       children: [
         SelectableText(
           l10n.photoBoothCameraNotFoundHeadline,
-          style: theme.textTheme.headline1?.copyWith(
+          style: theme.textTheme.displayLarge?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -84,7 +84,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline1,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -92,7 +92,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotFoundSubheadline2,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class _PhotoboothCameraNotFoundError extends StatelessWidget {
 }
 
 class _PhotoboothCameraUnknownError extends StatelessWidget {
-  const _PhotoboothCameraUnknownError({Key? key}) : super(key: key);
+  const _PhotoboothCameraUnknownError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
       children: [
         SelectableText(
           l10n.photoBoothCameraErrorHeadline,
-          style: theme.textTheme.headline1?.copyWith(
+          style: theme.textTheme.displayLarge?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraErrorSubheadline1,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -130,7 +130,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraErrorSubheadline2,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -141,7 +141,7 @@ class _PhotoboothCameraUnknownError extends StatelessWidget {
 }
 
 class _PhotoboothCameraNotSupportedError extends StatelessWidget {
-  const _PhotoboothCameraNotSupportedError({Key? key}) : super(key: key);
+  const _PhotoboothCameraNotSupportedError({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,7 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
       children: [
         SelectableText(
           l10n.photoBoothCameraNotSupportedHeadline,
-          style: theme.textTheme.headline1?.copyWith(
+          style: theme.textTheme.displayLarge?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -160,7 +160,7 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
         const SizedBox(height: 24),
         SelectableText(
           l10n.photoBoothCameraNotSupportedSubheadline,
-          style: theme.textTheme.headline3?.copyWith(
+          style: theme.textTheme.displaySmall?.copyWith(
             color: PhotoboothColors.white,
           ),
           textAlign: TextAlign.center,
@@ -172,9 +172,8 @@ class _PhotoboothCameraNotSupportedError extends StatelessWidget {
 
 class _PhotoboothErrorContent extends StatelessWidget {
   const _PhotoboothErrorContent({
-    Key? key,
     required this.children,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 
@@ -182,11 +181,10 @@ class _PhotoboothErrorContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: children,
           ),
         ),

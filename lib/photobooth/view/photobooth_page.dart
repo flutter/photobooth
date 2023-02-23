@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _videoConstraints = VideoConstraints(
   facingMode: FacingMode(
@@ -18,9 +17,9 @@ const _videoConstraints = VideoConstraints(
 );
 
 class PhotoboothPage extends StatelessWidget {
-  const PhotoboothPage({Key? key}) : super(key: key);
+  const PhotoboothPage({super.key});
 
-  static Route route() {
+  static Route<void> route() {
     return AppPageRoute(builder: (_) => const PhotoboothPage());
   }
 
@@ -38,16 +37,16 @@ class PhotoboothPage extends StatelessWidget {
 }
 
 class PhotoboothView extends StatefulWidget {
-  const PhotoboothView({Key? key}) : super(key: key);
+  const PhotoboothView({super.key});
 
   @override
-  _PhotoboothViewState createState() => _PhotoboothViewState();
+  State<PhotoboothView> createState() => _PhotoboothViewState();
 }
 
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: const CameraOptions(
-      audio: AudioConstraints(enabled: false),
+      audio: AudioConstraints(),
       video: _videoConstraints,
     ),
   );
@@ -82,14 +81,14 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     await _play();
   }
 
-  void _onSnapPressed({required double aspectRatio}) async {
+  Future<void> _onSnapPressed({required double aspectRatio}) async {
+    final navigator = Navigator.of(context);
+    final photoboothBloc = context.read<PhotoboothBloc>();
     final picture = await _controller.takePicture();
-    context
-        .read<PhotoboothBloc>()
-        .add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
+    photoboothBloc.add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
     final stickersPage = StickersPage.route();
     await _stop();
-    unawaited(Navigator.of(context).pushReplacement(stickersPage));
+    unawaited(navigator.pushReplacement(stickersPage));
   }
 
   @override
@@ -117,10 +116,9 @@ class _PhotoboothViewState extends State<PhotoboothView> {
 
 class _PhotoboothBackground extends StatelessWidget {
   const _PhotoboothBackground({
-    Key? key,
     required this.aspectRatio,
     required this.child,
-  }) : super(key: key);
+  });
 
   final double aspectRatio;
   final Widget child;
@@ -133,7 +131,7 @@ class _PhotoboothBackground extends StatelessWidget {
         Center(
           child: AspectRatio(
             aspectRatio: aspectRatio,
-            child: Container(
+            child: ColoredBox(
               color: PhotoboothColors.black,
               child: child,
             ),

@@ -12,10 +12,12 @@ void main() {
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+        ),
+      );
 
       expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(largeKey), findsOneWidget);
@@ -27,11 +29,13 @@ void main() {
       const mediumKey = Key('__medium__');
       const largeKey = Key('__large__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        medium: (_, __) => const SizedBox(key: mediumKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          medium: (_, __) => const SizedBox(key: mediumKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+        ),
+      );
 
       expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(mediumKey), findsOneWidget);
@@ -44,10 +48,12 @@ void main() {
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+        ),
+      );
 
       expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(largeKey), findsOneWidget);
@@ -59,11 +65,13 @@ void main() {
       const largeKey = Key('__large__');
       const xLargeKey = Key('__xLarge__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-        xLarge: (_, __) => const SizedBox(key: xLargeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+          xLarge: (_, __) => const SizedBox(key: xLargeKey),
+        ),
+      );
 
       expect(find.byKey(smallKey), findsNothing);
       expect(find.byKey(largeKey), findsNothing);
@@ -76,11 +84,13 @@ void main() {
       const largeKey = Key('__large__');
       const xLargeKey = Key('__xLarge__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-        xLarge: (_, __) => const SizedBox(key: xLargeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+          xLarge: (_, __) => const SizedBox(key: xLargeKey),
+        ),
+      );
 
       expect(find.byKey(largeKey), findsOneWidget);
       expect(find.byKey(smallKey), findsNothing);
@@ -92,10 +102,12 @@ void main() {
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, __) => const SizedBox(key: smallKey),
-        large: (_, __) => const SizedBox(key: largeKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const SizedBox(key: smallKey),
+          large: (_, __) => const SizedBox(key: largeKey),
+        ),
+      );
 
       expect(find.byKey(largeKey), findsNothing);
       expect(find.byKey(smallKey), findsOneWidget);
@@ -106,11 +118,13 @@ void main() {
       const largeKey = Key('__large__');
       const childKey = Key('__child__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, child) => SizedBox(key: smallKey, child: child),
-        large: (_, child) => SizedBox(key: largeKey, child: child),
-        child: const SizedBox(key: childKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, child) => SizedBox(key: smallKey, child: child),
+          large: (_, child) => SizedBox(key: largeKey, child: child),
+          child: const SizedBox(key: childKey),
+        ),
+      );
 
       expect(find.byKey(largeKey), findsOneWidget);
       expect(find.byKey(smallKey), findsNothing);
@@ -124,11 +138,13 @@ void main() {
       const largeKey = Key('__large__');
       const childKey = Key('__child__');
 
-      await tester.pumpWidget(ResponsiveLayoutBuilder(
-        small: (_, child) => SizedBox(key: smallKey, child: child),
-        large: (_, child) => SizedBox(key: largeKey, child: child),
-        child: const SizedBox(key: childKey),
-      ));
+      await tester.pumpWidget(
+        ResponsiveLayoutBuilder(
+          small: (_, child) => SizedBox(key: smallKey, child: child),
+          large: (_, child) => SizedBox(key: largeKey, child: child),
+          child: const SizedBox(key: childKey),
+        ),
+      );
 
       expect(find.byKey(largeKey), findsNothing);
       expect(find.byKey(smallKey), findsOneWidget);

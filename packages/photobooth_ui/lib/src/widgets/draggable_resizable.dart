@@ -39,7 +39,6 @@ const _floatingActionPadding = 100.0;
 class DraggableResizable extends StatefulWidget {
   /// {@macro draggable_resizable}
   DraggableResizable({
-    Key? key,
     required this.child,
     required this.size,
     BoxConstraints? constraints,
@@ -47,9 +46,9 @@ class DraggableResizable extends StatefulWidget {
     this.onDelete,
     this.canTransform = false,
     PlatformHelper? platformHelper,
+    super.key,
   })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
-        platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+        platformHelper = platformHelper ?? PlatformHelper();
 
   /// The child which will be draggable/resizable.
   final Widget child;
@@ -75,7 +74,7 @@ class DraggableResizable extends StatefulWidget {
   final PlatformHelper platformHelper;
 
   @override
-  _DraggableResizableState createState() => _DraggableResizableState();
+  State<DraggableResizable> createState() => _DraggableResizableState();
 }
 
 class _DraggableResizableState extends State<DraggableResizable> {
@@ -141,8 +140,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopLeft(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = math.max((size.height - (2 * mid)), 0.0);
-          final newWidth = math.max(size.width - (2 * mid), 0.0);
+          final newHeight = math.max<double>(size.height - (2 * mid), 0);
+          final newWidth = math.max<double>(size.width - (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -159,8 +158,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopRight(Offset details) {
           final mid = (details.dx + (details.dy * -1)) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final newHeight = math.max<double>(size.height + (2 * mid), 0);
+          final newWidth = math.max<double>(size.width + (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -177,8 +176,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomLeft(Offset details) {
           final mid = ((details.dx * -1) + details.dy) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final newHeight = math.max<double>(size.height + (2 * mid), 0);
+          final newWidth = math.max<double>(size.width + (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -195,8 +194,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomRight(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final newHeight = math.max<double>(size.height + (2 * mid), 0);
+          final newWidth = math.max<double>(size.width + (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -410,14 +409,12 @@ const _cursorLookup = <_ResizePointType, MouseCursor>{
 
 class _ResizePoint extends StatelessWidget {
   const _ResizePoint({
-    Key? key,
     required this.onDrag,
     required this.type,
-    this.onScale,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ValueSetter<Offset> onDrag;
-  final ValueSetter<double>? onScale;
   final _ResizePointType type;
 
   MouseCursor get _cursor {
@@ -431,7 +428,6 @@ class _ResizePoint extends StatelessWidget {
       child: _DraggablePoint(
         mode: _PositionMode.local,
         onDrag: onDrag,
-        onScale: onScale,
         child: Container(
           width: _cornerDiameter,
           height: _cornerDiameter,
@@ -455,14 +451,14 @@ enum _PositionMode { local, global }
 
 class _DraggablePoint extends StatefulWidget {
   const _DraggablePoint({
-    Key? key,
     required this.child,
     this.onDrag,
     this.onScale,
     this.onRotate,
     this.onTap,
     this.mode = _PositionMode.global,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final _PositionMode mode;
@@ -477,10 +473,10 @@ class _DraggablePoint extends StatefulWidget {
 
 class _DraggablePointState extends State<_DraggablePoint> {
   late Offset initPoint;
-  var baseScaleFactor = 1.0;
-  var scaleFactor = 1.0;
-  var baseAngle = 0.0;
-  var angle = 0.0;
+  double baseScaleFactor = 1;
+  double scaleFactor = 1;
+  double baseAngle = 0;
+  double angle = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -531,10 +527,10 @@ class _DraggablePointState extends State<_DraggablePoint> {
 
 class _FloatingActionIcon extends StatelessWidget {
   const _FloatingActionIcon({
-    Key? key,
     required this.iconData,
     this.onTap,
-  }) : super(key: key);
+    super.key,
+  });
 
   final IconData iconData;
   final VoidCallback? onTap;

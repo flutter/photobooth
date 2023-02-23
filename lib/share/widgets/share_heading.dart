@@ -3,7 +3,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareHeading extends StatelessWidget {
-  const ShareHeading({Key? key}) : super(key: key);
+  const ShareHeading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +12,16 @@ class ShareHeading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displayLarge?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }
 }
 
 class ShareSuccessHeading extends StatelessWidget {
-  const ShareSuccessHeading({Key? key}) : super(key: key);
+  const ShareSuccessHeading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +30,16 @@ class ShareSuccessHeading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageSuccessHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displayLarge?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }
 }
 
 class ShareErrorHeading extends StatelessWidget {
-  const ShareErrorHeading({Key? key}) : super(key: key);
+  const ShareErrorHeading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,9 @@ class ShareErrorHeading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageErrorHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displayLarge?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }

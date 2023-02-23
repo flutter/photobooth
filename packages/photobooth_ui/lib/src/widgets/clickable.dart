@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 /// {@template clickable}
 /// Makes the given [child] tappable and clickable.
@@ -7,10 +6,10 @@ import 'package:flutter/rendering.dart';
 class Clickable extends StatelessWidget {
   /// {@macro clickable}
   const Clickable({
-    Key? key,
     required this.child,
     required this.onPressed,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Child to be rendered
   final Widget child;

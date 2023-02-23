@@ -6,7 +6,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ClearStickersButtonLayer extends StatelessWidget {
-  const ClearStickersButtonLayer({Key? key}) : super(key: key);
+  const ClearStickersButtonLayer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,13 @@ class ClearStickersButtonLayer extends StatelessWidget {
     if (isHidden) return const SizedBox();
     return ClearStickersButton(
       onPressed: () async {
-        final confirmed = await showAppDialog(
+        final photoboothBloc = context.read<PhotoboothBloc>();
+        final confirmed = await showAppDialog<bool>(
           context: context,
           child: const ClearStickersDialog(),
         );
-        if (confirmed) {
-          context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
+        if (confirmed ?? false) {
+          photoboothBloc.add(const PhotoClearStickersTapped());
         }
       },
     );
@@ -31,9 +32,9 @@ class ClearStickersButtonLayer extends StatelessWidget {
 
 class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
-    Key? key,
     required this.onPressed,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 

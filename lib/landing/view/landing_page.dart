@@ -4,7 +4,7 @@ import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget {
 }
 
 class LandingView extends StatelessWidget {
-  const LandingView({Key? key}) : super(key: key);
+  const LandingView({super.key});
 
   @override
   Widget build(BuildContext context) {

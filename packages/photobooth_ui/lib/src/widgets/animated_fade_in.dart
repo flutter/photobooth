@@ -8,10 +8,10 @@ const _defaultFadeInDuration = Duration(seconds: 1);
 class AnimatedFadeIn extends StatefulWidget {
   /// {@macro animated_fade_in}
   const AnimatedFadeIn({
-    Key? key,
     required this.child,
     this.duration = _defaultFadeInDuration,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The child which will be faded in.
   final Widget child;
@@ -20,7 +20,7 @@ class AnimatedFadeIn extends StatefulWidget {
   final Duration duration;
 
   @override
-  _AnimatedFadeInState createState() => _AnimatedFadeInState();
+  State<AnimatedFadeIn> createState() => _AnimatedFadeInState();
 }
 
 class _AnimatedFadeInState extends State<AnimatedFadeIn> {
@@ -29,7 +29,7 @@ class _AnimatedFadeInState extends State<AnimatedFadeIn> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() => _isVisible = true);
     });
   }

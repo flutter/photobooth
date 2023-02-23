@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 class AppPageView extends StatelessWidget {
   /// {@macro app_page_view}
   const AppPageView({
-    Key? key,
     required this.body,
     required this.footer,
     this.background = const SizedBox(),
     this.overlays = const <Widget>[],
-  }) : super(key: key);
+    super.key,
+  });
 
   /// A body of the [AppPageView]
   final Widget body;

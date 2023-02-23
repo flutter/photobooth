@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
+
 import '../helpers/helpers.dart';
 
 class MockPlatformHelper extends Mock implements PlatformHelper {}
@@ -20,7 +21,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 portraitChild: const Text('portrait'),
                 landscapeChild: const Text('landscape'),
@@ -41,7 +42,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -64,7 +65,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -88,7 +89,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),

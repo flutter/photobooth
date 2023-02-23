@@ -4,7 +4,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class LandingTakePhotoButton extends StatelessWidget {
-  const LandingTakePhotoButton({Key? key}) : super(key: key);
+  const LandingTakePhotoButton({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,9 +8,10 @@ void main() {
     testWidgets('renders both children', (tester) async {
       await tester.pumpWidget(
         AppAnimatedCrossFade(
-            firstChild: SizedBox(key: Key('first')),
-            secondChild: SizedBox(key: Key('second')),
-            crossFadeState: CrossFadeState.showFirst),
+          firstChild: SizedBox(key: Key('first')),
+          secondChild: SizedBox(key: Key('second')),
+          crossFadeState: CrossFadeState.showFirst,
+        ),
       );
       expect(find.byKey(Key('first')), findsOneWidget);
       expect(find.byKey(Key('second')), findsOneWidget);

@@ -17,7 +17,7 @@ void main() {
     group('StickersDrawerTabTapped', () {
       blocTest<StickersBloc, StickersState>(
         'emits state with updated tab index',
-        build: () => StickersBloc(),
+        build: StickersBloc.new,
         seed: () => StickersState(
           isDrawerActive: true,
           shouldDisplayPropsReminder: false,
@@ -36,9 +36,8 @@ void main() {
     group('StickersDrawerToggled', () {
       blocTest<StickersBloc, StickersState>(
         'emits isDrawerActive: true when isDrawerActive: false',
-        build: () => StickersBloc(),
+        build: StickersBloc.new,
         seed: () => StickersState(
-          isDrawerActive: false,
           shouldDisplayPropsReminder: false,
         ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
@@ -52,7 +51,7 @@ void main() {
 
       blocTest<StickersBloc, StickersState>(
         'emits isDrawerActive: false when isDrawerActive: true',
-        build: () => StickersBloc(),
+        build: StickersBloc.new,
         seed: () => StickersState(
           isDrawerActive: true,
           shouldDisplayPropsReminder: false,
@@ -60,7 +59,6 @@ void main() {
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(
-            isDrawerActive: false,
             shouldDisplayPropsReminder: false,
           ),
         ],
@@ -68,11 +66,8 @@ void main() {
 
       blocTest<StickersBloc, StickersState>(
         'emits shouldDisplayPropsReminder:false when StickersDrawerToggled',
-        build: () => StickersBloc(),
-        seed: () => StickersState(
-          isDrawerActive: false,
-          shouldDisplayPropsReminder: true,
-        ),
+        build: StickersBloc.new,
+        seed: StickersState.new,
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(

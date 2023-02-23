@@ -5,7 +5,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SocialMediaShareClarificationNote extends StatelessWidget {
-  const SocialMediaShareClarificationNote({Key? key}) : super(key: key);
+  const SocialMediaShareClarificationNote({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
 
     return SelectableText.rich(
       TextSpan(
-        style: theme.textTheme.caption?.copyWith(
+        style: theme.textTheme.bodySmall?.copyWith(
           color: PhotoboothColors.black,
           fontWeight: PhotoboothFontWeight.regular,
         ),

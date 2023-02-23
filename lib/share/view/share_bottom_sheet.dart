@@ -7,9 +7,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBottomSheet extends StatelessWidget {
   const ShareBottomSheet({
-    Key? key,
     required this.image,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Uint8List image;
 
@@ -34,7 +34,6 @@ class ShareBottomSheet extends StatelessWidget {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 60),
                   SharePreviewPhoto(image: image),
@@ -42,19 +41,19 @@ class ShareBottomSheet extends StatelessWidget {
                   SelectableText(
                     l10n.shareDialogHeading,
                     key: const Key('shareBottomSheet_heading'),
-                    style: theme.textTheme.headline1?.copyWith(fontSize: 32),
+                    style: theme.textTheme.displayLarge?.copyWith(fontSize: 32),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
                   SelectableText(
                     l10n.shareDialogSubheading,
                     key: const Key('shareBottomSheet_subheading'),
-                    style: theme.textTheme.headline3?.copyWith(fontSize: 18),
+                    style: theme.textTheme.displaySmall?.copyWith(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 42),
-                  Column(
-                    children: const [
+                  const Column(
+                    children: [
                       TwitterButton(),
                       SizedBox(height: 18),
                       FacebookButton(),

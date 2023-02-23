@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flame/components.dart' hide Timer;
-import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template sprites}
@@ -51,12 +49,12 @@ enum AnimationMode {
 class AnimatedSprite extends StatefulWidget {
   /// {@macro animated_sprite}
   const AnimatedSprite({
-    Key? key,
     required this.sprites,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
     this.loadingIndicatorColor = PhotoboothColors.orange,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The collection of sprites which will be animated.
   final Sprites sprites;
@@ -71,7 +69,7 @@ class AnimatedSprite extends StatefulWidget {
   final Color loadingIndicatorColor;
 
   @override
-  _AnimatedSpriteState createState() => _AnimatedSpriteState();
+  State<AnimatedSprite> createState() => _AnimatedSpriteState();
 }
 
 enum _AnimatedSpriteStatus { loading, loaded, failure }
@@ -100,7 +98,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
     super.dispose();
   }
 
-  void _loadAnimation() async {
+  Future<void> _loadAnimation() async {
     try {
       _spriteSheet = SpriteSheet(
         image: await Flame.images.load(widget.sprites.asset),
@@ -137,9 +135,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
               ),
             )
           : const SizedBox(),
-      secondChild: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
+      secondChild: SizedBox.expand(
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
             : const SizedBox(),

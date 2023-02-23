@@ -4,8 +4,8 @@ import 'package:io_photobooth/stickers/stickers.dart';
 
 class ClearStickersDialog extends StatelessWidget {
   const ClearStickersDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +19,26 @@ class ClearStickersDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               l10n.clearStickersDialogHeading,
               key: const Key('clearStickersDialog_heading'),
-              style: theme.textTheme.headline1,
+              style: theme.textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             Text(
               l10n.clearStickersDialogSubheading,
               key: const Key('clearStickersDialog_subheading'),
-              style: theme.textTheme.headline3,
+              style: theme.textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
-            Wrap(
+            const Wrap(
               alignment: WrapAlignment.center,
               spacing: 30,
               runSpacing: 15,
-              children: const [
+              children: [
                 ClearStickersCancelButton(),
                 ClearStickersConfirmButton(),
               ],

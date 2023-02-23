@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/typography/typography.dart';
 
 const _smallTextScaleFactor = 0.80;
 
@@ -35,62 +34,62 @@ class PhotoboothTheme {
 
   static TextTheme get _textTheme {
     return TextTheme(
-      headline1: PhotoboothTextStyle.headline1,
-      headline2: PhotoboothTextStyle.headline2,
-      headline3: PhotoboothTextStyle.headline3,
-      headline4: PhotoboothTextStyle.headline4,
-      headline5: PhotoboothTextStyle.headline5,
-      headline6: PhotoboothTextStyle.headline6,
-      subtitle1: PhotoboothTextStyle.subtitle1,
-      subtitle2: PhotoboothTextStyle.subtitle2,
-      bodyText1: PhotoboothTextStyle.bodyText1,
-      bodyText2: PhotoboothTextStyle.bodyText2,
-      caption: PhotoboothTextStyle.caption,
-      overline: PhotoboothTextStyle.overline,
-      button: PhotoboothTextStyle.button,
+      displayLarge: PhotoboothTextStyle.headline1,
+      displayMedium: PhotoboothTextStyle.headline2,
+      displaySmall: PhotoboothTextStyle.headline3,
+      headlineMedium: PhotoboothTextStyle.headline4,
+      headlineSmall: PhotoboothTextStyle.headline5,
+      titleLarge: PhotoboothTextStyle.headline6,
+      titleMedium: PhotoboothTextStyle.subtitle1,
+      titleSmall: PhotoboothTextStyle.subtitle2,
+      bodyLarge: PhotoboothTextStyle.bodyText1,
+      bodyMedium: PhotoboothTextStyle.bodyText2,
+      bodySmall: PhotoboothTextStyle.caption,
+      labelSmall: PhotoboothTextStyle.overline,
+      labelLarge: PhotoboothTextStyle.button,
     );
   }
 
   static TextTheme get _smallTextTheme {
     return TextTheme(
-      headline1: PhotoboothTextStyle.headline1.copyWith(
-        fontSize: _textTheme.headline1!.fontSize! * _smallTextScaleFactor,
+      displayLarge: PhotoboothTextStyle.headline1.copyWith(
+        fontSize: _textTheme.displayLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      headline2: PhotoboothTextStyle.headline2.copyWith(
-        fontSize: _textTheme.headline2!.fontSize! * _smallTextScaleFactor,
+      displayMedium: PhotoboothTextStyle.headline2.copyWith(
+        fontSize: _textTheme.displayMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      headline3: PhotoboothTextStyle.headline3.copyWith(
-        fontSize: _textTheme.headline3!.fontSize! * _smallTextScaleFactor,
+      displaySmall: PhotoboothTextStyle.headline3.copyWith(
+        fontSize: _textTheme.displaySmall!.fontSize! * _smallTextScaleFactor,
       ),
-      headline4: PhotoboothTextStyle.headline4.copyWith(
-        fontSize: _textTheme.headline4!.fontSize! * _smallTextScaleFactor,
+      headlineMedium: PhotoboothTextStyle.headline4.copyWith(
+        fontSize: _textTheme.headlineMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      headline5: PhotoboothTextStyle.headline5.copyWith(
-        fontSize: _textTheme.headline5!.fontSize! * _smallTextScaleFactor,
+      headlineSmall: PhotoboothTextStyle.headline5.copyWith(
+        fontSize: _textTheme.headlineSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      headline6: PhotoboothTextStyle.headline6.copyWith(
-        fontSize: _textTheme.headline6!.fontSize! * _smallTextScaleFactor,
+      titleLarge: PhotoboothTextStyle.headline6.copyWith(
+        fontSize: _textTheme.titleLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      subtitle1: PhotoboothTextStyle.subtitle1.copyWith(
-        fontSize: _textTheme.subtitle1!.fontSize! * _smallTextScaleFactor,
+      titleMedium: PhotoboothTextStyle.subtitle1.copyWith(
+        fontSize: _textTheme.titleMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      subtitle2: PhotoboothTextStyle.subtitle2.copyWith(
-        fontSize: _textTheme.subtitle2!.fontSize! * _smallTextScaleFactor,
+      titleSmall: PhotoboothTextStyle.subtitle2.copyWith(
+        fontSize: _textTheme.titleSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyText1: PhotoboothTextStyle.bodyText1.copyWith(
-        fontSize: _textTheme.bodyText1!.fontSize! * _smallTextScaleFactor,
+      bodyLarge: PhotoboothTextStyle.bodyText1.copyWith(
+        fontSize: _textTheme.bodyLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyText2: PhotoboothTextStyle.bodyText2.copyWith(
-        fontSize: _textTheme.bodyText2!.fontSize! * _smallTextScaleFactor,
+      bodyMedium: PhotoboothTextStyle.bodyText2.copyWith(
+        fontSize: _textTheme.bodyMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      caption: PhotoboothTextStyle.caption.copyWith(
-        fontSize: _textTheme.caption!.fontSize! * _smallTextScaleFactor,
+      bodySmall: PhotoboothTextStyle.caption.copyWith(
+        fontSize: _textTheme.bodySmall!.fontSize! * _smallTextScaleFactor,
       ),
-      overline: PhotoboothTextStyle.overline.copyWith(
-        fontSize: _textTheme.overline!.fontSize! * _smallTextScaleFactor,
+      labelSmall: PhotoboothTextStyle.overline.copyWith(
+        fontSize: _textTheme.labelSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      button: PhotoboothTextStyle.button.copyWith(
-        fontSize: _textTheme.button!.fontSize! * _smallTextScaleFactor,
+      labelLarge: PhotoboothTextStyle.button.copyWith(
+        fontSize: _textTheme.labelLarge!.fontSize! * _smallTextScaleFactor,
       ),
     );
   }
@@ -103,11 +102,11 @@ class PhotoboothTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
+        backgroundColor: PhotoboothColors.blue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),
-        primary: PhotoboothColors.blue,
         minimumSize: const Size(208, 54),
       ),
     );
@@ -116,12 +115,12 @@ class PhotoboothTheme {
   static OutlinedButtonThemeData get _outlinedButtonTheme {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
+        foregroundColor: PhotoboothColors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         side: const BorderSide(color: PhotoboothColors.white, width: 2),
         padding: const EdgeInsets.symmetric(vertical: 16),
-        primary: PhotoboothColors.white,
         minimumSize: const Size(208, 54),
       ),
     );
@@ -159,7 +158,7 @@ class PhotoboothTheme {
     return const TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          width: 2.0,
+          width: 2,
           color: PhotoboothColors.blue,
         ),
       ),

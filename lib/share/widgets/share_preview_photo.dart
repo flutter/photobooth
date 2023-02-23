@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SharePreviewPhoto extends StatelessWidget {
-  const SharePreviewPhoto({Key? key, required this.image}) : super(key: key);
+  const SharePreviewPhoto({required this.image, super.key});
 
   final Uint8List image;
 

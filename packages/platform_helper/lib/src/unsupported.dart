@@ -1,5 +1,4 @@
 /// Unsupported Implementation of [PlatformHelper]
-
 class PlatformHelper {
   /// Throws [UnsupportedError].
   bool get isMobile {

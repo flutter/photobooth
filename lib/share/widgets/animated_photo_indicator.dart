@@ -4,7 +4,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 const _size = Size(173, 163);
 
 class AnimatedPhotoIndicator extends StatelessWidget {
-  const AnimatedPhotoIndicator({Key? key}) : super(key: key);
+  const AnimatedPhotoIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class AnimatedPhotoIndicator extends StatelessWidget {
 }
 
 class _AnimatedPhotoIndicator extends StatelessWidget {
-  const _AnimatedPhotoIndicator({Key? key, this.scale = 1.0}) : super(key: key);
+  const _AnimatedPhotoIndicator({this.scale = 1.0});
   final double scale;
 
   @override

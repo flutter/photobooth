@@ -25,8 +25,8 @@ void main() {
   late PhotoboothBloc photoboothBloc;
   group('StickersLayer', () {
     setUpAll(() {
-      registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-      registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+      registerFallbackValue(FakePhotoboothEvent());
+      registerFallbackValue(FakePhotoboothState());
     });
 
     setUp(() {

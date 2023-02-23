@@ -7,11 +7,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class AppCircularProgressIndicator extends StatelessWidget {
   /// {@macro app_circular_progress_indicator}
   const AppCircularProgressIndicator({
-    Key? key,
+    super.key,
     this.color = PhotoboothColors.orange,
     this.backgroundColor = PhotoboothColors.white,
     this.strokeWidth = 4.0,
-  }) : super(key: key);
+  });
 
   /// [Color] of the progress indicator
   final Color color;

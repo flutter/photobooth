@@ -12,10 +12,10 @@ const _minCharacterScale = 0.1;
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
-    Key? key,
     required this.preview,
     required this.onSnapPressed,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget preview;
   final VoidCallback onSnapPressed;
@@ -149,8 +149,6 @@ BoxConstraints? _getAnimatedSpriteConstraints(String name) {
   return BoxConstraints(
     minWidth: size.width * _minCharacterScale,
     minHeight: size.height * _minCharacterScale,
-    maxWidth: double.infinity,
-    maxHeight: double.infinity,
   );
 }
 
@@ -176,7 +174,7 @@ AnimatedSprite? _getAnimatedSprite(String name) {
 }
 
 class _AnimatedCharacter extends StatelessWidget {
-  const _AnimatedCharacter({Key? key, required this.name}) : super(key: key);
+  const _AnimatedCharacter({required this.name});
 
   final String name;
 
@@ -188,9 +186,9 @@ class _AnimatedCharacter extends StatelessWidget {
 
 class CharactersIconLayout extends StatelessWidget {
   const CharactersIconLayout({
-    Key? key,
     required this.children,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<Widget> children;
 
@@ -206,9 +204,9 @@ class CharactersIconLayout extends StatelessWidget {
 @visibleForTesting
 class LandscapeCharactersIconLayout extends StatelessWidget {
   const LandscapeCharactersIconLayout({
-    Key? key,
     required this.children,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<Widget> children;
 
@@ -225,7 +223,6 @@ class LandscapeCharactersIconLayout extends StatelessWidget {
             Flexible(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
                   children: children,
                 ),
               ),
@@ -240,9 +237,9 @@ class LandscapeCharactersIconLayout extends StatelessWidget {
 @visibleForTesting
 class PortraitCharactersIconLayout extends StatelessWidget {
   const PortraitCharactersIconLayout({
-    Key? key,
     required this.children,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<Widget> children;
 
@@ -258,7 +255,6 @@ class PortraitCharactersIconLayout extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: children,
               ),
             ),

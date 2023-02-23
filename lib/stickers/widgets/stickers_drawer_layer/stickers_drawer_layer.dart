@@ -5,7 +5,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersDrawerLayer extends StatefulWidget {
-  const StickersDrawerLayer({Key? key}) : super(key: key);
+  const StickersDrawerLayer({super.key});
 
   @override
   State<StickersDrawerLayer> createState() => _StickersDrawerLayerState();
@@ -21,7 +21,7 @@ class _StickersDrawerLayerState extends State<StickersDrawerLayer> {
           current.isDrawerActive && current != previous,
       listener: (context, state) {
         if (MediaQuery.of(context).size.width < PhotoboothBreakpoints.small) {
-          showModalBottomSheet(
+          showModalBottomSheet<void>(
             context: context,
             barrierColor: PhotoboothColors.black.withOpacity(0.75),
             backgroundColor: PhotoboothColors.transparent,
